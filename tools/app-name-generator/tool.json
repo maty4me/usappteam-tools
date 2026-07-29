@@ -16,8 +16,7 @@
   ],
   "category": "generators",
   "datePublished": "2026-07-29",
-  "intro": "Most name generators hand you fifty invented words and leave you to find out, one registrar tab at a time, that every single one is gone. This one does the boring half for you: describe what your app does in a few plain words, and you get 24 candidates built from real naming strategies — compounds, prefixes and suffixes, blended syllables, invented brandables and metaphor words — with a live .com check running against every one.\n\nThe names are seeded from your own words, so \"book a dog walker\" produces things that sound like a dog walking app, not generic startup mush. Availability badges fill in as the lookups come back, so you can skim straight past the ones that are already taken.\n\nEverything happens in your browser. The only thing that leaves this page is the bare domain name, sent to a public DNS resolver so it can answer the availability question. No signup, no email, nothing stored."
-  ,
+  "intro": "Most name generators hand you fifty invented words and leave you to find out, one registrar tab at a time, that every single one is gone. This one does the boring half for you: describe what your app does in a few plain words, and you get 24 candidates built from real naming strategies — compounds, prefixes and suffixes, blended syllables, invented brandables and metaphor words — with a live .com check running against every one.\n\nThe names are seeded from your own words, so \"book a dog walker\" produces things that sound like a dog walking app, not generic startup mush. Availability badges fill in as the lookups come back, so you can skim straight past the ones that are already taken.\n\nEverything happens in your browser. The only thing that leaves this page is the bare domain name, sent to a public DNS resolver so it can answer the availability question. No signup, no email, nothing stored.",
   "howTo": [
     "Type what your app does in a few plain words — \"book a dog walker\", \"split bills with roommates\", \"track gym workouts\".",
     "Leave all five naming styles on for the widest spread, or switch some off to steer the results toward compounds, invented words or metaphors.",
@@ -47,19 +46,45 @@
       "a": "It degrades quietly. If your network blocks DNS-over-HTTPS, or you are behind a firewall that strips it, the badge says the .com is unknown rather than guessing. The names still generate, the shortlist still works, and you can copy everything out. We would rather tell you we couldn't check than show you a green badge we can't stand behind."
     }
   ],
-  "cta": { "label": "Start your app brief" },
+  "cta": {
+    "label": "Start your app brief"
+  },
   "video": {
-    "status": "pending",
+    "status": "rendered",
     "durationTargetSec": 60,
     "narration": "Naming an app is easy until you try to buy the domain. Most generators hand you fifty invented words and check none of them. This one starts with your idea. Type what your app actually does — book a dog walker — and pick the naming styles you want: compounds, suffixes, blends, invented words, metaphors. Hit generate, and twenty-four candidates appear straight away, seeded from your own words. Then the useful part: every name gets a live dot-com lookup, and the badges fill in behind the list. Green means the domain resolves to nothing, so it is very likely free. Pink means somebody already has it. Star the ones you like and they jump to the top, then copy your shortlist with the domains and their status attached. Free, no signup, nothing stored, and it all runs in your browser. Check the domain at a registrar before you buy — but this gets you a list worth checking.",
     "scenes": [
-      { "label": "The naming problem", "mark": "intro" },
-      { "label": "Describe your app", "mark": "describe" },
-      { "label": "Pick naming styles", "mark": "styles" },
-      { "label": "24 names, instantly", "mark": "generate" },
-      { "label": "Live .com availability", "mark": "availability" },
-      { "label": "Shortlist your favourites", "mark": "shortlist" },
-      { "label": "Copy the shortlist", "mark": "copy" }
-    ]
+      {
+        "label": "The naming problem",
+        "mark": "intro"
+      },
+      {
+        "label": "Describe your app",
+        "mark": "describe"
+      },
+      {
+        "label": "Pick naming styles",
+        "mark": "styles"
+      },
+      {
+        "label": "24 names, instantly",
+        "mark": "generate"
+      },
+      {
+        "label": "Live .com availability",
+        "mark": "availability"
+      },
+      {
+        "label": "Shortlist your favourites",
+        "mark": "shortlist"
+      },
+      {
+        "label": "Copy the shortlist",
+        "mark": "copy"
+      }
+    ],
+    "renderedAt": "2026-07-29",
+    "durationISO": "PT58S",
+    "hasVoiceover": true
   }
 }

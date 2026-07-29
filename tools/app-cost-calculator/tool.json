@@ -46,18 +46,41 @@
       "a": "No. There is no email field, no signup, no gate and no download. The number appears the moment you click, and everything runs in your own browser — nothing you enter is uploaded or stored anywhere. If you want to keep the estimate, the copy button puts a plain-text summary on your clipboard."
     }
   ],
-  "cta": { "label": "Start your app brief" },
+  "cta": {
+    "label": "Start your app brief"
+  },
   "video": {
-    "status": "pending",
+    "status": "rendered",
     "durationTargetSec": 60,
     "narration": "Here is what an app actually costs to build — no email, no wizard, no waiting. Start with platforms. Both iOS and Android is the normal answer, because we ship both from one build, so it does not double your price. Next, pick the kind of app you are describing. Simple is a few screens with no accounts. Standard adds user accounts, saved data and notifications. Now tick the features you are fairly sure about. Watch the number on the right — it updates the moment you click, and the list underneath tells you exactly which of your answers moved it. Payments and chat move it the most. Accounts and push barely move it at all. You also get a build timeline in weeks and a suggested Care plan for after launch. One click copies the whole estimate to your clipboard. Nothing is uploaded, nothing is stored, and when you are ready the brief locks the scope and the price in.",
     "scenes": [
-      { "label": "The whole estimate on one screen", "mark": "intro" },
-      { "label": "Pick your platforms", "mark": "platform" },
-      { "label": "Choose the app type", "mark": "apptype" },
-      { "label": "Tick the features you need", "mark": "features" },
-      { "label": "Read the price, timeline and drivers", "mark": "result" },
-      { "label": "Copy the estimate", "mark": "copy" }
-    ]
+      {
+        "label": "The whole estimate on one screen",
+        "mark": "intro"
+      },
+      {
+        "label": "Pick your platforms",
+        "mark": "platform"
+      },
+      {
+        "label": "Choose the app type",
+        "mark": "apptype"
+      },
+      {
+        "label": "Tick the features you need",
+        "mark": "features"
+      },
+      {
+        "label": "Read the price, timeline and drivers",
+        "mark": "result"
+      },
+      {
+        "label": "Copy the estimate",
+        "mark": "copy"
+      }
+    ],
+    "renderedAt": "2026-07-29",
+    "durationISO": "PT55S",
+    "hasVoiceover": true
   }
 }

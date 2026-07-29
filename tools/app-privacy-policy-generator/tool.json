@@ -52,20 +52,49 @@
       "a": "Yes, and you need to update both store forms too. Adding a single analytics or attribution library changes what data leaves the device, which changes your App Privacy answers, your Data safety answers, and the third-party services section of the policy. Re-run this tool with the new answers and republish."
     }
   ],
-  "cta": { "label": "Get your app built properly" },
+  "cta": {
+    "label": "Get your app built properly"
+  },
   "video": {
-    "status": "pending",
+    "status": "rendered",
     "durationTargetSec": 60,
     "narration": "Apple will not let you submit an app without a privacy policy URL, and Google will not publish you without the Data safety form. Here is a way to do both in a couple of minutes, free. Start with your app name, your company, and the email people can reach you at. Now tick what your app actually collects — email address, usage data, crash logs, whatever leaves the device. Add the services you bundle, and each one gets named in the policy with a link to its own privacy terms. Tick GDPR and the legal bases and European rights sections appear. Watch the document on the right build itself as you go. Then open the cheat sheet: it tells you exactly which data types to select in App Store Connect, what counts as tracking, and what to answer in Play Console. Download it as HTML and host it. Nothing you typed left this browser tab.",
     "scenes": [
-      { "label": "Why your app needs one", "mark": "intro" },
-      { "label": "Your app details", "mark": "details" },
-      { "label": "What you collect", "mark": "data" },
-      { "label": "Third-party services", "mark": "services" },
-      { "label": "Add GDPR coverage", "mark": "gdpr" },
-      { "label": "The policy builds live", "mark": "policy" },
-      { "label": "Store form cheat sheet", "mark": "cheatsheet" },
-      { "label": "Copy or download", "mark": "download" }
-    ]
+      {
+        "label": "Why your app needs one",
+        "mark": "intro"
+      },
+      {
+        "label": "Your app details",
+        "mark": "details"
+      },
+      {
+        "label": "What you collect",
+        "mark": "data"
+      },
+      {
+        "label": "Third-party services",
+        "mark": "services"
+      },
+      {
+        "label": "Add GDPR coverage",
+        "mark": "gdpr"
+      },
+      {
+        "label": "The policy builds live",
+        "mark": "policy"
+      },
+      {
+        "label": "Store form cheat sheet",
+        "mark": "cheatsheet"
+      },
+      {
+        "label": "Copy or download",
+        "mark": "download"
+      }
+    ],
+    "renderedAt": "2026-07-29",
+    "durationISO": "PT53S",
+    "hasVoiceover": true
   }
 }
