@@ -87,12 +87,16 @@ async function main() {
   for (const f of htmlFiles) checkHtml(f, await fs.readFile(f, 'utf8'));
 
   // required artifacts
-  for (const req of ['index.html', 'sitemap.xml', 'robots.txt', 'llms.txt', 'llms-full.txt', 'tools.json', 'CNAME', '404.html']) {
+  for (const req of ['index.html', 'sitemap.xml', 'robots.txt', 'llms.txt', 'llms-full.txt', 'tools.json', '404.html']) {
     if (!files.some((f) => rel(f) === req)) fail(`missing required file: ${req}`);
   }
 
-  const cname = await fs.readFile(path.join(DIST, 'CNAME'), 'utf8').catch(() => '');
-  if (cname.trim() !== 'tools.usappteam.com') fail(`CNAME is "${cname.trim()}", expected tools.usappteam.com`);
+  // CNAME only exists once the custom domain is switched on — see build.mjs.
+  if (process.env.CUSTOM_DOMAIN === '1') {
+    const cname = await fs.readFile(path.join(DIST, 'CNAME'), 'utf8').catch(() => '');
+    if (cname.trim() !== 'tools.usappteam.com')
+      fail(`CNAME is "${cname.trim()}", expected tools.usappteam.com`);
+  }
 
   const index = JSON.parse(await fs.readFile(path.join(DIST, 'tools.json'), 'utf8').catch(() => '{"tools":[]}'));
   const sitemapXml = await fs.readFile(path.join(DIST, 'sitemap.xml'), 'utf8').catch(() => '');

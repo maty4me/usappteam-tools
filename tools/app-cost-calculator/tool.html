@@ -116,7 +116,39 @@
   box-shadow: var(--shadow-lift);
   padding: 22px 20px 20px; min-width: 0;
 }
-@media (max-width: 900px) { .t-app-cost-calculator .acc-result { position: static; } }
+/* ---------- mobile: answer first, then a pinned summary ---------- */
+.t-app-cost-calculator .acc-bar { display: none; }
+
+@media (max-width: 900px) {
+  .t-app-cost-calculator { padding-bottom: 68px; }
+  .t-app-cost-calculator .acc-result { position: static; order: -1; }
+
+  .t-app-cost-calculator .acc-bar {
+    display: flex; align-items: center; justify-content: space-between; gap: 14px;
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 25;
+    width: 100%; text-align: left; cursor: pointer;
+    padding: 11px 18px calc(11px + env(safe-area-inset-bottom, 0px));
+    border: 0; border-top: 1px solid var(--line);
+    background: rgba(255, 255, 255, .95);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 -6px 22px rgba(23, 32, 43, .10);
+    visibility: hidden; transform: translateY(110%);
+    transition: transform .28s var(--ease), visibility .28s var(--ease);
+  }
+  .t-app-cost-calculator .acc-bar.is-on { visibility: visible; transform: translateY(0); }
+}
+
+.t-app-cost-calculator .acc-bar-l { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+.t-app-cost-calculator .acc-bar-t {
+  font-family: var(--disp); font-weight: 700; font-size: 15px; color: var(--ink);
+}
+.t-app-cost-calculator .acc-bar-s { font-size: 12.5px; color: var(--ink-60); }
+.t-app-cost-calculator .acc-bar-p {
+  font-family: var(--disp); font-weight: 700; font-size: 24px; letter-spacing: -.02em;
+  white-space: nowrap;
+  background: var(--grad); -webkit-background-clip: text; background-clip: text;
+  color: transparent; -webkit-text-fill-color: transparent;
+}
 
 .t-app-cost-calculator .acc-eyebrow {
   font-family: var(--mono); font-size: 11px; letter-spacing: .12em;
@@ -334,6 +366,15 @@
     </aside>
 
   </div>
+
+  <button type="button" class="acc-bar" id="acc-bar">
+    <span class="acc-bar-l">
+      <span class="acc-bar-t" id="acc-bar-tier">Starter app</span>
+      <span class="acc-bar-s" id="acc-bar-weeks">3&ndash;5 weeks</span>
+    </span>
+    <span class="acc-bar-p"><span class="acc-cur">&#36;</span><span id="acc-bar-amount">3,500</span></span>
+    <span class="acc-sr">Jump back to your estimate</span>
+  </button>
 </div>
 
 <script>
@@ -525,6 +566,9 @@
     $('acc-prefix').textContent = e.tier.prefix;
     $('acc-amount').textContent = e.tier.amount;
     $('acc-weeks').textContent = e.lo + '–' + e.hi + ' weeks';
+    $('acc-bar-tier').textContent = e.tier.name;
+    $('acc-bar-weeks').textContent = e.lo + '–' + e.hi + ' weeks';
+    $('acc-bar-amount').textContent = e.tier.amount;
     $('acc-care').innerHTML = '&#36;' + e.care.amount + ' per month';
     $('acc-care-note').textContent = e.care.note;
 
@@ -595,6 +639,18 @@
     var first = document.getElementById('acc-platform-both');
     if (first) first.focus();
   });
+
+  /* ---- mobile: pin a compact summary once the card scrolls away ---- */
+  var bar = $('acc-bar');
+  bar.addEventListener('click', function () {
+    $('acc-result').scrollIntoView({ block: 'start', behavior: 'smooth' });
+  });
+
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (entries) {
+      bar.classList.toggle('is-on', !entries[0].isIntersecting);
+    }, { threshold: 0 }).observe($('acc-result'));
+  }
 
   window.__mark = window.__mark || function () {};
   render();

@@ -564,7 +564,14 @@ async function main() {
   await fs.writeFile(path.join(DIST, 'robots.txt'), robotsTxt());
   await fs.writeFile(path.join(DIST, 'llms.txt'), llmsTxt(tools));
   await fs.writeFile(path.join(DIST, 'llms-full.txt'), llmsFullTxt(tools));
-  await fs.writeFile(path.join(DIST, 'CNAME'), 'tools.usappteam.com\n');
+  // Emitting CNAME makes Pages serve ONLY the custom domain, so it must wait
+  // until the DNS record exists — otherwise the site is unreachable everywhere.
+  // Set CUSTOM_DOMAIN=1 (repo variable) once tools.usappteam.com resolves.
+  if (process.env.CUSTOM_DOMAIN === '1') {
+    await fs.writeFile(path.join(DIST, 'CNAME'), 'tools.usappteam.com\n');
+  } else {
+    console.log('  - CNAME withheld (set CUSTOM_DOMAIN=1 once DNS is live)');
+  }
   await fs.writeFile(path.join(DIST, '.nojekyll'), '');
 
   await buildOgImages(tools);
