@@ -45,18 +45,21 @@ async function seedImages(page) {
       }
       x.putImageData(img, 0, 0);
 
+      // Seed as JPEG, not PNG. A camera or phone hands you a JPEG, so starting
+      // from one keeps the savings shown on screen in a range a real user will
+      // actually see — a lossless PNG source would flatter the tool wildly.
       return new Promise(function (res) {
         c.toBlob(function (b) {
-          res(new File([b], name, { type: 'image/png' }));
-        }, 'image/png');
+          res(new File([b], name, { type: 'image/jpeg' }));
+        }, 'image/jpeg', 0.92);
       });
     }
 
     var files = await Promise.all([
-      draw(2400, 1600, 'harbour-sunrise.png', ['#F4A24C', '#C7476B', '#2E3A6B']),
-      draw(2000, 2000, 'studio-portrait.png', ['#3FC0E0', '#2380B8', '#12314A']),
-      draw(1800, 1200, 'product-shot-01.png', ['#F2F5F8', '#B9C6D4', '#4E6076']),
-      draw(2560, 1440, 'city-at-night.png', ['#1B2340', '#A83268', '#F0C36B'])
+      draw(2400, 1600, 'harbour-sunrise.jpg', ['#F4A24C', '#C7476B', '#2E3A6B']),
+      draw(2000, 2000, 'studio-portrait.jpg', ['#3FC0E0', '#2380B8', '#12314A']),
+      draw(1800, 1200, 'product-shot-01.jpg', ['#F2F5F8', '#B9C6D4', '#4E6076']),
+      draw(2560, 1440, 'city-at-night.jpg', ['#1B2340', '#A83268', '#F0C36B'])
     ]);
 
     var dt = new DataTransfer();
@@ -108,7 +111,7 @@ export default async function demo(page, mark) {
   await mark('quality');
   await page.hover('#ic-quality');
   await beat(page, 800);
-  for (const q of [70, 58, 45, 62]) {
+  for (const q of [70, 58, 45, 76]) {
     await page.evaluate((v) => {
       const el = document.getElementById('ic-quality');
       el.value = String(v);
@@ -123,18 +126,17 @@ export default async function demo(page, mark) {
   await mark('resize');
   await page.click('#ic-rz-maxw');
   await beat(page, 1200);
-  await page.fill('#ic-size', '1200');
+  await page.fill('#ic-size', '1600');
   await page.dispatchEvent('#ic-size', 'change');
   await beat(page, 1200);
   await page.hover('#ic-rz-note');
   await beat(page, 2600);
 
-  // Re-run the batch with the new settings so the savings visibly improve.
-  await page.click('#ic-clear');
-  await beat(page, 700);
-  await seedImages(page);
+  // Settings changes re-convert the batch from the originals — wait for that
+  // pass to land so the numbers on screen match the settings on screen.
   await page.waitForFunction(
-    () => document.querySelectorAll('#ic-rows [data-dl]').length >= 4,
+    () => document.getElementById('ic-progress').hidden
+      && document.querySelectorAll('#ic-rows [data-dl]').length >= 4,
     null,
     { timeout: 30000 }
   );

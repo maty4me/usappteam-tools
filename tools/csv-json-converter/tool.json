@@ -1,0 +1,89 @@
+{
+  "slug": "csv-json-converter",
+  "title": "CSV to JSON Converter",
+  "tagline": "Convert CSV to JSON and back — parsed in your own browser, so the file never leaves your machine.",
+  "description": "Convert CSV to JSON or JSON to CSV in your browser — nothing is uploaded. Handles quoted commas, semicolons and leading zeros. Free, no signup.",
+  "keywords": [
+    "csv to json",
+    "json to csv",
+    "csv converter",
+    "convert csv to json online",
+    "csv to json converter free",
+    "csv parser online",
+    "semicolon csv to json",
+    "json to csv nested objects",
+    "offline csv converter",
+    "csv to json no upload"
+  ],
+  "category": "converters",
+  "datePublished": "2026-07-30",
+  "intro": "Most CSV converters you find online quietly send your file to somebody else's server. That is a real problem, because the CSVs people convert are rarely toy data — they are customer lists, order exports, payroll runs and mailing lists. This one parses everything inside your own browser tab. There is no upload, no server call, no account and nothing stored. You can disconnect from the internet and it still works.\n\nThe second thing that matters is correctness. A converter that silently turns ZIP code 02134 into 2134, or splits a quoted address on the comma inside it, has corrupted your data in a way you may not notice until much later. This parser handles the messy real-world cases properly: quoted fields containing commas and line breaks, doubled quotes as escapes, semicolon and tab exports from European Excel, CRLF line endings, a stray UTF-8 byte order mark, duplicate header names, and rows with the wrong number of fields — which get reported with their line numbers instead of being silently mangled.\n\nBoth directions work. Going the other way, JSON to CSV, it takes the union of every key so no field is dropped, flattens nested objects with dot notation like address.city, serialises arrays, and quotes and escapes the output the way RFC 4180 says it should. A table preview shows you exactly what was parsed before you trust it.",
+  "howTo": [
+    "Pick a direction — CSV to JSON, or JSON to CSV.",
+    "Paste your data into the box, or drop a .csv or .json file onto it. The file is read locally by your browser; nothing is sent anywhere.",
+    "Check the delimiter. Auto-detect picks between comma, semicolon, tab and pipe, and tells you what it found — override it from the dropdown if it guessed wrong.",
+    "Decide whether the first row is a header and whether to infer types. With inference off, every cell stays a string.",
+    "Read the table preview and any warnings — ragged rows and renamed headers are listed with their line numbers.",
+    "Copy the result, or download it as a file. Both happen entirely on your machine."
+  ],
+  "faq": [
+    {
+      "q": "Is my file uploaded anywhere?",
+      "a": "No. The parser is plain JavaScript running inside your browser tab, so the data never crosses the network. There is no upload endpoint, no analytics call carrying your content, no account and nothing written to a server. You can load the page, turn off your wifi, and every feature still works — that is the simplest way to prove it to yourself. This is why the tool is safe for customer lists, order exports and payroll files that you would not paste into a random website."
+    },
+    {
+      "q": "Why did another converter turn my ZIP code 02134 into 2134?",
+      "a": "Because it converted every numeric-looking cell into a JSON number, and a number has no concept of a leading zero. The same bug shrinks product codes like 007 and rounds long order IDs once they pass about 16 digits. This converter only turns a cell into a number when the number can be written back out as the exact same text. Leading zeros, digit strings beyond JavaScript's safe integer range, and decimals whose trailing zeros carry meaning — 1.0, 2.50 — all stay strings. If you would rather nothing at all was converted, untick Infer types and every cell comes out as text."
+    },
+    {
+      "q": "What about semicolon-separated CSV from Excel?",
+      "a": "It works. Excel on a machine with a European locale writes semicolons instead of commas, because the comma is the decimal separator there. Auto-detect tries comma, semicolon, tab and pipe, scores each one on how many fields it produces and how consistent the row widths are, and shows you which it picked. If it guesses wrong — a one-column file with lots of semicolons inside the text, for example — set the delimiter by hand from the dropdown."
+    },
+    {
+      "q": "How are nested objects handled when converting JSON to CSV?",
+      "a": "CSV is flat, so nested objects are flattened with dot notation: an object like address: { city: \"Boston\" } becomes a column called address.city. Nesting goes as deep as your data does — billing.address.postcode is fine. Arrays cannot be flattened without inventing rows, so they are written as their JSON text, for example [\"vip\",\"email-only\"], which is unambiguous and can be read straight back. The header is the union of every key across every record, in first-seen order, so a key that only appears on record 40 still gets a column; records that lack it get an empty cell."
+    },
+    {
+      "q": "What happens to rows with too many or too few fields?",
+      "a": "They are converted and reported, never silently dropped or shifted. A row with fewer fields than the header gets null for the missing keys; a row with more gets the extras kept under column_8, column_9 and so on rather than thrown away. Every one of those rows is listed as a warning with the line number it came from, so you can go back to the source file and see what happened. Most of the time the cause is an unquoted comma inside a free-text field."
+    },
+    {
+      "q": "Does it handle commas and line breaks inside quoted fields?",
+      "a": "Yes — that is the case most quick converters get wrong. A field wrapped in double quotes may contain the delimiter, carriage returns and line feeds, and doubled double-quotes as an escape for a literal quote character. So \"Knuth, Donald\" stays one field, a multi-line address stays one cell, and Said \"\"ship it\"\" twice comes out with real quotes around ship it. CRLF and LF line endings both work, and a UTF-8 byte order mark at the start of the file is stripped rather than glued to your first column name."
+    }
+  ],
+  "cta": {
+    "label": "Start your app brief"
+  },
+  "video": {
+    "status": "pending",
+    "durationTargetSec": 60,
+    "narration": "This converter runs entirely in your browser, so the file you paste never leaves your machine. Here is a customer list with the two things that break most converters — an address with a comma inside quotes, and a Boston ZIP code that starts with a zero. Paste it in and the JSON appears straight away. Look at the table preview. The quoted name stayed one field, and the ZIP kept its leading zero, because a cell only becomes a number when it can be written back as exactly the same text. Turn type inference off and every value comes back as a string instead. Switch direction and it works the other way too. Nested objects flatten to dot notation, arrays are serialised, and every key gets a column. Rows with the wrong number of fields are reported with their line numbers rather than quietly mangled. Then copy it, or download the file. No upload, no signup, nothing stored anywhere.",
+    "scenes": [
+      {
+        "label": "Nothing is uploaded",
+        "mark": "intro"
+      },
+      {
+        "label": "Paste a messy CSV",
+        "mark": "paste"
+      },
+      {
+        "label": "Check the table preview",
+        "mark": "preview"
+      },
+      {
+        "label": "Toggle type inference",
+        "mark": "types"
+      },
+      {
+        "label": "Switch to JSON to CSV",
+        "mark": "direction"
+      },
+      {
+        "label": "Copy or download",
+        "mark": "copy"
+      }
+    ]
+  }
+}

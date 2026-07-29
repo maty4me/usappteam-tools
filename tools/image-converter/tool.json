@@ -23,7 +23,8 @@
     "Pick the output format: PNG for transparency and flat graphics, JPEG for photographs, or WebP for anything going on a website. Any format your browser cannot encode is disabled rather than silently swapped.",
     "For JPEG and WebP, set the quality. 82 is the default and is a good balance; drop to the 60s if size matters more than fine detail.",
     "Optionally resize — a maximum width, a maximum height, or a straight percentage. Aspect ratio is always preserved and nothing is ever enlarged beyond its original dimensions.",
-    "Read each row: the original size, the new size, the percentage saved and the output dimensions. Download files one at a time, or hit Download all to save the whole batch in sequence."
+    "Read each row: the original size, the new size, the percentage saved and the output dimensions. Download files one at a time, or hit Download all to save the whole batch in sequence.",
+    "Adjust the format, quality or size as much as you like — everything on screen re-converts from your original files, never from the previous output, so nudging the slider never stacks up extra compression damage."
   ],
   "faq": [
     {

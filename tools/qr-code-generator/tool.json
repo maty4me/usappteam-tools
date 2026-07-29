@@ -1,0 +1,69 @@
+{
+  "slug": "qr-code-generator",
+  "title": "Free QR Code Generator",
+  "tagline": "Static QR codes that never expire — URL, WiFi, contact card and more, generated in your browser and free forever.",
+  "description": "Make a free QR code that never expires. URL, WiFi, vCard, email and more, encoded in your browser — no signup, no redirect, no tracking, no expiry.",
+  "keywords": [
+    "qr code generator",
+    "free qr code generator",
+    "wifi qr code",
+    "vcard qr code",
+    "static qr code",
+    "qr code generator no expiry",
+    "qr code maker free",
+    "url qr code",
+    "qr code svg download",
+    "qr code no signup"
+  ],
+  "category": "generators",
+  "datePublished": "2026-07-30",
+  "intro": "Most \"free\" QR code generators do not encode your link. They encode *their* link — a short tracking URL on their domain that quietly forwards to yours. That is how the scan counts work, and it is also why so many printed codes go dead: when the free trial ends, or the account lapses, or the company folds, the redirect stops and every sticker, menu, flyer and business card you printed becomes a dead end. You do not own the code you paid to print.\n\nThis one encodes your actual data straight into the pattern. Scan it and the URL, WiFi password or contact card comes out of the black-and-white squares themselves — there is no server in the middle, so there is nothing to expire, nothing to renew, and nobody logging who scanned what. Print it once and it works for as long as paper lasts.\n\nThe encoder is written into this page: byte mode, versions 1 to 40, Reed–Solomon error correction, all eight data masks. It runs entirely on your device. Nothing you type — including WiFi passwords and phone numbers — is uploaded or stored anywhere, and there is no email box on this page.",
+  "howTo": [
+    "Pick what the code should contain: a website address, plain text, an email, a phone number, an SMS, WiFi details, a contact card, or a map location.",
+    "Fill in the fields. The preview redraws as you type — there is no generate button and no waiting.",
+    "Leave error correction on M unless you have a reason to change it. Go to Q or H for codes that will live outdoors, get handled, or carry a logo.",
+    "Set the colours if you want to. Keep the code darker than the background — the tool warns you the moment the contrast gets risky.",
+    "Download PNG for screens and slides, or SVG for anything going to print. Print it about one tenth as wide as the distance people will scan it from, and leave the white margin alone."
+  ],
+  "faq": [
+    {
+      "q": "Do these QR codes expire?",
+      "a": "No — and they cannot. The data is encoded directly into the pattern, so a scanner reads it straight off the printed squares with no server involved. Most free generators work differently: they encode a short tracking link on their own domain that redirects to your destination. That redirect is a live service, so it can be switched off when a trial ends, a plan lapses, a limit is hit, or the company shuts down — and every code you already printed dies with it. Nothing in a static code can be turned off by anyone, including us."
+    },
+    {
+      "q": "Can I track how many people scan it?",
+      "a": "No, and that is the honest tradeoff. Scan analytics only exist because the code points at a server that logs the hit before forwarding you on — the same server that can later stop forwarding. You cannot have both permanence and tracking from the same code. If you genuinely need scan counts, use a redirect service you control, on a domain you own, so the tracking never becomes someone else's kill switch. If you just need the code to work, static is the right answer."
+    },
+    {
+      "q": "What size should I print a QR code?",
+      "a": "The rule of thumb is about one tenth of the scanning distance. A code read from arm's length, roughly 12 inches, wants to be at least 1.2 inches across. A poster read from 10 feet wants around 12 inches. Denser codes need more room: a version 1 code is 21 modules across, a version 20 is 97, and each module needs to survive your printer and the camera. Keep the clear margin around the code — the quiet zone, four modules wide, is included in every download here — and never print a code smaller than about 0.8 inches no matter how short the data."
+    },
+    {
+      "q": "Which error-correction level should I choose?",
+      "a": "M is right for almost everything. It rebuilds around 15% damage and keeps the code reasonably compact. Choose L only for codes on a screen that will never be damaged, and only if you need the smaller pattern. Choose Q for codes that live outdoors, get handled, or go on packaging that scuffs. Choose H when a logo covers part of the code — H is the only level with enough headroom for that, which is why this tool switches to it automatically when you add one. Higher correction is not free: the same data packs more modules into the square, so the code gets denser and needs to be printed larger."
+    },
+    {
+      "q": "Is the WiFi password safe to put in a QR code?",
+      "a": "It is stored in plain text inside the code — that is how a phone joins the network without anyone typing anything. Nobody can read it by looking at the squares, but any scanner can extract it in a second. So treat a WiFi QR code exactly like a password written on a card: fine on a table tent in your own cafe or a placard in your guest room, wrong on something posted publicly. The password never leaves your device while you make the code here; it is encoded in the browser and never uploaded."
+    },
+    {
+      "q": "Can I use these codes commercially?",
+      "a": "Yes. The QR Code specification has been an open ISO standard for years and the patents have long since lapsed, so codes are free to make and use commercially. The images this tool produces are yours outright — no watermark, no licence, no attribution, no account. Download the SVG and hand it to your printer."
+    }
+  ],
+  "cta": {
+    "label": "Start your app brief"
+  },
+  "video": {
+    "status": "pending",
+    "durationTargetSec": 60,
+    "narration": "Here is a QR code that will still work in ten years. Start with a website address — type it and the code redraws instantly, no generate button, no waiting. What matters is what is inside it. Most free generators hide a tracking link on their own domain in there, which is exactly why printed codes go dead when a plan lapses. This one encodes your address directly, so there is nothing to expire. Switch to WiFi and it works the same way. Type the network name, type the password, and the pattern changes as you go — your guests point a camera and join, no typing. That password is encoded right here in your browser and never uploaded. Change the colours if you like; you get a warning the moment the contrast drops too low to scan reliably. Then download it. PNG for screens, SVG for print. No account, no email, no expiry.",
+    "scenes": [
+      { "label": "A code that cannot expire", "mark": "intro" },
+      { "label": "Encode a website address", "mark": "url" },
+      { "label": "Switch to WiFi details", "mark": "wifi" },
+      { "label": "Set the colours", "mark": "style" },
+      { "label": "Download PNG or SVG", "mark": "download" }
+    ]
+  }
+}

@@ -395,7 +395,8 @@
       <span class="ic-total" id="ic-total">&mdash;</span>
     </div>
     <ul class="ic-rows" id="ic-rows"></ul>
-    <p class="ic-foot" id="ic-foot"><strong>Download all</strong> saves each file one after another. Your browser may ask permission to download multiple files &mdash; allow it, or use the button on each row instead.</p>
+    <p class="ic-foot" id="ic-foot">Change the format, the quality or the resize above and everything here re-converts from your originals &mdash; so you can dial in the size you want before saving anything.<br>
+    <strong>Download all</strong> saves each file one after another. Your browser may ask permission to download multiple files &mdash; allow it, or use the button on each row instead.</p>
   </div>
 
   <p class="ic-sr" id="ic-live" role="status" aria-live="polite" aria-atomic="true"></p>
@@ -442,10 +443,10 @@
   });
 
   /* ---- state ---- */
-  var items = [];      // { id, name, origSize, blob, w, h, error, url }
+  var items = [];      // { id, name, origSize, file, blob, w, h, error, url }
   var seq = 0;
   var busy = false;
-  var queue = [];
+  var dirty = false;   // settings changed mid-run — redo the batch afterwards
   var urls = [];       // every object URL we own, so nothing leaks
 
   function trackUrl(u) { urls.push(u); return u; }
@@ -578,7 +579,10 @@
         '<span class="ic-stats">Converting&hellip;</span></span></li>';
     }
 
-    var pct = it.origSize ? Math.round((1 - it.blob.size / it.origSize) * 100) : 0;
+    // Round a saving down and an increase up, so the number is never flattering
+    // by accident — and so a 99.7% cut never renders as the impossible "100%".
+    var raw = it.origSize ? (1 - it.blob.size / it.origSize) * 100 : 0;
+    var pct = raw > 0 ? Math.floor(raw) : -Math.ceil(-raw);
     var cls = pct > 0 ? 'is-down' : (pct < 0 ? 'is-up' : 'is-flat');
     var label = pct > 0 ? pct + '% smaller' : (pct < 0 ? Math.abs(pct) + '% larger' : 'same size');
 
@@ -619,7 +623,8 @@
     ok.forEach(function (i) { before += i.origSize; after += i.blob.size; });
     var total = $('ic-total');
     if (ok.length) {
-      var d = before ? Math.round((1 - after / before) * 100) : 0;
+      var rawAll = before ? (1 - after / before) * 100 : 0;
+      var d = rawAll > 0 ? Math.floor(rawAll) : -Math.ceil(-rawAll);
       total.textContent = fmtBytes(before) + ' → ' + fmtBytes(after) +
         '  (' + (d > 0 ? '−' + d + '%' : (d < 0 ? '+' + Math.abs(d) + '%' : 'no change')) + ')';
       total.classList.toggle('is-good', d > 0);
@@ -633,58 +638,74 @@
     $('ic-download-all-label').textContent = ok.length > 1 ? 'Download all ' + ok.length : 'Download';
   }
 
-  /* ---- the batch ---- */
+  /* ---- the batch ------------------------------------------------------------
+     The original File is kept on every item (it is disk-backed, not pixels in
+     memory) so that moving the quality slider or changing the format re-runs
+     the images already on screen instead of only affecting the next batch.   */
   function addFiles(list) {
-    var incoming = [];
+    var added = 0;
     for (var i = 0; i < list.length; i++) {
       var f = list[i];
       if (!f) continue;
       if (f.type && f.type.indexOf('image/') !== 0) continue;
-      incoming.push(f);
+      items.push({ id: 'i' + (++seq), name: f.name || 'pasted-image.png', origSize: f.size, file: f });
+      added++;
     }
-    if (!incoming.length) return;
-    queue = queue.concat(incoming);
-    if (!busy) run();
+    if (!added) return;
+    render();
+    pump();
   }
 
-  function run() {
-    busy = true;
-    var s = settings();
-    var batch = queue;
-    queue = [];
-
-    var startIndex = items.length;
-    batch.forEach(function (f) {
-      items.push({ id: 'i' + (++seq), name: f.name || 'pasted-image.png', origSize: f.size, file: f });
+  function reconvert() {
+    if (!items.length) return;
+    if (busy) { dirty = true; return; }
+    releaseAll();
+    items.forEach(function (i) {
+      if (i.error) return;               // a file the browser cannot decode stays failed
+      i.blob = null; i.url = null; i.w = null; i.h = null;
     });
     render();
+    pump();
+  }
+
+  function pump() {
+    if (busy) return;
+    var todo = items.filter(function (i) { return !i.blob && !i.error; });
+    if (!todo.length) {
+      $('ic-progress').hidden = true;
+      render();
+      return;
+    }
+
+    busy = true;
+    dirty = false;
+    var s = settings();
     $('ic-progress').hidden = false;
+    render();
 
     var n = 0;
     function step() {
-      if (n >= batch.length) {
+      if (n >= todo.length) {
         busy = false;
         $('ic-progress').hidden = true;
         $('ic-bar-fill').style.width = '0%';
         render();
         var ok = items.filter(function (i) { return i.blob; }).length;
         $('ic-live').textContent = ok + ' image' + (ok === 1 ? '' : 's') + ' converted and ready to download.';
-        if (queue.length) run();
+        if (dirty) reconvert(); else pump();
         return;
       }
-      var it = items[startIndex + n];
-      $('ic-bar-fill').style.width = Math.round((n / batch.length) * 100) + '%';
-      $('ic-progress-label').textContent = 'Converting ' + (n + 1) + ' of ' + batch.length + ' — ' + it.name;
+      var it = todo[n];
+      $('ic-bar-fill').style.width = Math.round((n / todo.length) * 100) + '%';
+      $('ic-progress-label').textContent = 'Converting ' + (n + 1) + ' of ' + todo.length + ' — ' + it.name;
 
       convert(it.file, s).then(function (out) {
         it.blob = out.blob;
         it.w = out.w; it.h = out.h;
         it.url = trackUrl(URL.createObjectURL(out.blob));
         it.outName = baseName(it.name) + '.' + s.format.ext;
-        it.file = null;
       }, function (err) {
         it.error = err && err.message ? err.message : 'Could not convert this file.';
-        it.file = null;
       }).then(function () {
         n++;
         render();
@@ -766,7 +787,17 @@
       : 'Aspect ratio is always preserved, and images are <strong>never enlarged</strong> &mdash; anything already smaller than your limit is left at its original size.';
   }
 
-  $('ic-form').addEventListener('change', function () { syncFormat(); syncResize(); });
+  // Dragging the slider fires input continuously; debounce so we re-encode once
+  // the user settles rather than on every pixel of travel.
+  var settleTimer;
+  function settingsChanged() {
+    syncFormat();
+    syncResize();
+    clearTimeout(settleTimer);
+    settleTimer = setTimeout(reconvert, 420);
+  }
+  $('ic-form').addEventListener('change', settingsChanged);
+  $('ic-form').addEventListener('input', settingsChanged);
   $('ic-quality').addEventListener('input', function () { $('ic-qval').textContent = this.value; });
 
   $('ic-rows').addEventListener('click', function (e) {
@@ -802,7 +833,6 @@
   $('ic-clear').addEventListener('click', function () {
     releaseAll();
     items = [];
-    queue = [];
     render();
     $('ic-live').textContent = 'Cleared. Nothing is left in memory.';
   });

@@ -1,0 +1,1197 @@
+<style>
+.t-csv-json-converter { font-family: var(--body); color: var(--ink); }
+
+/* ---------- privacy banner: the whole reason to use this one ---------- */
+.t-csv-json-converter .cj-privacy {
+  display: flex; align-items: flex-start; gap: 11px;
+  margin: 0 0 20px; padding: 13px 16px;
+  border: 1px solid rgba(31, 169, 113, .3); border-radius: var(--r-sm);
+  background: rgba(31, 169, 113, .07);
+  font-size: 14px; line-height: 1.5; color: var(--slate);
+}
+.t-csv-json-converter .cj-privacy svg {
+  flex: 0 0 auto; width: 17px; height: 17px; margin-top: 2px;
+  stroke: var(--green); fill: none; stroke-width: 2;
+  stroke-linecap: round; stroke-linejoin: round;
+}
+.t-csv-json-converter .cj-privacy strong { color: var(--ink); font-weight: 600; }
+
+/* ---------- direction toggle ---------- */
+.t-csv-json-converter .cj-dir {
+  display: inline-flex; gap: 4px; padding: 4px; margin: 0 0 18px;
+  border: 1px solid var(--line-2); border-radius: 999px; background: var(--bg);
+  max-width: 100%; flex-wrap: wrap;
+}
+.t-csv-json-converter .cj-dir label {
+  position: relative; cursor: pointer; border-radius: 999px;
+  padding: 9px 18px; font-family: var(--disp); font-weight: 600; font-size: 14px;
+  color: var(--ink-60); white-space: nowrap;
+  transition: background .2s var(--ease), color .2s var(--ease);
+}
+.t-csv-json-converter .cj-dir label:hover { color: var(--azure); }
+.t-csv-json-converter .cj-dir input {
+  position: absolute; opacity: 0; width: 1px; height: 1px; margin: 0;
+}
+.t-csv-json-converter .cj-dir label:has(input:checked) {
+  background: var(--card); color: var(--ink); box-shadow: var(--shadow);
+}
+.t-csv-json-converter .cj-dir label:has(input:focus-visible) {
+  outline: 3px solid rgba(35, 128, 184, .55); outline-offset: 2px;
+}
+
+/* ---------- two-pane layout ---------- */
+.t-csv-json-converter .cj-grid {
+  display: grid; gap: 20px; align-items: start;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+@media (max-width: 940px) {
+  .t-csv-json-converter .cj-grid { grid-template-columns: 1fr; }
+}
+
+.t-csv-json-converter .cj-pane {
+  min-width: 0; border: 1px solid var(--line); border-radius: var(--r);
+  background: var(--card); box-shadow: var(--shadow); overflow: hidden;
+}
+.t-csv-json-converter .cj-head {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  padding: 12px 14px; border-bottom: 1px solid var(--line); background: var(--bg);
+}
+.t-csv-json-converter .cj-head h3 {
+  margin: 0; font-size: 14px; font-weight: 700;
+  font-family: var(--disp); color: var(--ink);
+}
+.t-csv-json-converter .cj-count {
+  font-family: var(--mono); font-size: 11px; letter-spacing: .04em;
+  color: var(--ink-40); margin-left: auto; white-space: nowrap;
+}
+.t-csv-json-converter .cj-head-btns { display: flex; gap: 6px; flex-wrap: wrap; }
+
+.t-csv-json-converter .cj-mini {
+  font-family: var(--body); font-size: 12.5px; font-weight: 500;
+  padding: 6px 11px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--line-2); background: var(--card); color: var(--slate);
+  transition: border-color .2s var(--ease), color .2s var(--ease);
+}
+.t-csv-json-converter .cj-mini:hover { border-color: var(--azure); color: var(--azure); }
+.t-csv-json-converter .cj-mini[aria-pressed="true"] {
+  background: var(--ink); border-color: var(--ink); color: #fff;
+}
+
+/* ---------- input ---------- */
+.t-csv-json-converter .cj-drop { position: relative; }
+.t-csv-json-converter .cj-drop.is-over::after {
+  content: 'Drop the file here';
+  position: absolute; inset: 8px; z-index: 2;
+  display: grid; place-items: center; pointer-events: none;
+  border: 2px dashed var(--azure); border-radius: var(--r-sm);
+  background: rgba(231, 241, 248, .93);
+  font-family: var(--disp); font-weight: 600; font-size: 15px; color: var(--azure);
+}
+.t-csv-json-converter textarea#cj-input {
+  display: block; width: 100%; border: 0; resize: vertical;
+  padding: 14px; min-height: 220px; max-height: 460px;
+  font-family: var(--mono); font-size: 13px; line-height: 1.65;
+  color: var(--ink); background: var(--card);
+  tab-size: 4; white-space: pre; overflow: auto;
+}
+.t-csv-json-converter textarea#cj-input:focus { outline: 2px solid rgba(35, 128, 184, .5); outline-offset: -2px; }
+
+.t-csv-json-converter .cj-file-row {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  padding: 11px 14px; border-top: 1px solid var(--line); background: var(--bg);
+}
+.t-csv-json-converter .cj-file {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-family: var(--body); font-size: 13px; font-weight: 600;
+  padding: 8px 14px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--line-2); background: var(--card); color: var(--ink);
+  transition: border-color .2s var(--ease), color .2s var(--ease);
+}
+.t-csv-json-converter .cj-file:hover { border-color: var(--azure); color: var(--azure); }
+.t-csv-json-converter .cj-file svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 1.9; }
+.t-csv-json-converter .cj-file:has(input:focus-visible) { outline: 3px solid rgba(35, 128, 184, .55); outline-offset: 2px; }
+.t-csv-json-converter .cj-file-name { font-size: 12.5px; color: var(--ink-60); min-width: 0; word-break: break-word; }
+.t-csv-json-converter .cj-file-name b { color: var(--ink); font-weight: 600; }
+
+/* ---------- options ---------- */
+.t-csv-json-converter .cj-opts {
+  display: grid; gap: 12px; padding: 14px;
+  border-top: 1px solid var(--line);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr));
+}
+.t-csv-json-converter .cj-field { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+.t-csv-json-converter .cj-field > label {
+  font-family: var(--mono); font-size: 10.5px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-40);
+}
+.t-csv-json-converter .cj-field select {
+  font-family: var(--body); font-size: 14px; color: var(--ink);
+  padding: 9px 11px; border: 1px solid var(--line-2); border-radius: var(--r-sm);
+  background: var(--card); width: 100%; min-width: 0;
+}
+.t-csv-json-converter .cj-field select:focus { border-color: var(--azure); }
+.t-csv-json-converter .cj-detected {
+  font-size: 11.5px; color: var(--ink-40); font-family: var(--mono);
+}
+
+.t-csv-json-converter .cj-switch {
+  position: relative; display: flex; align-items: flex-start; gap: 9px;
+  cursor: pointer; font-size: 13.5px; line-height: 1.4; color: var(--slate);
+  padding: 8px 0;
+}
+.t-csv-json-converter .cj-switch input {
+  position: absolute; opacity: 0; width: 1px; height: 1px; margin: 0;
+}
+.t-csv-json-converter .cj-switch .cj-box {
+  flex: 0 0 auto; width: 18px; height: 18px; border-radius: 5px; margin-top: 1px;
+  border: 1.5px solid var(--line-2); background: #fff;
+  display: grid; place-items: center;
+  transition: background .18s var(--ease), border-color .18s var(--ease);
+}
+.t-csv-json-converter .cj-switch .cj-box svg {
+  width: 12px; height: 12px; stroke: #fff; stroke-width: 3;
+  fill: none; stroke-linecap: round; stroke-linejoin: round;
+  opacity: 0; transform: scale(.6);
+  transition: opacity .18s var(--ease), transform .18s var(--ease);
+}
+.t-csv-json-converter .cj-switch:has(input:checked) { color: var(--ink); }
+.t-csv-json-converter .cj-switch:has(input:checked) .cj-box { background: var(--azure); border-color: var(--azure); }
+.t-csv-json-converter .cj-switch:has(input:checked) .cj-box svg { opacity: 1; transform: scale(1); }
+.t-csv-json-converter .cj-switch:has(input:focus-visible) { outline: 3px solid rgba(35, 128, 184, .55); outline-offset: 3px; border-radius: 6px; }
+.t-csv-json-converter .cj-switch small { display: block; color: var(--ink-40); font-size: 12px; margin-top: 2px; }
+
+/* ---------- output ---------- */
+.t-csv-json-converter .cj-out-wrap { position: relative; }
+.t-csv-json-converter pre#cj-output {
+  margin: 0; padding: 14px; min-height: 220px; max-height: 460px;
+  overflow: auto; background: var(--card);
+  font-family: var(--mono); font-size: 13px; line-height: 1.65;
+  color: var(--ink); white-space: pre; tab-size: 4;
+}
+.t-csv-json-converter pre#cj-output:focus-visible { outline: 2px solid rgba(35, 128, 184, .5); outline-offset: -2px; }
+.t-csv-json-converter .cj-k { color: var(--magenta); }
+.t-csv-json-converter .cj-s { color: var(--slate); }
+.t-csv-json-converter .cj-num { color: var(--azure); }
+.t-csv-json-converter .cj-b { color: var(--green); font-weight: 700; }
+.t-csv-json-converter .cj-n { color: var(--ink-40); font-style: italic; }
+.t-csv-json-converter .cj-empty { color: var(--ink-40); font-style: italic; font-family: var(--body); }
+
+.t-csv-json-converter .cj-out-actions {
+  display: flex; gap: 8px; flex-wrap: wrap;
+  padding: 12px 14px; border-top: 1px solid var(--line); background: var(--bg);
+}
+.t-csv-json-converter .cj-act {
+  flex: 1 1 auto; display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+  font-family: var(--disp); font-weight: 600; font-size: 14px;
+  padding: 11px 16px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--line-2); background: var(--card); color: var(--ink);
+  transition: border-color .2s var(--ease), color .2s var(--ease), transform .15s var(--ease);
+}
+.t-csv-json-converter .cj-act:hover { border-color: var(--azure); color: var(--azure); }
+.t-csv-json-converter .cj-act:active { transform: scale(.98); }
+.t-csv-json-converter .cj-act:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+.t-csv-json-converter .cj-act svg { width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 1.8; }
+.t-csv-json-converter .cj-act.is-done { border-color: var(--green); color: var(--green); }
+
+/* ---------- messages ---------- */
+.t-csv-json-converter .cj-msgs { margin: 18px 0 0; }
+.t-csv-json-converter .cj-msg {
+  display: flex; gap: 10px; align-items: flex-start;
+  padding: 12px 14px; border-radius: var(--r-sm); margin-bottom: 8px;
+  font-size: 13.5px; line-height: 1.55;
+}
+.t-csv-json-converter .cj-msg svg { flex: 0 0 auto; width: 16px; height: 16px; margin-top: 2px; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.t-csv-json-converter .cj-msg.cj-err {
+  background: var(--pink-soft); border: 1px solid rgba(168, 50, 104, .28); color: var(--magenta);
+}
+.t-csv-json-converter .cj-msg.cj-err svg { stroke: var(--magenta); }
+.t-csv-json-converter .cj-msg.cj-warn {
+  background: rgba(180, 118, 26, .09); border: 1px solid rgba(180, 118, 26, .28); color: var(--amber);
+}
+.t-csv-json-converter .cj-msg.cj-warn svg { stroke: var(--amber); }
+.t-csv-json-converter .cj-msg.cj-ok {
+  background: rgba(31, 169, 113, .09); border: 1px solid rgba(31, 169, 113, .26); color: var(--green);
+}
+.t-csv-json-converter .cj-msg.cj-ok svg { stroke: var(--green); }
+.t-csv-json-converter .cj-msg strong { display: block; font-weight: 700; color: inherit; }
+.t-csv-json-converter .cj-msg ul { margin: 6px 0 0; padding-left: 18px; color: var(--slate); }
+.t-csv-json-converter .cj-msg li { margin-bottom: 3px; }
+.t-csv-json-converter .cj-msg code {
+  font-family: var(--mono); font-size: 12px;
+  background: rgba(23, 32, 43, .06); padding: 1px 5px; border-radius: 4px; color: var(--ink);
+}
+
+/* ---------- table preview ---------- */
+.t-csv-json-converter .cj-preview { margin: 22px 0 0; }
+.t-csv-json-converter .cj-preview-head {
+  display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin: 0 0 10px;
+}
+.t-csv-json-converter .cj-preview-head h3 {
+  margin: 0; font-family: var(--disp); font-size: 15px; font-weight: 700; color: var(--ink);
+}
+.t-csv-json-converter .cj-preview-head span { font-size: 13px; color: var(--ink-60); }
+
+.t-csv-json-converter .cj-table-wrap {
+  max-width: 100%; overflow-x: auto; overflow-y: auto; max-height: 420px;
+  border: 1px solid var(--line); border-radius: var(--r-sm); background: var(--card);
+  -webkit-overflow-scrolling: touch;
+}
+.t-csv-json-converter table {
+  border-collapse: collapse; width: max-content; min-width: 100%; font-size: 13px;
+}
+.t-csv-json-converter thead th {
+  position: sticky; top: 0; z-index: 1;
+  background: var(--bg); text-align: left; white-space: nowrap;
+  font-family: var(--disp); font-size: 12.5px; font-weight: 700; color: var(--ink);
+  padding: 10px 13px; border-bottom: 1px solid var(--line-2);
+}
+.t-csv-json-converter thead th.cj-rn { color: var(--ink-40); font-family: var(--mono); font-size: 11px; font-weight: 400; }
+.t-csv-json-converter tbody td {
+  padding: 8px 13px; border-bottom: 1px solid var(--line);
+  font-family: var(--mono); font-size: 12.5px; color: var(--slate);
+  max-width: 320px; overflow: hidden; text-overflow: ellipsis; white-space: pre;
+  vertical-align: top;
+}
+.t-csv-json-converter tbody td.cj-rn {
+  color: var(--ink-40); font-size: 11px; text-align: right; background: var(--bg);
+  position: sticky; left: 0;
+}
+.t-csv-json-converter tbody tr:last-child td { border-bottom: 0; }
+.t-csv-json-converter tbody tr:hover td { background: rgba(231, 241, 248, .5); }
+.t-csv-json-converter tbody tr:hover td.cj-rn { background: var(--blue-soft); }
+.t-csv-json-converter td .cj-num, .t-csv-json-converter td .cj-b, .t-csv-json-converter td .cj-n { font-family: var(--mono); }
+
+.t-csv-json-converter .cj-foot {
+  margin: 16px 0 0; font-size: 12.5px; line-height: 1.6; color: var(--ink-60);
+}
+.t-csv-json-converter .cj-foot strong { color: var(--ink); font-weight: 600; }
+
+.t-csv-json-converter .cj-sr {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+</style>
+
+<div class="t-csv-json-converter" id="cj-root">
+
+  <p class="cj-privacy">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v6c0 4.4-3 7.7-7 9-4-1.3-7-4.6-7-9V6z"/><path d="m9 12 2 2 4-4"/></svg>
+    <span><strong>Your file never leaves this browser tab.</strong> The parser runs on your own machine &mdash; there is no upload, no server call and nothing stored. Safe for customer lists, order exports and payroll files.</span>
+  </p>
+
+  <div class="cj-dir" role="radiogroup" aria-label="Conversion direction">
+    <label>
+      <input type="radio" name="cj-dir" value="c2j" id="cj-dir-c2j" checked>
+      CSV &rarr; JSON
+    </label>
+    <label>
+      <input type="radio" name="cj-dir" value="j2c" id="cj-dir-j2c">
+      JSON &rarr; CSV
+    </label>
+  </div>
+
+  <div class="cj-grid">
+
+    <!-- ---------------- input ---------------- -->
+    <section class="cj-pane" aria-labelledby="cj-in-title">
+      <div class="cj-head">
+        <h3 id="cj-in-title">CSV input</h3>
+        <div class="cj-head-btns">
+          <button type="button" class="cj-mini" id="cj-sample">Load sample</button>
+          <button type="button" class="cj-mini" id="cj-clear">Clear</button>
+        </div>
+      </div>
+
+      <div class="cj-drop" id="cj-drop">
+        <label class="cj-sr" for="cj-input" id="cj-input-label">CSV text to convert</label>
+        <textarea id="cj-input" spellcheck="false" autocomplete="off" autocapitalize="off"
+          placeholder="Paste your CSV here, or drop a .csv file below."></textarea>
+      </div>
+
+      <div class="cj-file-row">
+        <label class="cj-file">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16V4"/><path d="m7 9 5-5 5 5"/><path d="M5 16v3a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-3"/></svg>
+          Choose a file
+          <input type="file" id="cj-file" class="cj-sr" accept=".csv,.tsv,.txt,.json,text/csv,text/plain,application/json">
+        </label>
+        <span class="cj-file-name" id="cj-file-name">&hellip; or drop one on the box above. It is read locally, never uploaded.</span>
+      </div>
+
+      <div class="cj-opts" id="cj-opts">
+        <div class="cj-field">
+          <label for="cj-delim" id="cj-delim-label">Delimiter</label>
+          <select id="cj-delim">
+            <option value="auto" selected>Auto-detect</option>
+            <option value=",">Comma&nbsp;&nbsp;,</option>
+            <option value=";">Semicolon&nbsp;&nbsp;;</option>
+            <option value="tab">Tab</option>
+            <option value="|">Pipe&nbsp;&nbsp;|</option>
+          </select>
+          <span class="cj-detected" id="cj-detected"></span>
+        </div>
+
+        <div class="cj-field" id="cj-field-header">
+          <label class="cj-switch" for="cj-header">
+            <input type="checkbox" id="cj-header" checked>
+            <span class="cj-box" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m5 12 5 5 9-10"/></svg></span>
+            <span>First row is a header
+              <small>Off: columns are named column_1, column_2&hellip;</small>
+            </span>
+          </label>
+        </div>
+
+        <div class="cj-field" id="cj-field-types">
+          <label class="cj-switch" for="cj-types">
+            <input type="checkbox" id="cj-types" checked>
+            <span class="cj-box" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m5 12 5 5 9-10"/></svg></span>
+            <span>Infer types
+              <small>Numbers and true/false convert; leading zeros stay text.</small>
+            </span>
+          </label>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------------- output ---------------- -->
+    <section class="cj-pane" aria-labelledby="cj-out-title">
+      <div class="cj-head">
+        <h3 id="cj-out-title">JSON output</h3>
+        <div class="cj-head-btns">
+          <button type="button" class="cj-mini" id="cj-pretty" aria-pressed="true">Pretty</button>
+        </div>
+        <span class="cj-count" id="cj-count">0 records</span>
+      </div>
+
+      <div class="cj-out-wrap">
+        <pre id="cj-output" tabindex="0" aria-labelledby="cj-out-title"><span class="cj-empty">Your converted output appears here as you type.</span></pre>
+      </div>
+
+      <div class="cj-out-actions">
+        <button type="button" class="cj-act" id="cj-copy" disabled>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+          <span id="cj-copy-label">Copy</span>
+        </button>
+        <button type="button" class="cj-act" id="cj-download" disabled>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v12"/><path d="m7 11 5 5 5-5"/><path d="M5 20h14"/></svg>
+          <span id="cj-download-label">Download .json</span>
+        </button>
+      </div>
+    </section>
+
+  </div>
+
+  <div class="cj-msgs" id="cj-msgs" role="status" aria-live="polite"></div>
+
+  <section class="cj-preview" aria-labelledby="cj-preview-title">
+    <div class="cj-preview-head">
+      <h3 id="cj-preview-title">Table preview</h3>
+      <span id="cj-preview-note">Check the parse before you trust it.</span>
+    </div>
+    <div class="cj-table-wrap" id="cj-table-wrap" tabindex="0">
+      <table id="cj-table"><tbody><tr><td class="cj-empty" style="font-family:var(--body)">Nothing parsed yet.</td></tr></tbody></table>
+    </div>
+  </section>
+
+  <p class="cj-foot">
+    <strong>How types are decided:</strong> with inference on, plain integers and decimals become numbers,
+    <code>true</code>/<code>false</code> become booleans, and empty cells become <code>null</code>.
+    Anything that would lose information stays a string &mdash; values with a leading zero
+    (<code>007</code>, ZIP <code>02134</code>), digits longer than JavaScript can hold exactly,
+    and decimals whose trailing zeros matter (<code>1.0</code>, <code>2.50</code>). Turn inference off to keep every cell as text.
+  </p>
+
+  <p class="cj-sr" id="cj-live" role="status" aria-live="polite" aria-atomic="true"></p>
+</div>
+
+<script>
+(function () {
+  var root = document.getElementById('cj-root');
+  if (!root) return;
+
+  var $ = function (id) { return document.getElementById(id); };
+
+  var MAX_PREVIEW_ROWS = 50;
+  var MAX_RENDER_CHARS = 200000;   // stop painting the DOM past this; download still gives everything
+  var MAX_HIGHLIGHT_CHARS = 60000; // syntax highlighting above this costs more than it is worth
+  var MAX_WARNINGS_SHOWN = 12;
+
+  /* ==================================================================
+     1. CSV parser — a real one.
+     Handles quoted fields containing the delimiter, newlines and ""
+     escapes; CR, LF and CRLF; and a UTF-8 BOM. Lenient where being
+     strict would just throw away the user's data.
+     ================================================================== */
+
+  function stripBom(s) {
+    return s.charCodeAt(0) === 0xFEFF ? s.slice(1) : s;
+  }
+
+  function parseCsv(text, delim, maxRows) {
+    var n = text.length, i = 0;
+    var dc = delim.charCodeAt(0);
+    var rows = [], starts = [];
+    var row = [], field = '', quoted = false, started = false;
+    var line = 1, rowLine = 1, unterminated = false;
+
+    function endField() { row.push(field); field = ''; quoted = false; started = false; }
+    function endRow() {
+      endField();
+      rows.push(row); starts.push(rowLine);
+      row = []; rowLine = line;
+    }
+
+    while (i < n) {
+      var c = text.charCodeAt(i);
+
+      if (quoted) {
+        if (c === 34) {
+          if (text.charCodeAt(i + 1) === 34) { field += '"'; i += 2; continue; }
+          quoted = false; i++; continue;
+        }
+        var j = i;
+        while (j < n && text.charCodeAt(j) !== 34) {
+          if (text.charCodeAt(j) === 10) line++;
+          j++;
+        }
+        field += text.slice(i, j);
+        i = j;
+        if (i >= n) unterminated = true;
+        continue;
+      }
+
+      if (c === 34 && !started) { quoted = true; started = true; i++; continue; }
+      if (c === dc) { endField(); i++; continue; }
+
+      if (c === 13) {
+        i++;
+        if (text.charCodeAt(i) === 10) i++;
+        line++; endRow();
+        if (maxRows && rows.length >= maxRows) return finish(true);
+        continue;
+      }
+      if (c === 10) {
+        i++; line++; endRow();
+        if (maxRows && rows.length >= maxRows) return finish(true);
+        continue;
+      }
+
+      // plain run — slice rather than char-by-char so big files stay fast
+      var k = i;
+      while (k < n) {
+        var cc = text.charCodeAt(k);
+        if (cc === dc || cc === 10 || cc === 13 || cc === 34) break;
+        k++;
+      }
+      if (k === i) { field += text.charAt(i); i++; started = true; continue; } // stray quote inside a field
+      field += text.slice(i, k);
+      started = true;
+      i = k;
+    }
+
+    if (started || field !== '' || row.length) endRow();
+
+    function finish(trunc) {
+      return { rows: rows, starts: starts, unterminated: unterminated, truncated: !!trunc };
+    }
+    return finish(false);
+  }
+
+  function isBlankRow(r) {
+    return r.length === 0 || (r.length === 1 && r[0] === '');
+  }
+
+  /* ---- delimiter auto-detection ---------------------------------- */
+
+  var DELIMS = [',', ';', '\t', '|'];
+  var DELIM_NAMES = { ',': 'comma', ';': 'semicolon', '\t': 'tab', '|': 'pipe' };
+
+  function detectDelim(text) {
+    var sample = text.slice(0, 65536);
+    var best = ',', bestScore = 0;
+    for (var x = 0; x < DELIMS.length; x++) {
+      var res = parseCsv(sample, DELIMS[x], 20);
+      var rows = [];
+      for (var y = 0; y < res.rows.length; y++) if (!isBlankRow(res.rows[y])) rows.push(res.rows[y]);
+      if (!rows.length) continue;
+      var first = rows[0].length;
+      if (first < 2) continue;
+      var same = 0;
+      for (var z = 0; z < rows.length; z++) if (rows[z].length === first) same++;
+      var consistency = same / rows.length;
+      var score = first * consistency * consistency;
+      if (score > bestScore) { bestScore = score; best = DELIMS[x]; }
+    }
+    return { delim: best, confident: bestScore > 0 };
+  }
+
+  /* ---- header naming --------------------------------------------- */
+
+  function buildHeaders(firstRow, useHeader, width) {
+    var out = [], seen = {}, i, name, base, k;
+    if (!useHeader) {
+      for (i = 0; i < width; i++) out.push('column_' + (i + 1));
+      return out;
+    }
+    for (i = 0; i < width; i++) {
+      name = i < firstRow.length ? String(firstRow[i]).trim() : '';
+      if (!name) name = 'column_' + (i + 1);
+      base = name; k = 2;
+      while (Object.prototype.hasOwnProperty.call(seen, name)) { name = base + '_' + k; k++; }
+      seen[name] = 1;
+      out.push(name);
+    }
+    return out;
+  }
+
+  /* ---- type inference --------------------------------------------
+     The rule: convert only when the string can be reproduced exactly
+     from the value. That is what keeps 007, 02134, 1.0 and 20-digit
+     order numbers intact.
+     ---------------------------------------------------------------- */
+
+  var RE_INT = /^-?(0|[1-9][0-9]*)$/;
+  var RE_DEC = /^-?(0|[1-9][0-9]*)\.[0-9]+$/;
+
+  function inferValue(s) {
+    if (s === '') return null;
+    if (s !== s.trim()) return s;            // padding is data until proven otherwise
+    if (s === 'true' || s === 'TRUE' || s === 'True') return true;
+    if (s === 'false' || s === 'FALSE' || s === 'False') return false;
+    if (RE_INT.test(s)) {
+      var iv = Number(s);
+      return Number.isSafeInteger(iv) ? iv : s;   // beyond 2^53 the digits would change
+    }
+    if (RE_DEC.test(s)) {
+      var dv = Number(s);
+      return String(dv) === s ? dv : s;            // 1.0 and 2.50 would not round-trip
+    }
+    return s;
+  }
+
+  /* ---- CSV text -> records ---------------------------------------- */
+
+  function csvToRecords(text, opts) {
+    var warnings = [], notes = [];
+    text = stripBom(text);
+    if (!text.replace(/[\r\n]+/g, '').length) {
+      return { records: [], headers: [], rows: [], warnings: [], notes: [], empty: true };
+    }
+
+    var delim = opts.delim;
+    var detected = null;
+    if (delim === 'auto') {
+      var d = detectDelim(text);
+      delim = d.delim;
+      detected = d.confident ? DELIM_NAMES[delim] : null;
+    }
+
+    var parsed = parseCsv(text, delim, 0);
+    if (parsed.unterminated) {
+      warnings.push('The file ends inside an opened quote. The last field was closed for you — check the final row.');
+    }
+
+    var rows = [], starts = [], blanks = 0;
+    for (var i = 0; i < parsed.rows.length; i++) {
+      if (isBlankRow(parsed.rows[i])) { blanks++; continue; }
+      rows.push(parsed.rows[i]);
+      starts.push(parsed.starts[i]);
+    }
+    if (blanks) notes.push(blanks + ' blank line' + (blanks === 1 ? '' : 's') + ' skipped.');
+
+    if (!rows.length) {
+      return { records: [], headers: [], rows: [], warnings: warnings, notes: notes, delim: delim, detected: detected, empty: true };
+    }
+
+    var width = 0;
+    for (i = 0; i < rows.length; i++) if (rows[i].length > width) width = rows[i].length;
+
+    var headerRow = opts.header ? rows[0] : null;
+    var dataStart = opts.header ? 1 : 0;
+    var headers = buildHeaders(headerRow || [], opts.header, width);
+
+    // duplicate / empty header reporting
+    if (opts.header) {
+      var dupes = [], blanksInHead = [];
+      var seenNames = {};
+      for (i = 0; i < headerRow.length; i++) {
+        var raw = String(headerRow[i]).trim();
+        if (!raw) { blanksInHead.push(i + 1); continue; }
+        if (seenNames[raw] === 1) dupes.push(raw);
+        seenNames[raw] = (seenNames[raw] || 0) + 1;
+      }
+      if (dupes.length) {
+        warnings.push('Duplicate header name' + (dupes.length === 1 ? '' : 's') + ' (' + dupes.join(', ') +
+          ') renamed with a numeric suffix so no column is lost.');
+      }
+      if (blanksInHead.length) {
+        warnings.push('Empty header name' + (blanksInHead.length === 1 ? '' : 's') + ' in column ' +
+          blanksInHead.join(', ') + ' — named column_N instead.');
+      }
+      if (headerRow.length < width) {
+        warnings.push('Some rows have more fields than the header row. Extra values were kept as column_' +
+          (headerRow.length + 1) + ' onward rather than dropped.');
+      }
+    }
+
+    var records = [], tableRows = [], ragged = [];
+    for (i = dataStart; i < rows.length; i++) {
+      var r = rows[i], obj = {}, cells = [];
+      if (r.length !== headers.length) {
+        ragged.push({ line: starts[i], got: r.length, want: headers.length });
+      }
+      for (var c = 0; c < headers.length; c++) {
+        var raw2 = c < r.length ? r[c] : null;
+        var val;
+        if (raw2 === null) val = null;
+        else val = opts.types ? inferValue(raw2) : raw2;
+        obj[headers[c]] = val;
+        cells.push(val);
+      }
+      records.push(obj);
+      if (tableRows.length < MAX_PREVIEW_ROWS) tableRows.push({ line: starts[i], cells: cells });
+    }
+
+    if (ragged.length) {
+      var lines = [];
+      for (i = 0; i < Math.min(ragged.length, MAX_WARNINGS_SHOWN); i++) {
+        var g = ragged[i];
+        lines.push('Line ' + g.line + ': ' + g.got + ' field' + (g.got === 1 ? '' : 's') +
+          ', expected ' + g.want + (g.got < g.want ? ' — missing values set to null.' : ' — extras kept in column_N.'));
+      }
+      if (ragged.length > MAX_WARNINGS_SHOWN) lines.push('…and ' + (ragged.length - MAX_WARNINGS_SHOWN) + ' more row' + (ragged.length - MAX_WARNINGS_SHOWN === 1 ? '' : 's') + '.');
+      warnings.push({
+        title: ragged.length + ' row' + (ragged.length === 1 ? ' does' : 's do') + ' not have ' + headers.length + ' fields',
+        list: lines
+      });
+    }
+
+    return {
+      records: records, headers: headers, rows: tableRows,
+      warnings: warnings, notes: notes, delim: delim, detected: detected,
+      empty: records.length === 0
+    };
+  }
+
+  /* ==================================================================
+     2. JSON -> CSV
+     ================================================================== */
+
+  function flatten(value, prefix, out) {
+    if (value === null || value === undefined) { out[prefix] = null; return; }
+    if (Array.isArray(value)) { out[prefix] = JSON.stringify(value); return; }
+    if (typeof value === 'object') {
+      var keys = Object.keys(value);
+      if (!keys.length) { out[prefix] = '{}'; return; }
+      for (var i = 0; i < keys.length; i++) {
+        flatten(value[keys[i]], prefix ? prefix + '.' + keys[i] : keys[i], out);
+      }
+      return;
+    }
+    out[prefix] = value;
+  }
+
+  function cellToText(v) {
+    if (v === null || v === undefined) return '';
+    if (typeof v === 'boolean') return v ? 'true' : 'false';
+    return String(v);
+  }
+
+  function quoteField(s, delim) {
+    var needs = s.indexOf(delim) !== -1 || s.indexOf('"') !== -1 ||
+      s.indexOf('\n') !== -1 || s.indexOf('\r') !== -1 ||
+      s !== s.trim();
+    if (!needs) return s;
+    return '"' + s.split('"').join('""') + '"';
+  }
+
+  function jsonToCsv(text, opts) {
+    var warnings = [], notes = [];
+    var trimmed = text.trim();
+    if (!trimmed) return { empty: true, warnings: [], notes: [] };
+
+    var data;
+    try {
+      data = JSON.parse(trimmed);
+    } catch (e) {
+      return { error: describeJsonError(e, trimmed) };
+    }
+
+    var items;
+    if (Array.isArray(data)) items = data;
+    else if (data && typeof data === 'object') { items = [data]; notes.push('A single object was treated as one row.'); }
+    else { items = [{ value: data }]; notes.push('A bare value was written to a single "value" column.'); }
+
+    if (!items.length) return { empty: true, warnings: [], notes: ['The array is empty — there is nothing to convert.'] };
+
+    var headers = [], seen = {}, flats = [], i, k, keys;
+    var primitives = 0;
+    for (i = 0; i < items.length; i++) {
+      var item = items[i], flat = {};
+      if (item === null || typeof item !== 'object' || Array.isArray(item)) {
+        flat.value = Array.isArray(item) ? JSON.stringify(item) : item;
+        primitives++;
+      } else {
+        flatten(item, '', flat);
+      }
+      flats.push(flat);
+      keys = Object.keys(flat);
+      for (k = 0; k < keys.length; k++) {
+        if (!Object.prototype.hasOwnProperty.call(seen, keys[k])) { seen[keys[k]] = 1; headers.push(keys[k]); }
+      }
+    }
+    if (primitives) {
+      notes.push(primitives + ' item' + (primitives === 1 ? ' was' : 's were') + ' not an object — written to the "value" column.');
+    }
+
+    var nested = 0;
+    for (i = 0; i < headers.length; i++) if (headers[i].indexOf('.') !== -1) nested++;
+    if (nested) notes.push(nested + ' nested field' + (nested === 1 ? '' : 's') + ' flattened with dot notation (for example address.city).');
+
+    var missing = 0;
+    var tableRows = [], lines = [];
+    var delim = opts.delim === 'auto' ? ',' : opts.delim;
+
+    var headerLine = [];
+    for (i = 0; i < headers.length; i++) headerLine.push(quoteField(headers[i], delim));
+    lines.push(headerLine.join(delim));
+
+    for (i = 0; i < flats.length; i++) {
+      var cells = [], texts = [];
+      for (k = 0; k < headers.length; k++) {
+        var has = Object.prototype.hasOwnProperty.call(flats[i], headers[k]);
+        if (!has) missing++;
+        var v = has ? flats[i][headers[k]] : null;
+        cells.push(v);
+        texts.push(quoteField(cellToText(v), delim));
+      }
+      lines.push(texts.join(delim));
+      if (tableRows.length < MAX_PREVIEW_ROWS) tableRows.push({ line: i + 1, cells: cells });
+    }
+
+    if (missing) {
+      warnings.push('Not every record has the same keys. ' + missing + ' cell' + (missing === 1 ? ' was' : 's were') +
+        ' left empty so every column still lines up.');
+    }
+
+    return {
+      text: lines.join('\r\n'),
+      headers: headers,
+      rows: tableRows,
+      count: flats.length,
+      warnings: warnings,
+      notes: notes,
+      empty: false
+    };
+  }
+
+  function describeJsonError(e, text) {
+    var msg = String(e && e.message ? e.message : e);
+    var m = msg.match(/position (\d+)/);
+    var where = '';
+    if (m) {
+      var pos = Math.min(parseInt(m[1], 10), text.length);
+      var before = text.slice(0, pos);
+      var lineNo = before.split('\n').length;
+      var lastNl = before.lastIndexOf('\n');
+      var col = pos - lastNl;
+      var snippet = text.slice(Math.max(0, pos - 24), pos + 24).replace(/\s+/g, ' ');
+      where = ' at line ' + lineNo + ', column ' + col + '.';
+      return { title: 'That is not valid JSON', detail: msg.replace(/\s*in JSON at position[\s\S]*/, '') + where, snippet: snippet };
+    }
+    return { title: 'That is not valid JSON', detail: msg, snippet: '' };
+  }
+
+  /* ==================================================================
+     3. Rendering
+     ================================================================== */
+
+  function esc(s) {
+    return String(s).replace(/[&<>]/g, function (c) {
+      return c === '&' ? '&amp;' : (c === '<' ? '&lt;' : '&gt;');
+    });
+  }
+
+  var RE_JSON_TOKEN = /"(?:[^"\\]|\\.)*"(\s*:)?|\b(?:true|false|null)\b|-?\d+(?:\.\d+)?(?:[eE][-+]?\d+)?/g;
+
+  function highlightJson(s) {
+    return esc(s).replace(RE_JSON_TOKEN, function (m, colon) {
+      var cls;
+      if (m.charAt(0) === '"') cls = colon ? 'cj-k' : 'cj-s';
+      else if (m === 'true' || m === 'false') cls = 'cj-b';
+      else if (m === 'null') cls = 'cj-n';
+      else cls = 'cj-num';
+      return '<span class="' + cls + '">' + m + '</span>';
+    });
+  }
+
+  function cellHtml(v) {
+    if (v === null || v === undefined) return '<span class="cj-n">null</span>';
+    if (typeof v === 'boolean') return '<span class="cj-b">' + (v ? 'true' : 'false') + '</span>';
+    if (typeof v === 'number') return '<span class="cj-num">' + esc(String(v)) + '</span>';
+    if (v === '') return '<span class="cj-n">(empty)</span>';
+    var s = String(v);
+    if (s.length > 220) s = s.slice(0, 220) + '…';
+    return esc(s);
+  }
+
+  function renderTable(headers, rows) {
+    var wrap = $('cj-table-wrap');
+    var table = $('cj-table');
+    if (!rows.length) {
+      table.innerHTML = '<tbody><tr><td class="cj-empty" style="font-family:var(--body)">Nothing parsed yet.</td></tr></tbody>';
+      $('cj-preview-note').textContent = 'Check the parse before you trust it.';
+      return;
+    }
+    var h = ['<thead><tr><th class="cj-rn" scope="col">#</th>'];
+    for (var i = 0; i < headers.length; i++) h.push('<th scope="col">' + esc(headers[i]) + '</th>');
+    h.push('</tr></thead><tbody>');
+    for (var r = 0; r < rows.length; r++) {
+      h.push('<tr><td class="cj-rn">' + rows[r].line + '</td>');
+      for (var c = 0; c < headers.length; c++) h.push('<td>' + cellHtml(rows[r].cells[c]) + '</td>');
+      h.push('</tr>');
+    }
+    h.push('</tbody>');
+    table.innerHTML = h.join('');
+    wrap.scrollTop = 0;
+    wrap.scrollLeft = 0;
+  }
+
+  function icon(kind) {
+    if (kind === 'cj-err') return '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v6"/><path d="M12 16.5v.5"/></svg>';
+    if (kind === 'cj-warn') return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4 3 19h18z"/><path d="M12 10v4"/><path d="M12 16.5v.5"/></svg>';
+    return '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg>';
+  }
+
+  function renderMessages(list) {
+    var box = $('cj-msgs');
+    if (!list.length) { box.innerHTML = ''; return; }
+    var h = [];
+    for (var i = 0; i < list.length; i++) {
+      var m = list[i];
+      h.push('<div class="cj-msg ' + m.kind + '">' + icon(m.kind) + '<div>' +
+        (m.title ? '<strong>' + esc(m.title) + '</strong>' : '') +
+        (m.body ? esc(m.body) : '') +
+        (m.html || '') +
+        '</div></div>');
+    }
+    box.innerHTML = h.join('');
+  }
+
+  /* ==================================================================
+     4. Wiring
+     ================================================================== */
+
+  var input = $('cj-input');
+  var output = $('cj-output');
+  var pretty = true;
+  var current = { text: '', ext: 'json', mime: 'application/json' };
+  var fileName = '';
+  var timer = null;
+
+  function direction() {
+    return $('cj-dir-j2c').checked ? 'j2c' : 'c2j';
+  }
+
+  function options() {
+    var d = $('cj-delim').value;
+    return {
+      delim: d === 'tab' ? '\t' : d,
+      header: $('cj-header').checked,
+      types: $('cj-types').checked
+    };
+  }
+
+  function setChrome() {
+    var j2c = direction() === 'j2c';
+    $('cj-in-title').textContent = j2c ? 'JSON input' : 'CSV input';
+    $('cj-input-label').textContent = j2c ? 'JSON text to convert' : 'CSV text to convert';
+    $('cj-out-title').textContent = j2c ? 'CSV output' : 'JSON output';
+    $('cj-delim-label').textContent = j2c ? 'Output delimiter' : 'Delimiter';
+    input.placeholder = j2c
+      ? 'Paste an array of JSON objects here, or drop a .json file below.'
+      : 'Paste your CSV here, or drop a .csv file below.';
+    $('cj-field-header').style.display = j2c ? 'none' : '';
+    $('cj-field-types').style.display = j2c ? 'none' : '';
+    $('cj-pretty').style.display = j2c ? 'none' : '';
+    $('cj-download-label').textContent = j2c ? 'Download .csv' : 'Download .json';
+    $('cj-preview-note').textContent = j2c
+      ? 'The flattened rows that will be written, first ' + MAX_PREVIEW_ROWS + '.'
+      : 'First ' + MAX_PREVIEW_ROWS + ' rows — check the parse before you trust it.';
+  }
+
+  function setOutput(text, isJson) {
+    current.text = text;
+    var display = text;
+    var truncated = false;
+    if (display.length > MAX_RENDER_CHARS) { display = display.slice(0, MAX_RENDER_CHARS); truncated = true; }
+    if (isJson && display.length <= MAX_HIGHLIGHT_CHARS) output.innerHTML = highlightJson(display);
+    else output.textContent = display;
+    if (truncated) {
+      var tail = document.createElement('span');
+      tail.className = 'cj-empty';
+      tail.textContent = '\n\n… preview stops here. Download gives you the complete file.';
+      output.appendChild(tail);
+    }
+    var on = text.length > 0;
+    $('cj-copy').disabled = !on;
+    $('cj-download').disabled = !on;
+    resetCopy();
+  }
+
+  function clearOutput(placeholder) {
+    current.text = '';
+    output.innerHTML = '<span class="cj-empty">' + esc(placeholder) + '</span>';
+    $('cj-copy').disabled = true;
+    $('cj-download').disabled = true;
+    $('cj-count').textContent = direction() === 'j2c' ? '0 rows' : '0 records';
+    renderTable([], []);
+    resetCopy();
+  }
+
+  function convert() {
+    var text = input.value;
+    var msgs = [];
+
+    if (!text.trim()) {
+      renderMessages([]);
+      $('cj-detected').textContent = '';
+      clearOutput('Your converted output appears here as you type.');
+      return;
+    }
+
+    if (direction() === 'j2c') {
+      current.ext = 'csv';
+      current.mime = 'text/csv';
+      var out = jsonToCsv(text, options());
+
+      if (out.error) {
+        renderMessages([{
+          kind: 'cj-err', title: out.error.title, body: out.error.detail,
+          html: out.error.snippet ? '<ul><li><code>' + esc(out.error.snippet) + '</code></li></ul>' : ''
+        }]);
+        clearOutput('Fix the JSON above and the CSV appears here.');
+        $('cj-live').textContent = 'Invalid JSON. ' + out.error.detail;
+        return;
+      }
+      if (out.empty) {
+        renderMessages(out.notes.length ? [{ kind: 'cj-ok', body: out.notes.join(' ') }] : []);
+        clearOutput('Nothing to convert yet.');
+        return;
+      }
+
+      for (var i = 0; i < out.warnings.length; i++) msgs.push({ kind: 'cj-warn', body: out.warnings[i] });
+      msgs.push({
+        kind: 'cj-ok',
+        title: out.count + ' record' + (out.count === 1 ? '' : 's') + ' converted to ' + out.headers.length + ' column' + (out.headers.length === 1 ? '' : 's'),
+        body: out.notes.join(' ')
+      });
+      renderMessages(msgs);
+      $('cj-detected').textContent = '';
+      $('cj-count').textContent = out.count + ' row' + (out.count === 1 ? '' : 's') + ' · ' + out.headers.length + ' column' + (out.headers.length === 1 ? '' : 's');
+      setOutput(out.text, false);
+      renderTable(out.headers, out.rows);
+      $('cj-live').textContent = out.count + ' records converted to CSV with ' + out.headers.length + ' columns.';
+      return;
+    }
+
+    // ---- CSV -> JSON ----
+    current.ext = 'json';
+    current.mime = 'application/json';
+    var opts = options();
+    var res = csvToRecords(text, opts);
+
+    $('cj-detected').textContent = opts.delim === 'auto'
+      ? (res.detected ? 'detected: ' + res.detected : 'single column')
+      : '';
+
+    if (res.empty && !res.records.length) {
+      var head = res.headers && res.headers.length;
+      renderMessages([{
+        kind: 'cj-warn',
+        title: head ? 'A header row but no data rows' : 'Nothing to parse',
+        body: head
+          ? 'Only one row was found and it was treated as the header. Untick "First row is a header" if that row is actually data.'
+          : 'Paste some CSV or drop a file to get started.'
+      }]);
+      clearOutput('[]');
+      return;
+    }
+
+    for (var w = 0; w < res.warnings.length; w++) {
+      var warn = res.warnings[w];
+      if (typeof warn === 'string') msgs.push({ kind: 'cj-warn', body: warn });
+      else msgs.push({ kind: 'cj-warn', title: warn.title, html: '<ul><li>' + warn.list.map(esc).join('</li><li>') + '</li></ul>' });
+    }
+    msgs.push({
+      kind: 'cj-ok',
+      title: res.records.length + ' record' + (res.records.length === 1 ? '' : 's') + ' parsed from ' + res.headers.length + ' column' + (res.headers.length === 1 ? '' : 's'),
+      body: (res.detected ? 'Delimiter detected: ' + res.detected + '. ' : '') + res.notes.join(' ')
+    });
+    renderMessages(msgs);
+
+    var json = pretty ? JSON.stringify(res.records, null, 2) : JSON.stringify(res.records);
+    $('cj-count').textContent = res.records.length + ' record' + (res.records.length === 1 ? '' : 's') + ' · ' + res.headers.length + ' field' + (res.headers.length === 1 ? '' : 's');
+    setOutput(json, true);
+    renderTable(res.headers, res.rows);
+    $('cj-live').textContent = res.records.length + ' records parsed, ' + res.headers.length + ' fields, ' +
+      (res.warnings.length ? res.warnings.length + ' warning(s).' : 'no warnings.');
+  }
+
+  function schedule() {
+    if (timer) clearTimeout(timer);
+    timer = setTimeout(convert, 180);
+  }
+
+  /* ---- copy / download ------------------------------------------- */
+
+  var copyTimer;
+  function resetCopy() {
+    clearTimeout(copyTimer);
+    $('cj-copy').classList.remove('is-done');
+    $('cj-copy-label').textContent = 'Copy';
+  }
+  function copyDone(ok) {
+    $('cj-copy').classList.toggle('is-done', ok);
+    $('cj-copy-label').textContent = ok ? 'Copied' : 'Press Ctrl+C';
+    $('cj-live').textContent = ok ? 'Output copied to your clipboard.' : 'Copying failed — select the output and copy it manually.';
+    clearTimeout(copyTimer);
+    copyTimer = setTimeout(resetCopy, 2400);
+  }
+  function fallbackCopy(text) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.setAttribute('readonly', '');
+    ta.style.position = 'fixed';
+    ta.style.top = '-1000px';
+    document.body.appendChild(ta);
+    ta.select();
+    var ok = false;
+    try { ok = document.execCommand('copy'); } catch (err) { ok = false; }
+    document.body.removeChild(ta);
+    return ok;
+  }
+
+  $('cj-copy').addEventListener('click', function () {
+    if (!current.text) return;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(current.text).then(function () { copyDone(true); }, function () { copyDone(fallbackCopy(current.text)); });
+    } else {
+      copyDone(fallbackCopy(current.text));
+    }
+  });
+
+  $('cj-download').addEventListener('click', function () {
+    if (!current.text) return;
+    var base = fileName ? fileName.replace(/\.[^.]+$/, '') : 'converted';
+    var blob = new Blob([current.text], { type: current.mime + ';charset=utf-8' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = base + '.' + current.ext;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+    $('cj-live').textContent = 'Downloaded ' + a.download + ' from your own browser.';
+  });
+
+  /* ---- files ------------------------------------------------------ */
+
+  function loadFile(file) {
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function () {
+      var text = String(reader.result || '');
+      fileName = file.name;
+      var isJson = /\.json$/i.test(file.name) || /^\s*[[{]/.test(text.slice(0, 200));
+      $('cj-dir-j2c').checked = isJson;
+      $('cj-dir-c2j').checked = !isJson;
+      setChrome();
+      input.value = text;
+      var kb = Math.max(1, Math.round(file.size / 1024));
+      $('cj-file-name').innerHTML = '<b>' + esc(file.name) + '</b> · ' + kb + ' KB · read locally, never uploaded';
+      convert();
+    };
+    reader.onerror = function () {
+      renderMessages([{ kind: 'cj-err', title: 'That file could not be read', body: 'Try opening it in a text editor and pasting the contents instead.' }]);
+    };
+    reader.readAsText(file, 'utf-8');
+  }
+
+  $('cj-file').addEventListener('change', function (e) {
+    if (e.target.files && e.target.files[0]) loadFile(e.target.files[0]);
+  });
+
+  var drop = $('cj-drop');
+  ['dragenter', 'dragover'].forEach(function (ev) {
+    drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.add('is-over'); });
+  });
+  ['dragleave', 'drop'].forEach(function (ev) {
+    drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.remove('is-over'); });
+  });
+  drop.addEventListener('drop', function (e) {
+    if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0]) loadFile(e.dataTransfer.files[0]);
+  });
+
+  /* ---- samples ---------------------------------------------------- */
+
+  var SAMPLE_CSV = [
+    'name,email,city,zip,orders,active,notes',
+    'Ada Lovelace,ada@example.com,Boston,02134,12,true,"Prefers email, not phone"',
+    'Grace Hopper,grace@example.com,Arlington,22201,7,false,"Left a note:',
+    'call back after 3pm"',
+    '"Knuth, Donald",don@example.com,Palo Alto,94301,3,true,"Said ""ship it"" twice"',
+    'Alan Turing,alan@example.com,London,00000,0,true,'
+  ].join('\n');
+
+  var SAMPLE_JSON = JSON.stringify([
+    { id: 1, name: 'Ada Lovelace', address: { city: 'Boston', zip: '02134' }, tags: ['vip', 'email-only'], active: true },
+    { id: 2, name: 'Grace Hopper', address: { city: 'Arlington', zip: '22201' }, tags: [], active: false, note: 'call after 3pm' },
+    { id: 3, name: 'Donald Knuth', address: { city: 'Palo Alto', zip: '94301' }, tags: ['vip'], active: true }
+  ], null, 2);
+
+  $('cj-sample').addEventListener('click', function () {
+    fileName = '';
+    $('cj-file-name').innerHTML = '&hellip; or drop one on the box above. It is read locally, never uploaded.';
+    input.value = direction() === 'j2c' ? SAMPLE_JSON : SAMPLE_CSV;
+    convert();
+    input.focus();
+  });
+
+  $('cj-clear').addEventListener('click', function () {
+    input.value = '';
+    fileName = '';
+    $('cj-file').value = '';
+    $('cj-file-name').innerHTML = '&hellip; or drop one on the box above. It is read locally, never uploaded.';
+    convert();
+    input.focus();
+  });
+
+  /* ---- controls --------------------------------------------------- */
+
+  $('cj-pretty').addEventListener('click', function () {
+    pretty = !pretty;
+    this.setAttribute('aria-pressed', pretty ? 'true' : 'false');
+    this.textContent = pretty ? 'Pretty' : 'Minified';
+    convert();
+  });
+
+  root.querySelectorAll('input[name="cj-dir"]').forEach(function (el) {
+    el.addEventListener('change', function () { setChrome(); convert(); });
+  });
+
+  ['cj-delim', 'cj-header', 'cj-types'].forEach(function (id) {
+    $(id).addEventListener('change', convert);
+  });
+
+  input.addEventListener('input', function () {
+    fileName = '';
+    schedule();
+  });
+
+  window.__mark = window.__mark || function () {};
+
+  setChrome();
+  convert();
+})();
+</script>
