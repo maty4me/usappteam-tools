@@ -21,6 +21,11 @@ instruction set — the schedule points at it, so editing this file changes tomo
 3. **Pick the next tool.** First `status: "todo"` in `research/backlog.json` (the file is already
    ordered by priority: relevance × low difficulty × low effort × volume). Set it to `"building"`.
 
+   **Before you build, check `tools/<slug>/` does not already exist.** The folder on disk is the
+   truth, not the backlog — a run that shipped a tool but died before writing the status back would
+   otherwise rebuild it and overwrite good work. If the folder is there, mark that item `"live"`,
+   commit the correction, and move to the next `todo`.
+
    If nothing is `todo`, run the research step instead (see below), notify, and stop for the day.
 
 4. **Build it.** Read `TOOL-SPEC.md` and create `tools/<slug>/` with all four files. This is the
