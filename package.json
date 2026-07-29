@@ -1,0 +1,22 @@
+{
+  "name": "usappteam-tools",
+  "version": "1.0.0",
+  "private": false,
+  "type": "module",
+  "description": "Free tools for app founders — tools.usappteam.com",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "validate": "node scripts/validate.mjs",
+    "serve": "node scripts/serve.mjs",
+    "record": "node video/record.mjs",
+    "voiceover": "node video/voiceover.mjs"
+  },
+  "dependencies": {
+    "marked": "^15.0.0"
+  },
+  "devDependencies": {
+    "playwright": "^1.49.0",
+    "sharp": "^0.33.5"
+  }
+}

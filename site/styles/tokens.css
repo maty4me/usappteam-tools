@@ -1,0 +1,35 @@
+/* US APP TEAM — Lumen v0.3 light tokens.
+   Source of truth: usappteam-site/DESIGN-SPEC-v03.md §11 + app-brief-wizard.html :root.
+   Keep in sync with the main site — the tools subdomain must feel like one brand. */
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  --bg: #F6F7F9;
+  --card: #FFFFFF;
+  --line: #E4E8EE;
+  --line-2: #D5DBE3;
+  --ink: #17202B;
+  --ink-60: #5A6675;
+  --ink-40: #8B96A5;
+  --slate: #425061;
+  --azure: #2380B8;
+  --cyan: #2E9BC7;
+  --magenta: #A83268;
+  --blue-soft: #E7F1F8;
+  --pink-soft: #F6E9EF;
+  --green: #1FA971;
+  --amber: #B4761A;
+  --grad: linear-gradient(120deg, #2E9BC7, #2380B8 45%, #A83268);
+
+  --disp: 'Space Grotesk', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --mono: 'Space Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  --body: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+
+  --r: 14px;
+  --r-sm: 10px;
+  --maxw: 1120px;
+  --ease: cubic-bezier(.16, 1, .3, 1);
+  --shadow: 0 1px 2px rgba(23, 32, 43, .05), 0 8px 24px rgba(23, 32, 43, .07);
+  --shadow-lift: 0 2px 6px rgba(23, 32, 43, .06), 0 14px 34px -8px rgba(35, 128, 184, .18);
+}

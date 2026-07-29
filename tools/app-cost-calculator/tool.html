@@ -1,0 +1,602 @@
+<style>
+.t-app-cost-calculator { font-family: var(--body); color: var(--ink); }
+
+.t-app-cost-calculator .acc-grid {
+  display: grid; gap: 22px;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr);
+  align-items: start;
+}
+@media (max-width: 900px) {
+  .t-app-cost-calculator .acc-grid { grid-template-columns: 1fr; }
+}
+
+/* ---------- inputs ---------- */
+.t-app-cost-calculator .acc-fs {
+  border: 0; padding: 0; margin: 0 0 24px; min-width: 0;
+}
+.t-app-cost-calculator .acc-fs:last-of-type { margin-bottom: 6px; }
+.t-app-cost-calculator .acc-legend {
+  display: block; width: 100%; padding: 0; margin: 0 0 10px;
+  font-family: var(--disp); font-weight: 600; font-size: 16px; color: var(--ink);
+}
+.t-app-cost-calculator .acc-legend .acc-num {
+  font-family: var(--mono); font-size: 11px; letter-spacing: .1em;
+  color: var(--azure); margin-right: 8px;
+}
+.t-app-cost-calculator .acc-hint {
+  margin: -4px 0 12px; font-size: 13.5px; color: var(--ink-60);
+}
+
+.t-app-cost-calculator .acc-opts { display: grid; gap: 10px; }
+.t-app-cost-calculator .acc-opts.acc-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.t-app-cost-calculator .acc-opts.acc-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (max-width: 520px) {
+  .t-app-cost-calculator .acc-opts.acc-3,
+  .t-app-cost-calculator .acc-opts.acc-2 { grid-template-columns: 1fr; }
+}
+
+.t-app-cost-calculator .acc-opt {
+  position: relative; display: block; cursor: pointer;
+  border: 1px solid var(--line-2); border-radius: var(--r-sm);
+  background: var(--card); padding: 13px 14px;
+  transition: border-color .2s var(--ease), background .2s var(--ease), box-shadow .2s var(--ease);
+}
+.t-app-cost-calculator .acc-opt:hover { border-color: var(--azure); }
+.t-app-cost-calculator .acc-opt input {
+  position: absolute; opacity: 0; width: 1px; height: 1px; margin: 0;
+}
+.t-app-cost-calculator .acc-opt .acc-t {
+  display: block; font-weight: 600; font-size: 14.5px; color: var(--ink);
+}
+.t-app-cost-calculator .acc-opt .acc-d {
+  display: block; margin-top: 3px; font-size: 12.5px; line-height: 1.45; color: var(--ink-60);
+}
+.t-app-cost-calculator .acc-opt:has(input:checked) {
+  border-color: var(--azure); background: var(--blue-soft);
+  box-shadow: inset 0 0 0 1px var(--azure);
+}
+.t-app-cost-calculator .acc-opt:has(input:focus-visible) {
+  outline: 3px solid rgba(35, 128, 184, .55); outline-offset: 2px;
+}
+
+.t-app-cost-calculator .acc-checks {
+  display: grid; gap: 8px; grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+@media (max-width: 780px) { .t-app-cost-calculator .acc-checks { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 460px) { .t-app-cost-calculator .acc-checks { grid-template-columns: 1fr; } }
+
+.t-app-cost-calculator .acc-check {
+  position: relative; display: flex; align-items: center; gap: 9px;
+  cursor: pointer; padding: 11px 12px;
+  border: 1px solid var(--line-2); border-radius: var(--r-sm);
+  background: var(--card); font-size: 14px; font-weight: 500; color: var(--slate);
+  transition: border-color .2s var(--ease), background .2s var(--ease), color .2s var(--ease);
+}
+.t-app-cost-calculator .acc-check:hover { border-color: var(--azure); }
+.t-app-cost-calculator .acc-check input {
+  position: absolute; opacity: 0; width: 1px; height: 1px; margin: 0;
+}
+.t-app-cost-calculator .acc-check .acc-box {
+  flex: 0 0 auto; width: 18px; height: 18px; border-radius: 5px;
+  border: 1.5px solid var(--line-2); background: #fff;
+  display: grid; place-items: center;
+  transition: background .18s var(--ease), border-color .18s var(--ease);
+}
+.t-app-cost-calculator .acc-check .acc-box svg {
+  width: 12px; height: 12px; stroke: #fff; stroke-width: 3;
+  fill: none; stroke-linecap: round; stroke-linejoin: round;
+  opacity: 0; transform: scale(.6);
+  transition: opacity .18s var(--ease), transform .18s var(--ease);
+}
+.t-app-cost-calculator .acc-check:has(input:checked) {
+  border-color: var(--azure); background: var(--blue-soft); color: var(--ink);
+}
+.t-app-cost-calculator .acc-check:has(input:checked) .acc-box {
+  background: var(--azure); border-color: var(--azure);
+}
+.t-app-cost-calculator .acc-check:has(input:checked) .acc-box svg { opacity: 1; transform: scale(1); }
+.t-app-cost-calculator .acc-check:has(input:focus-visible) {
+  outline: 3px solid rgba(35, 128, 184, .55); outline-offset: 2px;
+}
+
+.t-app-cost-calculator .acc-reset {
+  font-family: var(--body); font-size: 13.5px; font-weight: 500;
+  color: var(--ink-60); background: none; border: 0; padding: 6px 0;
+  cursor: pointer; text-decoration: underline; text-underline-offset: 3px;
+}
+.t-app-cost-calculator .acc-reset:hover { color: var(--azure); }
+
+/* ---------- result ---------- */
+.t-app-cost-calculator .acc-result {
+  position: sticky; top: 88px;
+  border: 1px solid rgba(35, 128, 184, .25); border-radius: var(--r);
+  background:
+    radial-gradient(520px 260px at 100% 0%, rgba(168, 50, 104, .06), transparent 62%),
+    var(--card);
+  box-shadow: var(--shadow-lift);
+  padding: 22px 20px 20px; min-width: 0;
+}
+@media (max-width: 900px) { .t-app-cost-calculator .acc-result { position: static; } }
+
+.t-app-cost-calculator .acc-eyebrow {
+  font-family: var(--mono); font-size: 11px; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--azure); margin: 0 0 8px;
+}
+.t-app-cost-calculator .acc-tier {
+  font-family: var(--disp); font-size: 19px; font-weight: 700;
+  margin: 0; color: var(--ink); line-height: 1.25;
+}
+.t-app-cost-calculator .acc-price {
+  display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap;
+  margin: 6px 0 2px;
+}
+.t-app-cost-calculator .acc-prefix {
+  font-family: var(--mono); font-size: 12px; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--ink-40);
+}
+.t-app-cost-calculator .acc-amt {
+  font-family: var(--disp); font-weight: 700; letter-spacing: -.03em;
+  font-size: clamp(38px, 8vw, 52px); line-height: 1.05;
+  background: var(--grad); -webkit-background-clip: text; background-clip: text;
+  color: transparent; -webkit-text-fill-color: transparent;
+}
+.t-app-cost-calculator .acc-cur { font-size: .62em; vertical-align: super; margin-right: 1px; }
+
+.t-app-cost-calculator .acc-time {
+  margin: 4px 0 16px; font-size: 14.5px; color: var(--slate);
+}
+.t-app-cost-calculator .acc-time strong { color: var(--ink); font-weight: 600; }
+
+.t-app-cost-calculator .acc-sub {
+  font-family: var(--mono); font-size: 11px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-40);
+  margin: 0 0 8px; padding-top: 16px; border-top: 1px solid var(--line);
+}
+.t-app-cost-calculator .acc-drivers { list-style: none; margin: 0 0 4px; padding: 0; }
+.t-app-cost-calculator .acc-drivers li {
+  display: flex; gap: 9px; align-items: flex-start;
+  font-size: 14px; color: var(--slate); margin-bottom: 7px; line-height: 1.45;
+}
+.t-app-cost-calculator .acc-drivers li::before {
+  content: ''; flex: 0 0 auto; width: 6px; height: 6px; margin-top: 7px;
+  border-radius: 50%; background: var(--azure);
+}
+.t-app-cost-calculator .acc-drivers li.acc-neutral::before { background: var(--ink-40); }
+
+.t-app-cost-calculator .acc-care {
+  margin-top: 14px; padding: 12px 14px;
+  border-radius: var(--r-sm); background: var(--bg); border: 1px solid var(--line);
+  font-size: 13.5px; color: var(--slate); line-height: 1.5;
+}
+.t-app-cost-calculator .acc-care strong { color: var(--ink); font-weight: 600; }
+.t-app-cost-calculator .acc-care .acc-care-note { display: block; margin-top: 4px; color: var(--ink-60); font-size: 13px; }
+
+.t-app-cost-calculator .acc-extra {
+  margin: 12px 0 0; font-size: 13px; line-height: 1.5; color: var(--ink-60);
+}
+.t-app-cost-calculator .acc-extra strong { color: var(--ink); font-weight: 600; }
+
+.t-app-cost-calculator .acc-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
+.t-app-cost-calculator .acc-copy {
+  flex: 1 1 auto; font-family: var(--disp); font-weight: 600; font-size: 14.5px;
+  padding: 12px 18px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--line-2); background: var(--card); color: var(--ink);
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  transition: border-color .2s var(--ease), color .2s var(--ease), transform .15s var(--ease);
+}
+.t-app-cost-calculator .acc-copy:hover { border-color: var(--azure); color: var(--azure); }
+.t-app-cost-calculator .acc-copy:active { transform: scale(.98); }
+.t-app-cost-calculator .acc-copy svg { width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 1.8; }
+.t-app-cost-calculator .acc-copy.is-done { border-color: var(--green); color: var(--green); }
+.t-app-cost-calculator .acc-go {
+  flex: 1 1 auto; font-family: var(--disp); font-weight: 700; font-size: 14.5px;
+  padding: 12px 20px; border-radius: 999px; text-align: center;
+  background: var(--grad); color: #fff !important; text-decoration: none;
+  box-shadow: 0 8px 20px -8px rgba(35, 128, 184, .55);
+  transition: transform .2s var(--ease);
+}
+.t-app-cost-calculator .acc-go:hover { transform: translateY(-1px); }
+
+.t-app-cost-calculator .acc-note {
+  margin: 14px 0 0; font-size: 12.5px; line-height: 1.55; color: var(--ink-60);
+}
+.t-app-cost-calculator .acc-privacy {
+  margin: 8px 0 0; font-size: 12.5px; color: var(--ink-40);
+  display: flex; align-items: center; gap: 7px;
+}
+.t-app-cost-calculator .acc-privacy svg { width: 13px; height: 13px; stroke: var(--green); fill: none; stroke-width: 2; flex: 0 0 auto; }
+
+.t-app-cost-calculator .acc-sr {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .t-app-cost-calculator .acc-flip { animation: accFlip .42s var(--ease); }
+  @keyframes accFlip {
+    0%   { opacity: 0; transform: translateY(7px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+  .t-app-cost-calculator .acc-drivers li { animation: accIn .32s var(--ease) both; }
+  @keyframes accIn {
+    0%   { opacity: 0; transform: translateX(-5px); }
+    100% { opacity: 1; transform: translateX(0); }
+  }
+}
+</style>
+
+<div class="t-app-cost-calculator" id="acc-root">
+  <div class="acc-grid">
+
+    <form class="acc-inputs" id="acc-form" autocomplete="off">
+      <fieldset class="acc-fs">
+        <legend class="acc-legend"><span class="acc-num">01</span>Which platforms do you need?</legend>
+        <p class="acc-hint">We build both from one codebase, so &ldquo;both&rdquo; is the normal answer &mdash; it does not double the price.</p>
+        <div class="acc-opts acc-3">
+          <label class="acc-opt">
+            <input type="radio" name="acc-platform" value="ios" id="acc-platform-ios">
+            <span class="acc-t">iOS only</span>
+            <span class="acc-d">iPhone and iPad</span>
+          </label>
+          <label class="acc-opt">
+            <input type="radio" name="acc-platform" value="android" id="acc-platform-android">
+            <span class="acc-t">Android only</span>
+            <span class="acc-d">Google Play</span>
+          </label>
+          <label class="acc-opt">
+            <input type="radio" name="acc-platform" value="both" id="acc-platform-both" checked>
+            <span class="acc-t">Both</span>
+            <span class="acc-d">One build, two stores</span>
+          </label>
+        </div>
+      </fieldset>
+
+      <fieldset class="acc-fs">
+        <legend class="acc-legend"><span class="acc-num">02</span>What kind of app is it?</legend>
+        <div class="acc-opts acc-3">
+          <label class="acc-opt">
+            <input type="radio" name="acc-type" value="simple" id="acc-type-simple" checked>
+            <span class="acc-t">Simple</span>
+            <span class="acc-d">A few screens, content or a booking form, no accounts</span>
+          </label>
+          <label class="acc-opt">
+            <input type="radio" name="acc-type" value="standard" id="acc-type-standard">
+            <span class="acc-t">Standard</span>
+            <span class="acc-d">User accounts, saved data, notifications</span>
+          </label>
+          <label class="acc-opt">
+            <input type="radio" name="acc-type" value="advanced" id="acc-type-advanced">
+            <span class="acc-t">Advanced</span>
+            <span class="acc-d">Payments, live data, integrations or something custom</span>
+          </label>
+        </div>
+      </fieldset>
+
+      <fieldset class="acc-fs">
+        <legend class="acc-legend"><span class="acc-num">03</span>Which features do you need?</legend>
+        <p class="acc-hint">Tick everything you are fairly sure about. You can change it later &mdash; the brief is where scope gets locked.</p>
+        <div class="acc-checks" id="acc-features"></div>
+      </fieldset>
+
+      <fieldset class="acc-fs">
+        <legend class="acc-legend"><span class="acc-num">04</span>How should it look?</legend>
+        <div class="acc-opts acc-2">
+          <label class="acc-opt">
+            <input type="radio" name="acc-design" value="template" id="acc-design-template" checked>
+            <span class="acc-t">Proven template</span>
+            <span class="acc-d">Our tested screen patterns, styled to your brand. Fastest route.</span>
+          </label>
+          <label class="acc-opt">
+            <input type="radio" name="acc-design" value="custom" id="acc-design-custom">
+            <span class="acc-t">Custom design</span>
+            <span class="acc-d">Screens drawn from scratch for your product. Adds about a week.</span>
+          </label>
+        </div>
+      </fieldset>
+
+      <button type="button" class="acc-reset" id="acc-reset">Reset all answers</button>
+    </form>
+
+    <aside class="acc-result" id="acc-result" aria-labelledby="acc-result-title">
+      <p class="acc-eyebrow" id="acc-result-title">Your estimate</p>
+      <h3 class="acc-tier" id="acc-tier">Starter app</h3>
+      <p class="acc-price">
+        <span class="acc-prefix" id="acc-prefix">from</span>
+        <span class="acc-amt" id="acc-amt"><span class="acc-cur">&#36;</span><span id="acc-amount">3,500</span></span>
+      </p>
+      <p class="acc-time">Estimated build time <strong id="acc-weeks">3&ndash;5 weeks</strong></p>
+
+      <p class="acc-sub">Why this tier</p>
+      <ul class="acc-drivers" id="acc-drivers"></ul>
+
+      <div class="acc-care">
+        Suggested Care plan after launch: <strong id="acc-care">&#36;199 per month</strong>
+        <span class="acc-care-note" id="acc-care-note">Hosting, monitoring, OS updates and small changes so the app keeps working.</span>
+      </div>
+
+      <p class="acc-extra">Store launch &mdash; App Store and Google Play submission handled for you &mdash; is a separate one-time <strong>&#36;749</strong>.</p>
+
+      <div class="acc-actions">
+        <button type="button" class="acc-copy" id="acc-copy">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+          <span id="acc-copy-label">Copy estimate</span>
+        </button>
+        <a class="acc-go" href="https://usappteam.com/app-brief">Lock this scope in</a>
+      </div>
+
+      <p class="acc-note">This is a starting point, not a quote. Exact scope, the fixed price and the start date are confirmed in your brief &mdash; and the price does not move after that.</p>
+      <p class="acc-privacy">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v6c0 4.4-3 7.7-7 9-4-1.3-7-4.6-7-9V6z"/><path d="m9 12 2 2 4-4"/></svg>
+        Runs entirely in your browser. Nothing is uploaded, nothing is stored, no email needed.
+      </p>
+
+      <p class="acc-sr" id="acc-live" role="status" aria-live="polite" aria-atomic="true"></p>
+    </aside>
+
+  </div>
+</div>
+
+<script>
+(function () {
+  var root = document.getElementById('acc-root');
+  if (!root) return;
+
+  var USD = String.fromCharCode(36);
+
+  /* ---- model ------------------------------------------------------------
+     Points decide the tier. Type sets the floor, features add weight,
+     custom design adds a little. Thresholds: <=2 starter, 3-8 standard,
+     >=9 custom. Weeks are computed, never guessed at from a price.        */
+
+  var FEATURES = [
+    { id: 'accounts',    label: 'User accounts & login', w: 1, why: 'user accounts and secure login' },
+    { id: 'payments',    label: 'Payments or subscriptions', w: 3, why: 'payments or subscriptions, which need billing, receipts and store review' },
+    { id: 'push',        label: 'Push notifications', w: 1, why: 'push notifications' },
+    { id: 'maps',        label: 'Maps or location', w: 1, why: 'maps and location' },
+    { id: 'chat',        label: 'Chat or messaging', w: 2, why: 'chat or messaging, which needs a realtime backend' },
+    { id: 'media',       label: 'Photo or video upload', w: 1, why: 'photo or video upload and storage' },
+    { id: 'offline',     label: 'Offline mode', w: 2, why: 'offline mode with data syncing' },
+    { id: 'integration', label: 'Third-party integration', w: 2, why: 'a third-party integration' },
+    { id: 'admin',       label: 'Admin dashboard', w: 2, why: 'a web admin dashboard' }
+  ];
+
+  var TYPES = {
+    simple:   { w: 0, label: 'simple app',   lo: 3,  hi: 5 },
+    standard: { w: 3, label: 'standard app', lo: 6,  hi: 9 },
+    advanced: { w: 9, label: 'advanced app', lo: 10, hi: 14 }
+  };
+
+  var TIERS = [
+    { name: 'Starter app',  prefix: 'from',   amount: '3,500',  care: 0 },
+    { name: 'Standard app', prefix: 'from',   amount: '7,500',  care: 1 },
+    { name: 'Custom app',   prefix: 'up to',  amount: '12,000', care: 2 }
+  ];
+
+  var CARE = [
+    { amount: '199', note: 'Hosting, monitoring, OS updates and small changes so the app keeps working.' },
+    { amount: '399', note: 'Everything in the first plan plus faster response times and a monthly block of changes.' },
+    { amount: '799', note: 'Priority support for apps with payments, live data or a lot of users depending on them.' }
+  ];
+
+  var PLATFORMS = {
+    ios:     'iOS only',
+    android: 'Android only',
+    both:    'iOS and Android'
+  };
+
+  /* ---- build the feature checkboxes ---- */
+  var box = document.getElementById('acc-features');
+  box.innerHTML = FEATURES.map(function (f) {
+    return '<label class="acc-check">' +
+      '<input type="checkbox" name="acc-feature" value="' + f.id + '" id="acc-f-' + f.id + '">' +
+      '<span class="acc-box" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m5 12 5 5 9-10"/></svg></span>' +
+      '<span>' + f.label + '</span>' +
+      '</label>';
+  }).join('');
+
+  /* ---- helpers ---- */
+  var form = document.getElementById('acc-form');
+  var $ = function (id) { return document.getElementById(id); };
+  var picked = function (name) {
+    var el = form.querySelector('input[name="' + name + '"]:checked');
+    return el ? el.value : '';
+  };
+
+  function readState() {
+    var chosen = FEATURES.filter(function (f) { return $('acc-f-' + f.id).checked; });
+    return {
+      platform: picked('acc-platform') || 'both',
+      type: picked('acc-type') || 'simple',
+      design: picked('acc-design') || 'template',
+      features: chosen
+    };
+  }
+
+  function estimate(s) {
+    var type = TYPES[s.type];
+    var featurePts = s.features.reduce(function (n, f) { return n + f.w; }, 0);
+    var designPts = s.design === 'custom' ? 1 : 0;
+    var score = type.w + featurePts + designPts;
+
+    var tierIdx = score <= 2 ? 0 : (score <= 8 ? 1 : 2);
+
+    var extra = Math.floor(featurePts / 3);
+    var lo = type.lo + extra;
+    var hi = type.hi + extra;
+    if (s.design === 'custom') hi += 1;
+    if (s.platform !== 'both') { lo -= 1; hi -= 1; }
+    if (lo < 3) lo = 3;
+
+    // A tier implies a floor of real work: never quote a Standard-tier price
+    // against a timeline that only a Starter build could hit.
+    var floor = [3, 5, 8][tierIdx];
+    if (lo < floor) { hi += floor - lo; lo = floor; }
+    if (hi <= lo) hi = lo + 2;
+
+    var careIdx = TIERS[tierIdx].care;
+    if (careIdx < 1 && s.features.some(function (f) { return f.id === 'payments'; })) careIdx = 1;
+
+    return {
+      tier: TIERS[tierIdx],
+      care: CARE[careIdx],
+      lo: lo,
+      hi: hi,
+      score: score,
+      featurePts: featurePts,
+      type: type,
+      state: s
+    };
+  }
+
+  function drivers(e) {
+    var s = e.state;
+    var out = [];
+
+    out.push({ text: 'You picked a ' + e.type.label + ' &mdash; that sets the baseline.', key: true });
+
+    if (s.features.length) {
+      out.push({
+        text: 'Feature' + (s.features.length === 1 ? '' : 's') + ' that move the number: ' +
+              s.features.map(function (f) { return f.why; }).join(', ') + '.',
+        key: true
+      });
+    } else {
+      out.push({ text: 'No extra features ticked, so nothing is pushing the build past the basics.', key: false });
+    }
+
+    out.push({
+      text: s.platform === 'both'
+        ? 'Both stores from one build &mdash; iOS and Android cost the same here as one platform would.'
+        : PLATFORMS[s.platform] + ' only, which trims roughly a week off store prep but not the build price.',
+      key: false
+    });
+
+    out.push({
+      text: s.design === 'custom'
+        ? 'Custom design: screens drawn from scratch, which adds about a week of design time.'
+        : 'Proven template: our tested screens styled to your brand, which is the fastest route to launch.',
+      key: false
+    });
+
+    return out;
+  }
+
+  function summaryText(e) {
+    var s = e.state;
+    return [
+      'App development cost estimate &mdash; US APP Team',
+      '',
+      'Recommended tier: ' + e.tier.name + ' (' + e.tier.prefix + ' ' + USD + e.tier.amount + ')',
+      'Estimated build time: ' + e.lo + '-' + e.hi + ' weeks',
+      'Suggested Care plan: ' + USD + e.care.amount + ' per month',
+      'Store launch (App Store + Google Play submission): ' + USD + '749 one-time',
+      '',
+      'What I picked:',
+      '- Platforms: ' + PLATFORMS[s.platform],
+      '- App type: ' + e.type.label,
+      '- Design: ' + (s.design === 'custom' ? 'custom design' : 'proven template'),
+      '- Features: ' + (s.features.length ? s.features.map(function (f) { return f.label; }).join(', ') : 'none selected'),
+      '',
+      'This is a starting point, not a quote. Exact scope and the fixed price are confirmed in the brief.',
+      'Estimated with the free calculator at https://tools.usappteam.com/tools/app-cost-calculator/'
+    ].join('\n').replace(/&mdash;/g, '—');
+  }
+
+  /* ---- render ---- */
+  var lastKey = '';
+  var current = null;
+
+  function flip(el) {
+    if (!el) return;
+    el.classList.remove('acc-flip');
+    void el.offsetWidth;
+    el.classList.add('acc-flip');
+  }
+
+  function render() {
+    var e = estimate(readState());
+    current = e;
+
+    var key = e.tier.amount + '|' + e.lo + '|' + e.hi + '|' + e.care.amount;
+    var changed = key !== lastKey;
+    lastKey = key;
+
+    $('acc-tier').textContent = e.tier.name;
+    $('acc-prefix').textContent = e.tier.prefix;
+    $('acc-amount').textContent = e.tier.amount;
+    $('acc-weeks').textContent = e.lo + '–' + e.hi + ' weeks';
+    $('acc-care').innerHTML = '&#36;' + e.care.amount + ' per month';
+    $('acc-care-note').textContent = e.care.note;
+
+    $('acc-drivers').innerHTML = drivers(e).map(function (d, i) {
+      return '<li' + (d.key ? '' : ' class="acc-neutral"') +
+        ' style="animation-delay:' + (i * 45) + 'ms">' + d.text + '</li>';
+    }).join('');
+
+    if (changed) {
+      flip($('acc-amt'));
+      flip($('acc-tier'));
+    }
+
+    $('acc-live').textContent =
+      'Estimate updated. ' + e.tier.name + ', ' + e.tier.prefix + ' ' + USD + e.tier.amount +
+      '. Build time ' + e.lo + ' to ' + e.hi + ' weeks. Suggested Care plan ' + USD + e.care.amount + ' per month.';
+
+    resetCopy();
+  }
+
+  /* ---- copy ---- */
+  var copyBtn = $('acc-copy');
+  var copyLabel = $('acc-copy-label');
+  var copyTimer;
+
+  function resetCopy() {
+    clearTimeout(copyTimer);
+    copyBtn.classList.remove('is-done');
+    copyLabel.textContent = 'Copy estimate';
+  }
+
+  function fallbackCopy(text) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.setAttribute('readonly', '');
+    ta.style.position = 'fixed';
+    ta.style.top = '-1000px';
+    document.body.appendChild(ta);
+    ta.select();
+    var ok = false;
+    try { ok = document.execCommand('copy'); } catch (err) { ok = false; }
+    document.body.removeChild(ta);
+    return ok;
+  }
+
+  function done(ok) {
+    copyBtn.classList.toggle('is-done', ok);
+    copyLabel.textContent = ok ? 'Copied' : 'Press Ctrl+C to copy';
+    $('acc-live').textContent = ok ? 'Estimate copied to your clipboard.' : 'Copying failed. Select the estimate and copy it manually.';
+    clearTimeout(copyTimer);
+    copyTimer = setTimeout(resetCopy, 2600);
+  }
+
+  copyBtn.addEventListener('click', function () {
+    var text = summaryText(current || estimate(readState()));
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () { done(true); }, function () { done(fallbackCopy(text)); });
+    } else {
+      done(fallbackCopy(text));
+    }
+  });
+
+  /* ---- wiring ---- */
+  form.addEventListener('change', render);
+  $('acc-reset').addEventListener('click', function () {
+    form.reset();
+    render();
+    var first = document.getElementById('acc-platform-both');
+    if (first) first.focus();
+  });
+
+  window.__mark = window.__mark || function () {};
+  render();
+})();
+</script>

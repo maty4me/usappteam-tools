@@ -1,0 +1,963 @@
+<div class="t-app-privacy-policy-generator">
+  <p class="ppg-privacy" role="note">
+    <span class="ppg-lock" aria-hidden="true">&#9679;</span>
+    <strong>Nothing is uploaded.</strong> Every answer stays in this browser tab, the policy is written
+    by JavaScript running on your device, and nothing is saved when you close the page.
+  </p>
+
+  <div class="ppg-grid">
+    <!-- ------------------------------- FORM ------------------------------- -->
+    <form class="ppg-form" id="ppg-form" autocomplete="off" novalidate>
+      <h2 class="ppg-h">Your app</h2>
+
+      <div class="ppg-fields">
+        <p class="ppg-field">
+          <label for="ppg-app">App name</label>
+          <input type="text" id="ppg-app" placeholder="Trailmark">
+        </p>
+        <p class="ppg-field">
+          <label for="ppg-company">Company or developer name</label>
+          <input type="text" id="ppg-company" placeholder="Trailmark Labs LLC">
+        </p>
+        <p class="ppg-field">
+          <label for="ppg-email">Contact email</label>
+          <input type="email" id="ppg-email" placeholder="privacy@trailmark.app">
+        </p>
+        <p class="ppg-field">
+          <label for="ppg-site">Website <span class="ppg-opt">(optional)</span></label>
+          <input type="text" id="ppg-site" placeholder="trailmark.app">
+        </p>
+        <p class="ppg-field">
+          <label for="ppg-date">Effective date</label>
+          <input type="date" id="ppg-date">
+        </p>
+      </div>
+
+      <fieldset class="ppg-fs">
+        <legend>Platforms</legend>
+        <div class="ppg-checks ppg-cols">
+          <label class="ppg-check"><input type="checkbox" id="ppg-p-ios" data-plat="iOS" checked><span>iOS</span></label>
+          <label class="ppg-check"><input type="checkbox" id="ppg-p-android" data-plat="Android" checked><span>Android</span></label>
+          <label class="ppg-check"><input type="checkbox" id="ppg-p-web" data-plat="web"><span>Web</span></label>
+        </div>
+      </fieldset>
+
+      <fieldset class="ppg-fs">
+        <legend>Accounts</legend>
+        <div class="ppg-radios">
+          <label class="ppg-check"><input type="radio" name="ppg-accounts" value="yes" id="ppg-acc-yes"><span>Users can create an account</span></label>
+          <label class="ppg-check"><input type="radio" name="ppg-accounts" value="no" id="ppg-acc-no" checked><span>No accounts &mdash; the app just works</span></label>
+        </div>
+      </fieldset>
+
+      <h2 class="ppg-h">What the app collects</h2>
+      <fieldset class="ppg-fs">
+        <legend class="ppg-sr">Personal data collected</legend>
+        <div class="ppg-checks ppg-cols" id="ppg-data"></div>
+      </fieldset>
+
+      <h2 class="ppg-h">Third-party services</h2>
+      <fieldset class="ppg-fs">
+        <legend class="ppg-sr">Third-party services used</legend>
+        <div class="ppg-checks ppg-cols" id="ppg-services"></div>
+      </fieldset>
+
+      <h2 class="ppg-h">Sharing &amp; scope</h2>
+      <fieldset class="ppg-fs">
+        <legend>Do you share personal data with third parties beyond the services above?</legend>
+        <div class="ppg-radios">
+          <label class="ppg-check"><input type="radio" name="ppg-share" value="no" id="ppg-share-no" checked><span>No</span></label>
+          <label class="ppg-check"><input type="radio" name="ppg-share" value="yes" id="ppg-share-yes"><span>Yes</span></label>
+        </div>
+      </fieldset>
+
+      <fieldset class="ppg-fs">
+        <legend>Do you sell personal data?</legend>
+        <div class="ppg-radios">
+          <label class="ppg-check"><input type="radio" name="ppg-sell" value="no" id="ppg-sell-no" checked><span>No</span></label>
+          <label class="ppg-check"><input type="radio" name="ppg-sell" value="yes" id="ppg-sell-yes"><span>Yes</span></label>
+        </div>
+      </fieldset>
+
+      <fieldset class="ppg-fs">
+        <legend>Is the app directed at children under 13?</legend>
+        <div class="ppg-radios">
+          <label class="ppg-check"><input type="radio" name="ppg-kids" value="no" id="ppg-kids-no" checked><span>No &mdash; general audience</span></label>
+          <label class="ppg-check"><input type="radio" name="ppg-kids" value="yes" id="ppg-kids-yes"><span>Yes &mdash; COPPA applies</span></label>
+        </div>
+      </fieldset>
+
+      <fieldset class="ppg-fs">
+        <legend>Regions to cover</legend>
+        <div class="ppg-checks">
+          <label class="ppg-check"><input type="checkbox" id="ppg-gdpr"><span>GDPR / UK GDPR (EU &amp; UK users)</span></label>
+          <label class="ppg-check"><input type="checkbox" id="ppg-ccpa"><span>CCPA / CPRA (California users)</span></label>
+          <label class="ppg-check"><input type="checkbox" id="ppg-general" checked><span>General (United States, rest of world)</span></label>
+        </div>
+      </fieldset>
+
+      <h2 class="ppg-h">Retention &amp; deletion</h2>
+      <div class="ppg-fields">
+        <p class="ppg-field">
+          <label for="ppg-retention">How long do you keep personal data?</label>
+          <select id="ppg-retention">
+            <option value="account">For as long as the account is active</option>
+            <option value="12">Up to 12 months</option>
+            <option value="24">Up to 24 months</option>
+            <option value="session">Only for the current session &mdash; nothing is stored</option>
+            <option value="legal">As long as the law requires us to keep records</option>
+          </select>
+        </p>
+        <p class="ppg-field">
+          <label for="ppg-deletion">How can someone request deletion?</label>
+          <select id="ppg-deletion">
+            <option value="email">By emailing us</option>
+            <option value="inapp">In the app, under Settings</option>
+            <option value="both">In the app, or by emailing us</option>
+          </select>
+        </p>
+      </div>
+    </form>
+
+    <!-- ------------------------------ OUTPUT ------------------------------ -->
+    <div class="ppg-out">
+      <div class="ppg-tabs" role="tablist" aria-label="Output">
+        <button type="button" class="ppg-tab" id="ppg-tab-policy" role="tab" aria-selected="true" aria-controls="ppg-pane-policy">Privacy policy</button>
+        <button type="button" class="ppg-tab" id="ppg-tab-store" role="tab" aria-selected="false" aria-controls="ppg-pane-store">Store form cheat sheet</button>
+      </div>
+
+      <div class="ppg-bar">
+        <button type="button" class="ppg-btn" id="ppg-copy-text">Copy text</button>
+        <button type="button" class="ppg-btn" id="ppg-copy-html">Copy HTML</button>
+        <button type="button" class="ppg-btn" id="ppg-dl-html">Download .html</button>
+        <button type="button" class="ppg-btn" id="ppg-dl-md">Download .md</button>
+        <span class="ppg-count" id="ppg-count">0 words</span>
+      </div>
+
+      <p class="ppg-missing" id="ppg-missing" hidden></p>
+      <p class="ppg-status" id="ppg-status" role="status" aria-live="polite"></p>
+
+      <div class="ppg-pane" id="ppg-pane-policy" role="tabpanel" aria-labelledby="ppg-tab-policy" tabindex="0">
+        <article class="ppg-doc" id="ppg-doc"></article>
+      </div>
+
+      <div class="ppg-pane" id="ppg-pane-store" role="tabpanel" aria-labelledby="ppg-tab-store" tabindex="0" hidden>
+        <div class="ppg-doc" id="ppg-store"></div>
+      </div>
+    </div>
+  </div>
+
+  <p class="ppg-legal">
+    <strong>This is a starting template, not legal advice.</strong> It is written from the answers you gave and
+    covers the sections app stores and privacy regulators expect to see. It cannot know everything your app
+    does, and it does not make you compliant with the GDPR, the CCPA, COPPA or anything else on its own.
+    Read every line, correct anything that is wrong, and have a lawyer review it before you ship.
+  </p>
+</div>
+
+<style>
+.t-app-privacy-policy-generator { font-family: var(--body); color: var(--ink); }
+.t-app-privacy-policy-generator .ppg-sr {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap;
+}
+.t-app-privacy-policy-generator .ppg-privacy {
+  display: flex; gap: 10px; align-items: flex-start;
+  margin: 0 0 20px; padding: 13px 16px;
+  border: 1px solid rgba(31, 169, 113, .3); border-radius: var(--r-sm);
+  background: rgba(31, 169, 113, .07);
+  font-size: 14px; color: var(--slate); line-height: 1.55;
+}
+.t-app-privacy-policy-generator .ppg-lock { color: var(--green); font-size: 11px; line-height: 1.9; }
+.t-app-privacy-policy-generator .ppg-privacy strong { color: var(--ink); }
+
+.t-app-privacy-policy-generator .ppg-grid {
+  display: grid; gap: 26px;
+  grid-template-columns: minmax(0, 1fr);
+}
+@media (min-width: 900px) {
+  .t-app-privacy-policy-generator .ppg-grid {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    align-items: start;
+  }
+  .t-app-privacy-policy-generator .ppg-out { position: sticky; top: 88px; }
+}
+
+/* ---- form ---- */
+.t-app-privacy-policy-generator .ppg-h {
+  font-family: var(--disp); font-size: 13px; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--azure);
+  margin: 26px 0 12px; padding-bottom: 8px; border-bottom: 1px solid var(--line);
+}
+.t-app-privacy-policy-generator .ppg-h:first-of-type { margin-top: 0; }
+.t-app-privacy-policy-generator .ppg-fields {
+  display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr));
+  margin: 0 0 6px;
+}
+.t-app-privacy-policy-generator .ppg-field { margin: 0; display: flex; flex-direction: column; gap: 6px; }
+.t-app-privacy-policy-generator .ppg-field label {
+  font-size: 13px; font-weight: 600; color: var(--slate);
+}
+.t-app-privacy-policy-generator .ppg-opt { font-weight: 400; color: var(--ink-40); }
+.t-app-privacy-policy-generator input[type="text"],
+.t-app-privacy-policy-generator input[type="email"],
+.t-app-privacy-policy-generator input[type="date"],
+.t-app-privacy-policy-generator select {
+  width: 100%; font-family: var(--body); font-size: 15px; color: var(--ink);
+  padding: 11px 13px; border: 1px solid var(--line-2); border-radius: var(--r-sm);
+  background: var(--card); transition: border-color .18s var(--ease);
+}
+.t-app-privacy-policy-generator input:focus,
+.t-app-privacy-policy-generator select:focus { border-color: var(--azure); }
+
+.t-app-privacy-policy-generator .ppg-fs {
+  border: 0; padding: 0; margin: 16px 0 0; min-width: 0;
+}
+.t-app-privacy-policy-generator .ppg-fs legend {
+  font-size: 13px; font-weight: 600; color: var(--slate); padding: 0; margin-bottom: 9px;
+}
+.t-app-privacy-policy-generator .ppg-checks { display: flex; flex-direction: column; gap: 7px; }
+.t-app-privacy-policy-generator .ppg-radios { display: flex; flex-wrap: wrap; gap: 7px 18px; }
+@media (min-width: 480px) {
+  .t-app-privacy-policy-generator .ppg-cols {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 185px), 1fr));
+    gap: 7px 14px;
+  }
+}
+.t-app-privacy-policy-generator .ppg-check {
+  display: flex; align-items: flex-start; gap: 9px;
+  font-size: 14.5px; color: var(--slate); cursor: pointer; line-height: 1.4;
+}
+.t-app-privacy-policy-generator .ppg-check input { margin: 2px 0 0; accent-color: var(--azure); width: 16px; height: 16px; flex: none; }
+.t-app-privacy-policy-generator .ppg-check:hover span { color: var(--ink); }
+
+/* ---- output ---- */
+.t-app-privacy-policy-generator .ppg-tabs {
+  display: flex; gap: 6px; border-bottom: 1px solid var(--line); margin-bottom: 12px;
+}
+.t-app-privacy-policy-generator .ppg-tab {
+  font-family: var(--disp); font-size: 14px; font-weight: 600;
+  padding: 10px 14px; border: 0; background: none; cursor: pointer;
+  color: var(--ink-60); border-bottom: 2px solid transparent; margin-bottom: -1px;
+}
+.t-app-privacy-policy-generator .ppg-tab[aria-selected="true"] { color: var(--azure); border-bottom-color: var(--azure); }
+
+.t-app-privacy-policy-generator .ppg-bar {
+  display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 12px;
+}
+.t-app-privacy-policy-generator .ppg-btn {
+  font-family: var(--body); font-size: 13px; font-weight: 600; color: var(--slate);
+  padding: 9px 14px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--line-2); background: var(--card);
+  transition: all .18s var(--ease);
+}
+.t-app-privacy-policy-generator .ppg-btn:hover { border-color: var(--azure); color: var(--azure); }
+.t-app-privacy-policy-generator .ppg-count {
+  margin-left: auto; font-family: var(--mono); font-size: 12px; color: var(--ink-40);
+}
+.t-app-privacy-policy-generator .ppg-status {
+  margin: 0 0 10px; font-size: 13px; color: var(--green); min-height: 18px; font-weight: 600;
+}
+.t-app-privacy-policy-generator .ppg-missing {
+  margin: 0 0 10px; padding: 10px 13px; font-size: 13.5px; line-height: 1.5;
+  border-radius: var(--r-sm); color: var(--amber);
+  border: 1px solid rgba(180, 118, 26, .3); background: rgba(180, 118, 26, .07);
+}
+
+.t-app-privacy-policy-generator .ppg-pane {
+  border: 1px solid var(--line); border-radius: var(--r);
+  background: var(--card); box-shadow: var(--shadow);
+  max-height: 620px; overflow-y: auto; overscroll-behavior: contain;
+}
+.t-app-privacy-policy-generator .ppg-doc {
+  padding: 22px clamp(16px, 3vw, 26px); font-size: 14.5px; line-height: 1.65; color: var(--slate);
+}
+.t-app-privacy-policy-generator .ppg-doc h3 {
+  font-family: var(--disp); font-size: 20px; font-weight: 700; color: var(--ink);
+  margin: 0 0 4px; letter-spacing: -.01em;
+}
+.t-app-privacy-policy-generator .ppg-doc h4 {
+  font-family: var(--disp); font-size: 15.5px; font-weight: 700; color: var(--ink);
+  margin: 22px 0 7px;
+}
+.t-app-privacy-policy-generator .ppg-doc p { margin: 0 0 11px; }
+.t-app-privacy-policy-generator .ppg-doc ul { margin: 0 0 11px; padding-left: 20px; }
+.t-app-privacy-policy-generator .ppg-doc li { margin-bottom: 5px; }
+.t-app-privacy-policy-generator .ppg-doc .ppg-meta {
+  font-family: var(--mono); font-size: 12px; color: var(--ink-40); margin-bottom: 18px;
+}
+.t-app-privacy-policy-generator .ppg-doc .ppg-lead {
+  padding: 12px 14px; border-radius: var(--r-sm); background: var(--blue-soft);
+  color: var(--slate); font-size: 14px; margin-bottom: 18px;
+}
+.t-app-privacy-policy-generator .ppg-tblwrap { overflow-x: auto; margin: 0 0 16px; }
+.t-app-privacy-policy-generator table {
+  border-collapse: collapse; width: 100%; font-size: 13.5px; min-width: 460px;
+}
+.t-app-privacy-policy-generator th, .t-app-privacy-policy-generator td {
+  text-align: left; padding: 9px 11px; border-bottom: 1px solid var(--line); vertical-align: top;
+}
+.t-app-privacy-policy-generator th {
+  font-family: var(--disp); font-size: 12px; letter-spacing: .04em; text-transform: uppercase;
+  color: var(--ink-60); font-weight: 600; background: rgba(231, 241, 248, .5);
+  position: sticky; top: 0;
+}
+.t-app-privacy-policy-generator .ppg-yes { color: var(--magenta); font-weight: 700; }
+.t-app-privacy-policy-generator .ppg-no { color: var(--ink-40); }
+.t-app-privacy-policy-generator .ppg-empty { color: var(--ink-40); font-style: italic; }
+
+.t-app-privacy-policy-generator .ppg-legal {
+  margin: 24px 0 0; padding: 15px 17px; font-size: 14px; line-height: 1.6;
+  color: var(--slate); border-radius: var(--r-sm);
+  border: 1px solid rgba(180, 118, 26, .28); background: rgba(180, 118, 26, .06);
+}
+.t-app-privacy-policy-generator .ppg-legal strong { color: var(--ink); }
+</style>
+
+<script>
+(function () {
+  var root = document.querySelector('.t-app-privacy-policy-generator');
+  if (!root) return;
+  var $ = function (id) { return document.getElementById(id); };
+  var esc = function (s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  };
+
+  /* ------------------------- reference data ------------------------- */
+
+  var ORDER = ['name', 'email', 'phone', 'address', 'photos', 'locPrecise', 'locApprox',
+    'contacts', 'health', 'payment', 'analytics', 'deviceId', 'crash'];
+
+  var DATA = {
+    name:       { label: 'Name', policy: 'the name you give us', apple: 'Contact Info → Name', play: 'Personal info → Name', identity: true, purpose: 'App Functionality', playPurpose: 'App functionality' },
+    email:      { label: 'Email address', policy: 'your email address', apple: 'Contact Info → Email Address', play: 'Personal info → Email address', identity: true, purpose: 'App Functionality', playPurpose: 'App functionality, Account management' },
+    phone:      { label: 'Phone number', policy: 'your phone number', apple: 'Contact Info → Phone Number', play: 'Personal info → Phone number', identity: true, purpose: 'App Functionality', playPurpose: 'App functionality' },
+    address:    { label: 'Postal address', policy: 'your postal address', apple: 'Contact Info → Physical Address', play: 'Personal info → Address', identity: true, purpose: 'App Functionality', playPurpose: 'App functionality' },
+    photos:     { label: 'Photos or videos', policy: 'photos and videos you choose to add', apple: 'User Content → Photos or Videos', play: 'Photos and videos → Photos', identity: true, purpose: 'App Functionality', playPurpose: 'App functionality' },
+    locPrecise: { label: 'Precise location', policy: 'your precise location, while you are using the app', apple: 'Location → Precise Location', play: 'Location → Precise location', identity: false, purpose: 'App Functionality', playPurpose: 'App functionality' },
+    locApprox:  { label: 'Approximate location', policy: 'your approximate location', apple: 'Location → Coarse Location', play: 'Location → Approximate location', identity: false, purpose: 'App Functionality', playPurpose: 'App functionality' },
+    contacts:   { label: 'Contacts', policy: 'contacts from your address book, if you grant permission', apple: 'Contacts → Contacts', play: 'Contacts → Contacts', identity: true, purpose: 'App Functionality', playPurpose: 'App functionality' },
+    health:     { label: 'Health and fitness data', policy: 'health and fitness data you record or allow the app to read', apple: 'Health & Fitness → Health', play: 'Health and fitness → Health info', identity: true, purpose: 'App Functionality', playPurpose: 'App functionality' },
+    payment:    { label: 'Payment information', policy: 'payment information, handled by our payment processor', apple: 'Financial Info → Payment Info', play: 'Financial info → Payment info', identity: true, purpose: 'App Functionality', playPurpose: 'App functionality, Purchase history' },
+    analytics:  { label: 'Usage and analytics data', policy: 'how you use the app — screens opened, features used, and session length', apple: 'Usage Data → Product Interaction', play: 'App activity → App interactions', identity: false, purpose: 'Analytics', playPurpose: 'Analytics' },
+    deviceId:   { label: 'Device identifiers', policy: 'device identifiers, including an app installation identifier', apple: 'Identifiers → Device ID', play: 'Device or other IDs → Device or other IDs', identity: false, purpose: 'Analytics', playPurpose: 'Analytics' },
+    crash:      { label: 'Crash logs and diagnostics', policy: 'crash logs and diagnostic information, including device model and operating system version', apple: 'Diagnostics → Crash Data', play: 'App info and performance → Crash logs', identity: false, purpose: 'App Functionality', playPurpose: 'App functionality, Analytics' }
+  };
+
+  var SVC_ORDER = ['appleid', 'googleid', 'firebase', 'ga', 'crashlytics', 'stripe',
+    'revenuecat', 'admob', 'meta', 'sentry', 'push'];
+
+  var SERVICES = {
+    appleid:    { label: 'Sign in with Apple', name: 'Sign in with Apple (Apple Inc.)', does: 'signs you in and returns a stable user identifier, plus an email address if you choose to share one', url: 'https://www.apple.com/legal/privacy/' },
+    googleid:   { label: 'Google Sign-In', name: 'Google Sign-In (Google LLC)', does: 'signs you in and returns your Google account identifier, name and email address', url: 'https://policies.google.com/privacy' },
+    firebase:   { label: 'Firebase', name: 'Firebase (Google LLC)', does: 'stores account records and app data on our behalf, and receives IP addresses and device identifiers as part of normal operation', url: 'https://firebase.google.com/support/privacy' },
+    ga:         { label: 'Google Analytics', name: 'Google Analytics (Google LLC)', does: 'records which screens are opened and which features are used, together with a pseudonymous app instance identifier and a country-level location derived from IP address', url: 'https://policies.google.com/privacy' },
+    crashlytics:{ label: 'Crashlytics', name: 'Firebase Crashlytics (Google LLC)', does: 'receives crash reports containing stack traces, device model, operating system version and an installation identifier', url: 'https://firebase.google.com/support/privacy' },
+    stripe:     { label: 'Stripe', name: 'Stripe, Inc.', does: 'processes card payments; card numbers are entered directly into Stripe and never reach our servers', url: 'https://stripe.com/privacy' },
+    revenuecat: { label: 'RevenueCat', name: 'RevenueCat, Inc.', does: 'manages subscriptions and validates in-app purchase receipts using a subscriber identifier', url: 'https://www.revenuecat.com/privacy' },
+    admob:      { label: 'Google AdMob', name: 'Google AdMob (Google LLC)', does: 'serves advertisements and may use an advertising identifier and approximate location to select and measure ads', url: 'https://policies.google.com/technologies/partner-sites', ads: true },
+    meta:       { label: 'Meta SDK', name: 'Meta Audience Network and Meta SDK (Meta Platforms, Inc.)', does: 'measures installs and in-app events for advertising attribution using device and advertising identifiers', url: 'https://www.facebook.com/privacy/policy/', ads: true },
+    sentry:     { label: 'Sentry', name: 'Sentry (Functional Software, Inc.)', does: 'receives error and performance reports containing stack traces, device information and, where an account exists, a user identifier', url: 'https://sentry.io/privacy/' },
+    push:       { label: 'Push notifications', name: 'Apple Push Notification service and Firebase Cloud Messaging', does: 'delivers notifications to your device using a push token issued by Apple or Google', url: 'https://firebase.google.com/support/privacy' }
+  };
+
+  var RETENTION = {
+    account: 'for as long as your account is open',
+    '12': 'for up to twelve months',
+    '24': 'for up to twenty-four months',
+    session: 'only for the length of your session',
+    legal: 'for as long as the law requires us to keep records'
+  };
+
+  /* ------------------------- build the checkbox lists ------------------------- */
+
+  function buildChecks(container, order, source, prefix) {
+    container.innerHTML = order.map(function (k) {
+      return '<label class="ppg-check"><input type="checkbox" id="' + prefix + k + '" data-key="' + k +
+        '"><span>' + esc(source[k].label) + '</span></label>';
+    }).join('');
+  }
+  buildChecks($('ppg-data'), ORDER, DATA, 'ppg-d-');
+  buildChecks($('ppg-services'), SVC_ORDER, SERVICES, 'ppg-s-');
+
+  var today = new Date();
+  $('ppg-date').value = today.toISOString().slice(0, 10);
+
+  /* ------------------------- read the form ------------------------- */
+
+  function prettyDate(iso) {
+    var parts = String(iso || '').split('-');
+    if (parts.length !== 3) return 'the date this policy was published';
+    var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
+      'August', 'September', 'October', 'November', 'December'];
+    var m = months[Number(parts[1]) - 1];
+    if (!m) return 'the date this policy was published';
+    return m + ' ' + Number(parts[2]) + ', ' + parts[0];
+  }
+
+  function readForm() {
+    var s = {};
+    s.appRaw = $('ppg-app').value.trim();
+    s.coRaw = $('ppg-company').value.trim();
+    s.emailRaw = $('ppg-email').value.trim();
+    s.app = s.appRaw || 'our app';
+    s.App = s.appRaw || 'Our app';
+    s.co = s.coRaw || 'we';
+    s.coName = s.coRaw || 'our company';
+    s.email = s.emailRaw || 'the contact address listed on our store page';
+    s.site = $('ppg-site').value.trim();
+    s.date = prettyDate($('ppg-date').value);
+    s.platforms = ['ppg-p-ios', 'ppg-p-android', 'ppg-p-web']
+      .filter(function (id) { return $(id).checked; })
+      .map(function (id) { return $(id).getAttribute('data-plat'); });
+    s.accounts = $('ppg-acc-yes').checked;
+    s.data = ORDER.filter(function (k) { return $('ppg-d-' + k).checked; });
+    s.svc = SVC_ORDER.filter(function (k) { return $('ppg-s-' + k).checked; });
+    s.share = $('ppg-share-yes').checked;
+    s.sell = $('ppg-sell-yes').checked;
+    s.kids = $('ppg-kids-yes').checked;
+    s.gdpr = $('ppg-gdpr').checked;
+    s.ccpa = $('ppg-ccpa').checked;
+    s.general = $('ppg-general').checked;
+    s.retention = $('ppg-retention').value;
+    s.deletion = $('ppg-deletion').value;
+    s.ads = s.svc.some(function (k) { return SERVICES[k].ads; });
+    s.has = function (k) { return s.data.indexOf(k) !== -1; };
+    s.uses = function (k) { return s.svc.indexOf(k) !== -1; };
+    return s;
+  }
+
+  function joinList(arr, conj) {
+    if (!arr.length) return '';
+    if (arr.length === 1) return arr[0];
+    if (arr.length === 2) return arr[0] + ' ' + conj + ' ' + arr[1];
+    return arr.slice(0, -1).join(', ') + ', ' + conj + ' ' + arr[arr.length - 1];
+  }
+
+  function platformPhrase(s) {
+    if (!s.platforms.length) return 'is available on mobile devices';
+    var named = s.platforms.map(function (p) { return p === 'web' ? 'the web' : p; });
+    return 'is available on ' + joinList(named, 'and');
+  }
+
+  /* ------------------------- the policy ------------------------- */
+
+  function buildPolicy(s) {
+    var secs = [];
+    var subject = s.coRaw ? s.coRaw : 'We';
+    var owns = s.coRaw ? s.coRaw : 'we';
+
+    /* 1. Introduction */
+    var intro = [];
+    intro.push('This Privacy Policy explains what personal information ' + s.app +
+      ' collects, why it is collected, and what you can do about it. ' + s.App +
+      ' is published by ' + (s.coRaw || 'us') + ' (referred to in this policy as "we", "us" and "our"), and ' +
+      platformPhrase(s) + '.');
+    intro.push('By using ' + s.app + ' you agree to the practices described here. If you do not agree with them, please stop using the app and, if you have an account, ask us to delete it.');
+    secs.push({ h: 'Introduction', b: intro });
+
+    /* 2. Information we collect */
+    var collect = [];
+    if (!s.data.length) {
+      collect.push('We do not collect personal information through ' + s.app +
+        '. The app works without asking you for identifying details, and we do not build a profile about you.');
+    } else {
+      collect.push('We collect only what ' + s.app + ' needs in order to work. Specifically, we collect:');
+      collect.push({ ul: s.data.map(function (k) { return upperFirst(DATA[k].policy); }) });
+      if (s.accounts) {
+        collect.push('Some of this information is given to us directly when you create an account or fill in a form in the app. The rest is collected automatically by the app and the services listed further down this policy.');
+      } else {
+        collect.push('You are not asked to create an account. Some of this information is given to us directly when you use a feature that needs it; the rest is collected automatically by the app and the services listed further down this policy.');
+      }
+      if (s.has('locPrecise') || s.has('locApprox') || s.has('photos') || s.has('contacts') || s.has('health')) {
+        collect.push('Where the operating system requires a permission prompt — location, photos, contacts or health data — the app only receives that information after you allow it, and you can withdraw the permission at any time in your device settings.');
+      }
+    }
+    secs.push({ h: 'Information we collect', b: collect });
+
+    /* 3. How we use it */
+    var uses = [];
+    var bullets = [];
+    bullets.push('To run the app and give you the features you asked for.');
+    if (s.accounts) bullets.push('To create and maintain your account, and to sign you back in.');
+    if (s.has('email') || s.has('phone')) bullets.push('To reply to you when you contact us, and to send service messages about your account.');
+    if (s.has('payment') || s.uses('stripe') || s.uses('revenuecat')) bullets.push('To take payment and manage subscriptions and receipts.');
+    if (s.has('analytics') || s.uses('ga') || s.uses('firebase')) bullets.push('To understand which features are used so we can decide what to improve.');
+    if (s.has('crash') || s.uses('crashlytics') || s.uses('sentry')) bullets.push('To find and fix crashes and bugs.');
+    if (s.uses('push')) bullets.push('To send you push notifications you have opted into.');
+    if (s.ads) bullets.push('To show advertising in the app and to measure whether those ads worked.');
+    bullets.push('To keep the app secure, prevent abuse, and meet our legal obligations.');
+    uses.push('We use the information above for the following purposes, and nothing else:');
+    uses.push({ ul: bullets });
+    if (!s.ads) {
+      uses.push('We do not use your information to build advertising profiles, and we do not send it to advertising networks.');
+    }
+    secs.push({ h: 'How we use your information', b: uses });
+
+    /* 4. Legal bases (GDPR) */
+    if (s.gdpr) {
+      var lb = [];
+      lb.push('If you are in the European Economic Area or the United Kingdom, we must have a legal basis for every use of your personal data. Ours are:');
+      var lbb = [];
+      lbb.push('Performance of a contract — running the app and providing the features you signed up for.');
+      lbb.push('Legitimate interests — keeping the app secure, fixing crashes, and understanding how the app is used at an aggregate level.');
+      if (s.has('locPrecise') || s.has('health') || s.has('contacts') || s.ads || s.uses('push')) {
+        lbb.push('Consent — for anything that needs your explicit permission, such as ' +
+          joinList([].concat(
+            (s.has('locPrecise') ? ['precise location'] : []),
+            (s.has('health') ? ['health data'] : []),
+            (s.has('contacts') ? ['access to your contacts'] : []),
+            (s.uses('push') ? ['push notifications'] : []),
+            (s.ads ? ['personalised advertising'] : [])
+          ), 'and') + '. You can withdraw consent at any time without affecting anything we did before you withdrew it.');
+      }
+      lbb.push('Legal obligation — where we are required by law to keep or disclose records.');
+      lb.push({ ul: lbb });
+      secs.push({ h: 'Legal bases for processing', b: lb });
+    }
+
+    /* 5. Third-party services */
+    var tp = [];
+    if (!s.svc.length) {
+      tp.push('We do not use third-party analytics, advertising or crash-reporting services inside ' + s.app +
+        '. Any hosting or infrastructure provider we rely on processes data only on our instructions.');
+    } else {
+      tp.push('Some parts of ' + s.app + ' rely on services run by other companies. Each one receives only the data it needs to do its job, and each is bound by its own privacy policy:');
+      tp.push({
+        ul: s.svc.map(function (k) {
+          var v = SERVICES[k];
+          return v.name + ' — ' + v.does + '. Privacy policy: ' + v.url;
+        })
+      });
+      tp.push('These companies act as our service providers. They are not permitted to use your information for their own unrelated purposes' +
+        (s.ads ? ', except that our advertising partners may use device and advertising identifiers to select and measure ads as described in their own policies.' : '.'));
+    }
+    secs.push({ h: 'Third-party services we use', b: tp });
+
+    /* 6. Sharing */
+    var sh = [];
+    if (s.share) {
+      sh.push('Beyond the service providers listed above, we share personal information with third parties. Where we do, we share only what is necessary and we require the recipient to protect it to at least the standard set out in this policy.');
+    } else {
+      sh.push('We do not share your personal information with anyone other than the service providers listed above.');
+    }
+    if (s.sell) {
+      sh.push('We sell personal information as that term is defined under California law. You can opt out at any time by emailing ' + s.email + ' with the subject line "Do Not Sell My Personal Information".');
+    } else {
+      sh.push('We do not sell your personal information, and we do not share it for cross-context behavioural advertising as those terms are defined under California law.');
+    }
+    sh.push('We may disclose information if we are legally required to — for example in response to a valid court order or a lawful request from a public authority — or where we need to in order to protect our rights, our users, or the safety of the public.');
+    sh.push('If our business is sold or merged, your information may transfer to the new owner. We will tell you before that happens and the new owner will be bound by this policy until it publishes its own.');
+    secs.push({ h: 'How we share information', b: sh });
+
+    /* 7. Retention */
+    var rt = [];
+    rt.push('We keep personal information ' + (RETENTION[s.retention] || RETENTION.account) +
+      ', after which it is deleted or irreversibly anonymised.');
+    if (s.deletion === 'inapp') {
+      rt.push('You can delete your data yourself at any time from the Settings screen in the app. Deletion takes effect immediately, and backup copies are cleared within thirty days.');
+    } else if (s.deletion === 'both') {
+      rt.push('You can delete your data yourself from the Settings screen in the app, or email ' + s.email +
+        ' and we will do it for you. We act on emailed requests within thirty days, and backup copies are cleared within thirty days of deletion.');
+    } else {
+      rt.push('To have your data deleted, email ' + s.email +
+        '. We act on deletion requests within thirty days, and backup copies are cleared within thirty days of deletion.');
+    }
+    if (s.accounts) {
+      rt.push('Deleting your account deletes the personal information attached to it. We may keep a minimal record that the account existed where we need it for security, fraud prevention or accounting.');
+    }
+    secs.push({ h: 'How long we keep your information', b: rt });
+
+    /* 8. Security */
+    var sec = [];
+    sec.push('All traffic between the app and our servers is encrypted in transit using TLS. Data stored on our servers is encrypted at rest, access is limited to the people who need it to do their jobs, and that access is logged.');
+    if (s.has('payment')) {
+      sec.push('We never see or store full card numbers. Payment details are entered directly into our payment processor, which is certified to the PCI DSS standard.');
+    }
+    sec.push('No system is perfectly secure. We cannot promise that your information will never be accessed by someone who should not have it, but if a breach occurs that puts you at risk we will notify you and the relevant regulator as the law requires.');
+    secs.push({ h: 'How we protect your information', b: sec });
+
+    /* 9. Rights */
+    var rights = [];
+    rights.push('Wherever you live, you can ask us to show you the personal information we hold about you, correct it if it is wrong, or delete it. Email ' + s.email + ' and we will respond within thirty days. We will not charge you and we will not treat you any differently for asking.');
+    secs.push({ h: 'Your privacy rights', b: rights });
+
+    if (s.gdpr) {
+      secs.push({
+        h: 'Additional rights under the GDPR',
+        b: [
+          'If you are in the European Economic Area or the United Kingdom, you also have the right to:',
+          {
+            ul: [
+              'Object to processing that we carry out on the basis of our legitimate interests.',
+              'Restrict processing while a dispute about accuracy or legality is resolved.',
+              'Receive your personal data in a portable, machine-readable format, or have us send it directly to another provider.',
+              'Withdraw consent at any time, where we relied on consent.',
+              'Complain to your national data protection authority. In the United Kingdom that is the Information Commissioner’s Office.'
+            ]
+          },
+          'We do not make decisions with a legal or similarly significant effect on you using automated processing alone.'
+        ]
+      });
+    }
+
+    if (s.ccpa) {
+      var cc = ['If you are a California resident, the CCPA as amended by the CPRA gives you the right to:'];
+      cc.push({
+        ul: [
+          'Know the categories and specific pieces of personal information we have collected about you, where we got it, and why.',
+          'Delete personal information we collected from you, subject to the exceptions the statute allows.',
+          'Correct inaccurate personal information.',
+          'Limit the use of sensitive personal information to what is necessary to provide the service.',
+          (s.sell
+            ? 'Opt out of the sale or sharing of your personal information.'
+            : 'Opt out of the sale or sharing of your personal information. We do not sell or share it, so there is nothing for you to opt out of.'),
+          'Not be discriminated against for exercising any of these rights.'
+        ]
+      });
+      cc.push('To make a request, email ' + s.email + ' from the address associated with your use of the app. An authorised agent may make a request on your behalf with written proof of authorisation.');
+      secs.push({ h: 'Additional rights for California residents', b: cc });
+    }
+
+    /* 10. Children */
+    var kids = [];
+    if (s.kids) {
+      kids.push(s.App + ' is directed at children under 13, so we follow the Children’s Online Privacy Protection Act (COPPA). We collect the minimum information needed for the app to work, we obtain verifiable parental consent before collecting personal information from a child, and we never condition a child’s participation on disclosing more than is reasonably necessary.');
+      kids.push('We do not show behavioural advertising to children and we do not allow our service providers to use children’s data for advertising.');
+      kids.push('A parent or guardian can review the information we hold about their child, refuse to allow us to collect any more, and ask us to delete what we already have. Email ' + s.email + ' and we will act within thirty days.');
+    } else {
+      kids.push(s.App + ' is not directed at children under 13 and we do not knowingly collect personal information from them. If you are a parent or guardian and you believe your child has given us personal information, email ' + s.email + ' and we will delete it.');
+    }
+    secs.push({ h: 'Children’s privacy', b: kids });
+
+    /* 11. International transfers */
+    var it = [];
+    it.push('We and our service providers operate in the United States, so information collected by ' + s.app +
+      ' may be stored and processed there, or in any other country where our service providers keep servers.');
+    if (s.gdpr) {
+      it.push('Where personal data is transferred out of the European Economic Area or the United Kingdom, we rely on the European Commission’s Standard Contractual Clauses, the UK International Data Transfer Addendum, or an adequacy decision, so that your data carries the same protection with it.');
+    }
+    secs.push({ h: 'International data transfers', b: it });
+
+    /* 12. Changes */
+    secs.push({
+      h: 'Changes to this policy',
+      b: [
+        'We update this policy when the app changes. When we do, we change the effective date at the top and, if the change materially affects how we handle your information, we tell you inside the app or by email before it takes effect.',
+        'The current version always lives at this address. Older versions are available on request.'
+      ]
+    });
+
+    /* 13. Contact */
+    var ct = ['If you have a question about this policy, or you want to make a request about your information, contact us:'];
+    var cbits = [];
+    if (s.coRaw) cbits.push(s.coRaw);
+    if (s.emailRaw) cbits.push('Email: ' + s.emailRaw);
+    else cbits.push('Email: the address listed on our App Store or Google Play listing');
+    if (s.site) cbits.push('Website: ' + s.site);
+    ct.push({ ul: cbits });
+    ct.push('We answer every request within thirty days. If you are not satisfied with our answer, you can complain to your local data protection authority.');
+    secs.push({ h: 'Contact us', b: ct });
+
+    return {
+      title: 'Privacy Policy for ' + s.app,
+      meta: 'Effective ' + s.date + (s.coRaw ? ' · ' + s.coRaw : ''),
+      secs: secs
+    };
+  }
+
+  function upperFirst(str) { return str.charAt(0).toUpperCase() + str.slice(1); }
+
+  /* ------------------------- renderers ------------------------- */
+
+  function renderHtml(doc) {
+    var out = ['<h3>' + esc(doc.title) + '</h3>', '<p class="ppg-meta">' + esc(doc.meta) + '</p>'];
+    doc.secs.forEach(function (sec) {
+      out.push('<h4>' + esc(sec.h) + '</h4>');
+      sec.b.forEach(function (b) {
+        if (typeof b === 'string') out.push('<p>' + esc(b) + '</p>');
+        else out.push('<ul>' + b.ul.map(function (li) { return '<li>' + esc(li) + '</li>'; }).join('') + '</ul>');
+      });
+    });
+    return out.join('\n');
+  }
+
+  function renderExportHtml(doc) {
+    var H1 = 'h' + '1';
+    var out = ['<' + H1 + '>' + esc(doc.title) + '</' + H1 + '>', '<p><em>' + esc(doc.meta) + '</em></p>'];
+    doc.secs.forEach(function (sec) {
+      out.push('<h2>' + esc(sec.h) + '</h2>');
+      sec.b.forEach(function (b) {
+        if (typeof b === 'string') out.push('<p>' + esc(b) + '</p>');
+        else out.push('<ul>\n' + b.ul.map(function (li) { return '  <li>' + esc(li) + '</li>'; }).join('\n') + '\n</ul>');
+      });
+    });
+    return out.join('\n');
+  }
+
+  function renderText(doc) {
+    var out = [doc.title, doc.meta, ''];
+    doc.secs.forEach(function (sec) {
+      out.push(sec.h.toUpperCase(), '');
+      sec.b.forEach(function (b) {
+        if (typeof b === 'string') out.push(b, '');
+        else { b.ul.forEach(function (li) { out.push('  - ' + li); }); out.push(''); }
+      });
+    });
+    return out.join('\n').replace(/\n{3,}/g, '\n\n').trim() + '\n';
+  }
+
+  function renderMarkdown(doc) {
+    var out = ['# ' + doc.title, '', '_' + doc.meta + '_', ''];
+    doc.secs.forEach(function (sec) {
+      out.push('## ' + sec.h, '');
+      sec.b.forEach(function (b) {
+        if (typeof b === 'string') out.push(b, '');
+        else { b.ul.forEach(function (li) { out.push('- ' + li); }); out.push(''); }
+      });
+    });
+    return out.join('\n').replace(/\n{3,}/g, '\n\n').trim() + '\n';
+  }
+
+  function fullHtmlDocument(doc) {
+    return '<!doctype html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n' +
+      '<meta name="viewport" content="width=device-width, initial-scale=1">\n' +
+      '<title>' + esc(doc.title) + '</title>\n' +
+      '<style>body{font-family:system-ui,-apple-system,Segoe UI,sans-serif;line-height:1.65;' +
+      'color:#17202b;max-width:44rem;margin:3rem auto;padding:0 1.25rem}' +
+      'h1{font-size:1.9rem;margin-bottom:.25rem}h2{font-size:1.15rem;margin-top:2rem}' +
+      'li{margin-bottom:.35rem}em{color:#5a6675}</style>\n</head>\n<body>\n' +
+      renderExportHtml(doc) + '\n</body>\n</html>\n';
+  }
+
+  /* ------------------------- store cheat sheet ------------------------- */
+
+  function appleRows(s) {
+    var keys = s.data.slice();
+    if (s.accounts && keys.indexOf('email') === -1) keys.push('email');
+    var rows = keys.map(function (k) {
+      var d = DATA[k];
+      var linked = d.identity || s.accounts;
+      var tracking = s.ads && (k === 'deviceId' || k === 'analytics' || k === 'locPrecise' || k === 'locApprox');
+      var purpose = d.purpose;
+      if (s.ads && (k === 'deviceId' || k === 'analytics' || k === 'locPrecise' || k === 'locApprox')) {
+        purpose = purpose + ', Third-Party Advertising';
+      }
+      return { type: d.apple, purpose: purpose, linked: linked, tracking: tracking };
+    });
+    if (s.accounts) {
+      rows.unshift({ type: 'Identifiers → User ID', purpose: 'App Functionality', linked: true, tracking: false });
+    }
+    return rows;
+  }
+
+  function playRows(s) {
+    return s.data.map(function (k) {
+      var d = DATA[k];
+      var shared = s.share || (s.ads && (k === 'deviceId' || k === 'analytics' || k === 'locPrecise' || k === 'locApprox'));
+      var purpose = d.playPurpose;
+      if (s.ads && (k === 'deviceId' || k === 'analytics' || k === 'locPrecise' || k === 'locApprox')) {
+        purpose = purpose + ', Advertising or marketing';
+      }
+      var required = (k === 'analytics' || k === 'crash' || k === 'deviceId') ? 'Optional' : 'Required';
+      return { type: d.play, collected: true, shared: shared, purpose: purpose, required: required };
+    });
+  }
+
+  function yn(v) {
+    return v ? '<span class="ppg-yes">Yes</span>' : '<span class="ppg-no">No</span>';
+  }
+
+  function renderStore(s) {
+    var out = [];
+    out.push('<h3>Store form cheat sheet</h3>');
+    out.push('<p class="ppg-meta">Derived from your answers · ' + s.data.length + ' data type' +
+      (s.data.length === 1 ? '' : 's') + ' selected</p>');
+    out.push('<p class="ppg-lead">A privacy policy is only half of what the stores ask for. Both Apple and Google make you ' +
+      'declare the same facts a second time, in their own forms, using their own vocabulary. Here is that translation.</p>');
+
+    /* --- Apple --- */
+    out.push('<h4>Apple — App Privacy (App Store Connect)</h4>');
+    if (!s.data.length) {
+      out.push('<p>Answer <strong>No</strong> to "Do you or your third-party partners collect data from this app?" ' +
+        'Apple will then show <em>Data Not Collected</em> on your product page. Only do this if it is genuinely true — ' +
+        'if you use any analytics or crash SDK, it is not.</p>');
+    } else {
+      var ar = appleRows(s);
+      out.push('<p>Answer <strong>Yes</strong> to "Do you or your third-party partners collect data from this app?", then tick these data types:</p>');
+      out.push('<div class="ppg-tblwrap"><table><thead><tr><th>Data type</th><th>Purpose</th><th>Linked to you</th><th>Used for tracking</th></tr></thead><tbody>' +
+        ar.map(function (r) {
+          return '<tr><td>' + esc(r.type) + '</td><td>' + esc(r.purpose) + '</td><td>' + yn(r.linked) + '</td><td>' + yn(r.tracking) + '</td></tr>';
+        }).join('') + '</tbody></table></div>');
+      var notes = [];
+      notes.push('"Linked to you" means the data is tied to an identity — an account, a name, an email address, or an identifier that can reach one.' +
+        (s.accounts ? ' Your app has accounts, so behavioural data collected while signed in counts as linked.'
+          : ' Your app has no accounts, so usage and diagnostic data can be declared as not linked, provided you never join it to an identity later.'));
+      if (s.ads) {
+        notes.push('You selected an advertising SDK, so "Used for Tracking" is Yes for identifiers, usage data and location. That means you must call ' +
+          'App Tracking Transparency and get permission before you access the advertising identifier — Apple rejects apps that declare tracking but never show the prompt.');
+      } else {
+        notes.push('You selected no advertising SDK, so nothing is used for tracking and you do not need the App Tracking Transparency prompt. If you add an ad network later, this answer changes.');
+      }
+      if (s.has('locPrecise')) notes.push('Precise Location requires a purpose string in Info.plist that explains, in plain words, what the app does with it. Apple rejects vague strings.');
+      if (s.has('health')) notes.push('Health data is subject to Apple’s extra HealthKit rules: it may not be used for advertising or data mining, and it may not be shared with third parties without explicit consent.');
+      notes.push('Apple requires a working privacy policy URL for every app, and it must be reachable without a login.');
+      out.push('<ul>' + notes.map(function (n) { return '<li>' + n + '</li>'; }).join('') + '</ul>');
+    }
+
+    /* --- Google --- */
+    out.push('<h4>Google Play — Data safety (Play Console)</h4>');
+    if (!s.data.length) {
+      out.push('<p>Declare that your app <strong>does not collect or share</strong> any of the listed data types. ' +
+        'Note that Play counts data sent off the device by any SDK you bundle — including analytics and crash reporting — as collection.</p>');
+    } else {
+      var pr = playRows(s);
+      out.push('<div class="ppg-tblwrap"><table><thead><tr><th>Data type</th><th>Collected</th><th>Shared</th><th>Purpose</th><th>Required</th></tr></thead><tbody>' +
+        pr.map(function (r) {
+          return '<tr><td>' + esc(r.type) + '</td><td>' + yn(r.collected) + '</td><td>' + yn(r.shared) +
+            '</td><td>' + esc(r.purpose) + '</td><td>' + esc(r.required) + '</td></tr>';
+        }).join('') + '</tbody></table></div>');
+    }
+    var gnotes = [];
+    gnotes.push('<strong>Is all data encrypted in transit?</strong> Yes — assuming every request your app makes uses HTTPS. Check any legacy endpoint before you answer.');
+    gnotes.push('<strong>Do you provide a way for users to request that their data is deleted?</strong> ' +
+      (s.deletion === 'inapp' ? 'Yes — in the app, under Settings.'
+        : s.deletion === 'both' ? 'Yes — in the app under Settings, and by email.'
+          : 'Yes — by email.') +
+      ' Play also requires a public account-deletion URL if your app has accounts' +
+      (s.accounts ? ', which yours does, so you need that page live before you submit.' : '. Yours has no accounts, so this does not apply.'));
+    gnotes.push('<strong>Shared</strong> on Play means transferred to a separate company for its own use. Sending data to a provider that processes it only on your instructions is not sharing' +
+      (s.ads ? ' — but an ad network using identifiers to target ads is, which is why your advertising rows are marked shared.' : '.'));
+    if (s.kids) gnotes.push('<strong>Target audience:</strong> children. Your app enters the Families programme, every SDK you bundle must be on Play’s approved self-certified list, and you cannot use the advertising ID.');
+    gnotes.push('<strong>Privacy policy URL</strong> is mandatory in the Play Console App content section for every app, not only apps that collect data.');
+    out.push('<ul>' + gnotes.map(function (n) { return '<li>' + n + '</li>'; }).join('') + '</ul>');
+
+    out.push('<h4>Before you submit</h4>');
+    var check = [];
+    check.push('Host the policy at a stable public URL that never asks for a login — both stores fetch it automatically and reject dead links.');
+    check.push('Use the same URL in App Store Connect, in the Play Console, and inside the app’s settings screen.');
+    check.push('Make sure the store forms and this policy agree with each other. Contradiction between the two is one of the most common causes of rejection.');
+    check.push('Re-check both forms every time you add an SDK. Adding one analytics library changes both answers.');
+    out.push('<ul>' + check.map(function (n) { return '<li>' + n + '</li>'; }).join('') + '</ul>');
+
+    return out.join('\n');
+  }
+
+  /* ------------------------- wiring ------------------------- */
+
+  var current = { doc: null, text: '', html: '', md: '' };
+
+  function missingFields(s) {
+    var m = [];
+    if (!s.appRaw) m.push('app name');
+    if (!s.coRaw) m.push('company or developer name');
+    if (!s.emailRaw) m.push('contact email');
+    return m;
+  }
+
+  function update() {
+    var s = readForm();
+    var doc = buildPolicy(s);
+    current.doc = doc;
+    current.text = renderText(doc);
+    current.html = renderExportHtml(doc);
+    current.md = renderMarkdown(doc);
+
+    $('ppg-doc').innerHTML = renderHtml(doc);
+    $('ppg-store').innerHTML = renderStore(s);
+
+    var words = current.text.trim().split(/\s+/).filter(Boolean).length;
+    $('ppg-count').textContent = words + ' words';
+
+    var miss = missingFields(s);
+    var box = $('ppg-missing');
+    if (miss.length) {
+      box.hidden = false;
+      box.textContent = 'Still to fill in: ' + joinList(miss, 'and') +
+        '. The draft below uses neutral wording until you do.';
+    } else {
+      box.hidden = true;
+    }
+  }
+
+  root.addEventListener('input', update);
+  root.addEventListener('change', update);
+
+  function flash(msg) {
+    var el = $('ppg-status');
+    el.textContent = msg;
+    clearTimeout(flash.t);
+    flash.t = setTimeout(function () { el.textContent = ''; }, 2600);
+  }
+
+  function copy(text, label) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () { flash(label + ' copied to your clipboard.'); },
+        function () { fallbackCopy(text, label); });
+    } else {
+      fallbackCopy(text, label);
+    }
+  }
+
+  function fallbackCopy(text, label) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.setAttribute('readonly', '');
+    ta.style.position = 'fixed';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); flash(label + ' copied to your clipboard.'); }
+    catch (e) { flash('Copying was blocked — select the text and copy it manually.'); }
+    document.body.removeChild(ta);
+  }
+
+  function download(content, filename, mime) {
+    var blob = new Blob([content], { type: mime });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(function () { URL.revokeObjectURL(url); }, 1500);
+    flash('Downloaded ' + filename + '.');
+  }
+
+  function slugify(str) {
+    return String(str || 'privacy-policy').toLowerCase().replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '') || 'privacy-policy';
+  }
+
+  $('ppg-copy-text').addEventListener('click', function () { copy(current.text, 'Plain text policy'); });
+  $('ppg-copy-html').addEventListener('click', function () { copy(current.html, 'HTML policy'); });
+  $('ppg-dl-html').addEventListener('click', function () {
+    var name = slugify($('ppg-app').value || 'privacy-policy') + '-privacy-policy.html';
+    download(fullHtmlDocument(current.doc), name, 'text/html;charset=utf-8');
+  });
+  $('ppg-dl-md').addEventListener('click', function () {
+    var name = slugify($('ppg-app').value || 'privacy-policy') + '-privacy-policy.md';
+    download(current.md, name, 'text/markdown;charset=utf-8');
+  });
+
+  var tabPolicy = $('ppg-tab-policy');
+  var tabStore = $('ppg-tab-store');
+  function selectTab(which) {
+    var isPolicy = which === 'policy';
+    tabPolicy.setAttribute('aria-selected', String(isPolicy));
+    tabStore.setAttribute('aria-selected', String(!isPolicy));
+    $('ppg-pane-policy').hidden = !isPolicy;
+    $('ppg-pane-store').hidden = isPolicy;
+  }
+  tabPolicy.addEventListener('click', function () { selectTab('policy'); });
+  tabStore.addEventListener('click', function () { selectTab('store'); });
+
+  /* sensible starting selections so the preview is never blank */
+  ['email', 'analytics', 'crash'].forEach(function (k) { $('ppg-d-' + k).checked = true; });
+  $('ppg-s-crashlytics').checked = true;
+
+  update();
+})();
+</script>

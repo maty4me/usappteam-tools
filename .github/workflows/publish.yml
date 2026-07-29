@@ -1,0 +1,156 @@
+name: Publish
+
+# The daily routine only pushes tools/<slug>/. Everything deterministic — video
+# rendering, the site build, deployment — happens here where Chromium and ffmpeg
+# are native and the secrets live.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      rerender:
+        description: 'Slug to force re-render (blank = only missing videos)'
+        required: false
+        type: string
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: publish
+  cancel-in-progress: false
+
+jobs:
+  # Which tools are missing a rendered video?
+  # The [skip-render] guard stops the media commit below from re-triggering us.
+  plan:
+    if: "!contains(github.event.head_commit.message, '[skip-render]')"
+    runs-on: ubuntu-latest
+    outputs:
+      slugs: ${{ steps.find.outputs.slugs }}
+      any: ${{ steps.find.outputs.any }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: find
+        run: |
+          node -e '
+            const fs = require("fs");
+            const force = process.env.FORCE?.trim();
+            const dirs = fs.existsSync("tools") ? fs.readdirSync("tools") : [];
+            const pending = dirs.filter((s) => {
+              const f = `tools/${s}/tool.json`;
+              if (!fs.existsSync(f)) return false;
+              if (force) return s === force;
+              const m = JSON.parse(fs.readFileSync(f, "utf8"));
+              if (m.video?.status === "skipped") return false;
+              return !fs.existsSync(`media/${s}/demo.mp4`);
+            });
+            fs.appendFileSync(process.env.GITHUB_OUTPUT, `slugs=${JSON.stringify(pending)}\n`);
+            fs.appendFileSync(process.env.GITHUB_OUTPUT, `any=${pending.length > 0}\n`);
+            console.log("pending videos:", pending.join(", ") || "(none)");
+          '
+        env:
+          FORCE: ${{ inputs.rerender }}
+
+  render:
+    needs: plan
+    if: needs.plan.outputs.any == 'true'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 1
+      matrix:
+        slug: ${{ fromJSON(needs.plan.outputs.slugs) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci || npm install
+      - run: npx playwright install --with-deps chromium
+      - run: npm run build
+
+      - name: Install Remotion deps
+        working-directory: video/remotion
+        run: npm install --no-audit --no-fund
+
+      - name: Render ${{ matrix.slug }}
+        id: render
+        continue-on-error: true
+        env:
+          ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
+        run: node video/render.mjs ${{ matrix.slug }}
+
+      - name: Upload media artifact
+        if: steps.render.outcome == 'success'
+        uses: actions/upload-artifact@v4
+        with:
+          name: media-${{ matrix.slug }}
+          path: |
+            media/${{ matrix.slug }}/**
+            tools/${{ matrix.slug }}/tool.json
+          retention-days: 3
+
+      - name: Flag the failure
+        if: steps.render.outcome != 'success'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh issue list --label video-failed --state open --search "${{ matrix.slug }}" --json number \
+            | grep -q '"number"' && exit 0
+          gh issue create --label video-failed \
+            --title "video render failed: ${{ matrix.slug }}" \
+            --body "The demo video for \`${{ matrix.slug }}\` failed to render in run ${{ github.run_id }}. The tool page shipped without a video. Re-run with: \`gh workflow run publish.yml -f rerender=${{ matrix.slug }}\`" \
+          || true
+
+  # Commit whatever rendered, then build and deploy the site.
+  deploy:
+    needs: [plan, render]
+    if: always() && !cancelled() && !contains(github.event.head_commit.message, '[skip-render]')
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.pages.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          pattern: media-*
+          merge-multiple: true
+          path: .
+
+      - name: Commit rendered media
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if [ -n "$(git status --porcelain media tools)" ]; then
+            git add media tools
+            git commit -m "chore(media): render demo videos [skip-render]"
+            git push
+          else
+            echo "no new media"
+          fi
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci || npm install
+      - run: npm run build
+      - run: npm run validate
+
+      - uses: actions/configure-pages@v5
+        id: pages
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+      - uses: actions/deploy-pages@v4

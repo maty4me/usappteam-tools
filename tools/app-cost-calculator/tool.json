@@ -1,0 +1,63 @@
+{
+  "slug": "app-cost-calculator",
+  "title": "App Development Cost Calculator",
+  "tagline": "Answer four questions and see a real fixed price and a build timeline — instantly, free, no email.",
+  "description": "Estimate what your app costs to build in seconds. Free calculator with a real fixed price, a timeline in weeks, and no email or signup required.",
+  "keywords": [
+    "app development cost calculator",
+    "app cost estimator",
+    "how much does it cost to make an app",
+    "mobile app cost calculator",
+    "app development price calculator",
+    "ios app cost",
+    "android app cost",
+    "app build timeline estimator",
+    "app development pricing"
+  ],
+  "category": "calculators",
+  "datePublished": "2026-07-29",
+  "intro": "Most app cost calculators are lead-capture forms wearing a calculator costume. Twelve questions, a progress bar, and then a wall asking for your email before it shows you anything. When the number finally arrives it is a range so wide it tells you nothing.\n\nThis one is different in two ways. It answers instantly — the number updates as you click, with no steps, no wizard and no email box anywhere on the page. And it does not give you a range. It maps what you describe onto US APP Team's actual published price tiers, so what you see is a real fixed price we build to, plus a build timeline in weeks and a plain-English explanation of exactly which of your answers moved the number.\n\nEverything runs in your browser. Nothing is uploaded, nothing is stored, and you can copy the whole estimate to your clipboard and take it anywhere.",
+  "howTo": [
+    "Pick your platforms. Both iOS and Android is the normal answer — we ship both from one build, so it does not double the cost.",
+    "Choose the app type that fits: simple (a few screens, no accounts), standard (accounts, saved data, notifications), or advanced (payments, live data, integrations).",
+    "Tick the features you are fairly confident about — accounts, payments, push, maps, chat, uploads, offline mode, integrations, admin dashboard.",
+    "Say whether you want a proven template styled to your brand or a custom design drawn from scratch.",
+    "Read the tier, the price, the timeline and the 'why this tier' list, then hit Copy estimate to keep it — or start a brief to lock the scope and the price in."
+  ],
+  "faq": [
+    {
+      "q": "How much does it cost to make an app?",
+      "a": "With US APP Team it is one of three published fixed prices rather than an open-ended range. A simple app with a handful of screens and no accounts starts from $3,500. A standard app with user accounts, saved data and notifications starts from $7,500. An advanced app with payments, real-time data, integrations or a custom build is quoted individually up to $12,000. The calculator tells you which of the three your answers land in and why."
+    },
+    {
+      "q": "Is this estimate a real quote?",
+      "a": "It is a genuine starting point, not a contract. The calculator maps your answers onto the same published tiers we actually build to, so it is the right order of magnitude rather than a marketing number. The exact scope and the final fixed price are confirmed in your app brief — and once that price is agreed, it does not move."
+    },
+    {
+      "q": "Does building for both iOS and Android cost twice as much?",
+      "a": "No. We build both from a single codebase, so choosing both stores does not double the price. Picking a single platform trims roughly a week off store preparation, but it does not meaningfully reduce the build cost — which is why most people choose both."
+    },
+    {
+      "q": "Which features actually make an app more expensive?",
+      "a": "Payments and subscriptions add the most, because they bring billing, receipts, refunds and extra app store review. Chat, offline mode, third-party integrations and an admin dashboard each add a meaningful amount because they need backend work beyond the app itself. Accounts, push notifications, maps and photo upload are comparatively light — they are well-trodden and we have shipped them many times."
+    },
+    {
+      "q": "Do I have to give you my email to see the number?",
+      "a": "No. There is no email field, no signup, no gate and no download. The number appears the moment you click, and everything runs in your own browser — nothing you enter is uploaded or stored anywhere. If you want to keep the estimate, the copy button puts a plain-text summary on your clipboard."
+    }
+  ],
+  "cta": { "label": "Start your app brief" },
+  "video": {
+    "status": "pending",
+    "durationTargetSec": 60,
+    "narration": "Here is what an app actually costs to build — no email, no wizard, no waiting. Start with platforms. Both iOS and Android is the normal answer, because we ship both from one build, so it does not double your price. Next, pick the kind of app you are describing. Simple is a few screens with no accounts. Standard adds user accounts, saved data and notifications. Now tick the features you are fairly sure about. Watch the number on the right — it updates the moment you click, and the list underneath tells you exactly which of your answers moved it. Payments and chat move it the most. Accounts and push barely move it at all. You also get a build timeline in weeks and a suggested Care plan for after launch. One click copies the whole estimate to your clipboard. Nothing is uploaded, nothing is stored, and when you are ready the brief locks the scope and the price in.",
+    "scenes": [
+      { "label": "The whole estimate on one screen", "mark": "intro" },
+      { "label": "Pick your platforms", "mark": "platform" },
+      { "label": "Choose the app type", "mark": "apptype" },
+      { "label": "Tick the features you need", "mark": "features" },
+      { "label": "Read the price, timeline and drivers", "mark": "result" },
+      { "label": "Copy the estimate", "mark": "copy" }
+    ]
+  }
+}

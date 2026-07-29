@@ -1,0 +1,8 @@
+node_modules/
+dist/
+video/out/
+video/remotion/public/
+video/remotion/node_modules/
+*.log
+.DS_Store
+Thumbs.db

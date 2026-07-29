@@ -1,0 +1,776 @@
+<section class="t-app-name-generator" aria-labelledby="ang-h">
+  <h2 id="ang-h" class="ang-h">Describe your app, get 24 names with live .com checks</h2>
+
+  <form class="ang-form" id="ang-form" novalidate>
+    <div class="ang-field">
+      <label for="ang-idea">What does your app do?</label>
+      <input id="ang-idea" name="idea" type="text" autocomplete="off" spellcheck="false"
+             placeholder="e.g. book a dog walker" maxlength="80">
+      <p class="ang-hint">A few plain words work best. The generator seeds every name from what you type.</p>
+    </div>
+
+    <fieldset class="ang-styles">
+      <legend>Naming styles</legend>
+      <div class="ang-chips">
+        <label class="ang-chip"><input type="checkbox" name="style" value="compound" checked><span>Compound<em>DogDash</em></span></label>
+        <label class="ang-chip"><input type="checkbox" name="style" value="affix" checked><span>Prefix &amp; suffix<em>Walkly</em></span></label>
+        <label class="ang-chip"><input type="checkbox" name="style" value="blend" checked><span>Blended<em>Walkeo</em></span></label>
+        <label class="ang-chip"><input type="checkbox" name="style" value="invented" checked><span>Invented<em>Novaru</em></span></label>
+        <label class="ang-chip"><input type="checkbox" name="style" value="metaphor" checked><span>Metaphor<em>TrailKind</em></span></label>
+      </div>
+    </fieldset>
+
+    <div class="ang-actions">
+      <button class="ang-btn ang-btn-go" type="submit" id="ang-go">Generate names</button>
+      <button class="ang-btn ang-btn-ghost" type="button" id="ang-again" hidden>Generate again</button>
+      <label class="ang-toggle">
+        <input type="checkbox" id="ang-dns" checked>
+        <span>Check .com availability</span>
+      </label>
+    </div>
+  </form>
+
+  <p class="ang-status" id="ang-status" role="status" aria-live="polite"></p>
+
+  <div class="ang-shortbar" id="ang-shortbar" hidden>
+    <span id="ang-shortcount">0 shortlisted</span>
+    <button class="ang-btn ang-btn-ghost ang-btn-sm" type="button" id="ang-copy-short">Copy shortlist</button>
+    <button class="ang-btn ang-btn-ghost ang-btn-sm" type="button" id="ang-clear-short">Clear</button>
+  </div>
+
+  <ul class="ang-list" id="ang-list"></ul>
+
+  <div class="ang-notes">
+    <p><strong>About the .com check.</strong> Every name is looked up over DNS-over-HTTPS. If the domain
+      returns <span class="ang-code">NXDOMAIN</span> it almost certainly has never been registered, so we
+      call it <em>likely available</em>. This is a strong hint, not a registrar lookup: a domain can be
+      registered and simply not point anywhere, and it will still look free here. Always confirm at a
+      registrar before you buy, and search a trademark database before you commit.</p>
+    <p><strong>Nothing is uploaded and nothing is stored.</strong> Names are built in your browser. The
+      only thing that ever leaves this page is the bare domain name sent to a public DNS resolver so it
+      can answer the availability question &mdash; no account, no email, no logging on our side. Turn the
+      checkbox off and the tool never touches the network at all.</p>
+  </div>
+</section>
+
+<style>
+.t-app-name-generator { font-family: var(--body); color: var(--ink); }
+.t-app-name-generator .ang-h {
+  font-family: var(--disp); font-size: clamp(18px, 2.6vw, 22px);
+  font-weight: 600; margin: 0 0 20px;
+}
+.t-app-name-generator .ang-form { display: grid; gap: 20px; }
+.t-app-name-generator .ang-field label {
+  display: block; font-weight: 600; font-size: 14px; margin-bottom: 8px;
+}
+.t-app-name-generator .ang-field input[type="text"] {
+  width: 100%; font-family: var(--body); font-size: 16px; color: var(--ink);
+  padding: 14px 16px; background: var(--bg);
+  border: 1px solid var(--line-2); border-radius: var(--r-sm);
+  transition: border-color .2s var(--ease), background .2s var(--ease);
+}
+.t-app-name-generator .ang-field input[type="text"]:focus {
+  border-color: var(--azure); background: var(--card);
+}
+.t-app-name-generator .ang-hint { margin: 8px 0 0; font-size: 13.5px; color: var(--ink-60); }
+
+.t-app-name-generator .ang-styles { border: 0; padding: 0; margin: 0; min-width: 0; }
+.t-app-name-generator .ang-styles legend {
+  padding: 0; font-family: var(--mono); font-size: 11px; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--ink-40); margin-bottom: 10px;
+}
+.t-app-name-generator .ang-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.t-app-name-generator .ang-chip { position: relative; }
+.t-app-name-generator .ang-chip input {
+  position: absolute; opacity: 0; width: 1px; height: 1px;
+}
+.t-app-name-generator .ang-chip span {
+  display: flex; flex-direction: column; gap: 2px; cursor: pointer;
+  padding: 9px 15px; border-radius: var(--r-sm);
+  border: 1px solid var(--line-2); background: var(--card);
+  font-size: 13.5px; font-weight: 500; color: var(--slate);
+  transition: all .2s var(--ease);
+}
+.t-app-name-generator .ang-chip em {
+  font-family: var(--mono); font-style: normal; font-size: 11px; color: var(--ink-40);
+}
+.t-app-name-generator .ang-chip span:hover { border-color: var(--azure); color: var(--azure); }
+.t-app-name-generator .ang-chip input:checked + span {
+  background: var(--blue-soft); border-color: var(--azure); color: var(--azure);
+}
+.t-app-name-generator .ang-chip input:checked + span em { color: var(--azure); opacity: .75; }
+.t-app-name-generator .ang-chip input:focus-visible + span {
+  outline: 3px solid rgba(35, 128, 184, .55); outline-offset: 2px;
+}
+
+.t-app-name-generator .ang-actions {
+  display: flex; flex-wrap: wrap; gap: 12px; align-items: center;
+}
+.t-app-name-generator .ang-btn {
+  font-family: var(--disp); font-weight: 600; font-size: 15px;
+  border-radius: 999px; border: 1px solid transparent; cursor: pointer;
+  padding: 13px 26px; transition: transform .18s var(--ease), box-shadow .18s var(--ease), background .18s var(--ease);
+}
+.t-app-name-generator .ang-btn-go {
+  background: var(--grad); color: #fff;
+  box-shadow: 0 8px 20px -8px rgba(35, 128, 184, .55);
+}
+.t-app-name-generator .ang-btn-go:hover { transform: translateY(-2px); }
+.t-app-name-generator .ang-btn-go:active { transform: scale(.98); }
+.t-app-name-generator .ang-btn-ghost {
+  background: var(--card); border-color: var(--line-2); color: var(--slate);
+}
+.t-app-name-generator .ang-btn-ghost:hover { border-color: var(--azure); color: var(--azure); }
+.t-app-name-generator .ang-btn-sm { padding: 8px 16px; font-size: 13.5px; }
+.t-app-name-generator .ang-toggle {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 14px; color: var(--slate); cursor: pointer;
+}
+
+.t-app-name-generator .ang-status {
+  margin: 18px 0 0; font-size: 14px; color: var(--ink-60); min-height: 1.2em;
+}
+
+.t-app-name-generator .ang-shortbar {
+  display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  margin: 14px 0 0; padding: 12px 16px;
+  background: var(--blue-soft); border-radius: var(--r-sm);
+  font-size: 14px; font-weight: 600; color: var(--azure);
+}
+
+.t-app-name-generator .ang-list {
+  list-style: none; margin: 18px 0 0; padding: 0;
+  display: grid; gap: 8px;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 290px), 1fr));
+}
+.t-app-name-generator .ang-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 14px; background: var(--card);
+  border: 1px solid var(--line); border-radius: var(--r-sm);
+  transition: border-color .2s var(--ease), box-shadow .2s var(--ease);
+}
+.t-app-name-generator .ang-row:hover { border-color: var(--line-2); box-shadow: var(--shadow); }
+.t-app-name-generator .ang-row.is-fav { border-color: rgba(35, 128, 184, .45); background: rgba(231, 241, 248, .5); }
+.t-app-name-generator .ang-in { animation: ang-in .38s var(--ease) both; }
+@keyframes ang-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+.t-app-name-generator .ang-name {
+  font-family: var(--disp); font-weight: 600; font-size: 16.5px;
+  color: var(--ink); flex: 1; min-width: 0; word-break: break-word;
+}
+.t-app-name-generator .ang-name small {
+  display: block; font-family: var(--mono); font-weight: 400;
+  font-size: 11px; color: var(--ink-40); letter-spacing: .02em;
+}
+.t-app-name-generator .ang-badge {
+  font-family: var(--mono); font-size: 10.5px; letter-spacing: .06em;
+  text-transform: uppercase; padding: 5px 9px; border-radius: 999px;
+  white-space: nowrap; background: var(--bg); color: var(--ink-40);
+}
+.t-app-name-generator .ang-badge[data-state="free"] { background: rgba(31, 169, 113, .13); color: var(--green); }
+.t-app-name-generator .ang-badge[data-state="taken"] { background: var(--pink-soft); color: var(--magenta); }
+.t-app-name-generator .ang-badge[data-state="unknown"] { background: rgba(180, 118, 26, .12); color: var(--amber); }
+.t-app-name-generator .ang-badge[data-state="checking"] { color: var(--ink-40); }
+.t-app-name-generator .ang-badge[data-state="checking"]::after {
+  content: ''; display: inline-block; width: 6px; height: 6px; margin-left: 5px;
+  border-radius: 50%; background: currentColor; animation: ang-pulse 1s infinite var(--ease);
+  vertical-align: middle;
+}
+@keyframes ang-pulse { 0%, 100% { opacity: .25; } 50% { opacity: 1; } }
+
+.t-app-name-generator .ang-icon {
+  flex: none; width: 32px; height: 32px; display: grid; place-items: center;
+  border-radius: 8px; border: 1px solid var(--line);
+  background: var(--card); color: var(--ink-40); cursor: pointer;
+  font-size: 14px; line-height: 1; padding: 0;
+  transition: all .18s var(--ease);
+}
+.t-app-name-generator .ang-icon:hover { border-color: var(--azure); color: var(--azure); }
+.t-app-name-generator .ang-icon[aria-pressed="true"] { color: var(--amber); border-color: rgba(180, 118, 26, .45); }
+.t-app-name-generator .ang-icon.is-copied { color: var(--green); border-color: rgba(31, 169, 113, .5); }
+
+.t-app-name-generator .ang-notes {
+  margin: 26px 0 0; padding: 18px 20px;
+  border: 1px dashed var(--line-2); border-radius: var(--r-sm); background: var(--bg);
+}
+.t-app-name-generator .ang-notes p { margin: 0 0 12px; font-size: 13.5px; line-height: 1.6; color: var(--ink-60); }
+.t-app-name-generator .ang-notes p:last-child { margin-bottom: 0; }
+.t-app-name-generator .ang-notes strong { color: var(--slate); }
+.t-app-name-generator .ang-code { font-family: var(--mono); font-size: 12px; color: var(--slate); }
+
+@media (max-width: 480px) {
+  .t-app-name-generator .ang-actions .ang-btn { flex: 1 1 100%; }
+  .t-app-name-generator .ang-list { grid-template-columns: 1fr; }
+}
+</style>
+
+<script>
+(function () {
+  var root = document.querySelector('.t-app-name-generator');
+  if (!root) return;
+
+  var $ = function (id) { return root.querySelector('#' + id); };
+  var form = $('ang-form');
+  var idea = $('ang-idea');
+  var listEl = $('ang-list');
+  var statusEl = $('ang-status');
+  var againBtn = $('ang-again');
+  var dnsToggle = $('ang-dns');
+  var shortbar = $('ang-shortbar');
+  var shortcount = $('ang-shortcount');
+
+  /* ---------- wordbank ---------- */
+
+  var STOP = ('a an the for to of and or my our your app that helps lets you people users '
+    + 'with in on at it is be can will make making find finding get getting like').split(' ');
+
+  var DOMAINS = {
+    delivery: {
+      cue: 'deliver,delivery,courier,food,meal,package,parcel,ship,shipping,dispatch,drop,order,takeout,grocery,restaurant,driver',
+      words: 'dash,swift,rush,drop,route,hop,lane,crate,port,trail,relay,ferry,cargo,pace,wheel,arrive'
+    },
+    fitness: {
+      cue: 'fitness,workout,gym,run,running,train,training,exercise,yoga,coach,strength,steps,cycle,sport',
+      words: 'pulse,rep,peak,forge,stride,vital,drive,core,rise,grit,summit,tempo,flex,charge,spark'
+    },
+    booking: {
+      cue: 'book,booking,appointment,schedule,reserve,reservation,slot,calendar,walker,cleaner,barber,salon,tutor,session',
+      words: 'slot,keep,open,plan,hold,pair,line,book,turn,ready,match,queue,mark,arrange'
+    },
+    finance: {
+      cue: 'money,budget,finance,invoice,pay,payment,invest,expense,bank,saving,tax,payroll,billing,wallet',
+      words: 'ledger,vault,mint,tally,coin,pocket,stack,balance,clear,thrift,grow,penny,sum,anchor'
+    },
+    social: {
+      cue: 'social,chat,message,community,friend,share,group,post,feed,network,dating,forum,creator',
+      words: 'circle,hive,tribe,echo,mingle,rally,link,chorus,gather,bond,haven,thread,orbit,pals'
+    },
+    education: {
+      cue: 'learn,learning,school,course,study,teach,student,class,tutor,lesson,quiz,language,training,kids',
+      words: 'lumen,scholar,quill,path,mentor,spark,step,craft,brain,study,seed,tutor,know,ladder'
+    },
+    health: {
+      cue: 'health,medical,doctor,patient,therapy,mental,clinic,care,nurse,symptom,medicine,wellness,sleep,habit',
+      words: 'care,calm,mend,vital,pulse,haven,balm,ease,tend,bloom,steady,rest,clear,guard'
+    },
+    home: {
+      cue: 'home,house,clean,cleaning,plumber,handyman,repair,lawn,garden,dog,pet,walker,sitter,contractor,service,local',
+      words: 'nest,hearth,tidy,handy,paw,yard,porch,fix,neat,haven,tend,helper,near,door'
+    },
+    marketplace: {
+      cue: 'marketplace,sell,buy,shop,store,ecommerce,listing,seller,rent,rental,trade,resale,vendor,catalog',
+      words: 'stall,bazaar,market,swap,trove,shelf,crate,barter,pick,find,cart,haul,fair,deal'
+    },
+    productivity: {
+      cue: 'task,todo,note,project,team,work,productivity,track,tracking,manage,workflow,time,report,inventory,crm',
+      words: 'flow,clarity,focus,track,board,sync,tidy,pilot,north,pace,handle,grid,craft,steady'
+    },
+    travel: {
+      cue: 'travel,trip,tour,flight,hotel,map,guide,city,ride,transit,adventure,camping,itinerary',
+      words: 'roam,voyage,compass,trail,atlas,wander,harbor,drift,journey,north,scout,horizon,pack'
+    }
+  };
+
+  var METAPHOR = {
+    motion: 'dash,glide,leap,flow,orbit,shift,drift,swing,rove,jet',
+    speed: 'swift,rapid,quick,zip,blitz,turbo,brisk,flash,snap,bolt',
+    care: 'kind,tend,gentle,warm,mend,nurture,cozy,soothe,cradle,tender',
+    trust: 'anchor,keystone,solid,pledge,vow,honest,steady,rely,shield,oath',
+    light: 'lumen,beam,glow,dawn,shine,lantern,aurora,prism,spark,halo',
+    growth: 'bloom,sprout,thrive,rise,seed,branch,harvest,ripen,flourish,ascend',
+    simple: 'plain,clean,ease,clear,bare,tidy,neat,simple,lucid,smooth'
+  };
+
+  var PREFIX = 'get,try,go,my,up,on,hey,use'.split(',');
+  var SUFFIX = 'ly,ify,io,hq,kit,go,app,base,flow,lab,hub,pad,box,wise,mate,nest,loop,pilot,deck,forge'.split(',');
+  var ONS = 'br,tr,pl,kl,vr,fl,gr,sn,dr,st,cl,sw,th,ch,z,k,v,l,m,n,r'.split(',');
+  var VOW = 'a,e,i,o,u'.split(',');
+  var MIDC = 'l,r,n,v,m,z,k,s,t,d,b,p,f'.split(',');
+  var TAIL = 'ra,lo,ka,va,mi,zo,na,ri,ta,do,ly,sa,ve,po'.split(',');
+
+  var split = function (s) { return s.split(','); };
+
+  /* ---------- seeded random ---------- */
+
+  function mulberry32(a) {
+    return function () {
+      a |= 0; a = (a + 0x6D2B79F5) | 0;
+      var t = Math.imul(a ^ (a >>> 15), 1 | a);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+  function makeRng(seed) {
+    var rnd = mulberry32(seed);
+    return {
+      next: rnd,
+      pick: function (arr) { return arr[Math.floor(rnd() * arr.length)]; },
+      chance: function (p) { return rnd() < p; },
+      shuffle: function (arr) {
+        var a = arr.slice();
+        for (var i = a.length - 1; i > 0; i--) {
+          var j = Math.floor(rnd() * (i + 1));
+          var tmp = a[i]; a[i] = a[j]; a[j] = tmp;
+        }
+        return a;
+      }
+    };
+  }
+  function hash(str) {
+    var h = 2166136261;
+    for (var i = 0; i < str.length; i++) {
+      h ^= str.charCodeAt(i);
+      h = Math.imul(h, 16777619);
+    }
+    return h >>> 0;
+  }
+
+  /* ---------- word helpers ---------- */
+
+  var cap = function (w) { return w ? w.charAt(0).toUpperCase() + w.slice(1) : ''; };
+  var clean = function (w) { return String(w).toLowerCase().replace(/[^a-z]/g, ''); };
+
+  function seedWords(text) {
+    var raw = String(text || '').toLowerCase().split(/[^a-z]+/).filter(Boolean);
+    var out = [];
+    raw.forEach(function (w) {
+      if (w.length < 3) return;
+      if (STOP.indexOf(w) !== -1) return;
+      /* singularise — "roommates" makes a worse stem than "roommate" */
+      if (/ies$/.test(w) && w.length > 4) w = w.slice(0, -3) + 'y';
+      else if (/s$/.test(w) && !/(ss|us|is)$/.test(w) && w.length > 4) w = w.slice(0, -1);
+      if (out.indexOf(w) === -1) out.push(w);
+    });
+    return out;
+  }
+
+  function detectBank(words) {
+    var best = [];
+    var scored = [];
+    Object.keys(DOMAINS).forEach(function (k) {
+      var cues = split(DOMAINS[k].cue);
+      var score = 0;
+      words.forEach(function (w) {
+        cues.forEach(function (c) {
+          if (c === w) score += 3;
+          else if (w.length > 3 && (c.indexOf(w) === 0 || w.indexOf(c) === 0)) score += 2;
+        });
+      });
+      if (score) scored.push({ k: k, score: score });
+    });
+    scored.sort(function (a, b) { return b.score - a.score; });
+    scored.slice(0, 2).forEach(function (s) {
+      best = best.concat(split(DOMAINS[s.k].words));
+    });
+    if (!best.length) {
+      best = split(DOMAINS.productivity.words).concat(split(DOMAINS.marketplace.words));
+    }
+    return { words: best, topic: scored.length ? scored[0].k : 'general' };
+  }
+
+  function metaphorPool(rng) {
+    var keys = rng.shuffle(Object.keys(METAPHOR)).slice(0, 4);
+    var pool = [];
+    keys.forEach(function (k) { pool = pool.concat(split(METAPHOR[k])); });
+    return pool;
+  }
+
+  /* head of a word: onset plus its first vowel cluster — book -> boo, dog -> do */
+  function head(w) {
+    var m = w.match(/^[^aeiou]*[aeiou]+/);
+    var h = m ? m[0] : w.slice(0, 3);
+    if (h.length < 2) h = w.slice(0, 3);
+    return h.slice(0, 5);
+  }
+  /* clusters that can legally start an English syllable */
+  var OK2 = 'bl,br,cl,cr,dr,fl,fr,gl,gr,pl,pr,sc,sl,sm,sn,sp,st,sw,tr,tw,ch,sh,th,wh,ph,qu'.split(',');
+
+  /* coda of a word: its final syllable, onset included — relay -> lay, tempo -> po */
+  function coda(w) {
+    var two = w.match(/[^aeiou]{2}[aeiou]+[^aeiou]{0,2}$/);
+    if (two && OK2.indexOf(two[0].slice(0, 2)) !== -1) return two[0];
+    var one = w.match(/[^aeiou][aeiou]+[^aeiou]{0,2}$/);
+    var t = one ? one[0] : '';
+    if (t.length < 2) t = w.slice(-3);
+    return t;
+  }
+  /* join two chunks without doubling a letter */
+  function fuse(a, b) {
+    if (a.charAt(a.length - 1) === b.charAt(0)) b = b.slice(1);
+    return a + b;
+  }
+
+  /* ---------- strategies ---------- */
+
+  function makeCompound(rng, seeds, bank) {
+    var a = rng.pick(seeds.length ? seeds : bank);
+    var b = rng.pick(bank);
+    if (a === b) b = rng.pick(bank);
+    return rng.chance(0.5) ? cap(a) + cap(b) : cap(b) + cap(a);
+  }
+
+  /* suffixes that are words in their own right get their own capital */
+  var WORDY = 'kit,go,app,base,flow,lab,hub,pad,box,wise,mate,nest,loop,pilot,deck,forge'.split(',');
+
+  function joinSuffix(base, suf) {
+    var b = base;
+    if (suf === 'ly' || suf === 'ify') {
+      b = b.replace(/e$/, '').replace(/y$/, 'i');
+      if (suf === 'ify') b = b.replace(/i$/, '');
+    }
+    if (WORDY.indexOf(suf) !== -1) {
+      if (b.charAt(b.length - 1) === suf.charAt(0)) return cap(b) + cap(suf.slice(1));
+      return cap(b) + cap(suf);
+    }
+    return cap(fuse(b, suf));
+  }
+
+  function suffixFor(rng, base) {
+    /* long stems only get short suffixes, or the name stops being a name */
+    return rng.pick(base.length >= 6 ? ['ly', 'ify', 'io', 'hq', 'go', 'app', 'kit'] : SUFFIX);
+  }
+
+  function makeAffix(rng, seeds, bank) {
+    var base = rng.pick(seeds.length ? seeds : bank);
+    if (rng.chance(0.32)) return cap(rng.pick(PREFIX)) + cap(base);
+    return joinSuffix(base, suffixFor(rng, base));
+  }
+
+  /* portmanteau: head of one word fused to the final syllable of another —
+     dog + relay -> Dolay, book + lane -> Boolane */
+  function makeBlend(rng, seeds, bank) {
+    var a = rng.pick(seeds.length ? seeds : bank);
+    var b = rng.pick(bank);
+    if (clean(a) === clean(b)) b = rng.pick(bank);
+    var name = fuse(head(a), coda(b));
+    if (name.length < 5 || name.length > 11 || /[aeiou]{3}/.test(name)) {
+      name = fuse(head(a), rng.pick(TAIL));
+    }
+    return cap(name);
+  }
+
+  /* invented brandable: strict consonant-vowel alternation, so it always reads */
+  function makeInvented(rng, seeds) {
+    var stem = seeds.length && rng.chance(0.5)
+      ? head(rng.pick(seeds))
+      : fuse(rng.pick(ONS), rng.pick(VOW));
+    var name = fuse(stem, rng.pick(MIDC));
+    name = fuse(name, rng.pick(VOW));
+    if (rng.chance(0.45)) name = fuse(fuse(name, rng.pick(MIDC)), rng.pick(VOW));
+    return cap(name.slice(0, 9));
+  }
+
+  function makeMetaphor(rng, seeds, bank, pool) {
+    var m = rng.pick(pool);
+    if (rng.chance(0.42)) return cap(m) + cap(rng.pick(bank));
+    if (rng.chance(0.4)) return joinSuffix(m, suffixFor(rng, m));
+    var s = seeds.length ? rng.pick(seeds) : rng.pick(bank);
+    return cap(m) + cap(s);
+  }
+
+  var STRATS = {
+    compound: { label: 'compound', fn: makeCompound },
+    affix: { label: 'prefix/suffix', fn: makeAffix },
+    blend: { label: 'blend', fn: makeBlend },
+    invented: { label: 'invented', fn: makeInvented },
+    metaphor: { label: 'metaphor', fn: makeMetaphor }
+  };
+
+  function acceptable(name) {
+    if (!name) return false;
+    var l = clean(name);
+    if (l.length < 4 || l.length > 13) return false;
+    if (/(.)\1\1/.test(l)) return false;
+    if (!/[aeiou]/.test(l)) return false;
+    if (/[^a-z]/.test(l)) return false;
+    /* three vowels in a row reads as a typo */
+    if (/[aeiou]{3}/.test(l)) return false;
+    /* reject four consonants in a row — unsayable */
+    if (/[bcdfghjklmnpqrstvwxz]{4}/.test(l)) return false;
+    return true;
+  }
+
+  function generate(text, styles, seed, want) {
+    var rng = makeRng(seed);
+    var seeds = seedWords(text);
+    var detected = detectBank(seeds);
+    var bank = detected.words;
+    var pool = metaphorPool(rng);
+    var active = styles.filter(function (s) { return STRATS[s]; });
+    if (!active.length) active = Object.keys(STRATS);
+
+    var out = [];
+    var seen = {};
+    var guard = 0;
+    while (out.length < want && guard < want * 90) {
+      guard++;
+      var key = active[out.length % active.length];
+      if (rng.chance(0.28)) key = rng.pick(active);
+      var name = STRATS[key].fn(rng, seeds, bank, pool);
+      if (!acceptable(name)) continue;
+      var lower = clean(name);
+      if (seen[lower]) continue;
+      seen[lower] = 1;
+      out.push({ name: name, domain: lower + '.com', how: STRATS[key].label, state: 'idle', fav: false });
+    }
+    return { items: out, topic: detected.topic };
+  }
+
+  /* ---------- DNS-over-HTTPS availability ---------- */
+
+  var RESOLVERS = [
+    'https://cloudflare-dns.com/dns-query?type=A&name=',
+    'https://dns.google/resolve?type=A&name='
+  ];
+
+  function lookup(domain) {
+    var attempt = function (i) {
+      if (i >= RESOLVERS.length) return Promise.resolve('unknown');
+      var ctrl = typeof AbortController !== 'undefined' ? new AbortController() : null;
+      var timer = setTimeout(function () { if (ctrl) ctrl.abort(); }, 6000);
+      var opts = { headers: { accept: 'application/dns-json' } };
+      if (ctrl) opts.signal = ctrl.signal;
+      return fetch(RESOLVERS[i] + encodeURIComponent(domain), opts)
+        .then(function (r) {
+          clearTimeout(timer);
+          if (!r.ok) throw new Error('bad status');
+          return r.json();
+        })
+        .then(function (j) {
+          if (typeof j.Status !== 'number') return 'unknown';
+          if (j.Status === 3) return 'free';
+          if (j.Status === 0) {
+            var has = (j.Answer && j.Answer.length) || (j.Authority && j.Authority.some(function (a) { return a.type === 6; }));
+            return has ? 'taken' : 'free';
+          }
+          return 'unknown';
+        })
+        .catch(function () {
+          clearTimeout(timer);
+          return attempt(i + 1);
+        });
+    };
+    return attempt(0);
+  }
+
+  function runQueue(items, concurrency, onUpdate, token) {
+    var next = 0;
+    var done = 0;
+    var total = items.length;
+    return new Promise(function (resolve) {
+      function step() {
+        if (token.cancelled) return resolve();
+        if (next >= total) {
+          if (done >= total) resolve();
+          return;
+        }
+        var item = items[next++];
+        item.state = 'checking';
+        onUpdate(item, done, total);
+        lookup(item.domain).then(function (state) {
+          if (token.cancelled) return;
+          item.state = state;
+          done++;
+          onUpdate(item, done, total);
+          step();
+        });
+      }
+      for (var i = 0; i < concurrency && i < total; i++) step();
+      if (!total) resolve();
+    });
+  }
+
+  /* ---------- rendering ---------- */
+
+  var items = [];
+  var animated = false;
+  var token = { cancelled: false };
+
+  var BADGE = {
+    idle: ['.com ?', 'Not checked'],
+    checking: ['checking', 'Checking the .com'],
+    free: ['.com likely free', 'The .com resolves to nothing — likely available'],
+    taken: ['.com taken', 'The .com resolves — already in use'],
+    unknown: ['.com unknown', 'The lookup could not complete']
+  };
+
+  function ordered() {
+    var favs = items.filter(function (i) { return i.fav; });
+    var rest = items.filter(function (i) { return !i.fav; });
+    return favs.concat(rest);
+  }
+
+  function render() {
+    var frag = document.createDocumentFragment();
+    ordered().forEach(function (item, i) {
+      var li = document.createElement('li');
+      li.className = 'ang-row' + (item.fav ? ' is-fav' : '') + (animated ? '' : ' ang-in');
+      if (!animated) li.style.animationDelay = Math.min(i * 28, 620) + 'ms';
+
+      var star = document.createElement('button');
+      star.type = 'button';
+      star.className = 'ang-icon';
+      star.setAttribute('aria-pressed', String(item.fav));
+      star.setAttribute('aria-label', (item.fav ? 'Remove ' : 'Shortlist ') + item.name);
+      star.textContent = item.fav ? '★' : '☆';
+      star.addEventListener('click', function () {
+        item.fav = !item.fav;
+        animated = true;
+        render();
+        updateShortbar();
+      });
+
+      var nameEl = document.createElement('span');
+      nameEl.className = 'ang-name';
+      nameEl.appendChild(document.createTextNode(item.name));
+      var small = document.createElement('small');
+      small.textContent = item.domain + ' · ' + item.how;
+      nameEl.appendChild(small);
+
+      var badge = document.createElement('span');
+      badge.className = 'ang-badge';
+      badge.setAttribute('data-state', item.state);
+      badge.textContent = BADGE[item.state][0];
+      badge.title = BADGE[item.state][1];
+
+      var copy = document.createElement('button');
+      copy.type = 'button';
+      copy.className = 'ang-icon';
+      copy.setAttribute('aria-label', 'Copy ' + item.name);
+      copy.textContent = '⧉';
+      copy.addEventListener('click', function () {
+        copyText(item.name);
+        copy.classList.add('is-copied');
+        copy.textContent = '✓';
+        setTimeout(function () {
+          copy.classList.remove('is-copied');
+          copy.textContent = '⧉';
+        }, 1300);
+      });
+
+      li.appendChild(star);
+      li.appendChild(nameEl);
+      li.appendChild(badge);
+      li.appendChild(copy);
+      frag.appendChild(li);
+    });
+    listEl.textContent = '';
+    listEl.appendChild(frag);
+    animated = true;
+  }
+
+  function updateShortbar() {
+    var n = items.filter(function (i) { return i.fav; }).length;
+    shortbar.hidden = n === 0;
+    shortcount.textContent = n + (n === 1 ? ' name shortlisted' : ' names shortlisted');
+  }
+
+  function copyText(text) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).catch(function () { fallbackCopy(text); });
+    } else {
+      fallbackCopy(text);
+    }
+  }
+  function fallbackCopy(text) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.setAttribute('readonly', '');
+    ta.style.position = 'fixed';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); } catch (e) { /* clipboard unavailable */ }
+    document.body.removeChild(ta);
+  }
+
+  function selectedStyles() {
+    return Array.prototype.slice
+      .call(root.querySelectorAll('input[name="style"]:checked'))
+      .map(function (c) { return c.value; });
+  }
+
+  function summarise() {
+    var free = items.filter(function (i) { return i.state === 'free'; }).length;
+    var taken = items.filter(function (i) { return i.state === 'taken'; }).length;
+    var unknown = items.filter(function (i) { return i.state === 'unknown'; }).length;
+    var pending = items.filter(function (i) { return i.state === 'checking' || i.state === 'idle'; }).length;
+    var bits = [items.length + ' names'];
+    if (free) bits.push(free + ' with a likely-free .com');
+    if (taken) bits.push(taken + ' taken');
+    if (unknown) bits.push(unknown + " couldn't be checked");
+    if (pending) bits.push(pending + ' still checking');
+    statusEl.textContent = bits.join(' · ') + '.';
+  }
+
+  var runSeed = 0;
+
+  function run(text) {
+    token.cancelled = true;
+    token = { cancelled: false };
+    var myToken = token;
+
+    runSeed = runSeed ? (runSeed + 7919) >>> 0 : hash(text + '|' + Date.now());
+    var res = generate(text, selectedStyles(), runSeed, 24);
+    items = res.items;
+    animated = false;
+    render();
+    updateShortbar();
+    againBtn.hidden = false;
+
+    if (!dnsToggle.checked) {
+      statusEl.textContent = items.length + ' names generated. Availability checking is switched off.';
+      return;
+    }
+    summarise();
+    runQueue(items, 4, function (item) {
+      if (myToken.cancelled) return;
+      var idx = ordered().indexOf(item);
+      var row = listEl.children[idx];
+      if (row) {
+        var badge = row.querySelector('.ang-badge');
+        badge.setAttribute('data-state', item.state);
+        badge.textContent = BADGE[item.state][0];
+        badge.title = BADGE[item.state][1];
+      }
+      summarise();
+    }, myToken);
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var text = idea.value.trim();
+    if (!text) {
+      statusEl.textContent = 'Type a few words about what your app does, then generate.';
+      idea.focus();
+      return;
+    }
+    runSeed = 0;
+    run(text);
+  });
+
+  againBtn.addEventListener('click', function () {
+    var text = idea.value.trim();
+    if (!text) { idea.focus(); return; }
+    run(text);
+  });
+
+  $('ang-copy-short').addEventListener('click', function () {
+    var favs = items.filter(function (i) { return i.fav; });
+    if (!favs.length) return;
+    var lines = favs.map(function (i) {
+      var tag = i.state === 'free' ? 'likely available' : i.state === 'taken' ? 'taken' : 'not checked';
+      return i.name + ' — ' + i.domain + ' (' + tag + ')';
+    });
+    copyText(lines.join('\n'));
+    statusEl.textContent = 'Copied ' + favs.length + ' shortlisted name' + (favs.length === 1 ? '' : 's') + ' to your clipboard.';
+  });
+
+  $('ang-clear-short').addEventListener('click', function () {
+    items.forEach(function (i) { i.fav = false; });
+    animated = true;
+    render();
+    updateShortbar();
+  });
+})();
+</script>

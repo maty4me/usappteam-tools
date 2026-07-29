@@ -1,0 +1,65 @@
+{
+  "slug": "app-name-generator",
+  "title": "App Name Generator",
+  "tagline": "Get 24 real app name ideas from one sentence — each with a live .com availability check.",
+  "description": "Generate 24 app name ideas from a plain description of your app, each with a live .com availability check. Free, instant, no signup and nothing stored.",
+  "keywords": [
+    "app name generator",
+    "app name ideas",
+    "mobile app name generator",
+    "business app name generator",
+    "free app name generator",
+    "app naming tool",
+    "startup name generator",
+    "app name availability check",
+    "app name checker"
+  ],
+  "category": "generators",
+  "datePublished": "2026-07-29",
+  "intro": "Most name generators hand you fifty invented words and leave you to find out, one registrar tab at a time, that every single one is gone. This one does the boring half for you: describe what your app does in a few plain words, and you get 24 candidates built from real naming strategies — compounds, prefixes and suffixes, blended syllables, invented brandables and metaphor words — with a live .com check running against every one.\n\nThe names are seeded from your own words, so \"book a dog walker\" produces things that sound like a dog walking app, not generic startup mush. Availability badges fill in as the lookups come back, so you can skim straight past the ones that are already taken.\n\nEverything happens in your browser. The only thing that leaves this page is the bare domain name, sent to a public DNS resolver so it can answer the availability question. No signup, no email, nothing stored."
+  ,
+  "howTo": [
+    "Type what your app does in a few plain words — \"book a dog walker\", \"split bills with roommates\", \"track gym workouts\".",
+    "Leave all five naming styles on for the widest spread, or switch some off to steer the results toward compounds, invented words or metaphors.",
+    "Press Generate names. Twenty-four candidates appear instantly and the .com availability badges fill in behind them.",
+    "Star the names you like — they jump to the top of the list and stay there.",
+    "Press Generate again for a fresh batch, then Copy shortlist when you have your favourites, and confirm the domain at a registrar before you buy."
+  ],
+  "faq": [
+    {
+      "q": "How do I know the name is really free to use?",
+      "a": "You don't yet — the .com badge is a strong hint, not proof. We look the domain up over DNS-over-HTTPS. If it returns NXDOMAIN it has almost certainly never been registered, which is why we call it likely available. But a domain can be registered and simply not point anywhere, and it will still look free here. More importantly, a free domain says nothing about trademarks. Before you commit, check the domain at a registrar and search the USPTO trademark database (and your local equivalent) for the name in your app's class."
+    },
+    {
+      "q": "Does the App Store require a unique app name?",
+      "a": "Yes. Apple requires the app name you submit to be unique across the App Store, and it reserves the name once you create the record. Google Play also rejects titles that duplicate an existing app or infringe someone else's brand. Both stores also cap the length: Apple allows 30 characters for the name, Google Play allows 30 for the title. Short names give you room for a subtitle or short description, which is where most of your keyword value actually lives."
+    },
+    {
+      "q": "Where do the names come from?",
+      "a": "Five real naming strategies, all running in your browser: compounds of two real words, prefix and suffix constructions (-ly, -ify, -io, -hq, -kit, Get-, Try-), portmanteau blends that fuse the head of one word to the tail of another, invented pronounceable words built from consonant-vowel patterns, and metaphor words drawn from a curated bank grouped by motion, speed, care, trust, light, growth and simplicity. Your description picks the domain wordbank — delivery, fitness, booking, finance, social, education, health, home services, marketplace, productivity or travel — and your own words seed most of the candidates."
+    },
+    {
+      "q": "Is anything I type stored or sent anywhere?",
+      "a": "No. The generator is plain JavaScript running on your device — your description never leaves the page. The only network traffic is the availability check, which sends the bare domain name (for example dogdash.com) to Cloudflare's public DNS resolver, falling back to Google's. There is no account, no email field, no analytics on your input, and nothing is written to a server. Untick the availability checkbox and the tool makes no network requests at all."
+    },
+    {
+      "q": "What if the availability check doesn't work?",
+      "a": "It degrades quietly. If your network blocks DNS-over-HTTPS, or you are behind a firewall that strips it, the badge says the .com is unknown rather than guessing. The names still generate, the shortlist still works, and you can copy everything out. We would rather tell you we couldn't check than show you a green badge we can't stand behind."
+    }
+  ],
+  "cta": { "label": "Start your app brief" },
+  "video": {
+    "status": "pending",
+    "durationTargetSec": 60,
+    "narration": "Naming an app is easy until you try to buy the domain. Most generators hand you fifty invented words and check none of them. This one starts with your idea. Type what your app actually does — book a dog walker — and pick the naming styles you want: compounds, suffixes, blends, invented words, metaphors. Hit generate, and twenty-four candidates appear straight away, seeded from your own words. Then the useful part: every name gets a live dot-com lookup, and the badges fill in behind the list. Green means the domain resolves to nothing, so it is very likely free. Pink means somebody already has it. Star the ones you like and they jump to the top, then copy your shortlist with the domains and their status attached. Free, no signup, nothing stored, and it all runs in your browser. Check the domain at a registrar before you buy — but this gets you a list worth checking.",
+    "scenes": [
+      { "label": "The naming problem", "mark": "intro" },
+      { "label": "Describe your app", "mark": "describe" },
+      { "label": "Pick naming styles", "mark": "styles" },
+      { "label": "24 names, instantly", "mark": "generate" },
+      { "label": "Live .com availability", "mark": "availability" },
+      { "label": "Shortlist your favourites", "mark": "shortlist" },
+      { "label": "Copy the shortlist", "mark": "copy" }
+    ]
+  }
+}

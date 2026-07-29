@@ -1,0 +1,22 @@
+{
+  "updated": "2026-07-29",
+  "method": "google+bing autocomplete expansion, tool-intent filter, SERP-judged difficulty",
+  "corpus": { "seeds": 33, "queries": 1190, "unique": 5393, "candidates": 948 },
+  "items": [
+    { "slug": "app-cost-calculator", "keyword": "app development cost calculator", "title": "App Development Cost Calculator", "volume": "H", "difficulty": "M", "effort": "S", "relevance": 5, "status": "todo" },
+    { "slug": "app-name-generator", "keyword": "app name generator", "title": "App Name Generator", "volume": "H", "difficulty": "M", "effort": "S", "relevance": 4, "status": "todo" },
+    { "slug": "app-privacy-policy-generator", "keyword": "app privacy policy generator", "title": "App Privacy Policy Generator", "volume": "M-H", "difficulty": "M", "effort": "S", "relevance": 4, "status": "todo" },
+    { "slug": "app-screenshot-generator", "keyword": "app store screenshot generator", "title": "App Store Screenshot Generator", "volume": "M", "difficulty": "M", "effort": "M", "relevance": 4, "status": "todo" },
+    { "slug": "app-icon-generator", "keyword": "app icon generator", "title": "App Icon Generator", "volume": "H", "difficulty": "H", "effort": "M", "relevance": 3, "status": "todo" },
+    { "slug": "app-revenue-calculator", "keyword": "app revenue calculator", "title": "App Revenue Calculator", "volume": "M", "difficulty": "L", "effort": "S", "relevance": 4, "status": "todo" },
+    { "slug": "app-maintenance-cost-calculator", "keyword": "app maintenance cost calculator", "title": "App Maintenance Cost Calculator", "volume": "M", "difficulty": "L", "effort": "S", "relevance": 5, "status": "todo" },
+    { "slug": "mvp-scope-planner", "keyword": "mvp feature scope planner", "title": "MVP Scope Planner", "volume": "M", "difficulty": "L", "effort": "S", "relevance": 5, "status": "todo" },
+    { "slug": "app-store-description-generator", "keyword": "app store description generator", "title": "App Store Description Generator", "volume": "M", "difficulty": "M", "effort": "S", "relevance": 3, "status": "todo" },
+    { "slug": "app-launch-checklist", "keyword": "app launch checklist", "title": "App Launch Checklist", "volume": "M", "difficulty": "L", "effort": "S", "relevance": 3, "status": "todo" },
+    { "slug": "aso-keyword-checker", "keyword": "app store keyword checker", "title": "ASO Keyword Checker", "volume": "M", "difficulty": "M", "effort": "M", "relevance": 3, "status": "todo" },
+    { "slug": "subscription-breakeven-calculator", "keyword": "subscription break even calculator", "title": "Subscription Break-Even Calculator", "volume": "M", "difficulty": "L", "effort": "S", "relevance": 4, "status": "todo" },
+    { "slug": "app-terms-generator", "keyword": "app terms of service generator", "title": "App Terms of Service Generator", "volume": "M", "difficulty": "M", "effort": "S", "relevance": 3, "status": "todo" },
+    { "slug": "app-timeline-estimator", "keyword": "app development timeline estimator", "title": "App Development Timeline Estimator", "volume": "L-M", "difficulty": "L", "effort": "S", "relevance": 4, "status": "todo" },
+    { "slug": "app-retention-calculator", "keyword": "app user retention calculator", "title": "App User Retention Calculator", "volume": "L-M", "difficulty": "L", "effort": "S", "relevance": 3, "status": "todo" }
+  ]
+}

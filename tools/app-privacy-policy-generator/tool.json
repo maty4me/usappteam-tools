@@ -1,0 +1,71 @@
+{
+  "slug": "app-privacy-policy-generator",
+  "title": "App Privacy Policy Generator",
+  "tagline": "Answer a short questionnaire and get a complete privacy policy for your app — plus the exact answers for Apple's and Google's store forms.",
+  "description": "Free app privacy policy generator. Answer a short questionnaire and get a complete, ready-to-host policy plus an App Store and Play data safety cheat sheet.",
+  "keywords": [
+    "app privacy policy generator",
+    "free privacy policy generator for apps",
+    "mobile app privacy policy",
+    "gdpr privacy policy generator app",
+    "app store privacy policy",
+    "play store data safety",
+    "coppa privacy policy for apps",
+    "ccpa privacy policy generator",
+    "privacy policy url for app store"
+  ],
+  "category": "generators",
+  "datePublished": "2026-07-29",
+  "intro": "Apple will not let you submit an app without a working privacy policy URL, and Google will not let you publish without filling in the Data safety form. Both checks happen at the worst possible moment — the day you are trying to ship. Most of the generators that come up when you search for one are trial funnels: you answer everything, then find the finished document behind a subscription.\n\nThis one writes the whole policy in your browser and hands it straight over. Tick what your app collects, tick the SDKs you actually bundle, and the document builds itself as you go — introduction, what you collect, why, legal bases, every third-party service named individually, retention, security, GDPR and CCPA rights, children's privacy, and contact details. Copy it as text or HTML, or download it as an .html file you can host as-is.\n\nThen there is the part nobody helps with. The same answers drive a **store form cheat sheet** that tells you exactly which data types to tick in App Store Connect, whether each one is linked to identity, whether it counts as tracking, and what to select in Play Console's Data safety section. Getting those two forms to agree with your policy is what actually stops a rejection.",
+  "howTo": [
+    "Enter your app name, company name, contact email and effective date.",
+    "Tick every kind of personal data the app collects — including the data your analytics and crash SDKs send automatically.",
+    "Tick the third-party services you bundle, so each one gets named in the policy with a link to its own privacy policy.",
+    "Choose the regions you need to cover — GDPR, CCPA/CPRA, or general — and set your retention and deletion answers.",
+    "Read the live preview on the right, then copy the policy or download it as .html or .md.",
+    "Open the Store form cheat sheet tab and use it to fill in Apple's App Privacy questionnaire and Google Play's Data safety form.",
+    "Have a lawyer review the policy before you submit the app."
+  ],
+  "faq": [
+    {
+      "q": "Does Apple require a privacy policy URL?",
+      "a": "Yes — for every app on the App Store, with no exceptions, even a free app that collects nothing. The URL goes in App Store Connect under App Information, it must be publicly reachable without a login, and Apple checks it during review. Google Play requires one too, in the App content section of the Play Console."
+    },
+    {
+      "q": "Where do I host the privacy policy?",
+      "a": "Anywhere stable and public. A page on your marketing site is ideal, for example yourdomain.com/privacy. If you have no site yet, a GitHub Pages page, a Notion page published to the web, or a Google Sites page all work — the store only needs a URL that loads for anyone, forever, without a login or a redirect to an app."
+    },
+    {
+      "q": "Is this legal advice?",
+      "a": "No. This tool produces a solid starting template built from the answers you gave, covering the sections app stores and privacy regulators expect. It cannot know everything your app does, and generating a document does not make you compliant with the GDPR, the CCPA or COPPA. Read every line, correct anything that is wrong, and have a lawyer review it before you launch."
+    },
+    {
+      "q": "Is anything I type uploaded or stored?",
+      "a": "No. The questionnaire and the policy generator both run as JavaScript inside your browser tab. Nothing is sent to a server, nothing is saved, and closing the tab erases everything. That is also why there is no signup and no email gate."
+    },
+    {
+      "q": "What counts as tracking in Apple's App Privacy form?",
+      "a": "Tracking means linking data from your app with data from other companies' apps or websites for advertising or advertising measurement, or sharing data with a data broker. If you bundle AdMob or the Meta SDK, you are almost certainly tracking, you must declare it, and you must show the App Tracking Transparency prompt before accessing the advertising identifier. Plain analytics you use only inside your own app is not tracking."
+    },
+    {
+      "q": "Do I need to update the policy when I add an SDK?",
+      "a": "Yes, and you need to update both store forms too. Adding a single analytics or attribution library changes what data leaves the device, which changes your App Privacy answers, your Data safety answers, and the third-party services section of the policy. Re-run this tool with the new answers and republish."
+    }
+  ],
+  "cta": { "label": "Get your app built properly" },
+  "video": {
+    "status": "pending",
+    "durationTargetSec": 60,
+    "narration": "Apple will not let you submit an app without a privacy policy URL, and Google will not publish you without the Data safety form. Here is a way to do both in a couple of minutes, free. Start with your app name, your company, and the email people can reach you at. Now tick what your app actually collects — email address, usage data, crash logs, whatever leaves the device. Add the services you bundle, and each one gets named in the policy with a link to its own privacy terms. Tick GDPR and the legal bases and European rights sections appear. Watch the document on the right build itself as you go. Then open the cheat sheet: it tells you exactly which data types to select in App Store Connect, what counts as tracking, and what to answer in Play Console. Download it as HTML and host it. Nothing you typed left this browser tab.",
+    "scenes": [
+      { "label": "Why your app needs one", "mark": "intro" },
+      { "label": "Your app details", "mark": "details" },
+      { "label": "What you collect", "mark": "data" },
+      { "label": "Third-party services", "mark": "services" },
+      { "label": "Add GDPR coverage", "mark": "gdpr" },
+      { "label": "The policy builds live", "mark": "policy" },
+      { "label": "Store form cheat sheet", "mark": "cheatsheet" },
+      { "label": "Copy or download", "mark": "download" }
+    ]
+  }
+}
