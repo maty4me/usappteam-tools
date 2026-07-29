@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-29",
+  "updated": "2026-07-30",
   "method": "google+bing autocomplete expansion, tool-intent filter, SERP-judged difficulty",
   "corpus": {
     "seeds": 33,
@@ -8,6 +8,42 @@
     "candidates": 948
   },
   "items": [
+    {
+      "slug": "image-converter",
+      "keyword": "image converter",
+      "title": "Image Converter & Compressor",
+      "volume": "VH",
+      "difficulty": "M",
+      "effort": "M",
+      "relevance": 2,
+      "status": "live",
+      "published": "2026-07-30",
+      "note": "Huge volume. SERP is ad-farms that upload your file to a server; we convert in-browser."
+    },
+    {
+      "slug": "qr-code-generator",
+      "keyword": "qr code generator",
+      "title": "QR Code Generator",
+      "volume": "VH",
+      "difficulty": "M",
+      "effort": "L",
+      "relevance": 3,
+      "status": "live",
+      "published": "2026-07-30",
+      "note": "SERP is freemium redirects that expire. Ours is static and permanent."
+    },
+    {
+      "slug": "csv-json-converter",
+      "keyword": "csv to json",
+      "title": "CSV to JSON Converter",
+      "volume": "H",
+      "difficulty": "L",
+      "effort": "M",
+      "relevance": 2,
+      "status": "live",
+      "published": "2026-07-30",
+      "note": "People convert customer lists and payroll; in-browser parsing is the real selling point."
+    },
     {
       "slug": "app-cost-calculator",
       "keyword": "app development cost calculator",

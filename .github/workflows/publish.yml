@@ -136,6 +136,20 @@ jobs:
           merge-multiple: true
           path: .
 
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci || npm install
+      - run: npx playwright install --with-deps chromium
+
+      # Build once so the pages exist, screenshot each tool for its hub card,
+      # then build again so the cards pick the screenshots up.
+      - run: npm run build
+      - run: npm run previews
+      - run: npm run build
+      - run: npm run validate
+
       # Anything landing on main while a render is in flight makes this push a
       # non-fast-forward, so rebase and retry. And never let it fail the job:
       # the rendered files are already in the working tree, so the deploy below
@@ -150,7 +164,7 @@ jobs:
             exit 0
           fi
           git add media tools
-          git commit -m "chore(media): render demo videos [skip-render]"
+          git commit -m "chore(media): demo videos and card previews [skip-render]"
           for attempt in 1 2 3; do
             if git push; then
               echo "pushed on attempt $attempt"
@@ -161,13 +175,6 @@ jobs:
           done
           echo "::warning::could not push rendered media; deploying it anyway, it will re-render next run"
 
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: npm
-      - run: npm ci || npm install
-      - run: npm run build
-      - run: npm run validate
 
       - uses: actions/configure-pages@v5
         id: pages

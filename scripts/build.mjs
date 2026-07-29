@@ -60,6 +60,9 @@ async function loadTools() {
     meta.mdUrl = `/tools/${slug}.md`;
     meta.hasVideo =
       meta.video?.status === 'rendered' && (await exists(p('media', slug, 'demo.mp4')));
+    // The hub card shows the tool itself, not the video's branded end card —
+    // people should see what they are about to use. See scripts/previews.mjs.
+    meta.hasPreview = await exists(p('media', slug, 'preview.png'));
     tools.push(meta);
   }
   // newest first
@@ -207,7 +210,7 @@ function hubPage(tools) {
       '@type': 'CollectionPage',
       name: `${SITE.hubTitle} | ${SITE.name}`,
       description:
-        'A growing library of free, no-signup web tools for people building or planning a mobile app. New tool every day.',
+        'A growing library of free, no-signup browser tools — converters, generators and calculators that run entirely on your own device. New tool every day.',
       url: `${SITE.origin}/`,
     },
     {
@@ -225,7 +228,7 @@ function hubPage(tools) {
   const headHtml = head({
     title: `${SITE.hubTitle} — Free, No Signup | US APP Team`,
     description:
-      'Free calculators, generators and checkers for anyone building a mobile app. No signup, no email required. A new tool is published every day.',
+      'Free browser tools that run on your device: converters, generators, calculators and checkers. No signup, no email, nothing uploaded. A new tool every day.',
     canonical: `${SITE.origin}/`,
     ogImage: '/og/hub.png',
     schemas,
@@ -235,10 +238,10 @@ function hubPage(tools) {
     .map(
       (t) => `<a class="card" href="${BASE}/tools/${t.slug}/" data-slug="${esc(t.slug)}" data-category="${esc(t.category || '')}" data-search="${esc([t.title, t.tagline, t.description, ...(t.keywords || [])].join(' ').toLowerCase())}">
     <div class="card-thumb">${
-      t.hasVideo
-        ? `<img src="${BASE}/media/${t.slug}/poster.jpg" alt="" loading="lazy" width="1280" height="720">`
+      t.hasPreview
+        ? `<img src="${BASE}/media/${t.slug}/preview.png" alt="A preview of the ${esc(t.title)}" loading="lazy" width="1280" height="720">`
         : `<span class="glyph" aria-hidden="true">${esc((t.title || '?')[0])}</span>`
-    }</div>
+    }${t.hasVideo ? '<span class="card-play" aria-hidden="true">&#9654;</span>' : ''}</div>
     <div class="card-body">
       <h3>${esc(t.title)}</h3>
       <p>${esc(t.tagline)}</p>
@@ -254,14 +257,14 @@ function hubPage(tools) {
   const body = `<div class="wrap">
   <section class="hub-hero">
     <p class="eyebrow">A new tool every day</p>
-    <h1>Free tools for people building apps</h1>
-    <p class="lede">Calculators, generators and checkers that answer the questions founders actually ask before they build. No signup. No email. Nothing to install.</p>
+    <h1>Free tools that run in your browser</h1>
+    <p class="lede">Converters, generators and calculators that do the job on your own device &mdash; your files and your data never leave it. No signup, no email, nothing to install.</p>
 
     <div class="search-row">
       <div class="search-box">
         <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
         <label class="skip-link" for="tool-search">Search tools</label>
-        <input id="tool-search" type="search" placeholder="Search tools — try &ldquo;cost&rdquo; or &ldquo;name&rdquo;" autocomplete="off">
+        <input id="tool-search" type="search" placeholder="Search tools — try &ldquo;convert&rdquo; or &ldquo;image&rdquo;" autocomplete="off">
       </div>
     </div>
     ${

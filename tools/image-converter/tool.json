@@ -1,0 +1,71 @@
+{
+  "slug": "image-converter",
+  "title": "Image Converter & Compressor",
+  "tagline": "Convert and shrink PNG, JPG and WebP images right in your browser — batch, unlimited, and nothing is ever uploaded.",
+  "description": "Convert and compress PNG, JPG and WebP images in your browser. Batch, no upload, no watermark, no limits — your files never leave your device.",
+  "keywords": [
+    "image converter",
+    "png to jpg",
+    "jpg to webp",
+    "image compressor",
+    "resize image online",
+    "convert png to webp",
+    "compress jpeg online",
+    "batch image converter",
+    "free image converter no upload",
+    "webp converter"
+  ],
+  "category": "converters",
+  "datePublished": "2026-07-30",
+  "intro": "Almost every image converter that ranks on Google works the same way: you hand your photos to a stranger's server, wait in a queue, get two files before it asks you to upgrade, and find a watermark in the corner of what comes back. For a holiday snapshot that is annoying. For a product photo, an ID scan, a screenshot of something confidential, or a client's artwork, it is a genuine problem — you have just published that file to someone else's infrastructure.\n\nThis converter never uploads anything. It uses the Canvas API that is already built into your browser, so the decoding, the resizing and the re-encoding all happen on your own machine. You could switch your Wi-Fi off after the page loads and it would keep working. There is no queue, no file cap, no watermark and no account, and you can drop in fifty images at once if you want to.\n\nOne useful side effect: because every image is decoded and re-encoded from scratch, EXIF metadata does not survive the trip. Phone photos routinely carry GPS coordinates, the camera model and a timestamp. The files this tool hands back do not.",
+  "howTo": [
+    "Drop your images onto the drop zone, click Choose images, or just paste one from your clipboard with Ctrl+V. You can add as many at once as you like, in any mix of formats.",
+    "Pick the output format: PNG for transparency and flat graphics, JPEG for photographs, or WebP for anything going on a website. Any format your browser cannot encode is disabled rather than silently swapped.",
+    "For JPEG and WebP, set the quality. 82 is the default and is a good balance; drop to the 60s if size matters more than fine detail.",
+    "Optionally resize — a maximum width, a maximum height, or a straight percentage. Aspect ratio is always preserved and nothing is ever enlarged beyond its original dimensions.",
+    "Read each row: the original size, the new size, the percentage saved and the output dimensions. Download files one at a time, or hit Download all to save the whole batch in sequence."
+  ],
+  "faq": [
+    {
+      "q": "Does my image get uploaded to a server?",
+      "a": "No. Nothing leaves your device. The page uses the Canvas API built into your browser: the file is read locally with the File API, drawn onto an off-screen canvas, and re-encoded there. No network request carries your image, there is no backend to receive it, and nothing is written to storage. Once the page loads you can go offline and the tool still works — which is the simplest way to prove it to yourself. Open your browser's network tab and convert a file: you will see no upload."
+    },
+    {
+      "q": "Which format should I choose?",
+      "a": "PNG when you need transparency or the image is a logo, screenshot, chart or anything with flat colour and hard edges — it is lossless, so text and lines stay crisp. JPEG for photographs, where its lossy compression is very efficient and the loss of detail is hard to see. WebP for anything destined for a website: it supports transparency like PNG, compresses photographs typically 25 to 35 percent smaller than JPEG at comparable quality, and every current browser can display it. If you are converting a photo for the web, WebP is usually the right answer."
+    },
+    {
+      "q": "Does converting an image lose quality?",
+      "a": "It depends on the direction. Converting to PNG is lossless, so no detail is discarded, although a photograph saved as PNG will usually be much larger than the JPEG you started with. Converting to JPEG or WebP is lossy and always discards some information — and because quality loss accumulates, re-saving an already-lossy JPEG as a new JPEG degrades it a little further even at quality 100. Convert from the highest-quality original you have rather than from a file that has already been through the mill."
+    },
+    {
+      "q": "Is EXIF and location data removed?",
+      "a": "Yes, as a direct consequence of how the tool works. The image is decoded to raw pixels, drawn to a canvas and re-encoded, and metadata blocks are not part of that pixel data — so EXIF, including GPS coordinates, camera model, lens, serial numbers and the original timestamp, is not carried into the output. That is genuinely useful before posting a photo publicly. The flip side: if you need to keep copyright or IPTC fields, this tool is the wrong one, because it strips those too."
+    },
+    {
+      "q": "Is there a limit on how many files or how big they can be?",
+      "a": "There is no limit imposed by the tool — no file cap, no size cap, no queue and no paid tier. The only real ceilings are your browser's: images are held in memory while they are processed, and browsers cap the maximum canvas dimensions (in practice, in the region of 16,000 pixels on a side and a total pixel budget beyond that). A very large image that exceeds those limits will show an error on its own row and the rest of the batch will carry on."
+    },
+    {
+      "q": "Why did my file get bigger instead of smaller?",
+      "a": "Usually because of the format you picked. Converting a photograph to PNG almost always increases the size, because PNG is lossless and photographs contain a huge amount of unique colour detail. Converting an already-compressed JPEG to a high-quality JPEG or WebP can also grow it, since the encoder is trying to faithfully reproduce compression artefacts that are already there. The tool shows an increase honestly rather than hiding it — if you see a plus sign, lower the quality or switch to a lossy format."
+    }
+  ],
+  "cta": {
+    "label": "Start your app brief"
+  },
+  "video": {
+    "status": "pending",
+    "durationTargetSec": 60,
+    "narration": "Most image converters online want you to upload your photos to their server first. This one never does. Everything happens right here in your browser. Drop in as many images as you like — there is no file limit and no queue. Now choose your output format. PNG keeps transparency, JPEG is best for photographs, and WebP is usually the smallest thing you can put on a website. For the lossy formats you get a quality slider. Eighty-two is a sensible default. Drag it down and the files get smaller. You can resize too — set a maximum width, and every image is scaled to fit while keeping its aspect ratio. Nothing is ever enlarged. Watch the results. Each row shows the original size, the new size and exactly how much you saved. Download one file, or download the whole batch. Nothing was uploaded, and the location data in your photos is gone.",
+    "scenes": [
+      { "label": "Nothing is uploaded, ever", "mark": "intro" },
+      { "label": "Drop in a whole batch", "mark": "load" },
+      { "label": "Pick your output format", "mark": "format" },
+      { "label": "Set the quality", "mark": "quality" },
+      { "label": "Resize without upscaling", "mark": "resize" },
+      { "label": "See what you saved", "mark": "results" },
+      { "label": "Download one or all", "mark": "download" }
+    ]
+  }
+}

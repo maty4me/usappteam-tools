@@ -14,7 +14,7 @@ export const SITE = {
   brief: 'https://usappteam.com/app-brief',
   bookCall: 'https://usappteam.com/book-call',
   name: 'US APP Team',
-  hubTitle: 'Free Tools for App Founders',
+  hubTitle: 'Free Online Tools',
   email: 'contact@mail.usappteam.com',
 };
 
@@ -81,7 +81,7 @@ export function footer() {
           <img src="${BASE}/logo-A-128.png" alt="" width="30" height="30">
           <span>US APP TEAM</span>
         </a>
-        <p>Free tools for founders with app ideas. We turn ideas into live apps on the App Store and Google Play &mdash; done for you, fixed price, you own everything.</p>
+        <p>Free browser tools that run on your own device. Built by US APP Team, who turn app ideas into live apps on the App Store and Google Play &mdash; done for you, fixed price, you own everything.</p>
       </div>
       <div class="foot-cols">
         <div class="foot-col">

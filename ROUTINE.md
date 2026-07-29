@@ -32,6 +32,9 @@ instruction set — the schedule points at it, so editing this file changes tomo
    creative work — the tool must be genuinely good, not a stub. It should be better than whatever is
    currently ranking for the keyword, and it must be honest about its limits.
 
+   The tool does **not** have to be about building apps — file converters, generators and everyday
+   utilities all count, and the CTA at the bottom is what ties the library back to the business.
+
    Non-negotiables:
    - Vanilla JS, self-contained, no external scripts, works at 375px, accessible.
    - Nothing uploaded, nothing stored — and say so on the page.

@@ -32,14 +32,27 @@ const SEEDS = [
   'app requirements document', 'freelance app developer cost', 'app development agency cost',
   'ios app cost', 'android app cost', 'saas pricing calculator', 'break even calculator app',
   'app user retention calculator', 'app idea validation', 'app store keyword',
+  // The library is not limited to app-building — everyday browser utilities pull
+  // far more traffic and convert through the same CTA.
+  'image converter', 'png to jpg', 'compress image', 'resize image',
+  'pdf converter', 'csv to json', 'json formatter', 'base64 encode',
+  'qr code generator', 'password generator', 'word counter', 'unit converter',
+  'color picker', 'invoice generator', 'timestamp converter', 'text case converter',
 ];
 
 const MODIFIERS = ['free', 'calculator', 'generator', 'checker', 'template', 'estimator', 'tool', 'online'];
 const LETTERS = 'abcdefghijklmnopqrstuvwxyz'.split('');
 
-const TOOL_INTENT = /\b(calculator|generator|checker|estimator|template|maker|builder|converter|analyzer|validator)\b/;
-const APP_RELEVANT = /\b(app|apps|mobile|ios|android|saas|mvp|startup|play store|app store|appstore)\b/;
-const JUNK = /\b(casino|loan|pregnan|tattoo|baby|dog|cat|minecraft|fortnite|roblox|anime|pokemon|dnd|clash|gta|nfl|nba|apk|mod|hack|crack|download|github|reddit|xml|webp|studio|maui|flutter|unity|figma|excel|word)\b/;
+const TOOL_INTENT =
+  /\b(calculator|generator|checker|estimator|template|maker|builder|converter|convert|analyzer|validator|compressor|resizer|formatter|counter|encoder|decoder)\b/;
+// Either app-related, or a general utility people search for by name.
+const RELEVANT =
+  /\b(app|apps|mobile|ios|android|saas|mvp|startup|play store|app store|appstore|image|photo|picture|png|jpg|jpeg|webp|pdf|csv|json|xml|html|css|markdown|text|word|file|qr|password|colou?r|unit|currency|date|time|timestamp|invoice|base64|url)\b/;
+// Deliberately narrower than the app-only version: file formats and office words
+// are now legitimate subject matter, so only genuinely off-topic verticals and
+// platform-specific noise are excluded.
+const JUNK =
+  /\b(casino|loan|pregnan|tattoo|baby|dog|cat|minecraft|fortnite|roblox|anime|pokemon|dnd|clash|gta|nfl|nba|apk|mod|hack|crack|torrent|github|reddit|studio|maui|flutter|unity|figma)\b/;
 
 async function suggest(url) {
   try {
@@ -78,7 +91,7 @@ async function main() {
   const candidates = [...all]
     .filter((k) => {
       const words = k.split(/\s+/).length;
-      return words >= 3 && words <= 6 && TOOL_INTENT.test(k) && APP_RELEVANT.test(k) && !JUNK.test(k);
+      return words >= 3 && words <= 6 && TOOL_INTENT.test(k) && RELEVANT.test(k) && !JUNK.test(k);
     })
     .sort();
 

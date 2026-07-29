@@ -3,15 +3,18 @@
   "version": "1.0.0",
   "private": false,
   "type": "module",
-  "description": "Free tools for app founders — tools.usappteam.com",
-  "engines": { "node": ">=20" },
+  "description": "Free tools for founders and small businesses \u2014 tools.usappteam.com",
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "build": "node scripts/build.mjs",
     "validate": "node scripts/validate.mjs",
     "smoke": "node scripts/smoke.mjs",
     "serve": "node scripts/serve.mjs",
     "record": "node video/record.mjs",
-    "voiceover": "node video/voiceover.mjs"
+    "voiceover": "node video/voiceover.mjs",
+    "previews": "node scripts/previews.mjs"
   },
   "dependencies": {
     "marked": "^15.0.0"
