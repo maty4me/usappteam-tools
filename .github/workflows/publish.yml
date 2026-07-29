@@ -24,6 +24,13 @@ concurrency:
   group: publish
   cancel-in-progress: false
 
+env:
+  # The site is served from the project URL until tools.usappteam.com resolves.
+  # Once DNS is live: clear BASE_PATH and set CUSTOM_DOMAIN to 1 so the CNAME
+  # file is emitted and internal links move back to the root.
+  BASE_PATH: /usappteam-tools
+  CUSTOM_DOMAIN: '0'
+
 jobs:
   # Which tools are missing a rendered video?
   # The [skip-render] guard stops the media commit below from re-triggering us.

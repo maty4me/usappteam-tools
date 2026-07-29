@@ -9,7 +9,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { marked } from 'marked';
-import { SITE, esc, head, page, ctaBlock } from '../site/templates/layout.mjs';
+import { SITE, BASE, esc, head, page, ctaBlock } from '../site/templates/layout.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const DIST = path.join(ROOT, 'dist');
@@ -136,7 +136,7 @@ function toolPage(t) {
     description: t.description,
     canonical: t.url,
     ogImage: `/og/${t.slug}.png`,
-    markdownUrl: t.mdUrl,
+    markdownUrl: BASE + t.mdUrl,
     schemas: toolSchemas(t),
   });
 
@@ -152,10 +152,10 @@ function toolPage(t) {
     ? `<section class="video-block">
   <h2>Watch: how to use this tool</h2>
   <div class="video-frame">
-    <video controls preload="none" playsinline poster="/media/${t.slug}/poster.jpg" width="1280" height="720">
-      <source src="/media/${t.slug}/demo.mp4" type="video/mp4">
-      <track kind="captions" srclang="en" label="English" src="/media/${t.slug}/captions.vtt" default>
-      Your browser does not support embedded video. <a href="/media/${t.slug}/demo.mp4">Download the walkthrough</a>.
+    <video controls preload="none" playsinline poster="${BASE}/media/${t.slug}/poster.jpg" width="1280" height="720">
+      <source src="${BASE}/media/${t.slug}/demo.mp4" type="video/mp4">
+      <track kind="captions" srclang="en" label="English" src="${BASE}/media/${t.slug}/captions.vtt" default>
+      Your browser does not support embedded video. <a href="${BASE}/media/${t.slug}/demo.mp4">Download the walkthrough</a>.
     </video>
   </div>
 </section>`
@@ -177,7 +177,7 @@ function toolPage(t) {
 
   const body = `<div class="wrap">
   <section class="tool-hero">
-    <p class="breadcrumb"><a href="/">Free Tools</a> <span aria-hidden="true">/</span> ${esc(t.title)}</p>
+    <p class="breadcrumb"><a href="${BASE}/">Free Tools</a> <span aria-hidden="true">/</span> ${esc(t.title)}</p>
     <h1>${esc(t.title)}</h1>
     <p class="lede">${esc(t.tagline)}</p>
     <div class="prose">${intro}</div>
@@ -233,10 +233,10 @@ function hubPage(tools) {
 
   const cards = tools
     .map(
-      (t) => `<a class="card" href="/tools/${t.slug}/" data-slug="${esc(t.slug)}" data-category="${esc(t.category || '')}" data-search="${esc([t.title, t.tagline, t.description, ...(t.keywords || [])].join(' ').toLowerCase())}">
+      (t) => `<a class="card" href="${BASE}/tools/${t.slug}/" data-slug="${esc(t.slug)}" data-category="${esc(t.category || '')}" data-search="${esc([t.title, t.tagline, t.description, ...(t.keywords || [])].join(' ').toLowerCase())}">
     <div class="card-thumb">${
       t.hasVideo
-        ? `<img src="/media/${t.slug}/poster.jpg" alt="" loading="lazy" width="1280" height="720">`
+        ? `<img src="${BASE}/media/${t.slug}/poster.jpg" alt="" loading="lazy" width="1280" height="720">`
         : `<span class="glyph" aria-hidden="true">${esc((t.title || '?')[0])}</span>`
     }</div>
     <div class="card-body">
@@ -341,7 +341,7 @@ function notFoundPage() {
     body: `<div class="wrap sec">
   <h1>That page moved or never existed</h1>
   <p class="lede">Nothing here. The tool library is one click away.</p>
-  <a class="btn-primary" href="/">Browse free tools <span aria-hidden="true">&rarr;</span></a>
+  <a class="btn-primary" href="${BASE}/">Browse free tools <span aria-hidden="true">&rarr;</span></a>
 </div>`,
   });
 }

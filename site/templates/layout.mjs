@@ -1,6 +1,13 @@
 /* Shared page chrome: <head>, nav, footer.
    Every page is assembled from these — there is no runtime framework. */
 
+/* Every internal root-relative URL is prefixed with BASE. It is empty by default
+   — which is right for local preview and for the custom domain — and CI sets
+   BASE_PATH=/usappteam-tools while the site is still served from the project
+   URL. Canonical and OG URLs deliberately ignore it: they always name the final
+   origin, because that is what should end up indexed. */
+export const BASE = (process.env.BASE_PATH || '').replace(/\/$/, '');
+
 export const SITE = {
   origin: 'https://tools.usappteam.com',
   main: 'https://usappteam.com',
@@ -38,11 +45,11 @@ export function head({ title, description, canonical, ogImage, markdownUrl, sche
 <meta name="twitter:description" content="${esc(description)}">
 <meta name="twitter:image" content="${esc(SITE.origin + ogImage)}">
 ${markdownUrl ? `<link rel="alternate" type="text/markdown" href="${esc(markdownUrl)}" title="Markdown version for AI agents">` : ''}
-<link rel="icon" href="/favicon.ico" sizes="any">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="stylesheet" href="/styles/tokens.css">
-<link rel="stylesheet" href="/styles/site.css">
+<link rel="icon" href="${BASE}/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="${BASE}/favicon-32.png">
+<link rel="apple-touch-icon" href="${BASE}/apple-touch-icon.png">
+<link rel="stylesheet" href="${BASE}/styles/tokens.css">
+<link rel="stylesheet" href="${BASE}/styles/site.css">
 ${schemas.map(jsonld).join('\n')}`;
 }
 
@@ -50,12 +57,12 @@ export function nav() {
   return `<a class="skip-link" href="#main">Skip to content</a>
 <header class="nav">
   <div class="wrap nav-in">
-    <a class="nav-brand" href="/">
-      <img src="/logo-A-128.png" alt="" width="30" height="30">
+    <a class="nav-brand" href="${BASE}/">
+      <img src="${BASE}/logo-A-128.png" alt="" width="30" height="30">
       <span>US APP TEAM</span>
     </a>
     <nav class="nav-menu" aria-label="Main">
-      <a href="/">Free Tools</a>
+      <a href="${BASE}/">Free Tools</a>
       <a class="hide-sm" href="${SITE.main}/how-it-works">How it works</a>
       <a class="hide-sm" href="${SITE.main}/pricing">Pricing</a>
       <a class="nav-cta" href="${SITE.brief}">Start your app brief</a>
@@ -70,8 +77,8 @@ export function footer() {
   <div class="wrap">
     <div class="foot-in">
       <div class="foot-brand">
-        <a class="nav-brand" href="/">
-          <img src="/logo-A-128.png" alt="" width="30" height="30">
+        <a class="nav-brand" href="${BASE}/">
+          <img src="${BASE}/logo-A-128.png" alt="" width="30" height="30">
           <span>US APP TEAM</span>
         </a>
         <p>Free tools for founders with app ideas. We turn ideas into live apps on the App Store and Google Play &mdash; done for you, fixed price, you own everything.</p>
@@ -79,9 +86,9 @@ export function footer() {
       <div class="foot-cols">
         <div class="foot-col">
           <h4>Free Tools</h4>
-          <a href="/">All tools</a>
-          <a href="/llms.txt">llms.txt</a>
-          <a href="/sitemap.xml">Sitemap</a>
+          <a href="${BASE}/">All tools</a>
+          <a href="${BASE}/llms.txt">llms.txt</a>
+          <a href="${BASE}/sitemap.xml">Sitemap</a>
         </div>
         <div class="foot-col">
           <h4>US APP Team</h4>
