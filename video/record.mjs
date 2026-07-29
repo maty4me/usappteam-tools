@@ -68,20 +68,36 @@ const FOCUS_CSS = `
   ::-webkit-scrollbar { display: none; }
 `;
 
+/* Runs at document-start, before <html> exists — so the cursor element is
+   created lazily on first use rather than appended immediately. Appending at
+   init time throws, which silently loses every function defined after it. */
 const CURSOR_JS = `
 (() => {
-  const c = document.createElement('div');
-  c.id = '__cursor';
-  c.style.cssText = 'position:fixed;width:22px;height:22px;border-radius:50%;' +
-    'background:rgba(35,128,184,.28);border:2px solid #2380B8;pointer-events:none;' +
-    'z-index:2147483647;transform:translate(-50%,-50%);transition:left .45s cubic-bezier(.16,1,.3,1),' +
-    'top .45s cubic-bezier(.16,1,.3,1),transform .15s ease;left:-100px;top:-100px;';
-  document.documentElement.appendChild(c);
-  window.__cursorTo = (x, y) => { c.style.left = x + 'px'; c.style.top = y + 'px'; };
-  window.__cursorPulse = () => {
-    c.style.transform = 'translate(-50%,-50%) scale(.7)';
-    setTimeout(() => { c.style.transform = 'translate(-50%,-50%) scale(1)'; }, 150);
+  let c = null;
+  const cursor = () => {
+    if (c && c.isConnected) return c;
+    if (!document.documentElement) return null;
+    c = document.createElement('div');
+    c.id = '__cursor';
+    c.style.cssText = 'position:fixed;width:22px;height:22px;border-radius:50%;' +
+      'background:rgba(35,128,184,.28);border:2px solid #2380B8;pointer-events:none;' +
+      'z-index:2147483647;transform:translate(-50%,-50%);transition:left .45s cubic-bezier(.16,1,.3,1),' +
+      'top .45s cubic-bezier(.16,1,.3,1),transform .15s ease;left:-100px;top:-100px;';
+    document.documentElement.appendChild(c);
+    return c;
   };
+
+  window.__cursorTo = (x, y) => {
+    const el = cursor();
+    if (el) { el.style.left = x + 'px'; el.style.top = y + 'px'; }
+  };
+  window.__cursorPulse = () => {
+    const el = cursor();
+    if (!el) return;
+    el.style.transform = 'translate(-50%,-50%) scale(.7)';
+    setTimeout(() => { el.style.transform = 'translate(-50%,-50%) scale(1)'; }, 150);
+  };
+
   window.__marks = [];
   window.__t0 = performance.now();
   window.__mark = (name) => {

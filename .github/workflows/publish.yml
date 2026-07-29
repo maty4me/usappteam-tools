@@ -16,6 +16,7 @@ on:
 
 permissions:
   contents: write
+  issues: write      # the render job opens a video-failed issue on failure
   pages: write
   id-token: write
 

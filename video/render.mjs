@@ -29,8 +29,12 @@ const MEDIA = path.join(ROOT, 'media', slug);
 const exists = async (f) => !!(await fs.stat(f).catch(() => null));
 
 function run(cmd, args, opts = {}) {
+  // Windows needs shell:true to resolve `npx`, but shell mode also splits an
+  // absolute path on its spaces ("C:\Program Files\..."), so only shell out for
+  // bare command names.
+  const shell = process.platform === 'win32' && !path.isAbsolute(cmd);
   return new Promise((resolve, reject) => {
-    const c = spawn(cmd, args, { stdio: 'inherit', shell: process.platform === 'win32', ...opts });
+    const c = spawn(cmd, args, { stdio: 'inherit', shell, ...opts });
     c.on('error', reject);
     c.on('close', (code) => (code === 0 ? resolve() : reject(new Error(`${cmd} exited ${code}`))));
   });
@@ -119,9 +123,12 @@ async function main() {
   await run('npx', ['remotion', 'render', 'src/index.jsx', 'ToolDemo', mp4,
     '--props', propsFile, '--crf', '23', '--log', 'error'], { cwd: remotionDir });
 
+  // Poster = a frame inside the branded end card, not a mid-demo frame with a
+  // half-finished caption burned into it. Must match Root.jsx's duration maths.
+  const totalFrames = Math.round((durationInSeconds + 3.2) * 30);
   await run('npx', ['remotion', 'still', 'src/index.jsx', 'ToolDemo',
     path.join(MEDIA, 'poster.jpg'), '--props', propsFile,
-    '--frame', String(Math.round(durationInSeconds * 30) - 20), '--log', 'error'], { cwd: remotionDir });
+    '--frame', String(totalFrames - 40), '--log', 'error'], { cwd: remotionDir });
 
   if (hasVoiceover) {
     await fs.copyFile(path.join(OUT, 'captions.vtt'), path.join(MEDIA, 'captions.vtt'));
