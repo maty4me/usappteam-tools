@@ -34,6 +34,7 @@ without re-generating the tool.
 npm install
 npm run build      # tools/ + templates -> dist/
 npm run validate   # SEO, schema, and price-whitelist gates (CI runs this before deploy)
+npm run smoke      # loads every page in Chromium and proves the tools actually run
 npm run serve      # preview dist/ at http://127.0.0.1:8744
 ```
 

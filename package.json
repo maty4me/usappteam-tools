@@ -8,6 +8,7 @@
   "scripts": {
     "build": "node scripts/build.mjs",
     "validate": "node scripts/validate.mjs",
+    "smoke": "node scripts/smoke.mjs",
     "serve": "node scripts/serve.mjs",
     "record": "node video/record.mjs",
     "voiceover": "node video/voiceover.mjs"

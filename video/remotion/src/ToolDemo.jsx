@@ -146,7 +146,9 @@ const Avatar = ({ hasVideo, speaking }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const s = spring({ frame, fps, config: { damping: 200 } });
-  const size = 208;
+  // Kept deliberately small: it is a presence cue, and the tool underneath is
+  // what the viewer came to see.
+  const size = 168;
   // Gentle pulse on the ring while the voiceover is talking.
   const pulse = speaking ? 1 + Math.sin(frame / 4.2) * 0.022 : 1;
 
