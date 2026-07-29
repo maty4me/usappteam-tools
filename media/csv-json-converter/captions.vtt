@@ -1,0 +1,93 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:02.566
+This converter runs entirely in your browser,
+
+2
+00:00:02.682 --> 00:00:05.294
+so the file you paste never leaves your machine.
+
+3
+00:00:05.805 --> 00:00:07.872
+Here is a customer list with the two things
+
+4
+00:00:07.906 --> 00:00:10.449
+that break most converters — an address with
+
+5
+00:00:10.484 --> 00:00:11.923
+a comma inside quotes,
+
+6
+00:00:12.098 --> 00:00:14.257
+and a Boston ZIP code that starts with a
+
+7
+00:00:14.327 --> 00:00:17.752
+zero. Paste it in and the JSON appears straight
+
+8
+00:00:17.775 --> 00:00:20.144
+away. Look at the table preview.
+
+9
+00:00:20.469 --> 00:00:22.419
+The quoted name stayed one field,
+
+10
+00:00:22.535 --> 00:00:24.532
+and the ZIP kept its leading zero,
+
+11
+00:00:24.579 --> 00:00:26.761
+because a cell only becomes a number when it
+
+12
+00:00:26.796 --> 00:00:29.304
+can be written back as exactly the same text.
+
+13
+00:00:29.547 --> 00:00:31.927
+Turn type inference off and every value comes
+
+14
+00:00:31.974 --> 00:00:33.472
+back as a string instead.
+
+15
+00:00:33.982 --> 00:00:36.061
+Switch direction and it works the other way
+
+16
+00:00:36.130 --> 00:00:39.439
+too. Nested objects flatten to dot notation,
+
+17
+00:00:39.590 --> 00:00:40.972
+arrays are serialised,
+
+18
+00:00:41.146 --> 00:00:42.678
+and every key gets a column.
+
+19
+00:00:43.282 --> 00:00:45.674
+Rows with the wrong number of fields are reported
+
+20
+00:00:45.709 --> 00:00:47.903
+with their line numbers rather than quietly
+
+21
+00:00:47.973 --> 00:00:49.911
+mangled. Then copy it,
+
+22
+00:00:49.958 --> 00:00:52.547
+or download the file. No upload,
+
+23
+00:00:52.617 --> 00:00:55.031
+no signup, nothing stored anywhere.

@@ -56,7 +56,7 @@
     "label": "Start your app brief"
   },
   "video": {
-    "status": "pending",
+    "status": "rendered",
     "durationTargetSec": 60,
     "narration": "This converter runs entirely in your browser, so the file you paste never leaves your machine. Here is a customer list with the two things that break most converters — an address with a comma inside quotes, and a Boston ZIP code that starts with a zero. Paste it in and the JSON appears straight away. Look at the table preview. The quoted name stayed one field, and the ZIP kept its leading zero, because a cell only becomes a number when it can be written back as exactly the same text. Turn type inference off and every value comes back as a string instead. Switch direction and it works the other way too. Nested objects flatten to dot notation, arrays are serialised, and every key gets a column. Rows with the wrong number of fields are reported with their line numbers rather than quietly mangled. Then copy it, or download the file. No upload, no signup, nothing stored anywhere.",
     "scenes": [
@@ -84,6 +84,9 @@
         "label": "Copy or download",
         "mark": "copy"
       }
-    ]
+    ],
+    "renderedAt": "2026-07-29",
+    "durationISO": "PT55S",
+    "hasVoiceover": true
   }
 }

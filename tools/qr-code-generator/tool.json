@@ -55,15 +55,33 @@
     "label": "Start your app brief"
   },
   "video": {
-    "status": "pending",
+    "status": "rendered",
     "durationTargetSec": 60,
     "narration": "Here is a QR code that will still work in ten years. Start with a website address — type it and the code redraws instantly, no generate button, no waiting. What matters is what is inside it. Most free generators hide a tracking link on their own domain in there, which is exactly why printed codes go dead when a plan lapses. This one encodes your address directly, so there is nothing to expire. Switch to WiFi and it works the same way. Type the network name, type the password, and the pattern changes as you go — your guests point a camera and join, no typing. That password is encoded right here in your browser and never uploaded. Change the colours if you like; you get a warning the moment the contrast drops too low to scan reliably. Then download it. PNG for screens, SVG for print. No account, no email, no expiry.",
     "scenes": [
-      { "label": "A code that cannot expire", "mark": "intro" },
-      { "label": "Encode a website address", "mark": "url" },
-      { "label": "Switch to WiFi details", "mark": "wifi" },
-      { "label": "Set the colours", "mark": "style" },
-      { "label": "Download PNG or SVG", "mark": "download" }
-    ]
+      {
+        "label": "A code that cannot expire",
+        "mark": "intro"
+      },
+      {
+        "label": "Encode a website address",
+        "mark": "url"
+      },
+      {
+        "label": "Switch to WiFi details",
+        "mark": "wifi"
+      },
+      {
+        "label": "Set the colours",
+        "mark": "style"
+      },
+      {
+        "label": "Download PNG or SVG",
+        "mark": "download"
+      }
+    ],
+    "renderedAt": "2026-07-29",
+    "durationISO": "PT52S",
+    "hasVoiceover": true
   }
 }
