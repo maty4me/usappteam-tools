@@ -136,17 +136,30 @@ jobs:
           merge-multiple: true
           path: .
 
+      # Anything landing on main while a render is in flight makes this push a
+      # non-fast-forward, so rebase and retry. And never let it fail the job:
+      # the rendered files are already in the working tree, so the deploy below
+      # ships them either way — losing the deploy would be the worse outcome.
       - name: Commit rendered media
+        continue-on-error: true
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          if [ -n "$(git status --porcelain media tools)" ]; then
-            git add media tools
-            git commit -m "chore(media): render demo videos [skip-render]"
-            git push
-          else
+          if [ -z "$(git status --porcelain media tools)" ]; then
             echo "no new media"
+            exit 0
           fi
+          git add media tools
+          git commit -m "chore(media): render demo videos [skip-render]"
+          for attempt in 1 2 3; do
+            if git push; then
+              echo "pushed on attempt $attempt"
+              exit 0
+            fi
+            echo "push rejected, rebasing onto origin/main (attempt $attempt)"
+            git pull --rebase --autostash origin main || break
+          done
+          echo "::warning::could not push rendered media; deploying it anyway, it will re-render next run"
 
       - uses: actions/setup-node@v4
         with:
