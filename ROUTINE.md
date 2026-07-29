@@ -41,6 +41,13 @@ instruction set — the schedule points at it, so editing this file changes tomo
 
 6. **Push** to `main` with a conventional commit (`feat(tools): add <slug>`).
 
+   If the push is rejected for **authentication** rather than for being behind, stop and say so
+   plainly in your report — the cloud environment's GitHub credentials need fixing and no amount of
+   retrying will help. Leave the backlog item as `"building"` so tomorrow resumes it, and include
+   the tool's four files as a diff in your report so nothing you wrote is lost.
+
+   If the push is rejected as **non-fast-forward**, `git pull --rebase origin main` and push again.
+
 7. **Watch CI.** `gh run watch` on the triggered `publish.yml`, 30-minute timeout. The render job is
    `continue-on-error` — a video failure does not stop the deploy, it opens a `video-failed` issue
    and the page ships without a video block.
