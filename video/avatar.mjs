@@ -31,10 +31,12 @@ const SHOTS = [
   },
   {
     name: 'idle',
+    // Veo's filters reject a wholly silent, motionless brief, so this describes
+    // a quiet room rather than asking for nothing at all.
     prompt:
       'Close-up portrait video of the man in the reference photo, framed head and shoulders, ' +
-      'centered, facing the camera. He is listening quietly with a calm friendly expression, ' +
-      'mouth closed, subtle natural blinking and very slight head movement. ' +
+      'centered, facing the camera with a warm relaxed smile. He pauses attentively between ' +
+      'sentences, breathing naturally, blinking, with a small nod. Quiet office room tone. ' +
       'Soft even studio lighting, clean uncluttered light grey background, shallow depth of field. ' +
       'Camera is completely static. No text, no captions, no graphics, no cuts.',
   },
@@ -102,11 +104,19 @@ async function generate(key, shot, imageB64) {
   return raw;
 }
 
+/* Veo ramps into a shot: the first couple of seconds of every clip so far has
+   arrived with a completely different (saturated, nightclub-looking) background
+   before settling into the studio look that was asked for. Since these clips
+   loop behind a talking head, that ramp would strobe on every repeat, so it is
+   cut off. Verify with `npm run avatar:contact` after any regeneration. */
+const TRIM_START = Number(process.env.AVATAR_TRIM ?? 2.6);
+
 /** Square crop + webm so the circular corner card has no letterboxing. */
 function toLoop(raw, out) {
   const r = spawnSync(
     'ffmpeg',
-    ['-y', '-i', raw, '-vf', "crop='min(iw,ih)':'min(iw,ih)',scale=512:512,fps=25",
+    ['-y', '-ss', String(TRIM_START), '-i', raw,
+     '-vf', "crop='min(iw,ih)':'min(iw,ih)',scale=512:512,fps=25",
      '-an', '-c:v', 'libvpx-vp9', '-b:v', '900k', '-row-mt', '1', out],
     { stdio: 'inherit', shell: process.platform === 'win32' }
   );
@@ -122,7 +132,8 @@ async function main() {
   const imageB64 = (await fs.readFile(headshot)).toString('base64');
   const key = await getKey();
 
-  for (const shot of SHOTS) {
+  const only = process.argv.find((a) => a.startsWith('--only='))?.split('=')[1];
+  for (const shot of SHOTS.filter((x) => !only || x.name === only)) {
     const raw = await generate(key, shot, imageB64);
     const out = path.join(AVATAR, `${shot.name}.webm`);
     toLoop(raw, out);

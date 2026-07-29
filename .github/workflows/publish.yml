@@ -25,11 +25,11 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  # The site is served from the project URL until tools.usappteam.com resolves.
-  # Once DNS is live: clear BASE_PATH and set CUSTOM_DOMAIN to 1 so the CNAME
-  # file is emitted and internal links move back to the root.
-  BASE_PATH: /usappteam-tools
-  CUSTOM_DOMAIN: '0'
+  # tools.usappteam.com went live 2026-07-29, so the site is served from the
+  # domain root: no path prefix on internal links, and the CNAME file is emitted
+  # so Pages keeps the custom domain on every deploy.
+  BASE_PATH: ''
+  CUSTOM_DOMAIN: '1'
 
 jobs:
   # Which tools are missing a rendered video?
