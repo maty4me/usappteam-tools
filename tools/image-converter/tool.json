@@ -55,17 +55,41 @@
     "label": "Start your app brief"
   },
   "video": {
-    "status": "pending",
+    "status": "rendered",
     "durationTargetSec": 60,
     "narration": "Most image converters online want you to upload your photos to their server first. This one never does. Everything happens right here in your browser. Drop in as many images as you like — there is no file limit and no queue. Now choose your output format. PNG keeps transparency, JPEG is best for photographs, and WebP is usually the smallest thing you can put on a website. For the lossy formats you get a quality slider. Eighty-two is a sensible default. Drag it down and the files get smaller. You can resize too — set a maximum width, and every image is scaled to fit while keeping its aspect ratio. Nothing is ever enlarged. Watch the results. Each row shows the original size, the new size and exactly how much you saved. Download one file, or download the whole batch. Nothing was uploaded, and the location data in your photos is gone.",
     "scenes": [
-      { "label": "Nothing is uploaded, ever", "mark": "intro" },
-      { "label": "Drop in a whole batch", "mark": "load" },
-      { "label": "Pick your output format", "mark": "format" },
-      { "label": "Set the quality", "mark": "quality" },
-      { "label": "Resize without upscaling", "mark": "resize" },
-      { "label": "See what you saved", "mark": "results" },
-      { "label": "Download one or all", "mark": "download" }
-    ]
+      {
+        "label": "Nothing is uploaded, ever",
+        "mark": "intro"
+      },
+      {
+        "label": "Drop in a whole batch",
+        "mark": "load"
+      },
+      {
+        "label": "Pick your output format",
+        "mark": "format"
+      },
+      {
+        "label": "Set the quality",
+        "mark": "quality"
+      },
+      {
+        "label": "Resize without upscaling",
+        "mark": "resize"
+      },
+      {
+        "label": "See what you saved",
+        "mark": "results"
+      },
+      {
+        "label": "Download one or all",
+        "mark": "download"
+      }
+    ],
+    "renderedAt": "2026-07-29",
+    "durationISO": "PT56S",
+    "hasVoiceover": true
   }
 }
