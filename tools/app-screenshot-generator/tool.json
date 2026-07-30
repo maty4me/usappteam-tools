@@ -1,0 +1,74 @@
+{
+  "slug": "app-screenshot-generator",
+  "title": "App Store Screenshot Generator",
+  "tagline": "Turn raw simulator screenshots into captioned store images at the exact pixel sizes Apple and Google require — free, in your browser.",
+  "description": "Free App Store and Play Store screenshot generator. Exact required pixel sizes, captions, device frames, batch export. No upload, no watermark, no signup.",
+  "keywords": [
+    "app store screenshot generator",
+    "app store screenshot size",
+    "app screenshot generator",
+    "play store screenshot size",
+    "app store screenshot dimensions",
+    "google play screenshot size",
+    "iphone 6.9 screenshot size",
+    "app store screenshot maker free",
+    "app screenshot mockup generator",
+    "ipad screenshot size app store"
+  ],
+  "category": "generators",
+  "datePublished": "2026-07-30",
+  "intro": "Getting rejected over a screenshot is one of the more annoying ways to lose a day. App Store Connect validates the pixel size of every image you upload, exactly, and it will not round for you. A 6.9-inch iPhone screenshot has to be 1320 × 2868, 1290 × 2796 or 1260 × 2736 — nothing else. Apple also refuses any screenshot that contains an alpha channel, which is a trap, because every PNG a web tool hands you almost certainly has one.\n\nThis generator takes the screenshots you already captured in the iOS Simulator, an Android emulator or a real device, and composes them onto a background at a size the store will actually accept. Every dimension in the picker was transcribed from Apple's own \"Screenshot specifications\" page and Google's own \"Add preview assets\" page, and each slot tells you which devices it covers and whether it is genuinely *required* for submission or merely optional — a distinction almost nobody surfaces, and the reason most people upload five times more screenshots than they need to.\n\nIt runs entirely in your browser. Your unreleased app's screens are not uploaded to anyone's server, there is no queue, no watermark on the free tier because there is no paid tier, and no signup. Load a batch, caption each slide, and export the lot.",
+  "howTo": [
+    "Drop your screenshots onto the drop zone or click Choose screenshots. Add as many as you like — the order you pick them in is the order they keep, which matters because the store shows them in sequence.",
+    "Pick your store slot. Each one shows its exact pixel size, which devices it covers, and whether Apple or Google actually requires it. If a slot accepts more than one exact size — the 6.9-inch iPhone accepts three — choose the one you want from the second menu.",
+    "Choose portrait or landscape. Slots that only exist in one orientation, like Apple TV or Wear OS, lock the choice for you.",
+    "Type a headline for the slide and put it above or below the device, or turn it off entirely. Set the text size, weight and colour. Text size is a percentage of the image height, so a caption looks the same at every target size.",
+    "Pick a background — a gradient preset, or your own two colours, or a flat solid. Set the padding to control how much background shows around the screenshot.",
+    "Turn the device frame on or off. The frame is drawn with canvas shapes, not a photo of a real phone. Plenty of shipped listings use no frame at all, and Google forbids frames on Wear OS screenshots.",
+    "Click through the filmstrip to caption each slide, then export. Download this slide saves one; Download all saves every slide in order. JPEG is the default, on purpose — see the note about alpha channels."
+  ],
+  "faq": [
+    {
+      "q": "What size do App Store screenshots have to be?",
+      "a": "Apple validates exact pixel dimensions, and each display slot accepts a specific short list. For the 6.9-inch iPhone slot — iPhone Air, 17 Pro Max, 16 Pro Max, 16 Plus, 15 Pro Max, 15 Plus, 14 Pro Max — it is 1320 × 2868, 1290 × 2796 or 1260 × 2736 portrait, or those pairs swapped for landscape. The 6.5-inch slot takes 1284 × 2778 or 1242 × 2688. The 13-inch iPad slot takes 2064 × 2752 or 2048 × 2732. Mac takes 1280 × 800, 1440 × 900, 2560 × 1600 or 2880 × 1800. Apple TV and Vision Pro take 3840 × 2160. Anything a pixel off is rejected, which is why this tool exports at the published number rather than something close to it."
+    },
+    {
+      "q": "How many screenshots are required?",
+      "a": "On the App Store you can upload one to ten per localisation, and you must fill the 6.9-inch iPhone slot or the 6.5-inch slot if your app runs on iPhone, plus the 13-inch iPad slot if it runs on iPad. Every other iPhone and iPad slot is optional — Apple scales your larger screenshots down for those devices automatically. On Google Play you need a minimum of two screenshots across device types to publish at all, up to eight per device type. Play also has thresholds for its own promotion: at least four screenshots at 1080px or better makes an app eligible for the large-format recommendation slots, and Chromebook and tablet listings want at least four."
+    },
+    {
+      "q": "Why does this export JPEG and not PNG?",
+      "a": "Because a canvas in a browser is always RGBA. When a browser writes a PNG from a canvas it keeps that transparency channel, even when every single pixel in the image is fully opaque — the alpha data is still in the file. Apple's screenshot specification says images cannot include alpha channels or transparencies, and Google Play asks for 24-bit PNG with no alpha. A JPEG has no alpha channel at all, so it cannot trip that check. That is the whole reason JPEG is the default here. PNG is still offered, because some pipelines want it and some checkers are lenient, but the tool warns you rather than letting you find out from a rejection email."
+    },
+    {
+      "q": "Do I need a device frame around my screenshot?",
+      "a": "No. Neither Apple nor Google requires one, and a great many successful listings use no frame — just the screen content, sometimes edge to edge, sometimes on a coloured background with a headline. A frame can help when your screenshot is a different aspect ratio to the target slot and you would otherwise have odd empty bands. Google actively forbids device frames on Wear OS screenshots and watch faces, and asks you not to put device imagery in your feature graphic. This tool draws any frame with canvas primitives — a rounded bezel, a rim, a pill cutout — so there is no copyrighted device photograph in your output."
+    },
+    {
+      "q": "Can I use a simulator screenshot?",
+      "a": "Yes, and it is the normal way to do it. An iOS Simulator running the right device captures at exactly the size Apple wants — boot an iPhone 16 Pro Max and its screenshots come out 1320 × 2868. Apple's rule is about content, not capture method: the screenshot must show your actual app. Simulator status bars are usually cleaner than a real device's, which is a bonus. If your source is a different size or ratio to the slot you are targeting, this tool scales it to fit and preserves the aspect ratio rather than stretching it, and the background fills the remainder."
+    },
+    {
+      "q": "Is anything uploaded or stored?",
+      "a": "No. Every image is decoded and composed by the Canvas API inside your own browser, and the finished file is handed to your downloads folder directly from memory. There is no backend to receive an image, nothing is written to storage, and you can disconnect from the network after the page loads and keep working. That matters more than usual here, because store screenshots are typically of an unreleased product — handing them to a free design SaaS means publishing your unannounced UI to somebody else's infrastructure."
+    }
+  ],
+  "cta": {
+    "label": "Start your app brief"
+  },
+  "video": {
+    "status": "pending",
+    "durationTargetSec": 60,
+    "narration": "Apple checks the pixel size of every screenshot you upload, exactly. Get it wrong and your submission bounces. So start by dropping your screenshots in — straight from the simulator, as many as you like, and they stay in the order you picked them. Now choose your target. Every slot here comes from Apple's and Google's own published specifications, with the exact pixel size, which devices it covers, and whether it is actually required or just optional. Some slots accept more than one size, so pick the one you need. Add a headline for the slide, above the device or below it. Choose a background — a preset gradient, or your own colours. Turn the device frame on if you want one; it is drawn with canvas shapes, so there is no device photo in your output. Then export. JPEG by default, because a canvas PNG always carries an alpha channel and Apple rejects those. Nothing was uploaded, and there is no watermark.",
+    "scenes": [
+      { "label": "Exact sizes, or rejection", "mark": "intro" },
+      { "label": "Load a whole batch, in order", "mark": "load" },
+      { "label": "Every Apple and Google slot", "mark": "size" },
+      { "label": "Required vs optional", "mark": "required" },
+      { "label": "Caption each slide", "mark": "caption" },
+      { "label": "Backgrounds and gradients", "mark": "background" },
+      { "label": "Frame, or no frame", "mark": "frame" },
+      { "label": "Export with no alpha channel", "mark": "export" }
+    ]
+  }
+}

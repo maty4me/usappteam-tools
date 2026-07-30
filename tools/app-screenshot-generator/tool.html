@@ -1,0 +1,1261 @@
+<style>
+.t-app-screenshot-generator { font-family: var(--body); color: var(--ink); }
+
+/* ---------- privacy banner ---------- */
+.t-app-screenshot-generator .as-privacy {
+  display: flex; align-items: flex-start; gap: 10px;
+  margin: 0 0 18px; padding: 12px 14px;
+  border: 1px solid rgba(31, 169, 113, .3); border-radius: var(--r-sm);
+  background: rgba(31, 169, 113, .07);
+  font-size: 13.5px; line-height: 1.5; color: var(--slate);
+}
+.t-app-screenshot-generator .as-privacy svg {
+  width: 16px; height: 16px; flex: 0 0 auto; margin-top: 2px;
+  stroke: var(--green); fill: none; stroke-width: 2;
+  stroke-linecap: round; stroke-linejoin: round;
+}
+.t-app-screenshot-generator .as-privacy strong { color: var(--ink); font-weight: 600; }
+
+/* ---------- drop zone ---------- */
+.t-app-screenshot-generator .as-drop {
+  position: relative; text-align: center;
+  border: 2px dashed var(--line-2); border-radius: var(--r);
+  background: var(--bg); padding: clamp(20px, 4vw, 32px) 18px;
+  transition: border-color .2s var(--ease), background .2s var(--ease);
+}
+.t-app-screenshot-generator .as-drop.is-over { border-color: var(--azure); background: var(--blue-soft); }
+.t-app-screenshot-generator .as-drop-t {
+  font-family: var(--disp); font-weight: 700; font-size: clamp(16px, 3vw, 19px);
+  margin: 0 0 6px; color: var(--ink);
+}
+.t-app-screenshot-generator .as-drop-s { margin: 0 0 15px; font-size: 13.5px; color: var(--ink-60); line-height: 1.55; }
+.t-app-screenshot-generator .as-pick {
+  display: inline-flex; align-items: center; gap: 9px; cursor: pointer;
+  font-family: var(--disp); font-weight: 700; font-size: 15px;
+  padding: 13px 26px; border-radius: 999px;
+  background: var(--grad); color: #fff;
+  box-shadow: 0 8px 20px -8px rgba(35, 128, 184, .55);
+  transition: transform .2s var(--ease);
+}
+.t-app-screenshot-generator .as-pick:hover { transform: translateY(-1px); }
+.t-app-screenshot-generator .as-pick svg {
+  width: 16px; height: 16px; stroke: #fff; fill: none; stroke-width: 2;
+  stroke-linecap: round; stroke-linejoin: round;
+}
+.t-app-screenshot-generator .as-pick input {
+  position: absolute; opacity: 0; width: 1px; height: 1px; margin: 0; padding: 0;
+}
+.t-app-screenshot-generator .as-drop:has(input:focus-visible) {
+  outline: 3px solid rgba(35, 128, 184, .55); outline-offset: 3px;
+}
+
+/* ---------- layout ---------- */
+.t-app-screenshot-generator .as-main {
+  display: grid; gap: 20px; margin: 20px 0 0;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 300px);
+}
+@media (max-width: 860px) {
+  .t-app-screenshot-generator .as-main { grid-template-columns: minmax(0, 1fr); }
+}
+
+.t-app-screenshot-generator .as-panel {
+  padding: 18px 16px 4px; min-width: 0;
+  border: 1px solid var(--line); border-radius: var(--r); background: var(--card);
+}
+.t-app-screenshot-generator .as-fs { border: 0; padding: 0; margin: 0 0 18px; min-width: 0; }
+.t-app-screenshot-generator .as-legend {
+  display: block; width: 100%; padding: 0; margin: 0 0 9px;
+  font-family: var(--disp); font-weight: 600; font-size: 15px; color: var(--ink);
+}
+.t-app-screenshot-generator .as-legend .as-num {
+  font-family: var(--mono); font-size: 11px; letter-spacing: .1em;
+  color: var(--azure); margin-right: 8px;
+}
+
+.t-app-screenshot-generator label.as-lbl {
+  display: block; font-size: 12.5px; font-weight: 600; color: var(--slate); margin: 0 0 5px;
+}
+.t-app-screenshot-generator select,
+.t-app-screenshot-generator input[type="text"],
+.t-app-screenshot-generator input[type="number"] {
+  width: 100%; max-width: 100%; box-sizing: border-box;
+  font-family: var(--body); font-size: 14.5px; color: var(--ink);
+  padding: 10px 12px; border-radius: var(--r-sm);
+  border: 1px solid var(--line-2); background: var(--card);
+}
+.t-app-screenshot-generator select:focus,
+.t-app-screenshot-generator input:focus { border-color: var(--azure); }
+/* the slot menu carries the longest label on the page — let it fit */
+.t-app-screenshot-generator #as-slot,
+.t-app-screenshot-generator #as-size { font-size: 13px; }
+.t-app-screenshot-generator .as-row { display: flex; gap: 10px; flex-wrap: wrap; }
+.t-app-screenshot-generator .as-row > * { flex: 1 1 130px; min-width: 0; }
+
+/* segmented option pills */
+.t-app-screenshot-generator .as-opts { display: grid; gap: 8px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.t-app-screenshot-generator .as-opts.as-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.t-app-screenshot-generator .as-opt {
+  position: relative; display: block; cursor: pointer; text-align: center;
+  border: 1px solid var(--line-2); border-radius: var(--r-sm);
+  background: var(--card); padding: 9px 6px;
+  transition: border-color .2s var(--ease), background .2s var(--ease);
+}
+.t-app-screenshot-generator .as-opt:hover { border-color: var(--azure); }
+.t-app-screenshot-generator .as-opt input { position: absolute; opacity: 0; width: 1px; height: 1px; margin: 0; }
+.t-app-screenshot-generator .as-opt .as-t {
+  display: block; font-family: var(--disp); font-weight: 600; font-size: 13.5px; color: var(--ink);
+}
+.t-app-screenshot-generator .as-opt:has(input:checked) {
+  border-color: var(--azure); background: var(--blue-soft);
+  box-shadow: inset 0 0 0 1px var(--azure);
+}
+.t-app-screenshot-generator .as-opt:has(input:focus-visible) {
+  outline: 3px solid rgba(35, 128, 184, .55); outline-offset: 2px;
+}
+.t-app-screenshot-generator .as-opt:has(input:disabled) { opacity: .42; cursor: not-allowed; background: var(--bg); }
+
+/* checkbox row */
+.t-app-screenshot-generator .as-check {
+  display: flex; align-items: flex-start; gap: 10px; cursor: pointer;
+  font-size: 13.5px; line-height: 1.45; color: var(--slate);
+}
+.t-app-screenshot-generator .as-check input { width: 18px; height: 18px; flex: 0 0 auto; margin: 1px 0 0; accent-color: var(--azure); }
+.t-app-screenshot-generator .as-check strong { color: var(--ink); font-weight: 600; }
+
+/* slot info card */
+.t-app-screenshot-generator .as-slotinfo {
+  margin: 10px 0 0; padding: 11px 12px;
+  border: 1px solid var(--line); border-radius: var(--r-sm); background: var(--bg);
+  font-size: 12.5px; line-height: 1.55; color: var(--ink-60);
+}
+.t-app-screenshot-generator .as-slotinfo .as-badge {
+  display: inline-block; font-family: var(--mono); font-size: 10.5px; font-weight: 700;
+  letter-spacing: .06em; text-transform: uppercase;
+  padding: 3px 8px; border-radius: 999px; margin: 0 0 7px;
+}
+.t-app-screenshot-generator .as-slotinfo .as-badge.is-req {
+  background: rgba(180, 118, 26, .13); color: var(--amber);
+}
+.t-app-screenshot-generator .as-slotinfo .as-badge.is-opt {
+  background: var(--card); color: var(--ink-40); border: 1px solid var(--line-2);
+}
+.t-app-screenshot-generator .as-slotinfo b { color: var(--slate); font-weight: 600; }
+.t-app-screenshot-generator .as-slotinfo .as-dev { display: block; margin-top: 6px; color: var(--ink-40); font-size: 11.5px; }
+
+/* range */
+.t-app-screenshot-generator .as-rhead { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+.t-app-screenshot-generator .as-rval { font-family: var(--mono); font-size: 13px; font-weight: 700; color: var(--azure); }
+.t-app-screenshot-generator .as-range {
+  -webkit-appearance: none; appearance: none;
+  width: 100%; height: 6px; margin: 9px 0 2px;
+  border-radius: 999px; background: var(--line-2); cursor: pointer;
+}
+.t-app-screenshot-generator .as-range::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 19px; height: 19px; border-radius: 50%;
+  background: var(--azure); border: 3px solid var(--card);
+  box-shadow: 0 2px 6px rgba(23, 32, 43, .25);
+}
+.t-app-screenshot-generator .as-range::-moz-range-thumb {
+  width: 19px; height: 19px; border-radius: 50%; border: 3px solid var(--card);
+  background: var(--azure); box-shadow: 0 2px 6px rgba(23, 32, 43, .25);
+}
+
+/* colour input */
+.t-app-screenshot-generator .as-colw { display: flex; align-items: center; gap: 8px; }
+.t-app-screenshot-generator input[type="color"] {
+  width: 42px; height: 38px; flex: 0 0 auto; padding: 2px; cursor: pointer;
+  border: 1px solid var(--line-2); border-radius: var(--r-sm); background: var(--card);
+}
+.t-app-screenshot-generator input[type="color"]:focus { border-color: var(--azure); }
+.t-app-screenshot-generator .as-colw code {
+  font-family: var(--mono); font-size: 11.5px; color: var(--ink-40);
+}
+
+/* ---------- preview ---------- */
+.t-app-screenshot-generator .as-stage {
+  padding: 16px; border: 1px solid var(--line); border-radius: var(--r); background: var(--card);
+  min-width: 0;
+}
+.t-app-screenshot-generator .as-stage-head {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 10px; flex-wrap: wrap;
+  margin: 0 0 12px;
+}
+.t-app-screenshot-generator .as-stage-head h3 { margin: 0; font-size: 15.5px; font-family: var(--disp); }
+.t-app-screenshot-generator .as-dims {
+  font-family: var(--mono); font-size: 11.5px; color: var(--slate);
+  padding: 5px 10px; border-radius: 999px; background: var(--bg); border: 1px solid var(--line);
+}
+.t-app-screenshot-generator .as-canvas-wrap {
+  display: grid; place-items: center; padding: 10px; border-radius: var(--r-sm); background: var(--bg);
+  min-height: 200px;
+}
+.t-app-screenshot-generator .as-canvas-wrap canvas {
+  max-width: 100%; max-height: 460px; height: auto; display: block;
+  border-radius: 4px; box-shadow: var(--shadow);
+}
+
+/* filmstrip */
+.t-app-screenshot-generator .as-strip-wrap { margin: 16px 0 0; }
+.t-app-screenshot-generator .as-strip-wrap h4 {
+  margin: 0 0 8px; font-size: 13px; font-family: var(--disp); font-weight: 600; color: var(--slate);
+}
+.t-app-screenshot-generator .as-strip {
+  display: flex; gap: 9px; overflow-x: auto; padding: 3px 2px 9px; list-style: none; margin: 0;
+}
+.t-app-screenshot-generator .as-slide {
+  position: relative; flex: 0 0 auto;
+}
+.t-app-screenshot-generator .as-slide-btn {
+  display: block; padding: 5px; cursor: pointer; background: var(--card);
+  border: 1px solid var(--line-2); border-radius: var(--r-sm);
+  transition: border-color .2s var(--ease), box-shadow .2s var(--ease);
+}
+.t-app-screenshot-generator .as-slide-btn:hover { border-color: var(--azure); }
+.t-app-screenshot-generator .as-slide.is-active .as-slide-btn {
+  border-color: var(--azure); box-shadow: inset 0 0 0 1px var(--azure);
+}
+.t-app-screenshot-generator .as-slide-btn canvas { display: block; width: 54px; height: auto; border-radius: 3px; }
+.t-app-screenshot-generator .as-slide-n {
+  display: block; margin-top: 4px; text-align: center;
+  font-family: var(--mono); font-size: 10px; color: var(--ink-40);
+}
+.t-app-screenshot-generator .as-slide-x {
+  position: absolute; top: -5px; right: -5px; width: 21px; height: 21px; padding: 0;
+  border-radius: 50%; cursor: pointer; line-height: 1;
+  border: 1px solid var(--line-2); background: var(--card); color: var(--ink-60);
+  display: grid; place-items: center; font-size: 14px;
+}
+.t-app-screenshot-generator .as-slide-x:hover { border-color: var(--magenta); color: var(--magenta); }
+
+/* ---------- actions ---------- */
+.t-app-screenshot-generator .as-actions {
+  display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin: 16px 0 0;
+}
+.t-app-screenshot-generator .as-btn {
+  font-family: var(--disp); font-weight: 600; font-size: 14px;
+  padding: 11px 19px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--line-2); background: var(--card); color: var(--ink);
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  transition: border-color .2s var(--ease), color .2s var(--ease), transform .15s var(--ease);
+}
+.t-app-screenshot-generator .as-btn:hover:not(:disabled) { border-color: var(--azure); color: var(--azure); }
+.t-app-screenshot-generator .as-btn:active:not(:disabled) { transform: scale(.98); }
+.t-app-screenshot-generator .as-btn:disabled { opacity: .45; cursor: not-allowed; }
+.t-app-screenshot-generator .as-btn svg {
+  width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 2;
+  stroke-linecap: round; stroke-linejoin: round;
+}
+.t-app-screenshot-generator .as-btn.as-primary {
+  border-color: transparent; background: var(--grad); color: #fff;
+  box-shadow: 0 8px 20px -8px rgba(35, 128, 184, .55);
+}
+.t-app-screenshot-generator .as-btn.as-primary:hover:not(:disabled) { color: #fff; transform: translateY(-1px); }
+.t-app-screenshot-generator .as-btn.is-done { border-color: var(--green); color: var(--green); }
+
+/* notes */
+.t-app-screenshot-generator .as-note {
+  margin: 12px 0 0; font-size: 12.5px; line-height: 1.6; color: var(--ink-60);
+}
+.t-app-screenshot-generator .as-note strong { color: var(--ink); font-weight: 600; }
+.t-app-screenshot-generator .as-warn {
+  margin: 12px 0 0; padding: 11px 12px;
+  border: 1px solid rgba(180, 118, 26, .35); border-radius: var(--r-sm);
+  background: rgba(180, 118, 26, .06);
+  font-size: 12.5px; line-height: 1.55; color: var(--slate);
+}
+.t-app-screenshot-generator .as-warn strong { color: var(--amber); font-weight: 700; }
+.t-app-screenshot-generator .as-warn[hidden] { display: none; }
+
+.t-app-screenshot-generator .as-sr {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+</style>
+
+<div class="t-app-screenshot-generator" id="as-root">
+
+  <p class="as-privacy">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v6c0 4.4-3 7.7-7 9-4-1.3-7-4.6-7-9V6z"/><path d="m9 12 2 2 4-4"/></svg>
+    <span><strong>Your screenshots never leave this device.</strong> Every image is composed in your own browser
+    with the Canvas API &mdash; nothing is uploaded, nothing is stored, there is no watermark, no signup and no
+    export limit. Every target size below is taken from Apple&rsquo;s and Google&rsquo;s own published
+    specifications.</span>
+  </p>
+
+  <div class="as-drop" id="as-drop">
+    <p class="as-drop-t">Drop your app screenshots here</p>
+    <p class="as-drop-s">Straight from the iOS Simulator, Android emulator or a real device.<br>Add as many as you like &mdash; the order you pick them in is the order they stay in.</p>
+    <label class="as-pick" for="as-file">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16V4"/><path d="m7 9 5-5 5 5"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+      Choose screenshots
+      <input type="file" id="as-file" accept="image/*" multiple>
+    </label>
+  </div>
+
+  <div class="as-main">
+
+    <!-- ======================= left: preview ======================= -->
+    <div class="as-stage">
+      <div class="as-stage-head">
+        <h3 id="as-stage-title">Preview</h3>
+        <span class="as-dims" id="as-dims">&mdash;</span>
+      </div>
+
+      <div class="as-canvas-wrap">
+        <canvas id="as-preview" width="600" height="1300" role="img" aria-label="Preview of the generated store screenshot"></canvas>
+      </div>
+
+      <p class="as-sr" id="as-live" role="status" aria-live="polite" aria-atomic="true"></p>
+
+      <div class="as-strip-wrap" id="as-strip-wrap" hidden>
+        <h4 id="as-strip-title">All slides</h4>
+        <ul class="as-strip" id="as-strip"></ul>
+      </div>
+
+      <div class="as-actions">
+        <button type="button" class="as-btn as-primary" id="as-dl-all" disabled>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v12"/><path d="m7 11 5 5 5-5"/><path d="M4 19h16"/></svg>
+          <span id="as-dl-all-label">Download all</span>
+        </button>
+        <button type="button" class="as-btn" id="as-dl" disabled>Download this slide</button>
+        <button type="button" class="as-btn" id="as-clear" disabled>Clear</button>
+      </div>
+
+      <p class="as-warn" id="as-png-warn" hidden>
+        <strong>PNG carries an alpha channel.</strong> A browser canvas is always RGBA, so a PNG written from
+        it keeps a transparency channel even when every pixel is fully opaque. Apple rejects App Store
+        screenshots that contain an alpha channel, and Google Play asks for 24-bit PNG with no alpha.
+        JPEG has no alpha channel at all, which is why it is the default here.
+      </p>
+
+      <p class="as-note" id="as-fit-note">
+        Your screenshot is scaled to fit and <strong>never stretched</strong> &mdash; the aspect ratio you
+        captured is always preserved, and the background fills whatever is left over.
+      </p>
+    </div>
+
+    <!-- ======================= right: controls ======================= -->
+    <form class="as-panel" id="as-form" autocomplete="off">
+
+      <fieldset class="as-fs">
+        <legend class="as-legend"><span class="as-num">01</span>Target size</legend>
+
+        <label class="as-lbl" for="as-slot">Store slot</label>
+        <select id="as-slot"></select>
+
+        <div style="margin-top:11px">
+          <label class="as-lbl" for="as-size">Accepted pixel size</label>
+          <select id="as-size"></select>
+        </div>
+
+        <div style="margin-top:11px">
+          <span class="as-lbl" id="as-orient-lbl">Orientation</span>
+          <div class="as-opts" role="group" aria-labelledby="as-orient-lbl">
+            <label class="as-opt">
+              <input type="radio" name="as-orient" value="portrait" id="as-orient-p" checked>
+              <span class="as-t">Portrait</span>
+            </label>
+            <label class="as-opt">
+              <input type="radio" name="as-orient" value="landscape" id="as-orient-l">
+              <span class="as-t">Landscape</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="as-slotinfo" id="as-slotinfo"></div>
+      </fieldset>
+
+      <fieldset class="as-fs">
+        <legend class="as-legend"><span class="as-num">02</span>Caption</legend>
+        <label class="as-lbl" for="as-caption">Headline for this slide</label>
+        <input type="text" id="as-caption" maxlength="120" placeholder="Track every job in one place">
+
+        <div style="margin-top:11px">
+          <span class="as-lbl" id="as-cappos-lbl">Position</span>
+          <div class="as-opts as-3" role="group" aria-labelledby="as-cappos-lbl">
+            <label class="as-opt">
+              <input type="radio" name="as-cappos" value="above" id="as-cap-above" checked>
+              <span class="as-t">Above</span>
+            </label>
+            <label class="as-opt">
+              <input type="radio" name="as-cappos" value="below" id="as-cap-below">
+              <span class="as-t">Below</span>
+            </label>
+            <label class="as-opt">
+              <input type="radio" name="as-cappos" value="none" id="as-cap-none">
+              <span class="as-t">None</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="as-rhead" style="margin-top:13px">
+          <label class="as-lbl" for="as-fontsize" style="margin:0">Text size</label>
+          <output class="as-rval" id="as-fontsize-val" for="as-fontsize">48 px</output>
+        </div>
+        <input class="as-range" type="range" id="as-fontsize" min="15" max="60" step="1" value="34"
+               aria-describedby="as-fontsize-help">
+        <p class="as-sr" id="as-fontsize-help">Text size scales with the target image, so a caption looks the same on every store slot.</p>
+
+        <div class="as-row" style="margin-top:11px">
+          <div>
+            <label class="as-lbl" for="as-weight">Weight</label>
+            <select id="as-weight">
+              <option value="400">Regular</option>
+              <option value="600">Semibold</option>
+              <option value="700" selected>Bold</option>
+              <option value="800">Extra bold</option>
+            </select>
+          </div>
+          <div>
+            <label class="as-lbl" for="as-capcolor">Text colour</label>
+            <span class="as-colw">
+              <input type="color" id="as-capcolor" value="#ffffff">
+              <code id="as-capcolor-hex">#ffffff</code>
+            </span>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset class="as-fs">
+        <legend class="as-legend"><span class="as-num">03</span>Background</legend>
+        <div class="as-opts" role="group" aria-labelledby="as-bg-lbl">
+          <span class="as-sr" id="as-bg-lbl">Background type</span>
+          <label class="as-opt">
+            <input type="radio" name="as-bg" value="gradient" id="as-bg-grad" checked>
+            <span class="as-t">Gradient</span>
+          </label>
+          <label class="as-opt">
+            <input type="radio" name="as-bg" value="solid" id="as-bg-solid">
+            <span class="as-t">Solid</span>
+          </label>
+        </div>
+
+        <div style="margin-top:11px" id="as-preset-wrap">
+          <label class="as-lbl" for="as-bgpreset">Preset</label>
+          <select id="as-bgpreset"></select>
+        </div>
+
+        <div class="as-row" style="margin-top:11px">
+          <div>
+            <label class="as-lbl" for="as-bg1" id="as-bg1-lbl">From</label>
+            <span class="as-colw"><input type="color" id="as-bg1" value="#2e9bc7"></span>
+          </div>
+          <div id="as-bg2-wrap">
+            <label class="as-lbl" for="as-bg2">To</label>
+            <span class="as-colw"><input type="color" id="as-bg2" value="#a83268"></span>
+          </div>
+        </div>
+
+        <div class="as-rhead" style="margin-top:13px">
+          <label class="as-lbl" for="as-pad" style="margin:0">Padding</label>
+          <output class="as-rval" id="as-pad-val" for="as-pad">8%</output>
+        </div>
+        <input class="as-range" type="range" id="as-pad" min="0" max="22" step="1" value="8">
+      </fieldset>
+
+      <fieldset class="as-fs">
+        <legend class="as-legend"><span class="as-num">04</span>Device frame</legend>
+        <label class="as-check">
+          <input type="checkbox" id="as-frame" checked>
+          <span>Draw a <strong>device frame</strong> around the screenshot. Unchecked gives you the bare
+          screenshot on the background &mdash; which is what a lot of shipped listings actually use, and what
+          Google requires for Wear OS.</span>
+        </label>
+        <div class="as-row" style="margin-top:12px" id="as-framecol-wrap">
+          <div>
+            <label class="as-lbl" for="as-framecolor">Frame colour</label>
+            <span class="as-colw"><input type="color" id="as-framecolor" value="#1b2230"></span>
+          </div>
+        </div>
+        <p class="as-note">The frame is drawn with canvas primitives &mdash; a rounded bezel, a rim and a
+        pill-shaped cutout on phone slots. No device photograph is used, so there is nothing here you cannot
+        ship.</p>
+      </fieldset>
+
+      <fieldset class="as-fs">
+        <legend class="as-legend"><span class="as-num">05</span>Export</legend>
+        <div class="as-opts" role="group" aria-labelledby="as-fmt-lbl">
+          <span class="as-sr" id="as-fmt-lbl">Export format</span>
+          <label class="as-opt">
+            <input type="radio" name="as-fmt" value="jpeg" id="as-fmt-jpeg" checked>
+            <span class="as-t">JPEG</span>
+          </label>
+          <label class="as-opt">
+            <input type="radio" name="as-fmt" value="png" id="as-fmt-png">
+            <span class="as-t">PNG</span>
+          </label>
+        </div>
+        <div id="as-quality-wrap">
+          <div class="as-rhead" style="margin-top:13px">
+            <label class="as-lbl" for="as-quality" style="margin:0">JPEG quality</label>
+            <output class="as-rval" id="as-quality-val" for="as-quality">92</output>
+          </div>
+          <input class="as-range" type="range" id="as-quality" min="60" max="100" step="1" value="92">
+        </div>
+      </fieldset>
+    </form>
+  </div>
+</div>
+
+<script>
+(function () {
+  var root = document.getElementById('as-root');
+  if (!root) return;
+  var $ = function (id) { return document.getElementById(id); };
+
+  /* ==========================================================================
+     THE SIZE TABLE
+     Every number below was transcribed from the primary source, not from memory:
+
+       Apple  — App Store Connect Help, "Screenshot specifications"
+                https://developer.apple.com/help/app-store-connect/reference/screenshot-specifications/
+       Google — Play Console Help, "Add preview assets to showcase your app"
+                https://support.google.com/googleplay/android-developer/answer/9866151
+
+     Several Apple slots accept more than one exact size — the 6.9" iPhone slot
+     alone takes three — which is why `sizes` is a list rather than one pair and
+     why App Store Connect can reject an upload that "looks" right.
+
+     `orient: 'both'` means the sizes are given portrait and the landscape
+     variant is the same pair swapped, exactly as Apple lists it.
+     ========================================================================== */
+  var SLOTS = [
+    /* ---------------- Apple: iPhone ---------------- */
+    { id: 'ios-69', group: 'App Store — iPhone', label: '6.9" iPhone', orient: 'both', phone: true,
+      req: 'req', reqText: 'Required if your app runs on iPhone — provide this slot or the 6.5" one.',
+      devices: 'iPhone Air, 17 Pro Max, 16 Pro Max, 16 Plus, 15 Pro Max, 15 Plus, 14 Pro Max',
+      sizes: [[1320, 2868], [1290, 2796], [1260, 2736]] },
+    { id: 'ios-65', group: 'App Store — iPhone', label: '6.5" iPhone', orient: 'both', phone: true,
+      req: 'req', reqText: 'Required if your app runs on iPhone and you do not provide 6.9" screenshots.',
+      devices: 'iPhone 14 Plus, 13 Pro Max, 12 Pro Max, 11 Pro Max, 11, XS Max, XR',
+      sizes: [[1284, 2778], [1242, 2688]] },
+    { id: 'ios-63', group: 'App Store — iPhone', label: '6.3" iPhone', orient: 'both', phone: true,
+      req: 'opt', reqText: 'Optional. Without it, Apple scales your 6.5" screenshots down for these devices.',
+      devices: 'iPhone 17 Pro, 17, 16 Pro, 16, 15 Pro, 15, 14 Pro',
+      sizes: [[1206, 2622], [1179, 2556]] },
+    { id: 'ios-61', group: 'App Store — iPhone', label: '6.1" iPhone', orient: 'both', phone: true,
+      req: 'opt', reqText: 'Optional. Without it, Apple scales your 6.5" screenshots down for these devices.',
+      devices: 'iPhone 17e, 16e, 14, 13 Pro, 13, 13 mini, 12 Pro, 12, 12 mini, 11 Pro, XS, X',
+      sizes: [[1170, 2532], [1125, 2436], [1080, 2340]] },
+    { id: 'ios-55', group: 'App Store — iPhone', label: '5.5" iPhone', orient: 'both', phone: true,
+      req: 'opt', reqText: 'Optional. Without it, Apple scales your 6.1" screenshots down for these devices.',
+      devices: 'iPhone 8 Plus, 7 Plus, 6S Plus, 6 Plus', sizes: [[1242, 2208]] },
+    { id: 'ios-47', group: 'App Store — iPhone', label: '4.7" iPhone', orient: 'both', phone: true,
+      req: 'opt', reqText: 'Optional. Without it, Apple scales your 5.5" screenshots down for these devices.',
+      devices: 'iPhone SE (3rd, 2nd gen), 8, 7, 6S, 6', sizes: [[750, 1334]] },
+    { id: 'ios-40', group: 'App Store — iPhone', label: '4" iPhone', orient: 'both', phone: true,
+      req: 'opt', reqText: 'Optional. Apple lists a with-status-bar and a without-status-bar size for this slot.',
+      devices: 'iPhone SE (1st gen), 5S, 5C, 5', sizes: [[640, 1136], [640, 1096]] },
+    { id: 'ios-35', group: 'App Store — iPhone', label: '3.5" iPhone', orient: 'both', phone: true,
+      req: 'opt', reqText: 'Optional. Apple lists a with-status-bar and a without-status-bar size for this slot.',
+      devices: 'iPhone 4S, iPhone 4', sizes: [[640, 960], [640, 920]] },
+
+    /* ---------------- Apple: iPad ---------------- */
+    { id: 'ipad-13', group: 'App Store — iPad', label: '13" iPad', orient: 'both',
+      req: 'req', reqText: 'Required if your app runs on iPad.',
+      devices: 'iPad Pro (M5, M4), iPad Pro (6th–1st gen), iPad Air (M4, M3, M2)',
+      sizes: [[2064, 2752], [2048, 2732]] },
+    { id: 'ipad-129', group: 'App Store — iPad', label: '12.9" iPad', orient: 'both',
+      req: 'opt', reqText: 'Optional. Without it, Apple scales your 13" screenshots for this device.',
+      devices: 'iPad Pro (2nd generation)', sizes: [[2048, 2732]] },
+    { id: 'ipad-11', group: 'App Store — iPad', label: '11" iPad', orient: 'both',
+      req: 'opt', reqText: 'Optional, and it accepts four different exact sizes — check which one your device captures at.',
+      devices: 'iPad Pro (M5, M4, 4th–1st gen), iPad Air (M4, M3, M2, 5th–4th gen), iPad (A16, 10th gen), iPad mini (A17 Pro, 6th gen)',
+      sizes: [[1488, 2266], [1668, 2420], [1668, 2388], [1640, 2360]] },
+    { id: 'ipad-105', group: 'App Store — iPad', label: '10.5" iPad', orient: 'both',
+      req: 'opt', reqText: 'Optional. Without it, Apple scales your 12.9" screenshots for these devices.',
+      devices: 'iPad Pro, iPad Air (3rd gen), iPad (9th–7th gen)', sizes: [[1668, 2224]] },
+    { id: 'ipad-97', group: 'App Store — iPad', label: '9.7" iPad', orient: 'both',
+      req: 'opt', reqText: 'Optional. Apple lists with-status-bar and without-status-bar sizes, at 2x and 1x.',
+      devices: 'iPad Pro, iPad Air, iPad Air 2, iPad, iPad 2, iPad (6th–3rd gen), iPad mini (5th gen), iPad mini 4, 3, 2',
+      sizes: [[1536, 2048], [1536, 2008], [768, 1024], [768, 1004]] },
+
+    /* ---------------- Apple: other platforms ---------------- */
+    { id: 'mac', group: 'App Store — other Apple platforms', label: 'Mac', orient: 'landscape',
+      req: 'req', reqText: 'Required for Mac apps. Apple accepts four sizes, all 16:10.',
+      devices: 'Any Mac', sizes: [[2880, 1800], [2560, 1600], [1440, 900], [1280, 800]] },
+    { id: 'tvos', group: 'App Store — other Apple platforms', label: 'Apple TV', orient: 'landscape',
+      req: 'req', reqText: 'Required for Apple TV apps.', devices: 'Apple TV', sizes: [[3840, 2160], [1920, 1080]] },
+    { id: 'visionos', group: 'App Store — other Apple platforms', label: 'Apple Vision Pro', orient: 'landscape',
+      req: 'req', reqText: 'Required for Apple Vision Pro apps. One size only.',
+      devices: 'Apple Vision Pro', sizes: [[3840, 2160]] },
+    { id: 'watch', group: 'App Store — other Apple platforms', label: 'Apple Watch', orient: 'portrait',
+      req: 'req', reqText: 'Required for Apple Watch apps. Apple requires you use the same size consistently across every localisation.',
+      devices: 'Ultra 3 · Ultra 2 and Ultra · Series 11 and 10 · Series 9–7 · Series 6–4 and SE · Series 3',
+      sizes: [[422, 514], [410, 502], [416, 496], [396, 484], [368, 448], [312, 390]] },
+
+    /* ---------------- Google Play ---------------- */
+    { id: 'gp-phone', group: 'Google Play', label: 'Phone / tablet screenshot', orient: 'both', phone: true,
+      req: 'req', reqText: 'Google Play needs a minimum of two screenshots across device types before you can publish. 9:16 portrait or 16:9 landscape, minimum 1080px, is what qualifies a listing for the large-format recommendation slots.',
+      devices: 'Android phones, 7-inch and 10-inch tablets — up to 8 per device type',
+      sizes: [[1080, 1920], [1440, 2560], [2160, 3840]] },
+    { id: 'gp-large', group: 'Google Play', label: 'Chromebook / large screen', orient: 'both',
+      req: 'req', reqText: 'A minimum of four screenshots for Chromebook and tablets. 16:9 or 9:16. Google asks for 1,080–7,680px here, while the general screenshot rule on the same page caps any dimension at 3840px — these sizes stay inside both.',
+      devices: 'Chromebooks and large-screen Android devices',
+      sizes: [[2160, 3840], [1440, 2560], [1080, 1920]] },
+    { id: 'gp-wear', group: 'Google Play', label: 'Wear OS', orient: 'square',
+      req: 'req', reqText: 'At least one screenshot for a Wear OS app or watch face. 1:1, minimum 384x384. Google explicitly forbids device frames, added text, added graphics and transparent backgrounds here — so turn the frame and the caption off for this slot.',
+      devices: 'Wear OS watches and watch faces', sizes: [[384, 384], [768, 768], [1024, 1024]] },
+    { id: 'gp-tv', group: 'Google Play', label: 'Android TV', orient: 'landscape',
+      req: 'req', reqText: 'At least one Android TV screenshot is required to publish to Android TV. Google does not publish an exact size for it, so the general rule applies: 320–3840px, and the long side no more than twice the short side. 16:9 is the sensible read.',
+      devices: 'Android TV', sizes: [[1920, 1080], [3840, 2160], [1280, 720]] },
+    { id: 'gp-auto', group: 'Google Play', label: 'Android Automotive OS', orient: 'both',
+      req: 'req', reqText: 'If you provide Automotive screenshots you must provide at least 2 portrait and 2 landscape. Required for apps outside the parked-app categories.',
+      devices: 'Android Automotive OS cars', sizes: [[800, 1280]], landscapeSizes: [[1024, 768]] },
+    { id: 'gp-xr', group: 'Google Play', label: 'Android XR', orient: 'landscape',
+      req: 'req', reqText: 'Between 4 and 8 screenshots, 8:5 aspect ratio, PNG or JPEG up to 8MB each. 3840x2400 recommended, 1920x1200 minimum.',
+      devices: 'Android XR headsets', sizes: [[3840, 2400], [1920, 1200]] },
+    { id: 'gp-feature', group: 'Google Play', label: 'Feature graphic', orient: 'landscape',
+      req: 'req', reqText: 'Required for every Play listing. Not a screenshot — it is the banner at the top of your store page. JPEG or 24-bit PNG with no alpha. Google advises against putting device imagery in it.',
+      devices: 'Shown at the top of your Google Play listing', sizes: [[1024, 500]] },
+    { id: 'gp-tvbanner', group: 'Google Play', label: 'Android TV banner', orient: 'landscape',
+      req: 'req', reqText: 'Required alongside your Android TV screenshots. JPEG or 24-bit PNG with no alpha.',
+      devices: 'Android TV home screen', sizes: [[1280, 720]] }
+  ];
+
+  /* Gradient presets. The brand one is read from the shared design tokens so no
+     brand colour is hardcoded here; the rest are neutral art direction. */
+  function token(name, fallback) {
+    var v = '';
+    try { v = getComputedStyle(document.documentElement).getPropertyValue(name).trim(); } catch (e) {}
+    return /^#[0-9a-f]{3,8}$/i.test(v) ? v : fallback;
+  }
+
+  var BG_PRESETS = [
+    { id: 'brand',   label: 'Brand',            a: token('--cyan', '#2e9bc7'), b: token('--magenta', '#a83268'), text: '#ffffff' },
+    { id: 'ink',     label: 'Deep ink',         a: '#141a24', b: '#2c3a52', text: '#ffffff' },
+    { id: 'dusk',    label: 'Dusk violet',      a: '#3b2a68', b: '#8a3f7a', text: '#ffffff' },
+    { id: 'ocean',   label: 'Ocean',            a: '#0d3b52', b: '#1f8fa8', text: '#ffffff' },
+    { id: 'sunrise', label: 'Sunrise',          a: '#f0913f', b: '#c8456a', text: '#ffffff' },
+    { id: 'forest',  label: 'Forest',           a: '#123a2e', b: '#3f8f63', text: '#ffffff' },
+    { id: 'paper',   label: 'Paper (light)',    a: '#f4f6f9', b: '#d9e2ec', text: '#17202b' },
+    { id: 'mono',    label: 'Soft grey (light)', a: '#ffffff', b: '#e6eaef', text: '#17202b' },
+    { id: 'custom',  label: 'Custom…',          a: null, b: null, text: null }
+  ];
+
+  /* ---- state ---- */
+  var slides = [];          // { id, name, img, w, h, caption }
+  var active = 0;
+  var seq = 0;
+  var pendingCaption = '';  // typed before any screenshot was added
+
+  function slot() {
+    var id = $('as-slot').value;
+    for (var i = 0; i < SLOTS.length; i++) if (SLOTS[i].id === id) return SLOTS[i];
+    return SLOTS[0];
+  }
+
+  function orientation() {
+    var s = slot();
+    if (s.orient === 'landscape') return 'landscape';
+    if (s.orient === 'portrait' || s.orient === 'square') return 'portrait';
+    var r = document.querySelector('input[name="as-orient"]:checked');
+    return r ? r.value : 'portrait';
+  }
+
+  /* The list of accepted pairs for the current slot AND orientation. Apple lists
+     landscape as the portrait pair swapped; Automotive is the one slot where the
+     two orientations have genuinely different sizes, so it carries its own list. */
+  function sizeList() {
+    var s = slot();
+    var o = orientation();
+    if (o === 'landscape' && s.landscapeSizes) return s.landscapeSizes.slice();
+    if (s.orient === 'both' && o === 'landscape') {
+      return s.sizes.map(function (p) { return [p[1], p[0]]; });
+    }
+    if (s.orient === 'landscape') return s.sizes.slice();
+    return s.sizes.slice();
+  }
+
+  function target() {
+    var list = sizeList();
+    var i = parseInt($('as-size').value, 10);
+    if (isNaN(i) || i < 0 || i >= list.length) i = 0;
+    return { w: list[i][0], h: list[i][1] };
+  }
+
+  function config() {
+    var bgMode = (document.querySelector('input[name="as-bg"]:checked') || {}).value || 'gradient';
+    var capPos = (document.querySelector('input[name="as-cappos"]:checked') || {}).value || 'above';
+    var fmt = (document.querySelector('input[name="as-fmt"]:checked') || {}).value || 'jpeg';
+    return {
+      bgMode: bgMode,
+      bg1: $('as-bg1').value,
+      bg2: $('as-bg2').value,
+      capPos: capPos,
+      fontPct: (parseInt($('as-fontsize').value, 10) || 34) / 10,   // 1.5%–6.0% of height
+      weight: $('as-weight').value,
+      capColor: $('as-capcolor').value,
+      pad: parseInt($('as-pad').value, 10) || 0,
+      frame: $('as-frame').checked,
+      frameColor: $('as-framecolor').value,
+      fmt: fmt,
+      quality: (parseInt($('as-quality').value, 10) || 92) / 100
+    };
+  }
+
+  /* ==================== drawing ==================== */
+
+  function roundRect(ctx, x, y, w, h, r) {
+    r = Math.max(0, Math.min(r, Math.min(w, h) / 2));
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.lineTo(x + w - r, y);
+    ctx.arcTo(x + w, y, x + w, y + r, r);
+    ctx.lineTo(x + w, y + h - r);
+    ctx.arcTo(x + w, y + h, x + w - r, y + h, r);
+    ctx.lineTo(x + r, y + h);
+    ctx.arcTo(x, y + h, x, y + h - r, r);
+    ctx.lineTo(x, y + r);
+    ctx.arcTo(x, y, x + r, y, r);
+    ctx.closePath();
+  }
+
+  function wrapLines(ctx, text, maxW) {
+    var words = String(text).split(/\s+/).filter(Boolean);
+    var lines = [];
+    var line = '';
+    for (var i = 0; i < words.length; i++) {
+      var test = line ? line + ' ' + words[i] : words[i];
+      if (ctx.measureText(test).width > maxW && line) {
+        lines.push(line);
+        line = words[i];
+      } else {
+        line = test;
+      }
+    }
+    if (line) lines.push(line);
+    return lines;
+  }
+
+  /* Draws one finished store image at its exact target pixel size. */
+  function compose(canvas, slide, W, H, cfg, isPhoneSlot) {
+    canvas.width = W;
+    canvas.height = H;
+    var ctx = canvas.getContext('2d');
+
+    /* --- background: fills every pixel, so a JPEG has no black corners --- */
+    if (cfg.bgMode === 'solid') {
+      ctx.fillStyle = cfg.bg1;
+    } else {
+      var g = ctx.createLinearGradient(0, 0, W, H);
+      g.addColorStop(0, cfg.bg1);
+      g.addColorStop(1, cfg.bg2);
+      ctx.fillStyle = g;
+    }
+    ctx.fillRect(0, 0, W, H);
+
+    var pad = Math.round(Math.min(W, H) * cfg.pad / 100);
+    var boxX = pad, boxY = pad, boxW = W - pad * 2, boxH = H - pad * 2;
+    if (boxW < 8 || boxH < 8) return;
+
+    /* --- caption --- */
+    var caption = slide ? (slide.caption || '') : pendingCaption;
+    var fs = Math.max(9, Math.round(H * cfg.fontPct / 100));
+    var lines = [];
+    var capH = 0;
+    var lineH = Math.round(fs * 1.22);
+
+    if (cfg.capPos !== 'none' && caption.trim()) {
+      ctx.font = cfg.weight + ' ' + fs + 'px ' + '"Space Grotesk", "Segoe UI", system-ui, sans-serif';
+      lines = wrapLines(ctx, caption.trim(), boxW);
+      capH = lines.length * lineH + Math.round(fs * 0.65);
+      if (capH > boxH * 0.55) capH = Math.round(boxH * 0.55);
+    }
+
+    var capY = 0;
+    if (lines.length) {
+      if (cfg.capPos === 'above') {
+        capY = boxY;
+        boxY += capH;
+      } else {
+        capY = boxY + boxH - capH + Math.round(fs * 0.65);
+      }
+      boxH -= capH;
+    }
+    if (boxH < 8) boxH = 8;
+
+    /* --- the screenshot, aspect ratio preserved, never stretched --- */
+    var srcW = slide ? slide.w : Math.round(Math.min(boxW, boxH * 0.462));
+    var srcH = slide ? slide.h : Math.round(srcW / 0.462);
+
+    var bez = cfg.frame ? Math.max(3, Math.round(Math.min(boxW, boxH) * 0.022)) : 0;
+    var availW = Math.max(1, boxW - bez * 2);
+    var availH = Math.max(1, boxH - bez * 2);
+    var scale = Math.min(availW / srcW, availH / srcH);
+    var sw = Math.max(1, srcW * scale);
+    var sh = Math.max(1, srcH * scale);
+    var sx = boxX + (boxW - sw) / 2;
+    var sy = boxY + (boxH - sh) / 2;
+
+    var innerR = Math.min(sw, sh) * (isPhoneSlot ? 0.085 : 0.028);
+
+    if (cfg.frame) {
+      /* Bezel + rim, drawn with primitives only — no device photograph. */
+      roundRect(ctx, sx - bez, sy - bez, sw + bez * 2, sh + bez * 2, innerR + bez);
+      ctx.fillStyle = cfg.frameColor;
+      ctx.fill();
+      ctx.lineWidth = Math.max(1, bez * 0.22);
+      ctx.strokeStyle = 'rgba(255,255,255,.20)';
+      ctx.stroke();
+    }
+
+    ctx.save();
+    roundRect(ctx, sx, sy, sw, sh, cfg.frame ? innerR : Math.min(sw, sh) * 0.012);
+    ctx.clip();
+    if (slide) {
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = 'high';
+      ctx.drawImage(slide.img, sx, sy, sw, sh);
+    } else {
+      /* placeholder so the tool is legible before anything is loaded */
+      ctx.fillStyle = 'rgba(255,255,255,.14)';
+      ctx.fillRect(sx, sy, sw, sh);
+      ctx.fillStyle = 'rgba(255,255,255,.72)';
+      var ph = Math.max(10, Math.round(sw * 0.075));
+      ctx.font = '600 ' + ph + 'px "Space Grotesk", "Segoe UI", system-ui, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('your screenshot', sx + sw / 2, sy + sh / 2);
+    }
+    ctx.restore();
+
+    /* Dynamic-island style pill — phone slots only. */
+    if (cfg.frame && isPhoneSlot && sh > sw) {
+      var pw = sw * 0.30, phh = sw * 0.082;
+      roundRect(ctx, sx + (sw - pw) / 2, sy + sw * 0.038, pw, phh, phh / 2);
+      ctx.fillStyle = cfg.frameColor;
+      ctx.fill();
+    }
+
+    /* --- caption text on top --- */
+    if (lines.length) {
+      ctx.font = cfg.weight + ' ' + fs + 'px "Space Grotesk", "Segoe UI", system-ui, sans-serif';
+      ctx.fillStyle = cfg.capColor;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'top';
+      var y = capY;
+      for (var i = 0; i < lines.length; i++) {
+        if (y + lineH > capY + capH + lineH) break;
+        ctx.fillText(lines[i], boxX + boxW / 2, y);
+        y += lineH;
+      }
+    }
+  }
+
+  /* ==================== UI wiring ==================== */
+
+  function buildSlotSelect() {
+    var sel = $('as-slot');
+    var html = '';
+    var group = null;
+    for (var i = 0; i < SLOTS.length; i++) {
+      var s = SLOTS[i];
+      if (s.group !== group) {
+        if (group !== null) html += '</optgroup>';
+        html += '<optgroup label="' + s.group + '">';
+        group = s.group;
+      }
+      var first = s.sizes[0];
+      html += '<option value="' + s.id + '">' + s.label +
+              ' — ' + first[0] + '×' + first[1] +
+              (s.req === 'req' ? ' · required' : '') + '</option>';
+    }
+    html += '</optgroup>';
+    sel.innerHTML = html;
+    sel.value = 'ios-69';
+  }
+
+  function buildBgPresets() {
+    var sel = $('as-bgpreset');
+    sel.innerHTML = BG_PRESETS.map(function (p) {
+      return '<option value="' + p.id + '">' + p.label + '</option>';
+    }).join('');
+    sel.value = 'brand';
+  }
+
+  function buildSizeSelect(keep) {
+    var list = sizeList();
+    var sel = $('as-size');
+    var prev = keep ? sel.value : '0';
+    sel.innerHTML = list.map(function (p, i) {
+      return '<option value="' + i + '">' + p[0] + ' × ' + p[1] + ' px' +
+             (i === 0 && list.length > 1 ? ' — primary' : '') + '</option>';
+    }).join('');
+    sel.value = (prev && parseInt(prev, 10) < list.length) ? prev : '0';
+  }
+
+  function syncSlotInfo() {
+    var s = slot();
+    var t = target();
+    var list = sizeList();
+    var all = list.map(function (p) { return p[0] + '×' + p[1]; }).join(', ');
+    var badge = s.req === 'req'
+      ? '<span class="as-badge is-req">Required</span>'
+      : '<span class="as-badge is-opt">Optional</span>';
+
+    var extra = '';
+    /* Google caps any screenshot dimension at 3840px and the long side at twice
+       the short side. Several Apple sizes break that second rule, so an image
+       made for the App Store is not automatically legal on Play. Worth saying. */
+    if (s.group.indexOf('Google') !== 0) {
+      var lo = Math.min(t.w, t.h), hi = Math.max(t.w, t.h);
+      if (hi / lo > 2 || hi > 3840) {
+        extra = '<span class="as-dev">Note: at ' + t.w + '×' + t.h +
+          ' this image would not satisfy Google Play, which caps any dimension at 3840px and the long side at twice the short side. Re-export at a Google slot for Play.</span>';
+      }
+    }
+
+    $('as-slotinfo').innerHTML =
+      badge + '<br>' + s.reqText +
+      '<span class="as-dev"><b>Accepted sizes:</b> ' + all + '</span>' +
+      '<span class="as-dev"><b>Covers:</b> ' + s.devices + '</span>' + extra;
+
+    /* orientation availability */
+    var both = s.orient === 'both';
+    $('as-orient-p').disabled = !both && s.orient !== 'portrait' && s.orient !== 'square';
+    $('as-orient-l').disabled = !both && s.orient !== 'landscape';
+    if (s.orient === 'landscape') $('as-orient-l').checked = true;
+    if (s.orient === 'portrait' || s.orient === 'square') $('as-orient-p').checked = true;
+  }
+
+  function ext(cfg) { return cfg.fmt === 'png' ? 'png' : 'jpg'; }
+  function mime(cfg) { return cfg.fmt === 'png' ? 'image/png' : 'image/jpeg'; }
+
+  function outName(i, t, cfg) {
+    return slot().id + '-' + t.w + 'x' + t.h + '-' + String(i + 1).padStart(2, '0') + '.' + ext(cfg);
+  }
+
+  var stripCanvases = [];
+
+  function renderStrip() {
+    var wrap = $('as-strip-wrap');
+    if (!slides.length) { wrap.hidden = true; $('as-strip').innerHTML = ''; stripCanvases = []; return; }
+    wrap.hidden = false;
+    $('as-strip-title').textContent = slides.length + (slides.length === 1 ? ' slide' : ' slides') +
+      ' — in the order you picked them';
+
+    $('as-strip').innerHTML = slides.map(function (s, i) {
+      return '<li class="as-slide' + (i === active ? ' is-active' : '') + '" data-i="' + i + '">' +
+        '<button type="button" class="as-slide-btn" data-go="' + i + '" ' +
+          'aria-label="Edit slide ' + (i + 1) + '"' + (i === active ? ' aria-current="true"' : '') + '>' +
+          '<canvas data-thumb="' + i + '" width="54" height="117"></canvas>' +
+          '<span class="as-slide-n">' + (i + 1) + '</span>' +
+        '</button>' +
+        '<button type="button" class="as-slide-x" data-rm="' + i + '" aria-label="Remove slide ' + (i + 1) + '">&times;</button>' +
+      '</li>';
+    }).join('');
+
+    var t = target();
+    var cfg = config();
+    var s = slot();
+    var thumbs = $('as-strip').querySelectorAll('[data-thumb]');
+    for (var i = 0; i < thumbs.length; i++) {
+      var c = thumbs[i];
+      var idx = parseInt(c.getAttribute('data-thumb'), 10);
+      var tw = 54;
+      var th = Math.max(12, Math.round(tw * t.h / t.w));
+      c.style.width = tw + 'px';
+      c.style.height = th + 'px';
+      compose(c, slides[idx], tw, th, cfg, !!s.phone);
+    }
+  }
+
+  function render() {
+    var t = target();
+    var cfg = config();
+    var s = slot();
+
+    /* Preview at a sane on-screen resolution — the export always uses t.w/t.h. */
+    var maxSide = 620;
+    var k = Math.min(1, maxSide / Math.max(t.w, t.h));
+    var pw = Math.max(40, Math.round(t.w * k));
+    var ph = Math.max(40, Math.round(t.h * k));
+
+    var slide = slides.length ? slides[Math.min(active, slides.length - 1)] : null;
+    compose($('as-preview'), slide, pw, ph, cfg, !!s.phone);
+
+    $('as-dims').textContent = t.w + ' × ' + t.h + ' px';
+    $('as-stage-title').textContent = slides.length
+      ? 'Slide ' + (active + 1) + ' of ' + slides.length
+      : 'Preview';
+
+    $('as-dl').disabled = !slides.length;
+    $('as-dl-all').disabled = !slides.length;
+    $('as-clear').disabled = !slides.length;
+    $('as-dl-all-label').textContent = slides.length > 1 ? 'Download all ' + slides.length : 'Download';
+
+    $('as-png-warn').hidden = cfg.fmt !== 'png';
+    $('as-quality-wrap').hidden = cfg.fmt === 'png';
+
+    $('as-live').textContent = (slides.length
+      ? 'Slide ' + (active + 1) + ' of ' + slides.length + ' ready'
+      : 'No screenshot loaded — showing a placeholder') +
+      ' at ' + t.w + ' by ' + t.h + ' pixels, ' + slot().label +
+      ', ' + orientation() + ', exporting as ' + (cfg.fmt === 'png' ? 'PNG' : 'JPEG') + '.';
+
+    renderStrip();
+  }
+
+  /* ---- loading files, in the order the user picked them --------------------
+     Promise.all keeps its results in argument order, but the images finish
+     decoding in whatever order they finish — so decode into a slot indexed by
+     the original position and only then append. Naively pushing from each
+     onload handler reorders a batch by file size, which silently scrambles a
+     carefully ordered set of store screenshots.                              */
+  function decode(file) {
+    return new Promise(function (resolve) {
+      var url = URL.createObjectURL(file);
+      var img = new Image();
+      img.onload = function () {
+        URL.revokeObjectURL(url);
+        if (!img.naturalWidth || !img.naturalHeight) { resolve(null); return; }
+        resolve({ img: img, w: img.naturalWidth, h: img.naturalHeight, name: file.name || 'screenshot' });
+      };
+      img.onerror = function () { URL.revokeObjectURL(url); resolve(null); };
+      img.src = url;
+    });
+  }
+
+  function addFiles(list) {
+    var files = [];
+    for (var i = 0; i < list.length; i++) {
+      var f = list[i];
+      if (f && (!f.type || f.type.indexOf('image/') === 0)) files.push(f);
+    }
+    if (!files.length) return;
+
+    var wasEmpty = slides.length === 0;
+    $('as-live').textContent = 'Reading ' + files.length + ' file' + (files.length === 1 ? '' : 's') + '…';
+
+    /* index-keyed slots preserve pick order regardless of decode order */
+    var bucket = new Array(files.length);
+    Promise.all(files.map(function (f, i) {
+      return decode(f).then(function (r) { bucket[i] = r; });
+    })).then(function () {
+      var added = 0;
+      for (var i = 0; i < bucket.length; i++) {
+        var r = bucket[i];
+        if (!r) continue;
+        slides.push({
+          id: 'p' + (++seq), name: r.name, img: r.img, w: r.w, h: r.h,
+          caption: added === 0 && wasEmpty ? pendingCaption : ''
+        });
+        added++;
+      }
+      if (wasEmpty && added) active = 0;
+      if (added) {
+        $('as-caption').value = slides[active].caption || '';
+        render();
+        $('as-live').textContent = added + ' screenshot' + (added === 1 ? '' : 's') +
+          ' loaded, in the order you picked them. ' + slides.length + ' slide' +
+          (slides.length === 1 ? '' : 's') + ' total.';
+      } else {
+        $('as-live').textContent = 'None of those files could be decoded as an image.';
+      }
+    });
+  }
+
+  /* ---- export ---- */
+  function toBlob(canvas, cfg) {
+    return new Promise(function (resolve) {
+      if (canvas.toBlob) {
+        canvas.toBlob(function (b) { resolve(b); }, mime(cfg), cfg.fmt === 'jpeg' ? cfg.quality : undefined);
+      } else {
+        var data = canvas.toDataURL(mime(cfg), cfg.fmt === 'jpeg' ? cfg.quality : undefined);
+        var bin = atob(data.split(',')[1]);
+        var buf = new Uint8Array(bin.length);
+        for (var i = 0; i < bin.length; i++) buf[i] = bin.charCodeAt(i);
+        resolve(new Blob([buf], { type: mime(cfg) }));
+      }
+    });
+  }
+
+  function exportOne(i) {
+    var cfg = config();
+    var t = target();
+    var s = slot();
+    var c = document.createElement('canvas');
+    compose(c, slides[i], t.w, t.h, cfg, !!s.phone);
+    return toBlob(c, cfg).then(function (blob) {
+      if (!blob) return;
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = outName(i, t, cfg);
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
+    });
+  }
+
+  /* ---- events ---- */
+  $('as-file').addEventListener('change', function (e) {
+    addFiles(e.target.files);
+    e.target.value = '';
+  });
+
+  var drop = $('as-drop');
+  var depth = 0;
+  ['dragenter', 'dragover'].forEach(function (ev) {
+    drop.addEventListener(ev, function (e) {
+      e.preventDefault();
+      if (ev === 'dragenter') depth++;
+      drop.classList.add('is-over');
+    });
+  });
+  ['dragleave', 'drop'].forEach(function (ev) {
+    drop.addEventListener(ev, function (e) {
+      e.preventDefault();
+      if (ev === 'dragleave') { depth = Math.max(0, depth - 1); if (depth) return; }
+      else depth = 0;
+      drop.classList.remove('is-over');
+      if (ev === 'drop' && e.dataTransfer) addFiles(e.dataTransfer.files);
+    });
+  });
+  document.addEventListener('dragover', function (e) { if (root.contains(e.target)) e.preventDefault(); });
+
+  $('as-slot').addEventListener('change', function () {
+    var s = slot();
+    /* Wear OS forbids frames and added text — reflect the rule rather than
+       letting someone export something Google will reject. */
+    if (s.id === 'gp-wear') {
+      $('as-frame').checked = false;
+      $('as-cap-none').checked = true;
+      $('as-pad').value = '0';
+      $('as-pad-val').textContent = '0%';
+    }
+    syncSlotInfo();
+    buildSizeSelect(false);
+    syncSlotInfo();
+    render();
+  });
+
+  ['as-size', 'as-orient-p', 'as-orient-l'].forEach(function (id) {
+    $(id).addEventListener('change', function () {
+      if (id !== 'as-size') buildSizeSelect(true);
+      syncSlotInfo();
+      render();
+    });
+  });
+
+  $('as-caption').addEventListener('input', function () {
+    if (slides.length) slides[active].caption = this.value;
+    else pendingCaption = this.value;
+    render();
+  });
+
+  $('as-bgpreset').addEventListener('change', function () {
+    var p = BG_PRESETS.filter(function (x) { return x.id === this.value; }.bind(this))[0];
+    if (!p || !p.a) return;                 // "Custom…" leaves the pickers alone
+    $('as-bg1').value = p.a;
+    $('as-bg2').value = p.b;
+    $('as-capcolor').value = p.text;
+    $('as-capcolor-hex').textContent = p.text;
+    render();
+  });
+
+  ['as-bg1', 'as-bg2', 'as-capcolor'].forEach(function (id) {
+    $(id).addEventListener('input', function () {
+      if (id === 'as-capcolor') $('as-capcolor-hex').textContent = this.value;
+      else $('as-bgpreset').value = 'custom';
+      render();
+    });
+  });
+
+  $('as-fontsize').addEventListener('input', function () {
+    var t = target();
+    $('as-fontsize-val').textContent = Math.round(t.h * (this.value / 10) / 100) + ' px';
+    render();
+  });
+  $('as-pad').addEventListener('input', function () {
+    $('as-pad-val').textContent = this.value + '%';
+    render();
+  });
+  $('as-quality').addEventListener('input', function () {
+    $('as-quality-val').textContent = this.value;
+  });
+
+  ['as-weight', 'as-frame', 'as-framecolor', 'as-fmt-jpeg', 'as-fmt-png',
+   'as-bg-grad', 'as-bg-solid', 'as-cap-above', 'as-cap-below', 'as-cap-none'].forEach(function (id) {
+    $(id).addEventListener('change', function () {
+      $('as-bg2-wrap').hidden = (document.querySelector('input[name="as-bg"]:checked') || {}).value === 'solid';
+      $('as-bg1-lbl').textContent = $('as-bg2-wrap').hidden ? 'Colour' : 'From';
+      $('as-framecol-wrap').hidden = !$('as-frame').checked;
+      render();
+    });
+  });
+
+  $('as-strip').addEventListener('click', function (e) {
+    var go = e.target.closest ? e.target.closest('[data-go]') : null;
+    var rm = e.target.closest ? e.target.closest('[data-rm]') : null;
+    if (rm) {
+      var i = parseInt(rm.getAttribute('data-rm'), 10);
+      slides.splice(i, 1);
+      if (active >= slides.length) active = Math.max(0, slides.length - 1);
+      $('as-caption').value = slides.length ? (slides[active].caption || '') : '';
+      render();
+      $('as-live').textContent = 'Slide removed. ' + slides.length + ' left.';
+      return;
+    }
+    if (go) {
+      active = parseInt(go.getAttribute('data-go'), 10);
+      $('as-caption').value = slides[active].caption || '';
+      render();
+    }
+  });
+
+  $('as-dl').addEventListener('click', function () {
+    if (!slides.length) return;
+    var t = target();
+    exportOne(active).then(function () {
+      $('as-live').textContent = 'Slide ' + (active + 1) + ' saved at ' + t.w + ' by ' + t.h + ' pixels.';
+    });
+  });
+
+  var allBtn = $('as-dl-all');
+  allBtn.addEventListener('click', function () {
+    if (!slides.length) return;
+    var t = target();
+    allBtn.disabled = true;
+    $('as-dl-all-label').textContent = 'Saving…';
+    $('as-live').textContent = 'Exporting ' + slides.length + ' slides at ' + t.w + ' by ' + t.h +
+      ' pixels. Your browser may ask permission to download multiple files.';
+    var i = 0;
+    (function next() {
+      if (i >= slides.length) {
+        allBtn.disabled = false;
+        allBtn.classList.add('is-done');
+        $('as-dl-all-label').textContent = 'Saved ' + slides.length;
+        $('as-live').textContent = slides.length + ' images saved at ' + t.w + ' by ' + t.h + ' pixels.';
+        setTimeout(function () { allBtn.classList.remove('is-done'); render(); }, 2600);
+        return;
+      }
+      exportOne(i++).then(function () { setTimeout(next, 420); });
+    })();
+  });
+
+  $('as-clear').addEventListener('click', function () {
+    slides = [];
+    active = 0;
+    pendingCaption = '';
+    $('as-caption').value = '';
+    render();
+    $('as-live').textContent = 'Cleared. Nothing is left in memory, and nothing ever left this device.';
+  });
+
+  /* ---- boot ---- */
+  buildSlotSelect();
+  buildBgPresets();
+  buildSizeSelect(false);
+  syncSlotInfo();
+  $('as-bg2-wrap').hidden = false;
+  $('as-framecol-wrap').hidden = false;
+  $('as-fontsize-val').textContent = Math.round(target().h * 3.4 / 100) + ' px';
+  render();
+
+  window.__mark = window.__mark || function () {};
+})();
+</script>

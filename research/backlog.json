@@ -85,7 +85,8 @@
       "difficulty": "M",
       "effort": "M",
       "relevance": 4,
-      "status": "todo"
+      "status": "live",
+      "published": "2026-07-30"
     },
     {
       "slug": "app-icon-generator",
