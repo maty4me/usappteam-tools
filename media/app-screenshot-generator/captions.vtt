@@ -1,101 +1,101 @@
 WEBVTT
 
 1
-00:00:00.000 --> 00:00:02.392
+00:00:00.000 --> 00:00:02.508
 Apple checks the pixel size of every screenshot
 
 2
-00:00:02.438 --> 00:00:05.178
+00:00:02.577 --> 00:00:05.654
 you upload, exactly. Get it wrong and your
 
 3
-00:00:05.224 --> 00:00:08.034
+00:00:05.689 --> 00:00:08.452
 submission bounces. So start by dropping your
 
 4
-00:00:08.081 --> 00:00:10.739
+00:00:08.487 --> 00:00:11.436
 screenshots in — straight from the simulator,
 
 5
-00:00:10.762 --> 00:00:12.736
+00:00:11.471 --> 00:00:13.444
 as many as you like, and they stay in
 
 6
-00:00:12.771 --> 00:00:13.908
+00:00:13.479 --> 00:00:14.593
 the order you picked them.
 
 7
-00:00:14.350 --> 00:00:15.661
+00:00:15.104 --> 00:00:16.404
 Now choose your target.
 
 8
-00:00:15.870 --> 00:00:18.274
+00:00:16.648 --> 00:00:18.912
 Every slot here comes from Apple's and Google's
 
 9
-00:00:18.332 --> 00:00:20.062
+00:00:18.970 --> 00:00:20.723
 own published specifications,
 
 10
-00:00:20.271 --> 00:00:21.873
+00:00:20.932 --> 00:00:22.593
 with the exact pixel size,
 
 11
-00:00:21.989 --> 00:00:23.336
+00:00:22.674 --> 00:00:24.044
 which devices it covers,
 
 12
-00:00:23.510 --> 00:00:25.646
+00:00:24.195 --> 00:00:26.169
 and whether it is actually required or just
 
 13
-00:00:25.704 --> 00:00:28.979
+00:00:26.215 --> 00:00:29.524
 optional. Some slots accept more than one size,
 
 14
-00:00:29.048 --> 00:00:30.290
+00:00:29.675 --> 00:00:30.999
 so pick the one you need.
 
 15
-00:00:30.894 --> 00:00:32.334
+00:00:31.440 --> 00:00:32.995
 Add a headline for the slide,
 
 16
-00:00:32.392 --> 00:00:34.006
+00:00:33.112 --> 00:00:34.691
 above the device or below it.
 
 17
-00:00:34.447 --> 00:00:36.920
+00:00:35.201 --> 00:00:37.570
 Choose a background — a preset gradient,
 
 18
-00:00:37.013 --> 00:00:40.008
+00:00:37.616 --> 00:00:40.298
 or your own colours. Turn the device frame
 
 19
-00:00:40.054 --> 00:00:41.959
+00:00:40.345 --> 00:00:42.074
 on if you want one; it is drawn with
 
 20
-00:00:42.005 --> 00:00:44.211
+00:00:42.121 --> 00:00:44.408
 canvas shapes, so there is no device photo
 
 21
-00:00:44.269 --> 00:00:46.673
+00:00:44.478 --> 00:00:46.660
 in your output. Then export.
 
 22
-00:00:46.916 --> 00:00:50.016
+00:00:47.357 --> 00:00:50.491
 JPEG by default, because a canvas PNG always
 
 23
-00:00:50.063 --> 00:00:52.129
+00:00:50.550 --> 00:00:52.570
 carries an alpha channel and Apple rejects
 
 24
-00:00:52.164 --> 00:00:54.312
+00:00:52.616 --> 00:00:54.601
 those. Nothing was uploaded,
 
 25
-00:00:54.428 --> 00:00:56.007
+00:00:54.625 --> 00:00:56.192
 and there is no watermark.
