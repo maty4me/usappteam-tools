@@ -3,9 +3,12 @@
 A scheduled Claude cloud agent ships one new free tool every morning. This file is the routine's
 instruction set — the schedule points at it, so editing this file changes tomorrow's behaviour.
 
-**Schedule:** 07:00 America/Chicago, daily.
+**Schedule:** cron `0 12 * * *`, which is 07:00 America/Chicago through the summer.
+Cloud routines only take UTC, so this becomes 06:00 once the clocks go back — shift the cron to
+`0 13 * * *` in November if the earlier slot ever matters.
 **Repo:** `maty4me/usappteam-tools`
 **Live:** https://tools.usappteam.com
+**Routine:** "Free Tool of the Day" at `claude.ai/code/routines`
 
 ## Sequence
 
@@ -50,9 +53,18 @@ instruction set — the schedule points at it, so editing this file changes tomo
 6. **Push** to `main` with a conventional commit (`feat(tools): add <slug>`).
 
    If the push is rejected for **authentication** rather than for being behind, stop and say so
-   plainly in your report — the cloud environment's GitHub credentials need fixing and no amount of
-   retrying will help. Leave the backlog item as `"building"` so tomorrow resumes it, and include
-   the tool's four files as a diff in your report so nothing you wrote is lost.
+   plainly in your report — retrying will not help. Leave the backlog item as `"building"` so
+   tomorrow resumes it, and include the tool's four files in your report so nothing you wrote is
+   lost. Do include them even if they are large: the container is destroyed when the run ends, and a
+   report without them means the work is gone.
+
+   **Known instance of this, 2026-07-30.** A run built the App Store Screenshot Generator, verified
+   it, and could not ship it: `git push` returned **HTTP 403 on git-receive-pack** while fetch
+   worked fine, and the GitHub App path failed identically with *"Resource not accessible by
+   integration"*. Re-attaching the repo with `access: "push"` returned `already_present` and changed
+   nothing. Cause: the Claude GitHub App installation has read access to this repo but not
+   `contents: write`. It is a permission grant, not a transient failure, and it blocks every run
+   until an owner fixes it — see SETUP.md.
 
    If the push is rejected as **non-fast-forward**, `git pull --rebase origin main` and push again.
 
@@ -80,8 +92,9 @@ Re-run the keyword research rather than inventing ideas:
 node research/expand.mjs           # google + bing autocomplete expansion
 ```
 
-Then filter for app-relevant tool intent, judge difficulty by reading the live SERP for each
-finalist (who ranks, how entrenched), and append at least 5 scored candidates to
+Then filter for tool intent — app-related or any everyday utility people search for by name — judge
+difficulty by reading the live SERP for each finalist (who ranks, how entrenched), and append at
+least 5 scored candidates to
 `research/backlog.json` and the table in `research/keyword-backlog.md`. Same method as the original
 run — it is documented at the top of `keyword-backlog.md`.
 

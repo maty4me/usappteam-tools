@@ -34,6 +34,34 @@ Everything below is done. Kept as a record of how the pieces fit together.
   asked for. Behind a looping avatar that strobes, so `avatar.mjs` trims it.
   Tune with `AVATAR_TRIM` and re-check the first second of the output.
 
+## Known blocker — the cloud routine cannot push
+
+As of 2026-07-30 the daily cloud routine builds a tool correctly and then fails at `git push` with
+**HTTP 403 on git-receive-pack**. Fetch and clone work, so the repo is attached properly; only
+writing is denied. The GitHub App path fails the same way (`Resource not accessible by
+integration`), and re-attaching the repo with `access: "push"` reports `already_present` without
+changing anything.
+
+The Claude GitHub App installation has read access to this repo but not **`contents: write`**. Grant
+it and the loop works unattended — nothing in the repo needs changing.
+
+Where to grant it (an owner has to do this; it cannot be done from the API with a personal token):
+
+- **GitHub → Settings → Applications → Installed GitHub Apps → Claude → Configure.** Confirm this
+  repository is in the allowed list, and accept any pending permission request shown at the top of
+  that page.
+- If a permission request is not offered there, reconnect GitHub from the Claude Code environment
+  settings on claude.ai so the App re-requests scopes, then accept on GitHub.
+
+Until then, a run's work dies with its container. Two consequences worth knowing: the backlog item
+stays `todo` on the remote, so the next successful run rebuilds and ships it automatically; and the
+routine's report is the only copy of what it wrote, which is why ROUTINE.md now tells it to include
+the files there regardless of size.
+
+**Fallback that needs no new credentials:** this workstation already pushes to the repo fine (Git
+Credential Manager, user `maty4me`) and has Node, Playwright and ffmpeg. Running the same routine
+prompt locally on a Windows scheduled task works today — it just needs the machine awake.
+
 ## Still optional
 
 - **Music beds** — drop royalty-free instrumentals into `video/assets/music/`
