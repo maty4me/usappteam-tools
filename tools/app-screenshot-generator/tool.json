@@ -57,18 +57,45 @@
     "label": "Start your app brief"
   },
   "video": {
-    "status": "pending",
+    "status": "rendered",
     "durationTargetSec": 60,
     "narration": "Apple checks the pixel size of every screenshot you upload, exactly. Get it wrong and your submission bounces. So start by dropping your screenshots in — straight from the simulator, as many as you like, and they stay in the order you picked them. Now choose your target. Every slot here comes from Apple's and Google's own published specifications, with the exact pixel size, which devices it covers, and whether it is actually required or just optional. Some slots accept more than one size, so pick the one you need. Add a headline for the slide, above the device or below it. Choose a background — a preset gradient, or your own colours. Turn the device frame on if you want one; it is drawn with canvas shapes, so there is no device photo in your output. Then export. JPEG by default, because a canvas PNG always carries an alpha channel and Apple rejects those. Nothing was uploaded, and there is no watermark.",
     "scenes": [
-      { "label": "Exact sizes, or rejection", "mark": "intro" },
-      { "label": "Load a whole batch, in order", "mark": "load" },
-      { "label": "Every Apple and Google slot", "mark": "size" },
-      { "label": "Required vs optional", "mark": "required" },
-      { "label": "Caption each slide", "mark": "caption" },
-      { "label": "Backgrounds and gradients", "mark": "background" },
-      { "label": "Frame, or no frame", "mark": "frame" },
-      { "label": "Export with no alpha channel", "mark": "export" }
-    ]
+      {
+        "label": "Exact sizes, or rejection",
+        "mark": "intro"
+      },
+      {
+        "label": "Load a whole batch, in order",
+        "mark": "load"
+      },
+      {
+        "label": "Every Apple and Google slot",
+        "mark": "size"
+      },
+      {
+        "label": "Required vs optional",
+        "mark": "required"
+      },
+      {
+        "label": "Caption each slide",
+        "mark": "caption"
+      },
+      {
+        "label": "Backgrounds and gradients",
+        "mark": "background"
+      },
+      {
+        "label": "Frame, or no frame",
+        "mark": "frame"
+      },
+      {
+        "label": "Export with no alpha channel",
+        "mark": "export"
+      }
+    ],
+    "renderedAt": "2026-07-30",
+    "durationISO": "PT58S",
+    "hasVoiceover": true
   }
 }
