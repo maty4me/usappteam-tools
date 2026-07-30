@@ -112,4 +112,8 @@ run — it is documented at the top of `keyword-backlog.md`.
 
 - DNS for `tools.usappteam.com` (GoHighLevel domain settings).
 - Adding the "Free Tools" link and teaser page to the GoHighLevel site — that site deploys by hand.
-- Reviewing the Veo avatar loops before they are committed.
+
+## Video format
+
+Voiceover + screen walkthrough only. The avatar corner card (Mathias in the bottom-right) was
+removed 2026-07-30 at Mathias's request — do not re-add it or any facecam/presenter overlay.

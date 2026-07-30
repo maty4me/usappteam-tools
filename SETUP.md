@@ -21,18 +21,13 @@ Everything below is done. Kept as a record of how the pieces fit together.
 - `BASE_PATH` / `CUSTOM_DOMAIN` in the workflow are set for the custom domain.
   They only need changing if the site ever moves back to the project URL.
 
-## Avatar
+## Avatar — retired 2026-07-30
 
-`video/assets/avatar/{talking,idle}.webm` were generated with Google Veo from
-`headshot.jpg` via `node video/avatar.mjs`. Two things to know before regenerating:
-
-- Veo rejected the original idle brief outright — it will not accept a request
-  for stillness and silence. The prompt now describes a quiet room and a pause
-  between sentences instead.
-- Every clip so far ramps in from a saturated, nightclub-looking background for
-  roughly the first 2.5 seconds before settling into the studio look that was
-  asked for. Behind a looping avatar that strobes, so `avatar.mjs` trims it.
-  Tune with `AVATAR_TRIM` and re-check the first second of the output.
+The corner avatar card was removed from the composition at Mathias's request; videos are now
+voiceover + screen walkthrough only. `video/avatar.mjs` and `video/assets/avatar/` remain in the
+repo but nothing reads them. If it ever comes back, the old lessons: Veo will not accept a request
+for stillness and silence (describe a quiet room instead), and every clip ramps in from a
+saturated background for ~2.5s, which `avatar.mjs` trims via `AVATAR_TRIM`.
 
 ## Known blocker — the cloud routine cannot push
 

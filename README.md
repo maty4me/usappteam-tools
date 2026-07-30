@@ -44,7 +44,6 @@ Video (needs Playwright browsers + ffmpeg):
 npx playwright install chromium
 cd video/remotion && npm install && cd ../..
 node video/render.mjs <slug>     # record -> voiceover -> Remotion -> media/<slug>/
-node video/avatar.mjs            # one-time: generate the corner avatar loops with Veo
 ```
 
 ## Adding a tool by hand

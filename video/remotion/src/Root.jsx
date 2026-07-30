@@ -13,7 +13,6 @@ const defaults = {
   captions: { lines: [], words: [], duration: 60 },
   scenes: [],
   hasVoiceover: false,
-  hasAvatarVideo: false,
   music: 'music/bed-1.mp3',
 };
 

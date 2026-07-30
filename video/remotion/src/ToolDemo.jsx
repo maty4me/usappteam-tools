@@ -5,7 +5,6 @@ import {
   Img,
   OffthreadVideo,
   Sequence,
-  Video,
   interpolate,
   spring,
   staticFile,
@@ -140,67 +139,6 @@ const StepBadge = ({ index, label }) => {
   );
 };
 
-/* ---------- avatar corner card ---------- */
-
-const Avatar = ({ hasVideo, speaking }) => {
-  const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
-  const s = spring({ frame, fps, config: { damping: 200 } });
-  // Kept deliberately small: it is a presence cue, and the tool underneath is
-  // what the viewer came to see.
-  const size = 168;
-  // Gentle pulse on the ring while the voiceover is talking.
-  const pulse = speaking ? 1 + Math.sin(frame / 4.2) * 0.022 : 1;
-
-  return (
-    <div
-      style={{
-        position: 'absolute',
-        right: 34,
-        bottom: 34,
-        width: size,
-        height: size,
-        transform: `scale(${(0.8 + s * 0.2) * pulse})`,
-        opacity: s,
-      }}
-    >
-      <div
-        style={{
-          position: 'absolute',
-          inset: -7,
-          borderRadius: '50%',
-          background: BRAND.grad,
-          opacity: speaking ? 0.95 : 0.45,
-        }}
-      />
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          borderRadius: '50%',
-          overflow: 'hidden',
-          background: BRAND.card,
-          boxShadow: '0 16px 40px -10px rgba(23,32,43,.45)',
-        }}
-      >
-        {hasVideo ? (
-          <Video
-            src={staticFile(speaking ? 'avatar/talking.webm' : 'avatar/idle.webm')}
-            loop
-            muted
-            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-          />
-        ) : (
-          <Img
-            src={staticFile('avatar/headshot.jpg')}
-            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-          />
-        )}
-      </div>
-    </div>
-  );
-};
-
 /* ---------- captions ---------- */
 
 const Captions = ({ lines, timeSec }) => {
@@ -216,7 +154,7 @@ const Captions = ({ lines, timeSec }) => {
         bottom: 46,
         display: 'flex',
         justifyContent: 'center',
-        padding: '0 300px 0 60px',
+        padding: '0 60px',
       }}
     >
       <div
@@ -304,7 +242,6 @@ export const ToolDemo = ({
   captions = { lines: [], duration: 0 },
   scenes = [],
   hasVoiceover,
-  hasAvatarVideo,
   music,
 }) => {
   const frame = useCurrentFrame();
@@ -316,9 +253,6 @@ export const ToolDemo = ({
   const bodyStart = INTRO;
   const bodyEnd = durationInFrames - OUTRO;
   const bodyLen = Math.max(1, bodyEnd - bodyStart);
-
-  // Speaking = inside a caption line. Drives the avatar ring and loop choice.
-  const speaking = captions.lines.some((l) => timeSec >= l.start && timeSec <= l.end + 0.2);
 
   return (
     <AbsoluteFill style={{ background: BRAND.bg }}>
@@ -345,11 +279,10 @@ export const ToolDemo = ({
         );
       })}
 
-      {/* captions + avatar ride over the body only */}
+      {/* captions ride over the body only */}
       <Sequence from={bodyStart} durationInFrames={bodyLen}>
         <AbsoluteFill>
           <Captions lines={captions.lines} timeSec={timeSec} />
-          <Avatar hasVideo={hasAvatarVideo} speaking={speaking} />
         </AbsoluteFill>
       </Sequence>
 

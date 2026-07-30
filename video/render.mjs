@@ -89,11 +89,6 @@ async function main() {
   }
   await fs.copyFile(path.join(ROOT, 'site', 'static', 'logo-A-512.png'), path.join(PUBLIC, 'logo-A-512.png'));
 
-  const hasAvatarVideo =
-    (await exists(path.join(PUBLIC, 'avatar', 'talking.webm'))) &&
-    (await exists(path.join(PUBLIC, 'avatar', 'idle.webm')));
-  if (!hasAvatarVideo) console.log('  avatar loops not present — using the headshot card');
-
   const musicDir = path.join(PUBLIC, 'music');
   const beds = (await fs.readdir(musicDir).catch(() => [])).filter((f) => /\.(mp3|m4a|wav)$/i.test(f));
   // Same tool always gets the same bed — reruns stay byte-comparable.
@@ -109,7 +104,6 @@ async function main() {
     captions,
     scenes,
     hasVoiceover,
-    hasAvatarVideo,
     music,
   };
   const propsFile = path.join(OUT, 'props.json');
