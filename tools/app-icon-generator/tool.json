@@ -1,7 +1,7 @@
 {
   "slug": "app-icon-generator",
   "title": "App Icon Generator",
-  "tagline": "One image in, every iOS and Android icon size out \u2014 including proper adaptive icon layers. Free, and nothing is uploaded.",
+  "tagline": "One image in, every iOS and Android icon size out — including proper adaptive icon layers. Free, and nothing is uploaded.",
   "description": "Free app icon generator. One image becomes every iOS and Android size, including adaptive icon layers. Runs in your browser: no upload, no signup.",
   "keywords": [
     "app icon generator",
@@ -17,12 +17,12 @@
   ],
   "category": "generators",
   "datePublished": "2026-07-31",
-  "intro": "Every icon generator on the first page of Google does the same three things: it takes your artwork, uploads it to somebody's server, and hands back a zip. That is a strange thing to accept for the single most recognisable piece of branding your product has, usually months before you have announced it. This one never sends the file anywhere \u2014 the resizing and the PNG encoding both happen inside your own tab, and you can pull the network cable out after the page loads and it will still work.\n\nThe other thing generators get wrong is Android. A launcher icon is not one square any more. Since Android 8 the system wants an *adaptive* icon: two layers, each 108 dp square, of which the launcher only ever shows the middle 72 dp \u2014 and only the inner 66 dp is guaranteed to survive, because every phone manufacturer ships a different mask shape. Ignore that and your logo gets its edges shaved off on a Pixel and again, differently, on a Samsung. This tool exports the two layers at all five densities, keeps your artwork inside the safe zone, and shows you a live mask preview so you can see what actually survives.\n\nOn the iOS side there is a trap worth knowing about: a browser canvas is always RGBA, so anything that writes a PNG with `canvas.toBlob` produces a file with an alpha channel in it, even when every pixel is opaque. Apple rejects that. So the PNG files here are written by hand rather than by the canvas \u2014 the iOS set comes out as 24-bit RGB with no alpha channel in the file at all.",
+  "intro": "Every icon generator on the first page of Google does the same three things: it takes your artwork, uploads it to somebody's server, and hands back a zip. That is a strange thing to accept for the single most recognisable piece of branding your product has, usually months before you have announced it. This one never sends the file anywhere — the resizing and the PNG encoding both happen inside your own tab, and you can pull the network cable out after the page loads and it will still work.\n\nThe other thing generators get wrong is Android. A launcher icon is not one square any more. Since Android 8 the system wants an *adaptive* icon: two layers, each 108 dp square, of which the launcher only ever shows the middle 72 dp — and only the inner 66 dp is guaranteed to survive, because every phone manufacturer ships a different mask shape. Ignore that and your logo gets its edges shaved off on a Pixel and again, differently, on a Samsung. This tool exports the two layers at all five densities, keeps your artwork inside the safe zone, and shows you a live mask preview so you can see what actually survives.\n\nOn the iOS side there is a trap worth knowing about: a browser canvas is always RGBA, so anything that writes a PNG with `canvas.toBlob` produces a file with an alpha channel in it, even when every pixel is opaque. Apple rejects that. So the PNG files here are written by hand rather than by the canvas — the iOS set comes out as 24-bit RGB with no alpha channel in the file at all.",
   "howTo": [
-    "Drop in your artwork, or click Choose an image. PNG, JPG, WebP and SVG all work. Use something at least 1024 \u00d7 1024 and square \u2014 the tool tells you plainly if it is smaller, because upscaling an icon looks bad and no amount of clever resampling fixes it.",
+    "Drop in your artwork, or click Choose an image. PNG, JPG, WebP and SVG all work. Use something at least 1024 × 1024 and square — the tool tells you plainly if it is smaller, because upscaling an icon looks bad and no amount of clever resampling fixes it.",
     "Pick what happens to transparency. iOS icons may not contain an alpha channel at all, so those files are always flattened onto the colour you choose. Android launcher icons, the Play icon and favicons can keep their transparency if you want.",
     "Set how much of the square your artwork fills. Full bleed is the normal choice for an app icon; pull it back if your mark is a logo that needs air around it.",
-    "Switch the mask preview between circle, squircle, rounded square and square. This is a preview only \u2014 every exported file is square, because both platforms apply their own mask and rounding the corners yourself gives you a double-rounded icon.",
+    "Switch the mask preview between circle, squircle, rounded square and square. This is a preview only — every exported file is square, because both platforms apply their own mask and rounding the corners yourself gives you a double-rounded icon.",
     "Check the preview strip. It draws your icon at 180, 120, 87, 60 and 40 real pixels. If the mark turns to mush at 40 px, that is what people will see in Settings and in notifications.",
     "Tick the sets you need. A brand-new Xcode project wants the single 1024 file; an older project, or a Cordova / Flutter / React Native template, wants the full legacy set. Android needs the launcher icons and the adaptive layers, and the Play listing needs its own 512.",
     "Click Generate every size, then download files one at a time or all at once. Each row shows the exact filename and the folder it belongs in, and tells you whether that file carries an alpha channel."
@@ -30,19 +30,19 @@
   "faq": [
     {
       "q": "What size should my source image be?",
-      "a": "At least 1024 \u00d7 1024 pixels and square. 1024 is the largest size either store asks for, so if your source is that big every other file is a downscale and nothing is invented. If your source is smaller, the 1024 store icon has to be enlarged, and an upscaled icon is visibly soft next to the ones around it on a Home Screen \u2014 no resampling filter rescues detail that was never captured. If you have the original vector, export a fresh 1024 PNG from it rather than blowing up a 512. An SVG works directly here too, as long as it carries width and height attributes so the browser can rasterise it."
+      "a": "At least 1024 × 1024 pixels and square. 1024 is the largest size either store asks for, so if your source is that big every other file is a downscale and nothing is invented. If your source is smaller, the 1024 store icon has to be enlarged, and an upscaled icon is visibly soft next to the ones around it on a Home Screen — no resampling filter rescues detail that was never captured. If you have the original vector, export a fresh 1024 PNG from it rather than blowing up a 512. An SVG works directly here too, as long as it carries width and height attributes so the browser can rasterise it."
     },
     {
       "q": "Do I still need every iOS icon size?",
-      "a": "Probably not, and this is the single most confusing thing about iOS icons. Since Xcode 14 a new project's asset catalog has one slot \u2014 a single 1024 \u00d7 1024 image \u2014 and Xcode produces every smaller variant at build time. If you are starting fresh, that one file is the whole job. The full set of 15 explicit sizes still exists in older asset catalogs, and in the templates that Cordova, Flutter, React Native and various CI scripts still generate, so it has not gone away. That is why this tool offers both and labels which is which. If in doubt, open your AppIcon.appiconset and look: if it lists one image, you need one file."
+      "a": "Probably not, and this is the single most confusing thing about iOS icons. Since Xcode 14 a new project's asset catalog has one slot — a single 1024 × 1024 image — and Xcode produces every smaller variant at build time. If you are starting fresh, that one file is the whole job. The full set of 15 explicit sizes still exists in older asset catalogs, and in the templates that Cordova, Flutter, React Native and various CI scripts still generate, so it has not gone away. That is why this tool offers both and labels which is which. If in doubt, open your AppIcon.appiconset and look: if it lists one image, you need one file."
     },
     {
       "q": "What is an Android adaptive icon and why are there two layers?",
-      "a": "Android device makers do not agree on icon shape \u2014 one launcher renders circles, another squircles, another rounded squares. Rather than shipping a different icon per manufacturer, Android takes two layers from you, a background and a foreground, each 108 dp square, and applies the device's own mask to them. The two layers also let the launcher animate them independently: parallax as you drag the icon, a gentle pulse when you tap. The masked viewport is the middle 72 dp of the 108 dp canvas, so the outer 18 dp on every side is drawn but never guaranteed to be shown. Android's guidance goes further and says keep your logo inside the inner 66 dp, because that is the region no OEM mask clips."
+      "a": "Android device makers do not agree on icon shape — one launcher renders circles, another squircles, another rounded squares. Rather than shipping a different icon per manufacturer, Android takes two layers from you, a background and a foreground, each 108 dp square, and applies the device's own mask to them. The two layers also let the launcher animate them independently: parallax as you drag the icon, a gentle pulse when you tap. The masked viewport is the middle 72 dp of the 108 dp canvas, so the outer 18 dp on every side is drawn but never guaranteed to be shown. Android's guidance goes further and says keep your logo inside the inner 66 dp, because that is the region no OEM mask clips."
     },
     {
       "q": "Why can't my iOS icon have transparency?",
-      "a": "Apple's guidance lists transparency as \"No\" for iOS and iPadOS app icons, and App Store Connect enforces it: an upload with an alpha channel comes back as error ITMS-90717, \"Invalid App Store Icon\". The system draws the icon's shape and its shadow itself and assumes an opaque square underneath. The awkward part is that a browser canvas is always RGBA, so any tool that writes PNGs the easy way \u2014 canvas.toBlob \u2014 ships an alpha channel even when every pixel in it is fully opaque, and you find out from a rejection email. This tool writes the PNG bytes itself and emits the iOS files as 24-bit RGB, colour type 2, with no alpha channel present in the file."
+      "a": "Apple's guidance lists transparency as \"No\" for iOS and iPadOS app icons, and App Store Connect enforces it: an upload with an alpha channel comes back as error ITMS-90717, \"Invalid App Store Icon\". The system draws the icon's shape and its shadow itself and assumes an opaque square underneath. The awkward part is that a browser canvas is always RGBA, so any tool that writes PNGs the easy way — canvas.toBlob — ships an alpha channel even when every pixel in it is fully opaque, and you find out from a rejection email. This tool writes the PNG bytes itself and emits the iOS files as 24-bit RGB, colour type 2, with no alpha channel present in the file."
     },
     {
       "q": "Should I round the corners of my icon myself?",
@@ -57,9 +57,9 @@
     "label": "Start your app brief"
   },
   "video": {
-    "status": "pending",
+    "status": "rendered",
     "durationTargetSec": 60,
-    "narration": "Your app icon is probably the last thing you want to upload to a stranger's server. So this one runs entirely in your browser. Drop in one square image \u2014 a thousand and twenty-four pixels or larger \u2014 and it becomes every size iOS and Android ask for. Pick a background colour, because iOS icons are not allowed to contain an alpha channel; Apple rejects those. Then look at the Android side. An adaptive icon is two layers on a hundred and eight dp square, and the launcher only shows the middle seventy-two. Switch the mask between circle, squircle and rounded square and watch what survives \u2014 that is why your logo stays inside the inner safe zone. Everything exports square, because both platforms apply their own mask. Hit generate, and you get the full set: the Xcode slots, every mipmap density, both adaptive layers, the Play icon. Each one named and filed exactly where it goes. Nothing uploaded.",
+    "narration": "Your app icon is probably the last thing you want to upload to a stranger's server. So this one runs entirely in your browser. Drop in one square image — a thousand and twenty-four pixels or larger — and it becomes every size iOS and Android ask for. Pick a background colour, because iOS icons are not allowed to contain an alpha channel; Apple rejects those. Then look at the Android side. An adaptive icon is two layers on a hundred and eight dp square, and the launcher only shows the middle seventy-two. Switch the mask between circle, squircle and rounded square and watch what survives — that is why your logo stays inside the inner safe zone. Everything exports square, because both platforms apply their own mask. Hit generate, and you get the full set: the Xcode slots, every mipmap density, both adaptive layers, the Play icon. Each one named and filed exactly where it goes. Nothing uploaded.",
     "scenes": [
       {
         "label": "Nothing leaves your browser",
@@ -89,6 +89,9 @@
         "label": "Named and filed correctly",
         "mark": "export"
       }
-    ]
+    ],
+    "renderedAt": "2026-08-03",
+    "durationISO": "PT55S",
+    "hasVoiceover": true
   }
 }
