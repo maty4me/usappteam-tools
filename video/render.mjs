@@ -2,12 +2,15 @@
 /* Render one tool's demo video end to end.
  *
  *   record  -> screen.webm + scenes.json
- *   voice   -> vo.mp3 + captions.json/.vtt   (skipped if no ElevenLabs key)
+ *   voice   -> vo.mp3 + captions.json/.vtt   (edge-tts, free; fatal if it fails)
  *   remotion-> media/<slug>/demo.mp4 + poster.jpg + captions.vtt
  *
  * Then flips tool.json video.status to "rendered" so the next build emits the
  * video block and VideoObject schema. Failing here must never block a tool from
- * shipping — the caller (CI) treats a non-zero exit as "publish without video".
+ * shipping — the caller (CI) treats a non-zero exit as "publish without video",
+ * which is a visible outcome: the page ships without a video block and CI opens
+ * an issue. A *silent* video is the bad case, because nothing surfaces it, so a
+ * voiceover failure aborts the render rather than degrading quietly.
  *
  * Usage: node video/render.mjs <slug>
  */
@@ -54,17 +57,13 @@ async function main() {
   await run(process.execPath, [path.join(ROOT, 'video', 'record.mjs'), slug]);
 
   console.log(`\n=== ${slug}: voiceover ===`);
-  let hasVoiceover = true;
-  try {
-    await run(process.execPath, [path.join(ROOT, 'video', 'voiceover.mjs'), slug]);
-  } catch (e) {
-    console.warn(`  voiceover unavailable (${e.message}) — rendering a silent walkthrough`);
-    hasVoiceover = false;
-  }
+  await run(process.execPath, [path.join(ROOT, 'video', 'voiceover.mjs'), slug]);
 
-  const captions = hasVoiceover
-    ? JSON.parse(await fs.readFile(path.join(OUT, 'captions.json'), 'utf8'))
-    : { lines: [], words: [], duration: 0 };
+  const captions = JSON.parse(await fs.readFile(path.join(OUT, 'captions.json'), 'utf8'));
+  if (!captions.lines?.length || !(captions.duration > 0)) {
+    throw new Error('voiceover produced no captions — refusing to render a silent video');
+  }
+  const hasVoiceover = true;
   const { marks } = JSON.parse(await fs.readFile(path.join(OUT, 'scenes.json'), 'utf8'));
 
   // Attach each declared scene to the timestamp its mark actually fired at.
@@ -84,9 +83,7 @@ async function main() {
   await fs.mkdir(path.join(PUBLIC, 'rec', slug), { recursive: true });
   await fs.cp(path.join(ROOT, 'video', 'assets'), PUBLIC, { recursive: true });
   await fs.copyFile(path.join(OUT, 'screen.webm'), path.join(PUBLIC, 'rec', slug, 'screen.webm'));
-  if (hasVoiceover) {
-    await fs.copyFile(path.join(OUT, 'vo.mp3'), path.join(PUBLIC, 'rec', slug, 'vo.mp3'));
-  }
+  await fs.copyFile(path.join(OUT, 'vo.mp3'), path.join(PUBLIC, 'rec', slug, 'vo.mp3'));
   await fs.copyFile(path.join(ROOT, 'site', 'static', 'logo-A-512.png'), path.join(PUBLIC, 'logo-A-512.png'));
 
   const musicDir = path.join(PUBLIC, 'music');
@@ -124,11 +121,7 @@ async function main() {
     path.join(MEDIA, 'poster.jpg'), '--props', propsFile,
     '--frame', String(totalFrames - 40), '--log', 'error'], { cwd: remotionDir });
 
-  if (hasVoiceover) {
-    await fs.copyFile(path.join(OUT, 'captions.vtt'), path.join(MEDIA, 'captions.vtt'));
-  } else {
-    await fs.writeFile(path.join(MEDIA, 'captions.vtt'), 'WEBVTT\n\n');
-  }
+  await fs.copyFile(path.join(OUT, 'captions.vtt'), path.join(MEDIA, 'captions.vtt'));
 
   meta.video = {
     ...meta.video,

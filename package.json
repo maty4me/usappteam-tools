@@ -14,7 +14,8 @@
     "serve": "node scripts/serve.mjs",
     "record": "node video/record.mjs",
     "voiceover": "node video/voiceover.mjs",
-    "previews": "node scripts/previews.mjs"
+    "previews": "node scripts/previews.mjs",
+    "audit": "node scripts/audit-live.mjs"
   },
   "dependencies": {
     "marked": "^15.0.0"

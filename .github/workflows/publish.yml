@@ -185,3 +185,13 @@ jobs:
         with:
           path: dist
       - uses: actions/deploy-pages@v4
+        id: deployment
+
+      # Check the deployed site, not just the build output: every tool must have
+      # a page, a video with captions, a card preview, a markdown companion, and
+      # be listed in the hub, the sitemap and llms.txt. This caught two tools
+      # that had shipped with digitally-silent videos and empty caption files.
+      - name: Audit the live site
+        run: |
+          sleep 45
+          npm run audit

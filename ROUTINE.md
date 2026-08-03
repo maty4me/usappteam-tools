@@ -74,11 +74,15 @@ Cloud routines only take UTC, so this becomes 06:00 once the clocks go back — 
    `continue-on-error` — a video failure does not stop the deploy, it opens a `video-failed` issue
    and the page ships without a video block.
 
-8. **Verify live.** All of these must pass before the run is considered done:
-   - `https://tools.usappteam.com/tools/<slug>/` returns 200 and contains the `<h1>`
-   - `/sitemap.xml` and `/llms.txt` both list the new URL
-   - `/tools/<slug>.md` returns 200 and is non-trivial
-   - `/media/<slug>/demo.mp4` returns 200 (or the video-failed issue is open)
+8. **Verify live.** Run `npm run audit`. It checks the deployed site — every tool must have a page
+   carrying its `<h1>`, a video, a captions track, a card preview, a markdown companion, and be
+   listed in the hub, the sitemap and `llms.txt`. It exits non-zero if anything is missing, and CI
+   runs it after every deploy too.
+
+   Do not treat a rendered video as proof of a good video. Two tools once shipped with digitally
+   silent audio and empty caption files because a voiceover failure fell through to a silent render;
+   that path is now fatal, and the audit checks the captions track precisely because an empty one is
+   the tell.
 
 9. **Update the backlog.** Set the item to `"live"` with the publish date. Append a line to
    `research/shipped.md`.
