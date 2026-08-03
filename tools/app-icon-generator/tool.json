@@ -57,17 +57,41 @@
     "label": "Start your app brief"
   },
   "video": {
-    "status": "pending",
+    "status": "rendered",
     "durationTargetSec": 60,
     "narration": "Your app icon is probably the last thing you want to upload to a stranger's server. So this one runs entirely in your browser. Drop in one square image — a thousand and twenty-four pixels or larger — and it becomes every size iOS and Android ask for. Pick a background colour, because iOS icons are not allowed to contain an alpha channel; Apple rejects those. Then look at the Android side. An adaptive icon is two layers on a hundred and eight dp square, and the launcher only shows the middle seventy-two. Switch the mask between circle, squircle and rounded square and watch what survives — that is why your logo stays inside the inner safe zone. Everything exports square, because both platforms apply their own mask. Hit generate, and you get the full set: the Xcode slots, every mipmap density, both adaptive layers, the Play icon. Each one named and filed exactly where it goes. Nothing uploaded.",
     "scenes": [
-      { "label": "Nothing leaves your browser", "mark": "intro" },
-      { "label": "One square image in", "mark": "load" },
-      { "label": "Real sizes, down to 40 px", "mark": "preview" },
-      { "label": "iOS cannot have alpha", "mark": "background" },
-      { "label": "The 108 dp adaptive canvas", "mark": "adaptive" },
-      { "label": "Every mask, previewed", "mark": "mask" },
-      { "label": "Named and filed correctly", "mark": "export" }
-    ]
+      {
+        "label": "Nothing leaves your browser",
+        "mark": "intro"
+      },
+      {
+        "label": "One square image in",
+        "mark": "load"
+      },
+      {
+        "label": "Real sizes, down to 40 px",
+        "mark": "preview"
+      },
+      {
+        "label": "iOS cannot have alpha",
+        "mark": "background"
+      },
+      {
+        "label": "The 108 dp adaptive canvas",
+        "mark": "adaptive"
+      },
+      {
+        "label": "Every mask, previewed",
+        "mark": "mask"
+      },
+      {
+        "label": "Named and filed correctly",
+        "mark": "export"
+      }
+    ],
+    "renderedAt": "2026-08-03",
+    "durationISO": "PT55S",
+    "hasVoiceover": true
   }
 }
