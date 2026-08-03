@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-30",
+  "updated": "2026-08-02",
   "method": "google+bing autocomplete expansion, tool-intent filter, SERP-judged difficulty",
   "corpus": {
     "seeds": 33,
@@ -96,7 +96,8 @@
       "difficulty": "H",
       "effort": "M",
       "relevance": 3,
-      "status": "todo"
+      "status": "live",
+      "published": "2026-08-02"
     },
     {
       "slug": "app-revenue-calculator",

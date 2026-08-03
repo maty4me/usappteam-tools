@@ -1,0 +1,1291 @@
+<style>
+.t-app-icon-generator { font-family: var(--body); color: var(--ink); }
+
+/* ---------- privacy banner ---------- */
+.t-app-icon-generator .ai-privacy {
+  display: flex; align-items: flex-start; gap: 10px;
+  margin: 0 0 18px; padding: 12px 14px;
+  border: 1px solid rgba(31, 169, 113, .3); border-radius: var(--r-sm);
+  background: rgba(31, 169, 113, .07);
+  font-size: 13.5px; line-height: 1.5; color: var(--slate);
+}
+.t-app-icon-generator .ai-privacy svg {
+  width: 16px; height: 16px; flex: 0 0 auto; margin-top: 2px;
+  stroke: var(--green); fill: none; stroke-width: 2;
+  stroke-linecap: round; stroke-linejoin: round;
+}
+.t-app-icon-generator .ai-privacy strong { color: var(--ink); font-weight: 600; }
+
+/* ---------- drop zone ---------- */
+.t-app-icon-generator .ai-drop {
+  position: relative; text-align: center;
+  border: 2px dashed var(--line-2); border-radius: var(--r);
+  background: var(--bg); padding: clamp(22px, 5vw, 36px) 16px;
+  transition: border-color .2s var(--ease), background .2s var(--ease);
+}
+.t-app-icon-generator .ai-drop.is-over { border-color: var(--azure); background: var(--blue-soft); }
+.t-app-icon-generator .ai-drop-t {
+  font-family: var(--disp); font-weight: 700; font-size: clamp(17px, 3.2vw, 20px);
+  margin: 0 0 6px; color: var(--ink);
+}
+.t-app-icon-generator .ai-drop-s { margin: 0 0 16px; font-size: 14px; color: var(--ink-60); line-height: 1.55; }
+.t-app-icon-generator .ai-pick {
+  display: inline-flex; align-items: center; gap: 9px; cursor: pointer;
+  font-family: var(--disp); font-weight: 700; font-size: 15px;
+  padding: 13px 26px; border-radius: 999px;
+  background: var(--grad); color: #fff;
+  box-shadow: 0 8px 20px -8px rgba(35, 128, 184, .55);
+  transition: transform .2s var(--ease);
+}
+.t-app-icon-generator .ai-pick:hover { transform: translateY(-1px); }
+.t-app-icon-generator .ai-pick svg {
+  width: 16px; height: 16px; stroke: #fff; fill: none; stroke-width: 2;
+  stroke-linecap: round; stroke-linejoin: round;
+}
+.t-app-icon-generator .ai-pick input {
+  position: absolute; opacity: 0; width: 1px; height: 1px; margin: 0; padding: 0;
+}
+.t-app-icon-generator .ai-drop:has(input:focus-visible) {
+  outline: 3px solid rgba(35, 128, 184, .55); outline-offset: 3px;
+}
+
+/* ---------- source read-out ---------- */
+.t-app-icon-generator .ai-source {
+  margin: 16px 0 0; padding: 13px 15px;
+  border: 1px solid var(--line); border-radius: var(--r-sm); background: var(--card);
+  font-size: 13.5px; line-height: 1.55; color: var(--slate);
+}
+.t-app-icon-generator .ai-source[hidden] { display: none; }
+.t-app-icon-generator .ai-source b { color: var(--ink); font-weight: 600; }
+.t-app-icon-generator .ai-source .ai-dims { font-family: var(--mono); font-size: 12.5px; color: var(--azure); }
+.t-app-icon-generator .ai-flag {
+  display: block; margin-top: 8px; padding: 9px 11px; border-radius: 8px;
+  font-size: 13px; line-height: 1.5;
+}
+.t-app-icon-generator .ai-flag[hidden] { display: none; }
+.t-app-icon-generator .ai-flag.is-warn { background: rgba(180, 118, 26, .1); color: var(--amber); }
+.t-app-icon-generator .ai-flag.is-ok { background: rgba(31, 169, 113, .1); color: var(--green); }
+
+/* ---------- settings ---------- */
+.t-app-icon-generator .ai-settings {
+  margin: 22px 0 0; padding: 20px 18px 6px;
+  border: 1px solid var(--line); border-radius: var(--r); background: var(--card);
+}
+.t-app-icon-generator .ai-fs { border: 0; padding: 0; margin: 0 0 20px; min-width: 0; }
+.t-app-icon-generator .ai-legend {
+  display: block; width: 100%; padding: 0; margin: 0 0 9px;
+  font-family: var(--disp); font-weight: 600; font-size: 15.5px; color: var(--ink);
+}
+.t-app-icon-generator .ai-legend .ai-num {
+  font-family: var(--mono); font-size: 11px; letter-spacing: .1em;
+  color: var(--azure); margin-right: 8px;
+}
+
+.t-app-icon-generator .ai-opts { display: grid; gap: 9px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.t-app-icon-generator .ai-opts.ai-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+@media (max-width: 560px) {
+  .t-app-icon-generator .ai-opts.ai-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+.t-app-icon-generator .ai-opt {
+  position: relative; display: block; cursor: pointer; text-align: center;
+  border: 1px solid var(--line-2); border-radius: var(--r-sm);
+  background: var(--card); padding: 11px 8px;
+  transition: border-color .2s var(--ease), background .2s var(--ease);
+}
+.t-app-icon-generator .ai-opt:hover { border-color: var(--azure); }
+.t-app-icon-generator .ai-opt input { position: absolute; opacity: 0; width: 1px; height: 1px; margin: 0; }
+.t-app-icon-generator .ai-opt .ai-t {
+  display: block; font-family: var(--disp); font-weight: 600; font-size: 14px; color: var(--ink);
+}
+.t-app-icon-generator .ai-opt .ai-d { display: block; margin-top: 2px; font-size: 11.5px; line-height: 1.35; color: var(--ink-60); }
+.t-app-icon-generator .ai-opt:has(input:checked) {
+  border-color: var(--azure); background: var(--blue-soft); box-shadow: inset 0 0 0 1px var(--azure);
+}
+.t-app-icon-generator .ai-opt:has(input:focus-visible) { outline: 3px solid rgba(35, 128, 184, .55); outline-offset: 2px; }
+
+.t-app-icon-generator .ai-note { margin: 10px 0 0; font-size: 13px; line-height: 1.5; color: var(--ink-60); }
+.t-app-icon-generator .ai-note strong { color: var(--ink); font-weight: 600; }
+
+.t-app-icon-generator .ai-colorrow {
+  display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 12px;
+}
+.t-app-icon-generator .ai-colorrow label { font-size: 13px; font-weight: 600; color: var(--slate); }
+.t-app-icon-generator .ai-colorrow input[type="color"] {
+  width: 54px; height: 38px; padding: 2px; cursor: pointer;
+  border: 1px solid var(--line-2); border-radius: var(--r-sm); background: var(--card);
+}
+.t-app-icon-generator .ai-swatches { display: flex; gap: 7px; flex-wrap: wrap; }
+.t-app-icon-generator .ai-sw {
+  width: 30px; height: 30px; border-radius: 8px; cursor: pointer; padding: 0;
+  border: 1px solid var(--line-2);
+}
+.t-app-icon-generator .ai-sw:hover { border-color: var(--azure); }
+
+/* range */
+.t-app-icon-generator .ai-qhead { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.t-app-icon-generator .ai-qval { font-family: var(--mono); font-size: 14px; font-weight: 700; color: var(--azure); }
+.t-app-icon-generator .ai-range {
+  -webkit-appearance: none; appearance: none;
+  width: 100%; height: 6px; margin: 12px 0 4px;
+  border-radius: 999px; background: var(--line-2); cursor: pointer;
+}
+.t-app-icon-generator .ai-range::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 20px; height: 20px; border-radius: 50%;
+  background: var(--azure); border: 3px solid var(--card);
+  box-shadow: 0 2px 6px rgba(23, 32, 43, .25);
+}
+.t-app-icon-generator .ai-range::-moz-range-thumb {
+  width: 20px; height: 20px; border-radius: 50%; border: 3px solid var(--card);
+  background: var(--azure); box-shadow: 0 2px 6px rgba(23, 32, 43, .25);
+}
+.t-app-icon-generator .ai-scale {
+  display: flex; justify-content: space-between;
+  font-family: var(--mono); font-size: 11px; color: var(--ink-40);
+}
+
+/* export set checkboxes */
+.t-app-icon-generator .ai-sets { display: grid; gap: 9px; }
+.t-app-icon-generator .ai-set {
+  position: relative; display: flex; gap: 11px; align-items: flex-start; cursor: pointer;
+  border: 1px solid var(--line-2); border-radius: var(--r-sm); background: var(--card); padding: 12px 14px;
+  transition: border-color .2s var(--ease), background .2s var(--ease);
+}
+.t-app-icon-generator .ai-set:hover { border-color: var(--azure); }
+.t-app-icon-generator .ai-set input { position: absolute; opacity: 0; width: 1px; height: 1px; margin: 0; }
+.t-app-icon-generator .ai-set .ai-box {
+  flex: 0 0 auto; width: 18px; height: 18px; margin-top: 1px;
+  border: 1px solid var(--line-2); border-radius: 5px; background: var(--bg);
+  display: grid; place-items: center; font-size: 12px; color: #fff;
+}
+.t-app-icon-generator .ai-set:has(input:checked) { border-color: var(--azure); background: var(--blue-soft); }
+.t-app-icon-generator .ai-set:has(input:checked) .ai-box { background: var(--azure); border-color: var(--azure); }
+.t-app-icon-generator .ai-set:has(input:checked) .ai-box::after { content: '\2713'; }
+.t-app-icon-generator .ai-set:has(input:focus-visible) { outline: 3px solid rgba(35, 128, 184, .55); outline-offset: 2px; }
+.t-app-icon-generator .ai-set .ai-st { font-family: var(--disp); font-weight: 600; font-size: 14.5px; color: var(--ink); }
+.t-app-icon-generator .ai-set .ai-sd { font-size: 12.5px; line-height: 1.45; color: var(--ink-60); margin-top: 2px; }
+.t-app-icon-generator .ai-set .ai-sc { font-family: var(--mono); font-size: 11px; color: var(--azure); margin-left: auto; white-space: nowrap; }
+
+/* ---------- previews ---------- */
+.t-app-icon-generator .ai-prev-wrap { margin: 26px 0 0; }
+.t-app-icon-generator .ai-prev-wrap[hidden] { display: none; }
+.t-app-icon-generator .ai-h {
+  font-family: var(--disp); font-weight: 700; font-size: 17px; margin: 0 0 4px; color: var(--ink);
+}
+.t-app-icon-generator .ai-sub { margin: 0 0 14px; font-size: 13.5px; line-height: 1.55; color: var(--ink-60); }
+.t-app-icon-generator .ai-tiles {
+  display: flex; gap: 18px; flex-wrap: wrap; align-items: flex-end;
+  padding: 18px; border: 1px solid var(--line); border-radius: var(--r); background: var(--bg);
+}
+.t-app-icon-generator .ai-tile { text-align: center; }
+.t-app-icon-generator .ai-tile canvas { display: block; margin: 0 auto; max-width: 100%; }
+.t-app-icon-generator .ai-tile span {
+  display: block; margin-top: 7px; font-family: var(--mono); font-size: 10.5px; color: var(--ink-40);
+}
+
+.t-app-icon-generator .ai-ad {
+  display: flex; gap: 20px; flex-wrap: wrap; margin-top: 16px;
+  padding: 18px; border: 1px solid var(--line); border-radius: var(--r); background: var(--bg);
+}
+.t-app-icon-generator .ai-ad figure { margin: 0; text-align: center; flex: 0 1 auto; }
+.t-app-icon-generator .ai-ad canvas {
+  display: block; width: 190px; height: 190px; max-width: 100%;
+  border-radius: var(--r-sm); background: var(--card); border: 1px solid var(--line);
+}
+.t-app-icon-generator .ai-ad figcaption { margin-top: 8px; font-size: 12px; line-height: 1.45; color: var(--ink-60); max-width: 200px; }
+.t-app-icon-generator .ai-ad figcaption b { color: var(--ink); }
+
+/* ---------- actions / progress ---------- */
+.t-app-icon-generator .ai-actions { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin: 22px 0 0; }
+.t-app-icon-generator .ai-btn {
+  font-family: var(--disp); font-weight: 600; font-size: 14.5px;
+  padding: 12px 20px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--line-2); background: var(--card); color: var(--ink);
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  transition: border-color .2s var(--ease), color .2s var(--ease), transform .15s var(--ease);
+}
+.t-app-icon-generator .ai-btn:hover:not(:disabled) { border-color: var(--azure); color: var(--azure); }
+.t-app-icon-generator .ai-btn:active:not(:disabled) { transform: scale(.98); }
+.t-app-icon-generator .ai-btn:disabled { opacity: .45; cursor: not-allowed; }
+.t-app-icon-generator .ai-btn svg {
+  width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 2;
+  stroke-linecap: round; stroke-linejoin: round;
+}
+.t-app-icon-generator .ai-btn.ai-primary {
+  border-color: transparent; background: var(--grad); color: #fff;
+  box-shadow: 0 8px 20px -8px rgba(35, 128, 184, .55);
+}
+.t-app-icon-generator .ai-btn.ai-primary:hover:not(:disabled) { color: #fff; transform: translateY(-1px); }
+.t-app-icon-generator .ai-btn.is-done { border-color: var(--green); color: var(--green); }
+
+.t-app-icon-generator .ai-progress { margin: 18px 0 0; }
+.t-app-icon-generator .ai-progress[hidden] { display: none; }
+.t-app-icon-generator .ai-bar { height: 7px; border-radius: 999px; background: var(--line); overflow: hidden; }
+.t-app-icon-generator .ai-bar span {
+  display: block; height: 100%; width: 0%; border-radius: 999px;
+  background: var(--grad); transition: width .2s var(--ease);
+}
+.t-app-icon-generator .ai-progress p { margin: 8px 0 0; font-size: 13px; color: var(--ink-60); }
+
+/* ---------- results ---------- */
+.t-app-icon-generator .ai-results { margin: 26px 0 0; }
+.t-app-icon-generator .ai-results[hidden] { display: none; }
+.t-app-icon-generator .ai-group { margin-bottom: 20px; }
+.t-app-icon-generator .ai-ghead {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 10px; flex-wrap: wrap;
+  margin: 0 0 8px;
+}
+.t-app-icon-generator .ai-ghead h4 { font-family: var(--disp); font-size: 15px; margin: 0; color: var(--ink); }
+.t-app-icon-generator .ai-folder {
+  font-family: var(--mono); font-size: 11.5px; color: var(--slate);
+  padding: 4px 9px; border-radius: 6px; background: var(--bg); border: 1px solid var(--line);
+  overflow-wrap: anywhere;
+}
+.t-app-icon-generator .ai-rows { list-style: none; margin: 0; padding: 0; }
+.t-app-icon-generator .ai-row {
+  display: flex; gap: 12px; align-items: center; min-width: 0;
+  padding: 9px 12px; margin-bottom: 7px;
+  border: 1px solid var(--line); border-radius: var(--r-sm); background: var(--card);
+}
+.t-app-icon-generator .ai-chip {
+  flex: 0 0 auto; width: 38px; height: 38px; border-radius: 8px; border: 1px solid var(--line);
+  background:
+    linear-gradient(45deg, #EEF1F5 25%, transparent 25%, transparent 75%, #EEF1F5 75%) 0 0 / 10px 10px,
+    linear-gradient(45deg, #EEF1F5 25%, transparent 25%, transparent 75%, #EEF1F5 75%) 5px 5px / 10px 10px,
+    #fff;
+  overflow: hidden;
+}
+.t-app-icon-generator .ai-chip img { width: 100%; height: 100%; object-fit: contain; display: block; }
+.t-app-icon-generator .ai-rmeta { flex: 1 1 auto; min-width: 0; }
+.t-app-icon-generator .ai-fname {
+  font-family: var(--mono); font-size: 12.5px; color: var(--ink); overflow-wrap: anywhere; line-height: 1.4;
+}
+.t-app-icon-generator .ai-rsub { margin-top: 2px; font-size: 12px; color: var(--ink-60); line-height: 1.4; }
+.t-app-icon-generator .ai-rsub .ai-px { font-family: var(--mono); color: var(--azure); }
+.t-app-icon-generator .ai-rsub .ai-noalpha { color: var(--green); font-weight: 600; }
+.t-app-icon-generator .ai-dl {
+  flex: 0 0 auto; font-family: var(--disp); font-weight: 600; font-size: 12.5px;
+  padding: 8px 14px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--line-2); background: var(--card); color: var(--ink);
+  transition: border-color .2s var(--ease), color .2s var(--ease);
+}
+.t-app-icon-generator .ai-dl:hover { border-color: var(--azure); color: var(--azure); }
+@media (max-width: 520px) {
+  .t-app-icon-generator .ai-row { flex-wrap: wrap; }
+  .t-app-icon-generator .ai-rmeta { flex: 1 1 120px; }
+  .t-app-icon-generator .ai-dl { width: 100%; margin-top: 2px; }
+}
+
+.t-app-icon-generator .ai-xml {
+  margin: 4px 0 0; padding: 13px 15px; border-radius: var(--r-sm);
+  border: 1px solid var(--line); background: var(--bg);
+  font-family: var(--mono); font-size: 11.5px; line-height: 1.6; color: var(--slate);
+  overflow-x: auto; white-space: pre;
+}
+.t-app-icon-generator .ai-foot { margin: 18px 0 0; font-size: 12.5px; line-height: 1.6; color: var(--ink-60); }
+.t-app-icon-generator .ai-foot strong { color: var(--ink); font-weight: 600; }
+
+.t-app-icon-generator .ai-sr {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+</style>
+
+<div class="t-app-icon-generator" id="ai-root">
+
+  <p class="ai-privacy">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v6c0 4.4-3 7.7-7 9-4-1.3-7-4.6-7-9V6z"/><path d="m9 12 2 2 4-4"/></svg>
+    <span><strong>Your artwork never leaves this device.</strong> Every size is drawn and encoded by your own
+    browser &mdash; nothing is uploaded, nothing is stored, there is no queue, no watermark and no signup.
+    The PNG files are written here in the page, which is how the iOS set can be guaranteed to carry
+    <em>no alpha channel at all</em>.</span>
+  </p>
+
+  <div class="ai-drop" id="ai-drop">
+    <p class="ai-drop-t">Drop your icon artwork here</p>
+    <p class="ai-drop-s">PNG, JPG, WebP or SVG. Square works best, and <strong>1024&times;1024 or larger</strong> is what you want.</p>
+    <label class="ai-pick" for="ai-file">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16V4"/><path d="m7 9 5-5 5 5"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+      Choose an image
+      <input type="file" id="ai-file" accept="image/*,.svg">
+    </label>
+  </div>
+
+  <div class="ai-source" id="ai-source" hidden>
+    <b id="ai-srcname">artwork.png</b> &mdash; <span class="ai-dims" id="ai-srcdims">0 &times; 0</span>
+    <span class="ai-flag" id="ai-flag" hidden></span>
+  </div>
+
+  <form class="ai-settings" id="ai-form" autocomplete="off">
+
+    <fieldset class="ai-fs">
+      <legend class="ai-legend"><span class="ai-num">01</span>Transparency</legend>
+      <div class="ai-opts">
+        <label class="ai-opt">
+          <input type="radio" name="ai-bg" value="keep" id="ai-bg-keep">
+          <span class="ai-t">Keep transparency</span>
+          <span class="ai-d">Android and web only</span>
+        </label>
+        <label class="ai-opt">
+          <input type="radio" name="ai-bg" value="fill" id="ai-bg-fill" checked>
+          <span class="ai-t">Flatten onto a colour</span>
+          <span class="ai-d">Required for iOS</span>
+        </label>
+      </div>
+      <div class="ai-colorrow">
+        <label for="ai-color">Background colour</label>
+        <input type="color" id="ai-color" value="#2380B8">
+        <span class="ai-swatches" id="ai-swatches">
+          <button type="button" class="ai-sw" data-c="#FFFFFF" style="background:#FFFFFF" aria-label="White background"></button>
+          <button type="button" class="ai-sw" data-c="#17202B" style="background:#17202B" aria-label="Near-black background"></button>
+          <button type="button" class="ai-sw" data-c="#2380B8" style="background:#2380B8" aria-label="Blue background"></button>
+          <button type="button" class="ai-sw" data-c="#A83268" style="background:#A83268" aria-label="Magenta background"></button>
+        </span>
+      </div>
+      <p class="ai-note" id="ai-bg-note"><strong>iOS icons cannot contain an alpha channel.</strong> Apple's guidance lists transparency as
+      &ldquo;No&rdquo; for iOS and iPadOS app icons, and App Store Connect rejects an upload with an alpha channel
+      (error ITMS-90717). Every iOS file below is written as a 24-bit RGB PNG with no alpha channel in the file at all.</p>
+    </fieldset>
+
+    <fieldset class="ai-fs">
+      <legend class="ai-legend"><span class="ai-num">02</span>Artwork size inside the icon</legend>
+      <div class="ai-qhead">
+        <label for="ai-scale" style="font-size:13px;color:var(--ink-60)">How much of the square your artwork fills</label>
+        <output class="ai-qval" id="ai-scaleval" for="ai-scale">100%</output>
+      </div>
+      <input class="ai-range" type="range" id="ai-scale" min="40" max="100" step="1" value="100">
+      <div class="ai-scale"><span>40% &middot; lots of padding</span><span>100% &middot; edge to edge</span></div>
+      <p class="ai-note">Full-bleed is normal for an app icon &mdash; the system draws the shape around it. Pull this back
+      if your artwork is a logo that needs breathing room.</p>
+    </fieldset>
+
+    <fieldset class="ai-fs">
+      <legend class="ai-legend"><span class="ai-num">03</span>Mask preview</legend>
+      <div class="ai-opts ai-4">
+        <label class="ai-opt"><input type="radio" name="ai-mask" value="circle" id="ai-mask-circle" checked><span class="ai-t">Circle</span></label>
+        <label class="ai-opt"><input type="radio" name="ai-mask" value="squircle" id="ai-mask-squircle"><span class="ai-t">Squircle</span></label>
+        <label class="ai-opt"><input type="radio" name="ai-mask" value="rounded" id="ai-mask-rounded"><span class="ai-t">Rounded</span></label>
+        <label class="ai-opt"><input type="radio" name="ai-mask" value="square" id="ai-mask-square"><span class="ai-t">Square</span></label>
+      </div>
+      <p class="ai-note"><strong>Preview only &mdash; every file exports square.</strong> Both platforms apply their own mask.
+      If you round the corners yourself you get a double-rounded icon with a pale halo where your rounding
+      and the system's disagree. Android device makers each ship a different mask shape, which is exactly
+      why adaptive icons exist.</p>
+    </fieldset>
+
+    <fieldset class="ai-fs">
+      <legend class="ai-legend"><span class="ai-num">04</span>What to export</legend>
+      <div class="ai-sets">
+        <label class="ai-set">
+          <input type="checkbox" id="ai-set-ios1" checked>
+          <span class="ai-box" aria-hidden="true"></span>
+          <span><span class="ai-st">iOS &mdash; single 1024 (modern Xcode)</span>
+          <span class="ai-sd">One 1024&times;1024 file. Xcode 14 and later generate every other size from it. This is what a new project wants.</span></span>
+          <span class="ai-sc">1 file</span>
+        </label>
+        <label class="ai-set">
+          <input type="checkbox" id="ai-set-ios2">
+          <span class="ai-box" aria-hidden="true"></span>
+          <span><span class="ai-st">iOS &mdash; full legacy AppIcon set</span>
+          <span class="ai-sd">All 15 asset-catalog slots, 20pt to 83.5pt at @1x/@2x/@3x plus the 1024 store icon. For older projects, Cordova, Flutter and React&nbsp;Native templates that still list every slot.</span></span>
+          <span class="ai-sc">15 files</span>
+        </label>
+        <label class="ai-set">
+          <input type="checkbox" id="ai-set-and" checked>
+          <span class="ai-box" aria-hidden="true"></span>
+          <span><span class="ai-st">Android &mdash; legacy launcher icons</span>
+          <span class="ai-sd">ic_launcher.png at 48/72/96/144/192&nbsp;px, one per mipmap density folder.</span></span>
+          <span class="ai-sc">5 files</span>
+        </label>
+        <label class="ai-set">
+          <input type="checkbox" id="ai-set-ada" checked>
+          <span class="ai-box" aria-hidden="true"></span>
+          <span><span class="ai-st">Android &mdash; adaptive icon layers</span>
+          <span class="ai-sd">Foreground and background layers on the 108&nbsp;dp canvas, at all five densities. Your artwork is placed inside the 66&nbsp;dp safe zone.</span></span>
+          <span class="ai-sc">10 files</span>
+        </label>
+        <label class="ai-set">
+          <input type="checkbox" id="ai-set-play" checked>
+          <span class="ai-box" aria-hidden="true"></span>
+          <span><span class="ai-st">Google Play store icon</span>
+          <span class="ai-sd">512&times;512, 32-bit PNG, under the 1024&nbsp;KB Play limit.</span></span>
+          <span class="ai-sc">1 file</span>
+        </label>
+        <label class="ai-set">
+          <input type="checkbox" id="ai-set-web">
+          <span class="ai-box" aria-hidden="true"></span>
+          <span><span class="ai-st">Favicon and PWA</span>
+          <span class="ai-sd">16, 32, 180 (apple-touch-icon), 192 and 512 for a web manifest.</span></span>
+          <span class="ai-sc">5 files</span>
+        </label>
+      </div>
+    </fieldset>
+
+    <fieldset class="ai-fs" style="margin-bottom:8px">
+      <legend class="ai-legend"><span class="ai-num">05</span>Filenames</legend>
+      <div class="ai-sets">
+        <label class="ai-set">
+          <input type="checkbox" id="ai-prefix">
+          <span class="ai-box" aria-hidden="true"></span>
+          <span><span class="ai-st">Prefix each download with its folder</span>
+          <span class="ai-sd">Off by default so names match what Xcode and Android Studio expect exactly. Turn it on if you dislike your browser renaming the five identical <code>ic_launcher.png</code> files to <code>ic_launcher (1).png</code>.</span></span>
+        </label>
+      </div>
+    </fieldset>
+  </form>
+
+  <div class="ai-prev-wrap" id="ai-prev-wrap" hidden>
+    <p class="ai-h">How it actually looks</p>
+    <p class="ai-sub">Drawn at real pixel sizes, with the iOS corner mask applied. If your mark disappears at 40&nbsp;px, simplify it.</p>
+    <div class="ai-tiles" id="ai-tiles"></div>
+
+    <p class="ai-h" style="margin-top:26px">Android adaptive icon</p>
+    <p class="ai-sub">The layers are 108&nbsp;dp square. The launcher masks them down to a 72&nbsp;dp viewport, and only the
+    inner <strong>66&nbsp;dp</strong> is guaranteed never to be clipped by any manufacturer's mask shape.</p>
+    <div class="ai-ad">
+      <figure>
+        <canvas id="ai-ad-layers" width="380" height="380" aria-label="Adaptive icon layers with the 72dp viewport and 66dp safe zone marked"></canvas>
+        <figcaption><b>The layers you export.</b> Dashed outer line: 72&nbsp;dp viewport. Dashed inner line: 66&nbsp;dp safe zone.</figcaption>
+      </figure>
+      <figure>
+        <canvas id="ai-ad-mask" width="380" height="380" aria-label="Adaptive icon with the selected launcher mask applied"></canvas>
+        <figcaption><b>What the launcher shows.</b> Everything outside the mask is thrown away.</figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <div class="ai-actions">
+    <button type="button" class="ai-btn ai-primary" id="ai-export" disabled>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h7l2 3h7v13H4z"/><path d="M12 11v6"/><path d="m9 14 3-3 3 3"/></svg>
+      Generate every size
+    </button>
+    <button type="button" class="ai-btn" id="ai-dl-all" disabled>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v12"/><path d="m7 11 5 5 5-5"/><path d="M4 19h16"/></svg>
+      <span id="ai-dl-all-label">Download all</span>
+    </button>
+  </div>
+
+  <div class="ai-progress" id="ai-progress" hidden>
+    <div class="ai-bar"><span id="ai-bar-fill"></span></div>
+    <p id="ai-progress-label">Encoding&hellip;</p>
+  </div>
+
+  <div class="ai-results" id="ai-results" hidden>
+    <div id="ai-groups"></div>
+    <p class="ai-foot"><strong>Nothing was uploaded.</strong> Every file above was drawn and PNG-encoded inside this tab.
+    <strong>Download all</strong> saves them one after another &mdash; your browser may ask permission to download
+    multiple files, so allow it, or use the button on each row.</p>
+  </div>
+
+  <p class="ai-sr" id="ai-live" role="status" aria-live="polite" aria-atomic="true"></p>
+</div>
+
+<script>
+(function () {
+  var root = document.getElementById('ai-root');
+  if (!root) return;
+  var $ = function (id) { return document.getElementById(id); };
+
+  /* =====================================================================
+     PNG encoder
+     ---------------------------------------------------------------------
+     A canvas is always RGBA, so canvas.toBlob('image/png') always writes a
+     colour-type-6 PNG — the alpha channel is in the file even when every
+     pixel is opaque. Apple rejects that for iOS app icons. So the PNG is
+     written here instead: colour type 2 (RGB, no alpha channel at all) for
+     iOS, colour type 6 where transparency is wanted.
+
+     That means a real DEFLATE too — fixed-Huffman with greedy LZ77, which
+     is plenty for the large flat areas an icon is made of.
+     ===================================================================== */
+
+  function Bytes(cap) { this.b = new Uint8Array(cap || 1024); this.n = 0; }
+  Bytes.prototype.need = function (k) {
+    if (this.n + k <= this.b.length) return;
+    var cap = this.b.length;
+    while (cap < this.n + k) cap *= 2;
+    var nb = new Uint8Array(cap);
+    nb.set(this.b.subarray(0, this.n));
+    this.b = nb;
+  };
+  Bytes.prototype.push = function (v) { this.need(1); this.b[this.n++] = v & 255; };
+  Bytes.prototype.u32 = function (v) {
+    this.need(4);
+    this.b[this.n++] = (v >>> 24) & 255; this.b[this.n++] = (v >>> 16) & 255;
+    this.b[this.n++] = (v >>> 8) & 255;  this.b[this.n++] = v & 255;
+  };
+  Bytes.prototype.str = function (s) { for (var i = 0; i < s.length; i++) this.push(s.charCodeAt(i)); };
+  Bytes.prototype.raw = function (arr) { this.need(arr.length); this.b.set(arr, this.n); this.n += arr.length; };
+  Bytes.prototype.out = function () { return this.b.subarray(0, this.n); };
+
+  var CRC_TABLE = (function () {
+    var t = new Uint32Array(256), c, n, k;
+    for (n = 0; n < 256; n++) {
+      c = n;
+      for (k = 0; k < 8; k++) c = (c & 1) ? (0xEDB88320 ^ (c >>> 1)) : (c >>> 1);
+      t[n] = c >>> 0;
+    }
+    return t;
+  })();
+  function crc32(buf, start, end) {
+    var c = 0xFFFFFFFF;
+    for (var i = start; i < end; i++) c = CRC_TABLE[(c ^ buf[i]) & 255] ^ (c >>> 8);
+    return (c ^ 0xFFFFFFFF) >>> 0;
+  }
+  function adler32(buf) {
+    var a = 1, b = 0, i = 0, n = buf.length;
+    while (i < n) {
+      var stop = Math.min(i + 3000, n);
+      for (; i < stop; i++) { a += buf[i]; b += a; }
+      a %= 65521; b %= 65521;
+    }
+    return ((b << 16) | a) >>> 0;
+  }
+
+  var LEN_BASE = [3,4,5,6,7,8,9,10,11,13,15,17,19,23,27,31,35,43,51,59,67,83,99,115,131,163,195,227,258];
+  var LEN_EXTRA = [0,0,0,0,0,0,0,0,1,1,1,1,2,2,2,2,3,3,3,3,4,4,4,4,5,5,5,5,0];
+  var DIST_BASE = [1,2,3,4,5,7,9,13,17,25,33,49,65,97,129,193,257,385,513,769,1025,1537,2049,3073,4097,6145,8193,12289,16385,24577];
+  var DIST_EXTRA = [0,0,0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12,13,13];
+
+  function reverseBits(code, n) {
+    var r = 0;
+    for (var i = 0; i < n; i++) { r = (r << 1) | ((code >>> i) & 1); }
+    return r;
+  }
+
+  /* Fixed-Huffman DEFLATE with a greedy LZ77 matcher (32 KB window). */
+  function deflate(data) {
+    var out = new Bytes(Math.max(64, data.length >> 1));
+    var bitBuf = 0, bitCnt = 0;
+
+    function wb(v, n) {
+      bitBuf |= (v << bitCnt);
+      bitCnt += n;
+      while (bitCnt >= 8) { out.push(bitBuf & 255); bitBuf >>>= 8; bitCnt -= 8; }
+    }
+    function sym(s) {
+      if (s < 144) wb(reverseBits(0x30 + s, 8), 8);
+      else if (s < 256) wb(reverseBits(0x190 + s - 144, 9), 9);
+      else if (s < 280) wb(reverseBits(s - 256, 7), 7);
+      else wb(reverseBits(0xC0 + s - 280, 8), 8);
+    }
+
+    wb(1, 1);   // BFINAL
+    wb(1, 2);   // BTYPE = 01, fixed Huffman
+
+    var n = data.length;
+    var HSIZE = 1 << 15, HMASK = HSIZE - 1;
+    var head = new Int32Array(HSIZE).fill(-1);
+    var prev = new Int32Array(n > 0 ? n : 1).fill(-1);
+    var i = 0;
+
+    function hash3(p) {
+      return ((data[p] << 10) ^ (data[p + 1] << 5) ^ data[p + 2]) & HMASK;
+    }
+
+    while (i < n) {
+      var bestLen = 0, bestDist = 0;
+      if (i + 3 <= n) {
+        var h = hash3(i);
+        var cand = head[h], tries = 0;
+        while (cand >= 0 && tries < 32) {
+          var dist = i - cand;
+          if (dist > 32768) break;
+          if (data[cand + bestLen] === data[i + bestLen]) {
+            var l = 0, max = Math.min(258, n - i);
+            while (l < max && data[cand + l] === data[i + l]) l++;
+            if (l > bestLen) { bestLen = l; bestDist = dist; if (l >= 258) break; }
+          }
+          cand = prev[cand];
+          tries++;
+        }
+        prev[i] = head[h];
+        head[h] = i;
+      }
+
+      if (bestLen >= 3) {
+        var li = 0;
+        while (li < 28 && LEN_BASE[li + 1] <= bestLen) li++;
+        sym(257 + li);
+        if (LEN_EXTRA[li]) wb(bestLen - LEN_BASE[li], LEN_EXTRA[li]);
+        var di = 0;
+        while (di < 29 && DIST_BASE[di + 1] <= bestDist) di++;
+        wb(reverseBits(di, 5), 5);
+        if (DIST_EXTRA[di]) wb(bestDist - DIST_BASE[di], DIST_EXTRA[di]);
+        // keep the hash chain fed across the whole match
+        for (var k = 1; k < bestLen; k++) {
+          var p = i + k;
+          if (p + 3 <= n) { var hh = hash3(p); prev[p] = head[hh]; head[hh] = p; }
+        }
+        i += bestLen;
+      } else {
+        sym(data[i]);
+        i++;
+      }
+    }
+
+    sym(256);                       // end of block
+    if (bitCnt > 0) out.push(bitBuf & 255);
+    return out.out();
+  }
+
+  function paeth(a, b, c) {
+    var p = a + b - c, pa = Math.abs(p - a), pb = Math.abs(p - b), pc = Math.abs(p - c);
+    if (pa <= pb && pa <= pc) return a;
+    return pb <= pc ? b : c;
+  }
+
+  /* Build the filtered scanline stream, choosing a filter per row with the
+     usual minimum-sum-of-absolute-differences heuristic. */
+  function filterRows(px, w, h, bpp) {
+    var stride = w * bpp;
+    var out = new Uint8Array(h * (stride + 1));
+    var cand = [new Uint8Array(stride), new Uint8Array(stride), new Uint8Array(stride), new Uint8Array(stride)];
+    var types = [0, 1, 2, 4];
+    var o = 0;
+    for (var y = 0; y < h; y++) {
+      var row = y * stride, up = row - stride;
+      var best = 0, bestScore = Infinity;
+      for (var f = 0; f < 4; f++) {
+        var t = types[f], buf = cand[f], score = 0;
+        for (var x = 0; x < stride; x++) {
+          var a = x >= bpp ? px[row + x - bpp] : 0;
+          var b = y > 0 ? px[up + x] : 0;
+          var c = (y > 0 && x >= bpp) ? px[up + x - bpp] : 0;
+          var v;
+          if (t === 0) v = px[row + x];
+          else if (t === 1) v = px[row + x] - a;
+          else if (t === 2) v = px[row + x] - b;
+          else v = px[row + x] - paeth(a, b, c);
+          v &= 255;
+          buf[x] = v;
+          score += v < 128 ? v : 256 - v;
+        }
+        if (score < bestScore) { bestScore = score; best = f; }
+      }
+      out[o++] = types[best];
+      out.set(cand[best], o);
+      o += stride;
+    }
+    return out;
+  }
+
+  /* canvas -> PNG bytes. withAlpha=false writes colour type 2 (no alpha channel). */
+  function encodePng(canvas, withAlpha) {
+    var w = canvas.width, h = canvas.height;
+    var src = canvas.getContext('2d').getImageData(0, 0, w, h).data;
+    var bpp = withAlpha ? 4 : 3;
+    var px = new Uint8Array(w * h * bpp);
+    var j = 0;
+    if (withAlpha) {
+      px.set(src);
+    } else {
+      for (var i = 0; i < src.length; i += 4) { px[j++] = src[i]; px[j++] = src[i + 1]; px[j++] = src[i + 2]; }
+    }
+
+    var raw = filterRows(px, w, h, bpp);
+    var comp = deflate(raw);
+
+    var png = new Bytes(comp.length + 512);
+    png.raw([137, 80, 78, 71, 13, 10, 26, 10]);
+
+    function chunk(type, writeBody) {
+      var lenPos = png.n;
+      png.u32(0);
+      var typePos = png.n;
+      png.str(type);
+      writeBody();
+      var end = png.n;
+      var len = end - typePos - 4;
+      png.b[lenPos] = (len >>> 24) & 255; png.b[lenPos + 1] = (len >>> 16) & 255;
+      png.b[lenPos + 2] = (len >>> 8) & 255; png.b[lenPos + 3] = len & 255;
+      png.u32(crc32(png.b, typePos, end));
+    }
+
+    chunk('IHDR', function () {
+      png.u32(w); png.u32(h);
+      png.push(8);                       // bit depth
+      png.push(withAlpha ? 6 : 2);       // colour type: 6 = RGBA, 2 = RGB
+      png.push(0); png.push(0); png.push(0);
+    });
+    chunk('IDAT', function () {
+      png.push(0x78); png.push(0x01);    // zlib header, no preset dict
+      png.raw(comp);
+      png.u32(adler32(raw));
+    });
+    chunk('IEND', function () {});
+
+    return png.out();
+  }
+
+  /* =====================================================================
+     the size tables
+     ---------------------------------------------------------------------
+     iOS asset-catalog slots: Xcode's AppIcon.appiconset.
+     iOS rendered sizes cross-checked against Apple's Human Interface
+     Guidelines "App icons" page.
+     Android densities: the 3:4:6:8:12:16 ratio from Android's
+     "Support different pixel densities"; adaptive geometry (108 dp layers,
+     72 dp viewport, 66 dp safe zone) from "Adaptive icons".
+     Play store icon: 512x512 32-bit PNG, from Play Console's own
+     "Add preview assets" requirements.
+     ===================================================================== */
+
+  var XC = 'Assets.xcassets/AppIcon.appiconset/';
+  var DENSITIES = [['mdpi', 1], ['hdpi', 1.5], ['xhdpi', 2], ['xxhdpi', 3], ['xxxhdpi', 4]];
+
+  var IOS_LEGACY = [
+    [20,   'Icon-App-20x20@1x.png',      'iPad notifications, 20 pt @1x'],
+    [40,   'Icon-App-20x20@2x.png',      'Notifications, 20 pt @2x'],
+    [60,   'Icon-App-20x20@3x.png',      'Notifications, 20 pt @3x'],
+    [29,   'Icon-App-29x29@1x.png',      'iPad settings, 29 pt @1x'],
+    [58,   'Icon-App-29x29@2x.png',      'Settings, 29 pt @2x'],
+    [87,   'Icon-App-29x29@3x.png',      'Settings, 29 pt @3x'],
+    [40,   'Icon-App-40x40@1x.png',      'iPad Spotlight, 40 pt @1x'],
+    [80,   'Icon-App-40x40@2x.png',      'Spotlight, 40 pt @2x'],
+    [120,  'Icon-App-40x40@3x.png',      'Spotlight, 40 pt @3x'],
+    [120,  'Icon-App-60x60@2x.png',      'iPhone Home Screen, 60 pt @2x'],
+    [180,  'Icon-App-60x60@3x.png',      'iPhone Home Screen, 60 pt @3x'],
+    [76,   'Icon-App-76x76@1x.png',      'iPad Home Screen, 76 pt @1x'],
+    [152,  'Icon-App-76x76@2x.png',      'iPad Home Screen, 76 pt @2x'],
+    [167,  'Icon-App-83.5x83.5@2x.png',  'iPad Pro Home Screen, 83.5 pt @2x'],
+    [1024, 'ItunesArtwork@2x.png',       'App Store listing, 1024 pt']
+  ];
+
+  var WEB = [
+    [16,  'favicon-16x16.png',   'Browser tab'],
+    [32,  'favicon-32x32.png',   'Browser tab, retina and bookmarks'],
+    [180, 'apple-touch-icon.png','iOS Home Screen bookmark'],
+    [192, 'icon-192.png',        'Web app manifest'],
+    [512, 'icon-512.png',        'Web app manifest, splash']
+  ];
+
+  /* =====================================================================
+     state + drawing
+     ===================================================================== */
+
+  var srcImg = null, srcName = '', srcW = 0, srcH = 0;
+  var artCanvas = null;    // 1024, artwork only, transparent
+  var iconCanvas = null;   // 1024, artwork over the background colour
+  var files = [];          // { name, folder, w, bytes, url, alpha, use }
+  var urls = [];
+  var busy = false;
+
+  function trackUrl(u) { urls.push(u); return u; }
+  function releaseAll() {
+    urls.forEach(function (u) { try { URL.revokeObjectURL(u); } catch (e) {} });
+    urls = [];
+  }
+
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+  function fmtBytes(n) {
+    if (n < 1024) return n + ' B';
+    if (n < 1024 * 1024) return (n / 1024).toFixed(1) + ' KB';
+    return (n / (1024 * 1024)).toFixed(2) + ' MB';
+  }
+  function newCanvas(w, h) {
+    var c = document.createElement('canvas');
+    c.width = w; c.height = h || w;
+    return c;
+  }
+
+  function settings() {
+    var b = document.querySelector('input[name="ai-bg"]:checked');
+    var m = document.querySelector('input[name="ai-mask"]:checked');
+    return {
+      keepAlpha: (b ? b.value : 'fill') === 'keep',
+      color: $('ai-color').value || '#FFFFFF',
+      scale: Math.min(100, Math.max(40, parseInt($('ai-scale').value, 10) || 100)) / 100,
+      mask: m ? m.value : 'circle',
+      prefix: $('ai-prefix').checked
+    };
+  }
+
+  /* Halve repeatedly before the final draw. A single drawImage from an
+     8000 px source down to 40 px is both slow and aliased; this is neither. */
+  function downscale(src, w, h) {
+    var cur = src;
+    var cw = cur.width || cur.naturalWidth;
+    var ch = cur.height || cur.naturalHeight;
+    while (cw > w * 2 && ch > h * 2) {
+      var nw = Math.max(w, Math.floor(cw / 2)), nh = Math.max(h, Math.floor(ch / 2));
+      var tmp = newCanvas(nw, nh);
+      var tc = tmp.getContext('2d');
+      tc.imageSmoothingEnabled = true; tc.imageSmoothingQuality = 'high';
+      tc.drawImage(cur, 0, 0, nw, nh);
+      cur = tmp; cw = nw; ch = nh;
+    }
+    var outC = newCanvas(w, h);
+    var oc = outC.getContext('2d');
+    oc.imageSmoothingEnabled = true; oc.imageSmoothingQuality = 'high';
+    oc.drawImage(cur, 0, 0, w, h);
+    return outC;
+  }
+
+  /* Contain the source into a square of `size`, at `frac` of that square. */
+  function buildArt(size, frac) {
+    var box = Math.round(size * frac);
+    var r = Math.min(box / srcW, box / srcH);
+    var dw = Math.max(1, Math.round(srcW * r));
+    var dh = Math.max(1, Math.round(srcH * r));
+    var scaled = downscale(srcImg, dw, dh);
+    var c = newCanvas(size, size);
+    var ctx = c.getContext('2d');
+    ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = 'high';
+    ctx.drawImage(scaled, Math.round((size - dw) / 2), Math.round((size - dh) / 2));
+    return c;
+  }
+
+  function rebuildMasters() {
+    if (!srcImg) return;
+    var s = settings();
+    artCanvas = buildArt(1024, s.scale);
+    iconCanvas = newCanvas(1024, 1024);
+    var ctx = iconCanvas.getContext('2d');
+    if (!s.keepAlpha) { ctx.fillStyle = s.color; ctx.fillRect(0, 0, 1024, 1024); }
+    ctx.drawImage(artCanvas, 0, 0);
+  }
+
+  function roundedPath(ctx, x, y, size, r) {
+    r = Math.min(r, size / 2);
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.arcTo(x + size, y, x + size, y + size, r);
+    ctx.arcTo(x + size, y + size, x, y + size, r);
+    ctx.arcTo(x, y + size, x, y, r);
+    ctx.arcTo(x, y, x + size, y, r);
+    ctx.closePath();
+  }
+  function maskRadius(kind, size) {
+    if (kind === 'circle') return size / 2;
+    if (kind === 'squircle') return size * 0.40;
+    if (kind === 'rounded') return size * 0.22;
+    return 0;
+  }
+
+  /* =====================================================================
+     previews
+     ===================================================================== */
+
+  var PREVIEW_SIZES = [180, 120, 87, 60, 40];
+
+  function drawPreviews() {
+    if (!srcImg) return;
+    var s = settings();
+    var wrap = $('ai-tiles');
+    wrap.innerHTML = '';
+    PREVIEW_SIZES.forEach(function (px) {
+      var fig = document.createElement('div');
+      fig.className = 'ai-tile';
+      var c = newCanvas(px, px);
+      c.style.width = px + 'px';
+      c.style.height = px + 'px';
+      var ctx = c.getContext('2d');
+      // iOS draws a continuous rounded square at roughly 22.37% of the side.
+      roundedPath(ctx, 0, 0, px, px * 0.2237);
+      ctx.clip();
+      var small = downscale(iconCanvas, px, px);
+      ctx.drawImage(small, 0, 0);
+      fig.appendChild(c);
+      var lab = document.createElement('span');
+      lab.textContent = px + ' px';
+      fig.appendChild(lab);
+      wrap.appendChild(fig);
+    });
+
+    drawAdaptive(s);
+    $('ai-prev-wrap').hidden = false;
+  }
+
+  function drawAdaptive(s) {
+    var S = 380, dp = S / 108;
+    var fgBox = Math.round(66 * dp);
+
+    // layers, with the guide lines
+    var c1 = $('ai-ad-layers').getContext('2d');
+    c1.clearRect(0, 0, S, S);
+    c1.fillStyle = s.color;
+    c1.fillRect(0, 0, S, S);
+    var art = downscale(artCanvas, fgBox, fgBox);
+    c1.drawImage(art, Math.round((S - fgBox) / 2), Math.round((S - fgBox) / 2));
+    c1.setLineDash([6, 5]);
+    c1.lineWidth = 2;
+    c1.strokeStyle = 'rgba(255,255,255,.85)';
+    var vp = 72 * dp;
+    c1.strokeRect((S - vp) / 2, (S - vp) / 2, vp, vp);
+    c1.strokeStyle = 'rgba(255,255,255,.55)';
+    c1.strokeRect((S - fgBox) / 2, (S - fgBox) / 2, fgBox, fgBox);
+    c1.setLineDash([]);
+
+    // masked result
+    var c2 = $('ai-ad-mask').getContext('2d');
+    c2.clearRect(0, 0, S, S);
+    c2.save();
+    var vpx = (S - vp) / 2;
+    roundedPath(c2, vpx, vpx, vp, maskRadius(s.mask, vp));
+    c2.clip();
+    c2.fillStyle = s.color;
+    c2.fillRect(0, 0, S, S);
+    c2.drawImage(art, Math.round((S - fgBox) / 2), Math.round((S - fgBox) / 2));
+    c2.restore();
+  }
+
+  /* =====================================================================
+     loading a source image
+     ===================================================================== */
+
+  function loadFile(file) {
+    if (!file) return;
+    var url = URL.createObjectURL(file);
+    var img = new Image();
+    img.onload = function () {
+      URL.revokeObjectURL(url);
+      if (!img.naturalWidth || !img.naturalHeight) {
+        flag('warn', 'That image has no intrinsic size. An SVG needs width and height attributes before a browser can rasterise it.');
+        $('ai-source').hidden = false;
+        return;
+      }
+      srcImg = img; srcName = file.name || 'artwork.png';
+      srcW = img.naturalWidth; srcH = img.naturalHeight;
+      showSource();
+      rebuildMasters();
+      drawPreviews();
+      $('ai-export').disabled = false;
+      clearResults();
+      $('ai-live').textContent = 'Loaded ' + srcName + ' at ' + srcW + ' by ' + srcH + ' pixels. Ready to generate.';
+    };
+    img.onerror = function () {
+      URL.revokeObjectURL(url);
+      $('ai-source').hidden = false;
+      $('ai-srcname').textContent = file.name || 'that file';
+      $('ai-srcdims').textContent = 'could not be decoded';
+      flag('warn', 'Your browser could not decode this file. It may be corrupt, or the format may not be readable here.');
+    };
+    img.src = url;
+  }
+
+  function flag(kind, html) {
+    var el = $('ai-flag');
+    el.hidden = false;
+    el.className = 'ai-flag ' + (kind === 'warn' ? 'is-warn' : 'is-ok');
+    el.innerHTML = html;
+  }
+
+  function showSource() {
+    $('ai-source').hidden = false;
+    $('ai-srcname').textContent = srcName;
+    $('ai-srcdims').textContent = srcW + ' × ' + srcH;
+    var min = Math.min(srcW, srcH);
+    if (min < 1024) {
+      flag('warn', 'This is smaller than 1024 × 1024, so the 1024 store icon has to be upscaled from it. ' +
+        'Upscaling an icon looks visibly soft and mushy next to every other icon on the Home Screen, and it is the ' +
+        'kind of thing reviewers notice. Export the artwork again from your design tool at 1024 or larger if you can.');
+    } else if (srcW !== srcH) {
+      flag('warn', 'This is not square. It will be centred inside a square canvas with background either side, ' +
+        'which is rarely what you want for an icon — crop it square first if you can.');
+    } else {
+      flag('ok', 'Square and at least 1024 × 1024. Every size below is a downscale, so nothing gets upscaled.');
+    }
+  }
+
+  /* =====================================================================
+     the export plan
+     ===================================================================== */
+
+  function plan() {
+    var s = settings();
+    var jobs = [];
+    var androidAlpha = s.keepAlpha;
+
+    if ($('ai-set-ios1').checked) {
+      jobs.push({ group: 'iOS — single 1024 for modern Xcode', folder: XC, name: 'AppIcon-1024.png', px: 1024, kind: 'icon', alpha: false, use: 'Xcode 14+ generates every other size from this one file' });
+    }
+    if ($('ai-set-ios2').checked) {
+      IOS_LEGACY.forEach(function (r) {
+        jobs.push({ group: 'iOS — full legacy AppIcon set', folder: XC, name: r[1], px: r[0], kind: 'icon', alpha: false, use: r[2] });
+      });
+    }
+    if ($('ai-set-and').checked) {
+      DENSITIES.forEach(function (d) {
+        jobs.push({ group: 'Android — legacy launcher icons', folder: 'app/src/main/res/mipmap-' + d[0] + '/', name: 'ic_launcher.png', px: Math.round(48 * d[1]), kind: 'icon', alpha: androidAlpha, use: '48 dp at ' + d[0] });
+      });
+    }
+    if ($('ai-set-ada').checked) {
+      DENSITIES.forEach(function (d) {
+        var px = Math.round(108 * d[1]);
+        jobs.push({ group: 'Android — adaptive icon layers', folder: 'app/src/main/res/mipmap-' + d[0] + '/', name: 'ic_launcher_foreground.png', px: px, kind: 'fg', alpha: true, use: '108 dp foreground at ' + d[0] + ', artwork inside the 66 dp safe zone' });
+        jobs.push({ group: 'Android — adaptive icon layers', folder: 'app/src/main/res/mipmap-' + d[0] + '/', name: 'ic_launcher_background.png', px: px, kind: 'bg', alpha: false, use: '108 dp background at ' + d[0] + ', full bleed and opaque' });
+      });
+    }
+    if ($('ai-set-play').checked) {
+      jobs.push({ group: 'Google Play store listing', folder: 'Play Console → Store listing → App icon', name: 'ic_launcher-playstore.png', px: 512, kind: 'icon', alpha: true, use: '512 × 512, 32-bit PNG, must stay under 1024 KB' });
+    }
+    if ($('ai-set-web').checked) {
+      WEB.forEach(function (r) {
+        jobs.push({ group: 'Favicon and PWA', folder: 'public/', name: r[1], px: r[0], kind: 'icon', alpha: androidAlpha, use: r[2] });
+      });
+    }
+    return jobs;
+  }
+
+  function renderJob(job, s) {
+    if (job.kind === 'bg') {
+      var c = newCanvas(job.px, job.px);
+      var ctx = c.getContext('2d');
+      ctx.fillStyle = s.color;
+      ctx.fillRect(0, 0, job.px, job.px);
+      return c;
+    }
+    if (job.kind === 'fg') {
+      var cf = newCanvas(job.px, job.px);
+      var box = Math.round(job.px * 66 / 108);
+      var art = downscale(artCanvas, box, box);
+      cf.getContext('2d').drawImage(art, Math.round((job.px - box) / 2), Math.round((job.px - box) / 2));
+      return cf;
+    }
+    // 'icon'. An iOS slot is written without an alpha channel, so it has to be
+    // flattened onto the colour even when the user asked to keep transparency.
+    if (job.alpha === false && s.keepAlpha) {
+      var co = newCanvas(job.px, job.px);
+      var cx = co.getContext('2d');
+      cx.fillStyle = s.color;
+      cx.fillRect(0, 0, job.px, job.px);
+      cx.drawImage(downscale(artCanvas, job.px, job.px), 0, 0);
+      return co;
+    }
+    return downscale(iconCanvas, job.px, job.px);
+  }
+
+  function clearResults() {
+    releaseAll();
+    files = [];
+    $('ai-results').hidden = true;
+    $('ai-groups').innerHTML = '';
+    $('ai-dl-all').disabled = true;
+  }
+
+  function runExport() {
+    if (busy || !srcImg) return;
+    var jobs = plan();
+    if (!jobs.length) {
+      $('ai-live').textContent = 'Nothing selected. Tick at least one export set.';
+      return;
+    }
+    busy = true;
+    clearResults();
+    rebuildMasters();
+    var s = settings();
+    $('ai-export').disabled = true;
+    $('ai-dl-all').disabled = true;
+    $('ai-progress').hidden = false;
+
+    var i = 0;
+    function step() {
+      if (i >= jobs.length) {
+        busy = false;
+        $('ai-progress').hidden = true;
+        $('ai-bar-fill').style.width = '0%';
+        $('ai-export').disabled = false;
+        $('ai-dl-all').disabled = files.length === 0;
+        renderResults();
+        $('ai-live').textContent = files.length + ' icon files generated in this tab. Nothing was uploaded.';
+        return;
+      }
+      var job = jobs[i];
+      $('ai-bar-fill').style.width = Math.round((i / jobs.length) * 100) + '%';
+      $('ai-progress-label').textContent = 'Encoding ' + (i + 1) + ' of ' + jobs.length + ' — ' + job.name + ' at ' + job.px + ' px';
+
+      try {
+        var canvas = renderJob(job, s);
+        var bytes = encodePng(canvas, job.alpha);
+        var blob = new Blob([bytes], { type: 'image/png' });
+        files.push({
+          group: job.group, folder: job.folder, name: job.name, px: job.px,
+          alpha: job.alpha, use: job.use, blob: blob,
+          url: trackUrl(URL.createObjectURL(blob))
+        });
+      } catch (e) {
+        $('ai-live').textContent = 'Could not encode ' + job.name + '.';
+      }
+      i++;
+      setTimeout(step, 0);
+    }
+    setTimeout(step, 0);
+  }
+
+  var ADAPTIVE_XML =
+    '&lt;!-- app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml --&gt;\n' +
+    '&lt;adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android"&gt;\n' +
+    '  &lt;background android:drawable="@mipmap/ic_launcher_background" /&gt;\n' +
+    '  &lt;foreground android:drawable="@mipmap/ic_launcher_foreground" /&gt;\n' +
+    '&lt;/adaptive-icon&gt;';
+
+  function renderResults() {
+    var wrap = $('ai-groups');
+    wrap.innerHTML = '';
+    if (!files.length) return;
+
+    var SEP = ' \u203A ';
+    var order = [], byGroup = {};
+    files.forEach(function (f, idx) {
+      var key = f.group + SEP + f.folder;
+      if (!byGroup[key]) { byGroup[key] = []; order.push(key); }
+      f.idx = idx;
+      byGroup[key].push(f);
+    });
+
+    var html = order.map(function (key) {
+      var parts = key.split(SEP);
+      var rows = byGroup[key].map(function (f) {
+        return '<li class="ai-row">' +
+          '<span class="ai-chip"><img src="' + f.url + '" alt="" width="38" height="38"></span>' +
+          '<span class="ai-rmeta">' +
+            '<span class="ai-fname">' + esc(f.name) + '</span>' +
+            '<span class="ai-rsub"><span class="ai-px">' + f.px + '×' + f.px + '</span> · ' +
+            fmtBytes(f.blob.size) + ' · ' +
+            (f.alpha ? 'RGBA' : '<span class="ai-noalpha">RGB, no alpha channel</span>') +
+            ' · ' + esc(f.use) + '</span>' +
+          '</span>' +
+          '<button type="button" class="ai-dl" data-dl="' + f.idx + '">Download</button>' +
+        '</li>';
+      }).join('');
+      var extra = /adaptive/i.test(parts[0])
+        ? '<pre class="ai-xml">' + ADAPTIVE_XML + '</pre>'
+        : '';
+      return '<div class="ai-group">' +
+        '<div class="ai-ghead"><h4>' + esc(parts[0]) + '</h4><span class="ai-folder">' + esc(parts[1]) + '</span></div>' +
+        '<ul class="ai-rows">' + rows + '</ul>' + extra +
+      '</div>';
+    }).join('');
+
+    wrap.innerHTML = html;
+    $('ai-results').hidden = false;
+    $('ai-dl-all-label').textContent = 'Download all ' + files.length;
+  }
+
+  function downloadName(f) {
+    if (!settings().prefix) return f.name;
+    var seg = f.folder.replace(/\/$/, '').split('/').pop().replace(/[^A-Za-z0-9_.-]+/g, '-');
+    return seg + '__' + f.name;
+  }
+
+  function saveOne(f) {
+    if (!f) return;
+    var url = URL.createObjectURL(f.blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = downloadName(f);
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(function () { URL.revokeObjectURL(url); }, 5000);
+  }
+
+  /* =====================================================================
+     wiring
+     ===================================================================== */
+
+  $('ai-file').addEventListener('change', function (e) {
+    if (e.target.files && e.target.files[0]) loadFile(e.target.files[0]);
+    e.target.value = '';
+  });
+
+  var drop = $('ai-drop');
+  var depth = 0;
+  ['dragenter', 'dragover'].forEach(function (ev) {
+    drop.addEventListener(ev, function (e) {
+      e.preventDefault();
+      if (ev === 'dragenter') depth++;
+      drop.classList.add('is-over');
+    });
+  });
+  ['dragleave', 'drop'].forEach(function (ev) {
+    drop.addEventListener(ev, function (e) {
+      e.preventDefault();
+      if (ev === 'dragleave') { depth = Math.max(0, depth - 1); if (depth) return; }
+      else depth = 0;
+      drop.classList.remove('is-over');
+      if (ev === 'drop' && e.dataTransfer && e.dataTransfer.files[0]) loadFile(e.dataTransfer.files[0]);
+    });
+  });
+  document.addEventListener('dragover', function (e) { if (root.contains(e.target)) e.preventDefault(); });
+
+  var BG_NOTES = {
+    keep: 'Transparency is kept for the Android launcher PNGs, the Play icon and the favicons. ' +
+          '<strong>The iOS files are still flattened onto the colour below</strong>, because an iOS app icon may not ' +
+          'contain an alpha channel &mdash; App Store Connect rejects it (ITMS-90717). The adaptive background layer ' +
+          'is also filled, because Android expects it to be full-bleed and opaque.',
+    fill: '<strong>iOS icons cannot contain an alpha channel.</strong> Apple’s guidance lists transparency as ' +
+          '“No” for iOS and iPadOS app icons, and App Store Connect rejects an upload with an alpha channel ' +
+          '(error ITMS-90717). Every iOS file below is written as a 24-bit RGB PNG with no alpha channel in the file at all.'
+  };
+
+  function sync() {
+    var s = settings();
+    $('ai-scaleval').textContent = Math.round(s.scale * 100) + '%';
+    $('ai-bg-note').innerHTML = BG_NOTES[s.keepAlpha ? 'keep' : 'fill'];
+  }
+
+  var settle;
+  function changed() {
+    sync();
+    if (!srcImg) return;
+    clearTimeout(settle);
+    settle = setTimeout(function () {
+      rebuildMasters();
+      drawPreviews();
+    }, 160);
+  }
+  $('ai-form').addEventListener('change', changed);
+  $('ai-form').addEventListener('input', changed);
+
+  $('ai-swatches').addEventListener('click', function (e) {
+    var b = e.target.closest ? e.target.closest('[data-c]') : null;
+    if (!b) return;
+    $('ai-color').value = b.getAttribute('data-c');
+    $('ai-bg-fill').checked = true;
+    changed();
+  });
+
+  $('ai-export').addEventListener('click', runExport);
+
+  $('ai-groups').addEventListener('click', function (e) {
+    var btn = e.target.closest ? e.target.closest('[data-dl]') : null;
+    if (!btn) return;
+    saveOne(files[parseInt(btn.getAttribute('data-dl'), 10)]);
+  });
+
+  var allBtn = $('ai-dl-all'), allLabel = $('ai-dl-all-label');
+  allBtn.addEventListener('click', function () {
+    if (!files.length) return;
+    allBtn.disabled = true;
+    allLabel.textContent = 'Saving…';
+    $('ai-live').textContent = 'Downloading ' + files.length + ' files one at a time. Your browser may ask permission to download multiple files.';
+    var i = 0;
+    (function next() {
+      if (i >= files.length) {
+        allBtn.disabled = false;
+        allBtn.classList.add('is-done');
+        allLabel.textContent = 'Saved ' + files.length;
+        setTimeout(function () { allBtn.classList.remove('is-done'); allLabel.textContent = 'Download all ' + files.length; }, 2600);
+        return;
+      }
+      saveOne(files[i++]);
+      setTimeout(next, 380);
+    })();
+  });
+
+  window.addEventListener('pagehide', releaseAll);
+
+  sync();
+
+  // Exposed only so the recorded walkthrough can wait for a real export.
+  window.__aiFiles = function () { return files.map(function (f) { return { name: f.name, px: f.px, size: f.blob.size }; }); };
+  window.__mark = window.__mark || function () {};
+})();
+</script>
