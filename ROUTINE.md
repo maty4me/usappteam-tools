@@ -119,6 +119,34 @@ run — it is documented at the top of `keyword-backlog.md`.
 - DNS for `tools.usappteam.com` (GoHighLevel domain settings).
 - Adding the "Free Tools" link and teaser page to the GoHighLevel site — that site deploys by hand.
 
+## The promo routine (separate, 12:30 daily)
+
+`scripts/promote-daily.ps1`, Windows scheduled task `usappteam-free-tool-promo`. It publishes **one
+tool per post** — never a roundup — as an FB Page video plus an IG Reel, walking the library in
+shipped order and picking up each new tool automatically once its video renders.
+
+`scripts/promote.py` owns the queue, the captions guardrail and the publish; Claude only writes the
+caption text. Splitting it that way keeps the irreversible step deterministic.
+
+```bash
+python scripts/promote.py --status     # queue + what is next
+python scripts/promote.py --next       # next tool's metadata, for the caption writer
+python scripts/promote.py --captions <file> --preflight
+```
+
+State is `scripts/promo/state.json` (gitignored, local). A slug that has fully posted is refused a
+second time — **IG cannot delete a Reel via API**, so duplicates are unrecoverable. A partial entry
+(FB landed, IG did not) resumes only the missing platform.
+
+Two things that cost real time on 2026-08-03 and will again:
+
+- **IG rupload rejects the vertical pad at ffmpeg's default timescale.** The 1080×1920 padded encode
+  returns `ProcessingFailedError` — no useful detail — until `-video_track_timescale 90000` is set.
+  Identical encode, same everything else, 400 vs 200. Bisected against the unpadded source, which
+  always uploaded fine.
+- **The FB post can succeed while IG fails.** The state file is written after each platform for
+  exactly that reason; re-running resumes rather than reposting.
+
 ## Video format
 
 Voiceover + screen walkthrough only. The avatar corner card (Mathias in the bottom-right) was

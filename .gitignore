@@ -1,5 +1,7 @@
 node_modules/
 dist/
+scripts/promo/
+scripts/logs/
 video/out/
 video/remotion/public/
 video/remotion/node_modules/
