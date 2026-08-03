@@ -105,7 +105,11 @@ export default async function demo(page, mark) {
   await scrollTo(page, 'ai-tiles');
   await beat(page, 900);
   await page.hover('#ai-tiles');
-  await beat(page, 2800);
+  await beat(page, 2600);
+  await setRange(page, 'ai-scale', 66);
+  await beat(page, 1800);
+  await setRange(page, 'ai-scale', 100);
+  await beat(page, 1600);
 
   // ---- scene 4: iOS cannot have alpha ----
   await mark('background');
@@ -143,9 +147,11 @@ export default async function demo(page, mark) {
   // ---- scene 7: named and filed correctly ----
   await mark('export');
   await scrollTo(page, 'ai-set-ios2');
-  await beat(page, 800);
+  await beat(page, 1200);
   await page.click('#ai-set-ios2');
   await beat(page, 1400);
+  await page.click('#ai-set-web');
+  await beat(page, 1600);
   await scrollTo(page, 'ai-export');
   await beat(page, 700);
   await page.click('#ai-export');
