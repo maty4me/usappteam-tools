@@ -43,6 +43,7 @@ Video (needs Playwright browsers + ffmpeg):
 ```bash
 npx playwright install chromium
 cd video/remotion && npm install && cd ../..
+pip install edge-tts             # free neural TTS, no API key
 node video/render.mjs <slug>     # record -> voiceover -> Remotion -> media/<slug>/
 ```
 

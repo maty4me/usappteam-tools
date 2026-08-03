@@ -16,7 +16,9 @@ Everything below is done. Kept as a record of how the pieces fit together.
 ## Repo configuration
 
 - Public repo (a free Pages custom domain requires it).
-- Actions secret `ELEVENLABS_API_KEY` for narration.
+- Narration is **free** — edge-tts (Microsoft Edge's neural read-aloud voices), no API key
+  and no Actions secret. `pip install edge-tts` is a CI step. The old `ELEVENLABS_API_KEY`
+  secret is no longer used; set `USE_ELEVENLABS=1` only for a hand-tuned one-off.
 - Issue label `video-failed`, opened by CI when a render fails.
 - `BASE_PATH` / `CUSTOM_DOMAIN` in the workflow are set for the custom domain.
   They only need changing if the site ever moves back to the project URL.
@@ -53,9 +55,19 @@ stays `todo` on the remote, so the next successful run rebuilds and ships it aut
 routine's report is the only copy of what it wrote, which is why ROUTINE.md now tells it to include
 the files there regardless of size.
 
-**Fallback that needs no new credentials:** this workstation already pushes to the repo fine (Git
-Credential Manager, user `maty4me`) and has Node, Playwright and ffmpeg. Running the same routine
-prompt locally on a Windows scheduled task works today — it just needs the machine awake.
+**This is now handled locally.** `scripts/daily.ps1` runs the same job on this workstation, where
+Git Credential Manager already authenticates. Installed as the scheduled task
+`usappteam-free-tool-daily`, daily at 07:00, with `StartWhenAvailable` so a sleeping machine catches
+up rather than skipping the day. Logs go to `scripts/logs/YYYY-MM-DD.log`.
+
+```powershell
+.\scripts\daily.ps1 -Install     # install (elevated)
+.\scripts\daily.ps1              # run now
+.\scripts\daily.ps1 -Uninstall   # remove
+```
+
+The cloud routine is still armed and still blocked; once the App permission is granted, either can
+run and whichever goes first wins — the other finds the folder already present and moves on.
 
 ## Still optional
 

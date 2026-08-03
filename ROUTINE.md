@@ -6,6 +6,8 @@ instruction set — the schedule points at it, so editing this file changes tomo
 **Schedule:** cron `0 12 * * *`, which is 07:00 America/Chicago through the summer.
 Cloud routines only take UTC, so this becomes 06:00 once the clocks go back — shift the cron to
 `0 13 * * *` in November if the earlier slot ever matters.
+**Also runs locally:** `scripts/daily.ps1`, Windows scheduled task `usappteam-free-tool-daily` at
+07:00. That is the path that actually works today — see SETUP.md for why the cloud one cannot push.
 **Repo:** `maty4me/usappteam-tools`
 **Live:** https://tools.usappteam.com
 **Routine:** "Free Tool of the Day" at `claude.ai/code/routines`

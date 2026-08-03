@@ -87,11 +87,14 @@ jobs:
         working-directory: video/remotion
         run: npm install --no-audit --no-fund
 
+      # edge-tts is Microsoft Edge's neural read-aloud voice: free, no API key,
+      # and it returns word-level timings so the captions track the narration.
+      - name: Install text-to-speech
+        run: pip install edge-tts
+
       - name: Render ${{ matrix.slug }}
         id: render
         continue-on-error: true
-        env:
-          ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
         run: node video/render.mjs ${{ matrix.slug }}
 
       - name: Upload media artifact
