@@ -138,7 +138,12 @@ $remote = (& git rev-parse origin/main | Out-String).Trim()
 
 if (Test-Path "tools/$($next.slug)/tool.json") {
     if ($local -eq $remote) {
-        Say "SHIPPED: $($next.slug) - pushed. CI will render the video and deploy."
+        Say "SHIPPED: $($next.slug) - pushed. Confirming CI picked it up..."
+        # Push triggers stopped creating runs on 2026-08-06 while dispatch still
+        # worked, so a pushed tool could deploy with no video and nothing to show
+        # it had failed. This turns that into a self-healing step.
+        $ci = & python scripts/ensure-ci.py --wait 120 --rerender $next.slug 2>&1 | Out-String
+        Say $ci.Trim()
     } else {
         Say "WARNING: $($next.slug) was built but local and remote differ. Check the push."
     }
