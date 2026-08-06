@@ -1,0 +1,469 @@
+<style>
+.t-app-revenue-calculator { font-family: var(--body); color: var(--ink); }
+
+/* ---------- privacy banner ---------- */
+.t-app-revenue-calculator .rc-privacy {
+  display: flex; align-items: flex-start; gap: 10px;
+  margin: 0 0 20px; padding: 12px 14px;
+  border: 1px solid rgba(31, 169, 113, .3); border-radius: var(--r-sm);
+  background: rgba(31, 169, 113, .07);
+  font-size: 13.5px; line-height: 1.5; color: var(--slate);
+}
+.t-app-revenue-calculator .rc-privacy svg {
+  width: 16px; height: 16px; flex: 0 0 auto; margin-top: 2px;
+  stroke: var(--green); fill: none; stroke-width: 2;
+  stroke-linecap: round; stroke-linejoin: round;
+}
+.t-app-revenue-calculator .rc-privacy strong { color: var(--ink); font-weight: 600; }
+
+/* ---------- layout ---------- */
+.t-app-revenue-calculator .rc-grid {
+  display: grid; gap: 22px;
+  grid-template-columns: minmax(0, 1fr);
+}
+@media (min-width: 900px) {
+  .t-app-revenue-calculator .rc-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 380px); align-items: start; }
+}
+
+/* ---------- form ---------- */
+.t-app-revenue-calculator fieldset { border: 0; margin: 0 0 24px; padding: 0; }
+.t-app-revenue-calculator legend {
+  display: flex; align-items: center; gap: 9px;
+  font-family: var(--disp); font-weight: 700; font-size: 16px;
+  color: var(--ink); margin: 0 0 10px; padding: 0;
+}
+.t-app-revenue-calculator legend .rc-n {
+  font-family: var(--mono); font-size: 11px; color: var(--azure);
+  background: var(--blue-soft); border-radius: 5px; padding: 3px 7px;
+}
+.t-app-revenue-calculator .rc-hint {
+  margin: -4px 0 12px; font-size: 13.5px; line-height: 1.55; color: var(--ink-60);
+}
+
+.t-app-revenue-calculator .rc-models {
+  display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+}
+.t-app-revenue-calculator .rc-model { position: relative; }
+.t-app-revenue-calculator .rc-model input {
+  position: absolute; opacity: 0; width: 100%; height: 100%; margin: 0; cursor: pointer;
+}
+.t-app-revenue-calculator .rc-model span {
+  display: block; padding: 13px 14px; height: 100%;
+  border: 1px solid var(--line-2); border-radius: var(--r-sm);
+  background: var(--card); cursor: pointer;
+  transition: border-color .18s var(--ease), background .18s var(--ease);
+}
+.t-app-revenue-calculator .rc-model b {
+  display: block; font-family: var(--disp); font-weight: 700; font-size: 15px; color: var(--ink);
+}
+.t-app-revenue-calculator .rc-model i {
+  display: block; font-style: normal; font-size: 12.5px; color: var(--ink-60); margin-top: 3px; line-height: 1.45;
+}
+.t-app-revenue-calculator .rc-model input:checked + span { border-color: var(--azure); background: var(--blue-soft); }
+.t-app-revenue-calculator .rc-model input:focus-visible + span { outline: 2px solid var(--azure); outline-offset: 2px; }
+
+.t-app-revenue-calculator .rc-field { margin: 0 0 16px; }
+.t-app-revenue-calculator .rc-field label {
+  display: block; font-weight: 600; font-size: 14px; color: var(--ink); margin: 0 0 6px;
+}
+.t-app-revenue-calculator .rc-field .rc-sub { font-weight: 400; color: var(--ink-60); }
+.t-app-revenue-calculator .rc-row { display: flex; align-items: center; gap: 12px; }
+.t-app-revenue-calculator input[type="range"] { flex: 1 1 auto; min-width: 0; accent-color: var(--azure); }
+.t-app-revenue-calculator input[type="number"] {
+  width: 118px; flex: 0 0 auto; font-family: var(--mono); font-size: 14px;
+  padding: 9px 10px; color: var(--ink);
+  border: 1px solid var(--line-2); border-radius: var(--r-sm); background: var(--card);
+}
+.t-app-revenue-calculator input[type="number"]:focus-visible { outline: 2px solid var(--azure); outline-offset: 1px; }
+.t-app-revenue-calculator .rc-unit { font-family: var(--mono); font-size: 13px; color: var(--ink-60); flex: 0 0 auto; }
+
+.t-app-revenue-calculator .rc-tiers { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); }
+
+/* ---------- results ---------- */
+.t-app-revenue-calculator .rc-out {
+  position: sticky; top: 20px;
+  border: 1px solid var(--line-2); border-radius: var(--r);
+  background: var(--card); box-shadow: var(--shadow);
+  padding: 20px; overflow: hidden;
+}
+@media (max-width: 899px) { .t-app-revenue-calculator .rc-out { position: static; } }
+.t-app-revenue-calculator .rc-out h3 {
+  margin: 0 0 2px; font-family: var(--mono); font-size: 11px; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--ink-40); font-weight: 500;
+}
+.t-app-revenue-calculator .rc-big {
+  font-family: var(--disp); font-weight: 700; line-height: 1.05;
+  font-size: clamp(34px, 7vw, 44px);
+  background: var(--grad); -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: var(--azure);
+  margin: 4px 0 2px; word-break: break-word;
+}
+.t-app-revenue-calculator .rc-big-sub { font-size: 13.5px; color: var(--ink-60); margin: 0 0 16px; line-height: 1.5; }
+
+.t-app-revenue-calculator .rc-lines { border-top: 1px solid var(--line); margin: 0 0 14px; }
+.t-app-revenue-calculator .rc-line {
+  display: flex; justify-content: space-between; gap: 12px; align-items: baseline;
+  padding: 9px 0; border-bottom: 1px solid var(--line); font-size: 14px;
+}
+.t-app-revenue-calculator .rc-line dt { color: var(--slate); margin: 0; }
+.t-app-revenue-calculator .rc-line dd { margin: 0; font-family: var(--mono); font-weight: 600; color: var(--ink); white-space: nowrap; }
+.t-app-revenue-calculator .rc-line.is-cut dd { color: var(--magenta); }
+.t-app-revenue-calculator .rc-line.is-net dd { color: var(--green); }
+
+.t-app-revenue-calculator .rc-chart { margin: 4px 0 14px; }
+.t-app-revenue-calculator .rc-chart svg { display: block; width: 100%; height: auto; }
+.t-app-revenue-calculator .rc-chart-t {
+  font-family: var(--mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--ink-40); margin: 0 0 7px;
+}
+.t-app-revenue-calculator .rc-ceiling {
+  padding: 11px 13px; border-radius: var(--r-sm);
+  background: var(--blue-soft); border: 1px solid rgba(35, 128, 184, .22);
+  font-size: 13.5px; line-height: 1.55; color: var(--slate);
+}
+.t-app-revenue-calculator .rc-ceiling strong { color: var(--ink); }
+
+/* ---------- caveats ---------- */
+.t-app-revenue-calculator .rc-caveats {
+  margin: 26px 0 0; padding: 16px 18px;
+  border: 1px solid var(--line-2); border-radius: var(--r-sm); background: var(--bg);
+}
+.t-app-revenue-calculator .rc-caveats h3 {
+  margin: 0 0 8px; font-family: var(--disp); font-size: 15px; font-weight: 700; color: var(--ink);
+}
+.t-app-revenue-calculator .rc-caveats ul { margin: 0; padding-left: 18px; }
+.t-app-revenue-calculator .rc-caveats li { font-size: 13.5px; line-height: 1.6; color: var(--slate); margin: 0 0 5px; }
+.t-app-revenue-calculator [hidden] { display: none !important; }
+</style>
+
+<div class="t-app-revenue-calculator" id="rc-root">
+
+<div class="rc-privacy">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v6c0 4.5-3 7.7-7 9-4-1.3-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg>
+  <div><strong>Runs entirely in your browser.</strong> Nothing is uploaded, nothing is stored, and there is no email box on this page. Close the tab and it is gone.</div>
+</div>
+
+<div class="rc-grid">
+  <form class="rc-form" id="rc-form" novalidate>
+    <fieldset>
+      <legend><span class="rc-n">01</span> How does the app make money?</legend>
+      <!-- Ordered simplest model first: a one-time sale is a single
+           multiplication, a subscription adds accumulation and churn, ads add a
+           second currency entirely. Subscription is the default because it is
+           the common case, not because it is the simplest. -->
+      <div class="rc-models">
+        <label class="rc-model">
+          <input type="radio" name="rc-model" value="once">
+          <span><b>One-time purchase</b><i>Paid once, kept forever</i></span>
+        </label>
+        <label class="rc-model">
+          <input type="radio" name="rc-model" value="sub" checked>
+          <span><b>Subscription</b><i>Recurring monthly fee</i></span>
+        </label>
+        <label class="rc-model">
+          <input type="radio" name="rc-model" value="ads">
+          <span><b>Free with ads</b><i>Revenue per impression</i></span>
+        </label>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend><span class="rc-n">02</span> Reach</legend>
+      <div class="rc-field">
+        <label for="rc-downloads">New downloads in a typical month</label>
+        <div class="rc-row">
+          <input type="range" id="rc-downloads-r" min="100" max="50000" step="100" value="5000" aria-hidden="true" tabindex="-1">
+          <input type="number" id="rc-downloads" min="0" max="10000000" step="100" value="5000" inputmode="numeric">
+        </div>
+      </div>
+
+      <div class="rc-field" id="rc-conv-wrap">
+        <label for="rc-conv">Share of downloads that pay <span class="rc-sub">(conversion)</span></label>
+        <p class="rc-hint">Two to five percent is typical for a consumer subscription app. Be honest here - it moves the answer more than price does.</p>
+        <div class="rc-row">
+          <input type="range" id="rc-conv-r" min="0.1" max="30" step="0.1" value="3" aria-hidden="true" tabindex="-1">
+          <input type="number" id="rc-conv" min="0" max="100" step="0.1" value="3" inputmode="decimal">
+          <span class="rc-unit">%</span>
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset id="rc-paid-fields">
+      <legend><span class="rc-n">03</span> Price</legend>
+      <div class="rc-field">
+        <label for="rc-price"><span id="rc-price-label">Subscription price per month</span> <span class="rc-sub">(USD)</span></label>
+        <div class="rc-row">
+          <input type="range" id="rc-price-r" min="0.99" max="99" step="0.5" value="9.99" aria-hidden="true" tabindex="-1">
+          <input type="number" id="rc-price" min="0" max="10000" step="0.01" value="9.99" inputmode="decimal">
+        </div>
+      </div>
+
+      <div class="rc-field" id="rc-churn-wrap">
+        <label for="rc-churn">Monthly churn <span class="rc-sub">(share of subscribers who cancel each month)</span></label>
+        <p class="rc-hint">Five to eight percent is a healthy consumer app. Above fifteen and the ceiling arrives fast.</p>
+        <div class="rc-row">
+          <input type="range" id="rc-churn-r" min="0.5" max="40" step="0.5" value="6" aria-hidden="true" tabindex="-1">
+          <input type="number" id="rc-churn" min="0.1" max="100" step="0.1" value="6" inputmode="decimal">
+          <span class="rc-unit">%</span>
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset id="rc-ads-fields" hidden>
+      <legend><span class="rc-n">03</span> Ad performance</legend>
+      <div class="rc-field">
+        <label for="rc-ecpm">Effective revenue per thousand impressions <span class="rc-sub">(eCPM, USD)</span></label>
+        <p class="rc-hint">Banner inventory often lands low single digits; rewarded video runs higher. Rates vary hugely by country and format.</p>
+        <div class="rc-row">
+          <input type="range" id="rc-ecpm-r" min="0.1" max="30" step="0.1" value="4" aria-hidden="true" tabindex="-1">
+          <input type="number" id="rc-ecpm" min="0" max="1000" step="0.01" value="4" inputmode="decimal">
+        </div>
+      </div>
+      <div class="rc-field">
+        <label for="rc-imp">Ad impressions per active user per month</label>
+        <div class="rc-row">
+          <input type="range" id="rc-imp-r" min="1" max="300" step="1" value="40" aria-hidden="true" tabindex="-1">
+          <input type="number" id="rc-imp" min="0" max="10000" step="1" value="40" inputmode="numeric">
+        </div>
+      </div>
+      <div class="rc-field">
+        <label for="rc-drop">Monthly user drop-off <span class="rc-sub">(share of active users who stop opening the app)</span></label>
+        <div class="rc-row">
+          <input type="range" id="rc-drop-r" min="1" max="60" step="0.5" value="20" aria-hidden="true" tabindex="-1">
+          <input type="number" id="rc-drop" min="0.1" max="100" step="0.1" value="20" inputmode="decimal">
+          <span class="rc-unit">%</span>
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset id="rc-comm-fields">
+      <legend><span class="rc-n">04</span> Store commission</legend>
+      <p class="rc-hint">Apple and Google both charge a reduced rate to smaller developers: fifteen percent on the first million dollars of earnings a year, thirty percent above it. Google applies the reduced rate to subscriptions regardless.</p>
+      <div class="rc-tiers">
+        <label class="rc-model">
+          <input type="radio" name="rc-comm" value="15" checked>
+          <span><b>15 percent</b><i>Small-business or subscription rate</i></span>
+        </label>
+        <label class="rc-model">
+          <input type="radio" name="rc-comm" value="30">
+          <span><b>30 percent</b><i>Standard rate above the threshold</i></span>
+        </label>
+      </div>
+    </fieldset>
+  </form>
+
+  <aside class="rc-out" aria-labelledby="rc-out-h">
+    <h3 id="rc-out-h">Your take-home, month 12</h3>
+    <div class="rc-big" id="rc-headline">--</div>
+    <p class="rc-big-sub" id="rc-headline-sub">per month, after the store's cut</p>
+
+    <div class="rc-chart">
+      <p class="rc-chart-t">Net revenue, months 1-12</p>
+      <svg id="rc-chart" viewBox="0 0 320 96" role="img" aria-label="Bar chart of projected net revenue over twelve months"></svg>
+    </div>
+
+    <dl class="rc-lines" id="rc-lines"></dl>
+
+    <div class="rc-ceiling" id="rc-ceiling"></div>
+
+    <p class="rc-big-sub" style="margin:14px 0 0" role="status" aria-live="polite" id="rc-live"></p>
+  </aside>
+</div>
+
+<div class="rc-caveats">
+  <h3>What this deliberately does not include</h3>
+  <ul>
+    <li>Marketing and user-acquisition spend - the downloads above are assumed, not bought.</li>
+    <li>Free trials that never convert, refunds, and chargebacks.</li>
+    <li>Taxes, and any payment processing outside the app stores.</li>
+    <li>Your own hosting, support and maintenance costs.</li>
+  </ul>
+  <p style="margin:10px 0 0;font-size:13.5px;line-height:1.6;color:var(--slate)">
+    This is revenue, not profit. It answers "what could this app earn", not "what will I keep".
+  </p>
+</div>
+
+</div>
+
+<script>
+(function () {
+  var root = document.querySelector('.t-app-revenue-calculator');
+  if (!root) return;
+  var $ = function (id) { return root.querySelector('#' + id); };
+
+  var money = new Intl.NumberFormat('en-US', {
+    style: 'currency', currency: 'USD', maximumFractionDigits: 0
+  });
+  var moneyPrecise = new Intl.NumberFormat('en-US', {
+    style: 'currency', currency: 'USD', maximumFractionDigits: 2
+  });
+  var count = new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 });
+
+  /* Keep each slider and its number box in step. The slider is decorative -
+     it is aria-hidden and untabbable, so the number input is the real control
+     and screen readers only ever meet one of them. */
+  function pair(numId, rangeId) {
+    var n = $(numId), r = $(rangeId);
+    if (!n || !r) return;
+    n.addEventListener('input', function () {
+      var v = parseFloat(n.value);
+      if (!isNaN(v)) r.value = Math.min(Math.max(v, r.min), r.max);
+      render();
+    });
+    r.addEventListener('input', function () { n.value = r.value; render(); });
+  }
+
+  ['rc-downloads', 'rc-conv', 'rc-price', 'rc-churn', 'rc-ecpm', 'rc-imp', 'rc-drop']
+    .forEach(function (id) { pair(id, id + '-r'); });
+
+  root.querySelectorAll('input[name="rc-model"], input[name="rc-comm"]')
+    .forEach(function (el) { el.addEventListener('change', render); });
+
+  function num(id, fallback) {
+    var v = parseFloat($(id).value);
+    return isNaN(v) || v < 0 ? fallback : v;
+  }
+
+  function model() {
+    var el = root.querySelector('input[name="rc-model"]:checked');
+    return el ? el.value : 'sub';
+  }
+
+  /* ---- the actual model ----
+     Subscriptions accumulate and decay: S(t) = S(t-1) * (1 - churn) + new payers.
+     That converges on new/churn, which is the ceiling nobody puts in a
+     calculator. One-time purchases do not accumulate at all. Ad revenue tracks
+     an active-user base that behaves like the subscriber base but pays per
+     impression - and takes no store commission, because an ad network is not
+     an in-app purchase. */
+  function project() {
+    var m = model();
+    var downloads = num('rc-downloads', 0);
+    var commission = m === 'ads'
+      ? 0
+      : parseFloat(root.querySelector('input[name="rc-comm"]:checked').value) / 100;
+
+    var months = [];
+    var base = 0;
+    var ceiling = null;
+
+    if (m === 'ads') {
+      var drop = Math.min(Math.max(num('rc-drop', 20), 0.1), 100) / 100;
+      var ecpm = num('rc-ecpm', 0);
+      var imps = num('rc-imp', 0);
+      ceiling = downloads / drop;
+      for (var i = 0; i < 12; i++) {
+        base = base * (1 - drop) + downloads;
+        months.push(base * imps / 1000 * ecpm);
+      }
+    } else {
+      var conv = Math.min(num('rc-conv', 0), 100) / 100;
+      var price = num('rc-price', 0);
+      var newPayers = downloads * conv;
+      if (m === 'sub') {
+        var churn = Math.min(Math.max(num('rc-churn', 6), 0.1), 100) / 100;
+        ceiling = newPayers / churn;
+        for (var j = 0; j < 12; j++) {
+          base = base * (1 - churn) + newPayers;
+          months.push(base * price);
+        }
+      } else {
+        base = newPayers;
+        for (var k = 0; k < 12; k++) months.push(newPayers * price);
+      }
+    }
+
+    var gross12 = months[11] || 0;
+    return {
+      model: m,
+      commission: commission,
+      months: months,
+      grossMonth12: gross12,
+      cutMonth12: gross12 * commission,
+      netMonth12: gross12 * (1 - commission),
+      netYear: months.reduce(function (a, b) { return a + b * (1 - commission); }, 0),
+      grossYear: months.reduce(function (a, b) { return a + b; }, 0),
+      payersMonth12: base,
+      ceiling: ceiling
+    };
+  }
+
+  function chart(months, commission) {
+    var svg = $('rc-chart');
+    var w = 320, h = 96, gap = 4;
+    var net = months.map(function (v) { return v * (1 - commission); });
+    var max = Math.max.apply(null, net.concat([1]));
+    var bw = (w - gap * 11) / 12;
+    var out = '';
+    for (var i = 0; i < 12; i++) {
+      var bh = Math.max(2, (net[i] / max) * (h - 14));
+      var x = i * (bw + gap);
+      out += '<rect x="' + x.toFixed(1) + '" y="' + (h - bh).toFixed(1) +
+             '" width="' + bw.toFixed(1) + '" height="' + bh.toFixed(1) +
+             '" rx="2" fill="' + (i === 11 ? 'var(--azure)' : 'rgba(35,128,184,.32)') + '"></rect>';
+    }
+    svg.innerHTML = out;
+  }
+
+  function line(term, val, cls) {
+    return '<div class="rc-line ' + (cls || '') + '"><dt>' + term + '</dt><dd>' + val + '</dd></div>';
+  }
+
+  function render() {
+    var m = model();
+    $('rc-paid-fields').hidden = m === 'ads';
+    $('rc-ads-fields').hidden = m !== 'ads';
+    $('rc-comm-fields').hidden = m === 'ads';
+    $('rc-churn-wrap').hidden = m !== 'sub';
+    $('rc-conv-wrap').hidden = m === 'ads';
+    $('rc-price-label').textContent =
+      m === 'sub' ? 'Subscription price per month' : 'Purchase price';
+
+    var r = project();
+    $('rc-headline').textContent = money.format(r.netMonth12);
+    $('rc-headline-sub').textContent = m === 'ads'
+      ? 'per month by month 12 - ad networks pay you directly, so no store commission applies'
+      : 'per month by month 12, after the store takes ' + Math.round(r.commission * 100) + ' percent';
+
+    chart(r.months, r.commission);
+
+    var rows = '';
+    if (m === 'sub') {
+      rows += line('Paying subscribers, month 12', count.format(Math.round(r.payersMonth12)));
+    } else if (m === 'ads') {
+      rows += line('Active users, month 12', count.format(Math.round(r.payersMonth12)));
+    } else {
+      rows += line('Buyers per month', count.format(Math.round(r.payersMonth12)));
+    }
+    rows += line('Gross revenue, month 12', money.format(r.grossMonth12));
+    if (m !== 'ads') {
+      rows += line('Store commission', '-' + money.format(r.cutMonth12), 'is-cut');
+    }
+    rows += line('Net, month 12', money.format(r.netMonth12), 'is-net');
+    rows += line('Net across 12 months', money.format(r.netYear), 'is-net');
+    $('rc-lines').innerHTML = rows;
+
+    var ceil = $('rc-ceiling');
+    if (m === 'sub') {
+      var churn = Math.min(Math.max(num('rc-churn', 6), 0.1), 100);
+      ceil.innerHTML = 'At ' + churn + ' percent monthly churn this app tops out near <strong>' +
+        count.format(Math.round(r.ceiling)) + ' subscribers</strong> - the point where cancellations ' +
+        'match sign-ups. Halving churn roughly doubles that ceiling, which is usually cheaper than ' +
+        'doubling downloads.';
+    } else if (m === 'ads') {
+      ceil.innerHTML = 'Your active base tops out near <strong>' + count.format(Math.round(r.ceiling)) +
+        ' users</strong> at this drop-off rate. Ad revenue scales with attention, not installs - ' +
+        'retention is the whole game.';
+    } else {
+      ceil.innerHTML = 'A one-time purchase does not accumulate: revenue is flat at <strong>' +
+        moneyPrecise.format(r.months[0] || 0) + ' a month</strong> for as long as downloads hold. ' +
+        'Every month starts from zero again.';
+    }
+
+    $('rc-live').textContent = 'Projection updated: ' + money.format(r.netMonth12) +
+      ' net in month 12, ' + money.format(r.netYear) + ' across the first year.';
+  }
+
+  render();
+})();
+</script>

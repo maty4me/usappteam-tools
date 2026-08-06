@@ -1,0 +1,65 @@
+{
+  "slug": "app-revenue-calculator",
+  "title": "App Revenue Calculator",
+  "tagline": "Model what your app actually earns after churn and the app store's cut - free, instant, no email.",
+  "description": "Free app revenue calculator that models subscriber churn and the app store commission, so you see net earnings and a 12-month projection instead of a fantasy number.",
+  "keywords": [
+    "app revenue calculator",
+    "app revenue estimator",
+    "mobile app revenue projection",
+    "subscription app revenue calculator",
+    "app store commission calculator",
+    "how much money can an app make",
+    "app monetization calculator"
+  ],
+  "category": "calculators",
+  "datePublished": "2026-08-06",
+  "intro": "Most app revenue calculators multiply downloads by price and call it a projection. That number is always wrong, usually by a lot, because it ignores the two things that decide what actually reaches your bank account: subscribers cancel, and the store takes a cut before you see a cent.\n\nThis one models both. Subscriptions accumulate month over month and churn away at the rate you set, which is why a subscription business flattens out at a ceiling instead of growing forever. The store commission comes off the top. Ad revenue is handled separately, because Apple and Google do not take a share of what a third-party ad network pays you.\n\nEverything runs in your browser. Nothing is uploaded, nothing is stored, and there is no email box anywhere on this page.",
+  "howTo": [
+    "Pick how the app makes money: subscription, one-time purchase, or free with ads.",
+    "Enter the new downloads you expect in a typical month.",
+    "Set the share of those downloads that actually pay, and your price.",
+    "For subscriptions, set monthly churn - the share of paying users who cancel each month.",
+    "Choose your store commission tier, then read the 12-month projection and the steady-state ceiling."
+  ],
+  "faq": [
+    {
+      "q": "Why is my revenue lower here than in other calculators?",
+      "a": "Because this one subtracts the store commission and lets subscribers cancel. A calculator that multiplies downloads by price is showing you gross revenue for a world where nobody ever unsubscribes. The gap between those two numbers is the whole point of this tool."
+    },
+    {
+      "q": "What commission do Apple and Google actually take?",
+      "a": "Both run a reduced tier for smaller developers: 15 percent on the first million dollars of earnings per year, and 30 percent above that. Google applies the 15 percent rate to subscription revenue regardless of the threshold. Pick the tier that matches your situation - if you are launching, it is almost certainly the 15 percent one."
+    },
+    {
+      "q": "Why does the subscriber count stop growing?",
+      "a": "Because churn compounds against a bigger base every month. If you add 100 subscribers a month and lose 5 percent of them, growth stops at 2,000 - the point where 5 percent of your base equals the 100 you are adding. Halving churn doubles that ceiling, which is why retention work usually beats acquisition spend."
+    },
+    {
+      "q": "Do the stores take a cut of ad revenue?",
+      "a": "No. Apple and Google take a commission on in-app purchases and subscriptions processed through their billing systems. Money an ad network pays you for impressions is not an in-app purchase, so it arrives whole. That is why the ads model in this calculator shows no store deduction."
+    },
+    {
+      "q": "What is not included in these numbers?",
+      "a": "Marketing and user acquisition spend, refunds and chargebacks, free trials that never convert, payment processing outside the stores, taxes, and your own hosting and maintenance costs. This is revenue, not profit, and it assumes the downloads you typed in actually arrive."
+    },
+    {
+      "q": "Is any of this stored or sent anywhere?",
+      "a": "No. The whole calculation is JavaScript running in your browser. Nothing is uploaded, nothing is saved, and closing the tab erases it."
+    }
+  ],
+  "cta": { "label": "Start your app brief" },
+  "video": {
+    "status": "pending",
+    "durationTargetSec": 60,
+    "narration": "Most app revenue calculators multiply downloads by price. That number is always wrong, because subscribers cancel and the app store takes a cut first. This one models both. Start with your monthly downloads and the share of them that actually pay. Set your price, then set churn - the share of subscribers who cancel each month. Watch what happens: the subscriber count climbs, then flattens. That ceiling is real. If you add a hundred subscribers a month and lose five percent, you stop at two thousand. Halving churn doubles it. Then the store takes its cut, fifteen percent on your first million a year, thirty above that. You see gross, the commission, and what actually lands. Switch to ads and the commission disappears, because the stores do not take a share of what an ad network pays you. Free, instant, runs entirely in your browser.",
+    "scenes": [
+      { "label": "Pick your model", "mark": "model" },
+      { "label": "Downloads and conversion", "mark": "inputs" },
+      { "label": "Set your price", "mark": "price" },
+      { "label": "Churn finds the ceiling", "mark": "churn" },
+      { "label": "The store takes its cut", "mark": "commission" },
+      { "label": "Ads are not commissioned", "mark": "ads" }
+    ]
+  }
+}
