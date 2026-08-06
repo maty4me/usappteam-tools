@@ -119,6 +119,29 @@ run — it is documented at the top of `keyword-backlog.md`.
 - DNS for `tools.usappteam.com` (GoHighLevel domain settings).
 - Adding the "Free Tools" link and teaser page to the GoHighLevel site — that site deploys by hand.
 
+## When the routines go quiet, check these three things
+
+Both routines died silently from 2026-08-03 to 08-06 and shipped nothing. Three separate faults,
+each of which produced no error anyone would see:
+
+1. **The .ps1 files did not parse.** They were UTF-8 with no BOM and contained an em-dash. Task
+   Scheduler runs `powershell.exe` (Windows PowerShell 5.1), which reads a BOM-less script as
+   cp1252 — the em-dash decoded into a stray smart quote, which PowerShell treats as a real string
+   delimiter, so the file failed to parse. A parse error happens before line 1 runs, so no log was
+   written, which made "no logs" look like "never ran". **Keep these scripts ASCII-only and BOM'd.**
+2. **git's stderr aborted the run.** With `$ErrorActionPreference = 'Stop'`, ordinary git progress
+   chatter on stderr raises `NativeCommandError` and kills the script. Git calls now go through a
+   wrapper that checks the exit code instead.
+3. **The `claude` CLI is not logged in.** `~/.claude/.credentials.json` has `expiresAt: 0`, and
+   `claude -p` answers `Not logged in · Please run /login` even with a clean environment. The
+   routine's build step is a `claude -p` handoff, so it cannot work until someone runs `claude`
+   interactively once and signs in. **This is a human step — no script can do it.**
+
+`scripts/healthcheck.ps1` (task `usappteam-routine-healthcheck`, 18:00 daily) now checks all of
+this: it parse-tests every routine script under 5.1, verifies the tools are on PATH for a
+`-NoProfile` run, reports any non-zero task exit code, and fails if no tool has been committed in
+two days. Run it by hand any time you suspect the pipeline is asleep.
+
 ## The promo routine (separate, 12:30 daily)
 
 `scripts/promote-daily.ps1`, Windows scheduled task `usappteam-free-tool-promo`. It publishes **one
