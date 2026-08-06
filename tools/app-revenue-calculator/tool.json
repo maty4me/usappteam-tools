@@ -48,18 +48,41 @@
       "a": "No. The whole calculation is JavaScript running in your browser. Nothing is uploaded, nothing is saved, and closing the tab erases it."
     }
   ],
-  "cta": { "label": "Start your app brief" },
+  "cta": {
+    "label": "Start your app brief"
+  },
   "video": {
-    "status": "pending",
+    "status": "rendered",
     "durationTargetSec": 60,
     "narration": "Most app revenue calculators multiply downloads by price. That number is always wrong, because subscribers cancel and the app store takes a cut first. This one models both. Start with your monthly downloads and the share of them that actually pay. Set your price, then set churn - the share of subscribers who cancel each month. Watch what happens: the subscriber count climbs, then flattens. That ceiling is real. If you add a hundred subscribers a month and lose five percent, you stop at two thousand. Halving churn doubles it. Then the store takes its cut, fifteen percent on your first million a year, thirty above that. You see gross, the commission, and what actually lands. Switch to ads and the commission disappears, because the stores do not take a share of what an ad network pays you. Free, instant, runs entirely in your browser.",
     "scenes": [
-      { "label": "Pick your model", "mark": "model" },
-      { "label": "Downloads and conversion", "mark": "inputs" },
-      { "label": "Set your price", "mark": "price" },
-      { "label": "Churn finds the ceiling", "mark": "churn" },
-      { "label": "The store takes its cut", "mark": "commission" },
-      { "label": "Ads are not commissioned", "mark": "ads" }
-    ]
+      {
+        "label": "Pick your model",
+        "mark": "model"
+      },
+      {
+        "label": "Downloads and conversion",
+        "mark": "inputs"
+      },
+      {
+        "label": "Set your price",
+        "mark": "price"
+      },
+      {
+        "label": "Churn finds the ceiling",
+        "mark": "churn"
+      },
+      {
+        "label": "The store takes its cut",
+        "mark": "commission"
+      },
+      {
+        "label": "Ads are not commissioned",
+        "mark": "ads"
+      }
+    ],
+    "renderedAt": "2026-08-06",
+    "durationISO": "PT50S",
+    "hasVoiceover": true
   }
 }

@@ -1,0 +1,73 @@
+WEBVTT
+
+1
+00:00:00.096 --> 00:00:02.764
+Most app revenue calculators multiply downloads
+
+2
+00:00:02.776 --> 00:00:05.950
+by price That number is always wrong because
+
+3
+00:00:05.962 --> 00:00:08.245
+subscribers cancel and the app store takes
+
+4
+00:00:08.257 --> 00:00:11.226
+a cut first This one models both Start with
+
+5
+00:00:11.238 --> 00:00:13.353
+your monthly downloads and the share of them
+
+6
+00:00:13.474 --> 00:00:16.623
+that actually pay Set your price then set churn
+
+7
+00:00:16.995 --> 00:00:19.411
+the share of subscribers who cancel each month
+
+8
+00:00:19.820 --> 00:00:22.440
+Watch what happens the subscriber count climbs
+
+9
+00:00:22.596 --> 00:00:25.541
+then flattens That ceiling is real If you add
+
+10
+00:00:25.553 --> 00:00:27.764
+a hundred subscribers a month and lose five
+
+11
+00:00:27.776 --> 00:00:30.493
+percent you stop at two thousand Halving churn
+
+12
+00:00:30.505 --> 00:00:33.293
+doubles it Then the store takes its cut fifteen
+
+13
+00:00:33.305 --> 00:00:35.709
+percent on your first million a year thirty
+
+14
+00:00:35.721 --> 00:00:38.702
+above that You see gross the commission and
+
+15
+00:00:38.714 --> 00:00:41.935
+what actually lands Switch to ads and the commission
+
+16
+00:00:41.947 --> 00:00:44.255
+disappears because the stores do not take a
+
+17
+00:00:44.267 --> 00:00:46.851
+share of what an ad network pays you Free
+
+18
+00:00:47.212 --> 00:00:49.519
+instant runs entirely in your browser
