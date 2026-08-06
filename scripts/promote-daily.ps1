@@ -1,4 +1,4 @@
-# Free Tool Promo — local runner.
+﻿# Free Tool Promo - local runner.
 #
 # Publishes ONE tool's demo video per day as a social post: FB Page video +
 # IG Reel, one tool per post, walking the library in shipped order and picking
@@ -61,12 +61,19 @@ function Say($msg) {
 Set-Location $Repo
 Say "=== free tool promo ==="
 
-git pull --quiet --rebase origin main 2>&1 | Out-Null
+# git reports progress on stderr; under $ErrorActionPreference='Stop' that would
+# abort the run. Promoting from a slightly stale tree is harmless, so a failed
+# pull is logged and stepped over rather than fatal.
+$prev = $ErrorActionPreference
+$ErrorActionPreference = "Continue"
+$pullOut = (& git pull --quiet --rebase origin main 2>&1 | Out-String).Trim()
+if ($LASTEXITCODE -ne 0) { Say "warning: git pull failed (continuing on local tree)`n$pullOut" }
+$ErrorActionPreference = $prev
 
 # Which tool is up? promote.py owns the queue and the no-duplicates rule.
 $nextJson = & python scripts/promote.py --next 2>&1 | Out-String
 if ($nextJson -match "QUEUE EMPTY") {
-    Say "queue empty — every rendered tool has been promoted. Nothing to do."
+    Say "queue empty - every rendered tool has been promoted. Nothing to do."
     exit 0
 }
 $next = $nextJson | ConvertFrom-Json
@@ -85,13 +92,13 @@ The tool is '$($next.title)' (slug: $($next.slug)).
 
 Read tools/$($next.slug)/index.md and tools/$($next.slug)/tool.json for what the
 tool actually does and what makes it better than what currently ranks. The post
-is about THIS ONE TOOL only — never a roundup of the library.
+is about THIS ONE TOOL only - never a roundup of the library.
 
 Write $capFile as UTF-8 JSON with exactly two keys:
-  "fb" — Facebook Page copy. Lead with the problem the tool solves, say plainly
+  "fb" - Facebook Page copy. Lead with the problem the tool solves, say plainly
          what it does and why ours is honest (client-side, no upload, no email),
          then the URL. A few short paragraphs, no hashtag spam.
-  "ig" — Instagram Reel caption. Tighter, same substance, ending with the URL
+  "ig" - Instagram Reel caption. Tighter, same substance, ending with the URL
          and 5-7 relevant hashtags.
 
 Hard rules:
@@ -106,7 +113,7 @@ Then run, from the repo root:
 Fix anything it reports, then publish for real:
     python scripts/promote.py --captions $capFile
 
-Publishing is pre-authorized for this routine — it is the whole point of the run.
+Publishing is pre-authorized for this routine - it is the whole point of the run.
 Report the FB and IG ids it prints, or the exact error if it failed.
 "@
 
@@ -116,7 +123,7 @@ if (-not $claude) {
     exit 1
 }
 
-Say "handing off to claude…"
+Say "handing off to claude..."
 & $claude.Source -p $prompt --permission-mode bypassPermissions 2>&1 | Tee-Object -Append -FilePath $log
 
 # promote.py's state file is the truth about what actually published.
@@ -126,9 +133,9 @@ $state = if (Test-Path "scripts/promo/state.json") {
 $entry = $state.posted.$($next.slug)
 
 if ($entry -and $entry.fb -and $entry.ig) {
-    Say "POSTED: $($next.slug) — FB $($entry.fb.id), IG $($entry.ig.id)"
+    Say "POSTED: $($next.slug) - FB $($entry.fb.id), IG $($entry.ig.id)"
 } elseif ($entry) {
-    Say "PARTIAL: $($next.slug) — fb=$([bool]$entry.fb) ig=$([bool]$entry.ig). Tomorrow's run resumes the missing one."
+    Say "PARTIAL: $($next.slug) - fb=$([bool]$entry.fb) ig=$([bool]$entry.ig). Tomorrow's run resumes the missing one."
     exit 1
 } else {
     Say "FAILED: $($next.slug) did not publish. See the log above."

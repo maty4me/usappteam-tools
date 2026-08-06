@@ -1,4 +1,4 @@
-# Free Tool of the Day — local runner.
+﻿# Free Tool of the Day - local runner.
 #
 # The cloud routine builds tools correctly but cannot push: the Claude GitHub
 # App has read but not contents:write on this repo (see SETUP.md). This machine
@@ -58,16 +58,40 @@ function Say($msg) {
     Add-Content -Path $log -Value $line
 }
 
+# git writes ordinary progress to stderr, which under $ErrorActionPreference='Stop'
+# becomes a NativeCommandError and kills the run. Route every git call through
+# here: it reports a real non-zero exit and otherwise gets out of the way.
+function Git-Try($argline) {
+    $prev = $ErrorActionPreference
+    $ErrorActionPreference = "Continue"
+    $out = (& git @argline 2>&1 | Out-String).Trim()
+    $code = $LASTEXITCODE
+    $ErrorActionPreference = $prev
+    if ($code -ne 0) { Say "git $($argline -join ' ') -> exit $code`n$out" }
+    return $code
+}
+
 Set-Location $Repo
 Say "=== free tool of the day ==="
 
-git fetch --quiet origin main 2>&1 | Out-Null
-git pull --quiet --rebase origin main 2>&1 | Out-Null
+# A dirty tree means an earlier run died mid-flight, or someone left work here.
+# Rebasing onto that silently drops the day, so stash it and say so.
+$dirty = (& git status --porcelain | Out-String).Trim()
+if ($dirty) {
+    Say "working tree dirty; stashing before pull:`n$dirty"
+    Git-Try @("stash", "push", "-u", "-m", "daily.ps1 autostash") | Out-Null
+}
+
+Git-Try @("fetch", "--quiet", "origin", "main") | Out-Null
+if ((Git-Try @("pull", "--quiet", "--rebase", "origin", "main")) -ne 0) {
+    Say "FAILED: could not pull origin/main. Not building on a stale tree."
+    exit 1
+}
 
 $backlog = Get-Content "research/backlog.json" -Raw | ConvertFrom-Json
 $next = $backlog.items | Where-Object { $_.status -eq "todo" } | Select-Object -First 1
 if (-not $next) {
-    Say "backlog empty — nothing to build. Re-run the research step (see ROUTINE.md)."
+    Say "backlog empty - nothing to build. Re-run the research step (see ROUTINE.md)."
     exit 0
 }
 if (Test-Path "tools/$($next.slug)") {
@@ -78,12 +102,12 @@ if (Test-Path "tools/$($next.slug)") {
 Say "building: $($next.title)  [$($next.slug)]"
 
 # Claude Code does the creative work. ROUTINE.md and TOOL-SPEC.md in the repo are
-# the binding instructions — this prompt only points at them so there is one
+# the binding instructions - this prompt only points at them so there is one
 # source of truth for how a tool gets built.
 $prompt = @"
 Build today's free tool for tools.usappteam.com, then ship it.
 
-Read ROUTINE.md and TOOL-SPEC.md in this repo first — they are the binding
+Read ROUTINE.md and TOOL-SPEC.md in this repo first - they are the binding
 instructions and override anything you assume. Then follow ROUTINE.md in order.
 
 Today's tool is '$($next.title)' (slug: $($next.slug)), the top todo item in
@@ -105,16 +129,16 @@ if (-not $claude) {
     exit 1
 }
 
-Say "handing off to claude…"
+Say "handing off to claude..."
 & $claude.Source -p $prompt --permission-mode bypassPermissions 2>&1 | Tee-Object -Append -FilePath $log
 
-git fetch --quiet origin main 2>&1 | Out-Null
-$local = (git rev-parse HEAD).Trim()
-$remote = (git rev-parse origin/main).Trim()
+Git-Try @("fetch", "--quiet", "origin", "main") | Out-Null
+$local = (& git rev-parse HEAD | Out-String).Trim()
+$remote = (& git rev-parse origin/main | Out-String).Trim()
 
 if (Test-Path "tools/$($next.slug)/tool.json") {
     if ($local -eq $remote) {
-        Say "SHIPPED: $($next.slug) — pushed. CI will render the video and deploy."
+        Say "SHIPPED: $($next.slug) - pushed. CI will render the video and deploy."
     } else {
         Say "WARNING: $($next.slug) was built but local and remote differ. Check the push."
     }
