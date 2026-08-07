@@ -11,7 +11,8 @@ Everything below is done. Kept as a record of how the pieces fit together.
 - Three tools live, each with a rendered demo video, captions and poster.
 - **https://usappteam.com/free-tools** — teaser page on the main site.
 - All 10 existing GoHighLevel pages carry a "Free Tools" nav link.
-- Daily cloud routine "Free Tool of the Day" runs at 07:00 America/Chicago.
+- Scheduled task `usappteam-free-tool` builds a tool **Mon/Wed/Fri at 07:00**.
+  Needs `CLAUDE_CODE_OAUTH_TOKEN` set — see ROUTINE.md; without it every run exits 2.
 
 ## Repo configuration
 

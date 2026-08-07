@@ -1,16 +1,26 @@
-# Daily routine
+# Build routine
 
-A scheduled Claude cloud agent ships one new free tool every morning. This file is the routine's
+A scheduled task ships one new free tool on Monday, Wednesday and Friday. This file is the routine's
 instruction set — the schedule points at it, so editing this file changes tomorrow's behaviour.
 
-**Schedule:** cron `0 12 * * *`, which is 07:00 America/Chicago through the summer.
-Cloud routines only take UTC, so this becomes 06:00 once the clocks go back — shift the cron to
-`0 13 * * *` in November if the earlier slot ever matters.
-**Also runs locally:** `scripts/daily.ps1`, Windows scheduled task `usappteam-free-tool-daily` at
-07:00. That is the path that actually works today — see SETUP.md for why the cloud one cannot push.
+**Schedule:** Windows scheduled task `usappteam-free-tool` — **Monday, Wednesday, Friday at 07:00**,
+via `scripts/daily.ps1`. `StartWhenAvailable` is set, so a sleeping machine catches up rather than
+skipping. Change the cadence with `.\scripts\daily.ps1 -Install -Days Monday,Thursday -Time 08:00`.
+
+**Authentication — the thing that breaks it.** A scheduled shell does not inherit an interactive
+`claude` login. Every run between 2026-08-06 and 08-07 died on *"Not logged in"* before building
+anything. Headless runs need a long-lived token:
+
+```
+claude setup-token          # once, in an interactive terminal
+```
+
+then set what it issues as the **`CLAUDE_CODE_OAUTH_TOKEN`** user environment variable so the task
+inherits it. `daily.ps1` now probes auth before it builds and exits 2 with that instruction rather
+than burning the slot.
+
 **Repo:** `maty4me/usappteam-tools`
 **Live:** https://tools.usappteam.com
-**Routine:** "Free Tool of the Day" at `claude.ai/code/routines`
 
 ## Sequence
 

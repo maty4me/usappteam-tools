@@ -1,4 +1,4 @@
-﻿# Free Tool of the Day - local runner.
+﻿# Free Tool runner - Monday, Wednesday and Friday.
 #
 # The cloud routine builds tools correctly but cannot push: the Claude GitHub
 # App has read but not contents:write on this repo (see SETUP.md). This machine
@@ -7,6 +7,8 @@
 #
 # Install once (elevated PowerShell):
 #     .\scripts\daily.ps1 -Install
+# Change the cadence:
+#     .\scripts\daily.ps1 -Install -Days Monday,Thursday -Time 08:00
 # Run by hand any time:
 #     .\scripts\daily.ps1
 #
@@ -15,34 +17,47 @@
 param(
     [switch]$Install,
     [switch]$Uninstall,
-    [string]$Time = "07:00"
+    [string]$Time = "07:00",
+    [string[]]$Days = @("Monday", "Wednesday", "Friday")
 )
 
 $ErrorActionPreference = "Stop"
 $Repo = Split-Path -Parent $PSScriptRoot
-$TaskName = "usappteam-free-tool-daily"
+$TaskName = "usappteam-free-tool"
+$LegacyTaskName = "usappteam-free-tool-daily"
 
 if ($Install) {
+    # The cadence moved from daily to three times a week on 2026-08-08. The old
+    # task is removed by name so the two cannot both fire.
+    if (Get-ScheduledTask -TaskName $LegacyTaskName -ErrorAction SilentlyContinue) {
+        Unregister-ScheduledTask -TaskName $LegacyTaskName -Confirm:$false
+        Write-Host "Removed the old daily task '$LegacyTaskName'."
+    }
+
     $ps = (Get-Command powershell.exe).Source
     $action = New-ScheduledTaskAction -Execute $ps `
         -Argument "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" `
         -WorkingDirectory $Repo
-    $trigger = New-ScheduledTaskTrigger -Daily -At $Time
+    $trigger = New-ScheduledTaskTrigger -Weekly -DaysOfWeek $Days -At $Time
     # StartWhenAvailable catches up if the machine was asleep at the trigger time,
-    # which is the whole point of a daily cadence on a workstation.
+    # which is the whole point of a scheduled cadence on a workstation.
     $settings = New-ScheduledTaskSettingsSet -StartWhenAvailable `
         -DontStopIfGoingOnBatteries -AllowStartIfOnBatteries `
         -ExecutionTimeLimit (New-TimeSpan -Hours 3)
     Register-ScheduledTask -TaskName $TaskName -Action $action -Trigger $trigger `
-        -Settings $settings -Description "Builds and ships one free tool per day to tools.usappteam.com" -Force | Out-Null
-    Write-Host "Installed '$TaskName', daily at $Time."
+        -Settings $settings -Description "Builds and ships a free tool to tools.usappteam.com on $($Days -join ', ')" -Force | Out-Null
+    Write-Host "Installed '$TaskName' — $($Days -join ', ') at $Time."
     Write-Host "Next run: $((Get-ScheduledTaskInfo -TaskName $TaskName).NextRunTime)"
     exit 0
 }
 
 if ($Uninstall) {
-    Unregister-ScheduledTask -TaskName $TaskName -Confirm:$false
-    Write-Host "Removed '$TaskName'."
+    foreach ($n in @($TaskName, $LegacyTaskName)) {
+        if (Get-ScheduledTask -TaskName $n -ErrorAction SilentlyContinue) {
+            Unregister-ScheduledTask -TaskName $n -Confirm:$false
+            Write-Host "Removed '$n'."
+        }
+    }
     exit 0
 }
 
@@ -127,6 +142,23 @@ $claude = (Get-Command claude -ErrorAction SilentlyContinue)
 if (-not $claude) {
     Say "ERROR: the 'claude' CLI is not on PATH for this task's environment."
     exit 1
+}
+
+# Check auth BEFORE building anything. A scheduled shell does not inherit the
+# interactive login: every run between 2026-08-06 and 08-07 got "Not logged in"
+# and burned the day, and the only trace was a log file nobody reads. Headless
+# runs need CLAUDE_CODE_OAUTH_TOKEN, which `claude setup-token` issues once.
+$ErrorActionPreference = "Continue"
+$authProbe = (& $claude.Source -p "Reply with exactly: AUTH_OK" 2>&1 | Out-String)
+$ErrorActionPreference = "Stop"
+if ($authProbe -notmatch "AUTH_OK") {
+    Say "BLOCKED: the Claude CLI is not authenticated in this task's environment."
+    Say "  probe returned: $($authProbe.Trim() -replace '\s+', ' ')"
+    Say "  Fix once, in an interactive terminal:"
+    Say "    claude setup-token"
+    Say "  then set the token it issues as the CLAUDE_CODE_OAUTH_TOKEN user environment"
+    Say "  variable so scheduled runs inherit it. Nothing was built."
+    exit 2
 }
 
 Say "handing off to claude..."
