@@ -136,6 +136,11 @@ npm run smoke. Do not push red.
 Then commit, push to main, mark the backlog item live, and push that too.
 Git credentials on this machine work, so a push failure is a real error worth
 reporting rather than a known blocker.
+
+Never extract tokens from the git credential store or anywhere else, and never
+let a credential value appear in your output. If gh is unauthenticated, skip
+gh-only conveniences - the wrapper runs scripts/ensure-ci.py after you finish,
+which verifies CI without gh.
 "@
 
 $claude = (Get-Command claude -ErrorAction SilentlyContinue)
