@@ -119,7 +119,8 @@
       "difficulty": "L",
       "effort": "S",
       "relevance": 5,
-      "status": "todo"
+      "status": "live",
+      "published": "2026-08-13"
     },
     {
       "slug": "mvp-scope-planner",
