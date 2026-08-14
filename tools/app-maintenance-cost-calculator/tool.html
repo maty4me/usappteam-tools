@@ -1,0 +1,399 @@
+<style>
+.t-app-maintenance-cost-calculator { font-family: var(--body); color: var(--ink); }
+
+/* ---------- privacy banner ---------- */
+.t-app-maintenance-cost-calculator .mc-privacy {
+  display: flex; align-items: flex-start; gap: 10px;
+  margin: 0 0 20px; padding: 12px 14px;
+  border: 1px solid rgba(31, 169, 113, .3); border-radius: var(--r-sm);
+  background: rgba(31, 169, 113, .07);
+  font-size: 13.5px; line-height: 1.5; color: var(--slate);
+}
+.t-app-maintenance-cost-calculator .mc-privacy svg {
+  width: 16px; height: 16px; flex: 0 0 auto; margin-top: 2px;
+  stroke: var(--green); fill: none; stroke-width: 2;
+  stroke-linecap: round; stroke-linejoin: round;
+}
+.t-app-maintenance-cost-calculator .mc-privacy strong { color: var(--ink); font-weight: 600; }
+
+/* ---------- layout ---------- */
+.t-app-maintenance-cost-calculator .mc-grid {
+  display: grid; gap: 22px;
+  grid-template-columns: minmax(0, 1fr);
+}
+@media (min-width: 900px) {
+  .t-app-maintenance-cost-calculator .mc-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 380px); align-items: start; }
+}
+
+/* ---------- form ---------- */
+.t-app-maintenance-cost-calculator fieldset { border: 0; margin: 0 0 24px; padding: 0; }
+.t-app-maintenance-cost-calculator legend {
+  display: flex; align-items: center; gap: 9px;
+  font-family: var(--disp); font-weight: 700; font-size: 16px;
+  color: var(--ink); margin: 0 0 10px; padding: 0;
+}
+.t-app-maintenance-cost-calculator legend .mc-n {
+  font-family: var(--mono); font-size: 11px; color: var(--azure);
+  background: var(--blue-soft); border-radius: 5px; padding: 3px 7px;
+}
+.t-app-maintenance-cost-calculator .mc-hint {
+  margin: -4px 0 12px; font-size: 13.5px; line-height: 1.55; color: var(--ink-60);
+}
+
+.t-app-maintenance-cost-calculator .mc-field { margin: 0 0 14px; }
+.t-app-maintenance-cost-calculator .mc-row { display: flex; align-items: center; gap: 12px; }
+.t-app-maintenance-cost-calculator input[type="range"] { flex: 1 1 auto; min-width: 0; accent-color: var(--azure); }
+.t-app-maintenance-cost-calculator input[type="number"] {
+  width: 118px; flex: 0 0 auto; font-family: var(--mono); font-size: 14px;
+  padding: 9px 10px; color: var(--ink);
+  border: 1px solid var(--line-2); border-radius: var(--r-sm); background: var(--card);
+}
+.t-app-maintenance-cost-calculator input[type="number"]:focus-visible { outline: 2px solid var(--azure); outline-offset: 1px; }
+
+.t-app-maintenance-cost-calculator .mc-quickrow { display: flex; gap: 8px; flex-wrap: wrap; margin: 4px 0 4px; }
+.t-app-maintenance-cost-calculator .mc-quick {
+  font-family: var(--mono); font-size: 12.5px; line-height: 1;
+  padding: 8px 12px; border: 1px solid var(--line-2); border-radius: 999px;
+  background: var(--card); color: var(--slate); cursor: pointer;
+  transition: border-color .18s var(--ease), color .18s var(--ease), background .18s var(--ease);
+}
+.t-app-maintenance-cost-calculator .mc-quick:hover { border-color: var(--azure); color: var(--azure); }
+.t-app-maintenance-cost-calculator .mc-quick:focus-visible { outline: 2px solid var(--azure); outline-offset: 2px; }
+
+.t-app-maintenance-cost-calculator .mc-opts { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+.t-app-maintenance-cost-calculator .mc-opt { position: relative; }
+.t-app-maintenance-cost-calculator .mc-opt input {
+  position: absolute; opacity: 0; width: 100%; height: 100%; margin: 0; cursor: pointer;
+}
+.t-app-maintenance-cost-calculator .mc-opt span {
+  display: block; padding: 13px 14px; height: 100%;
+  border: 1px solid var(--line-2); border-radius: var(--r-sm);
+  background: var(--card); cursor: pointer;
+  transition: border-color .18s var(--ease), background .18s var(--ease);
+}
+.t-app-maintenance-cost-calculator .mc-opt b { display: block; font-family: var(--disp); font-weight: 700; font-size: 15px; color: var(--ink); }
+.t-app-maintenance-cost-calculator .mc-opt i { display: block; font-style: normal; font-size: 12.5px; color: var(--ink-60); margin-top: 3px; line-height: 1.45; }
+.t-app-maintenance-cost-calculator .mc-opt input:checked + span { border-color: var(--azure); background: var(--blue-soft); }
+.t-app-maintenance-cost-calculator .mc-opt input:focus-visible + span { outline: 2px solid var(--azure); outline-offset: 2px; }
+
+/* ---------- results ---------- */
+.t-app-maintenance-cost-calculator .mc-out {
+  position: sticky; top: 20px;
+  border: 1px solid var(--line-2); border-radius: var(--r);
+  background: var(--card); box-shadow: var(--shadow);
+  padding: 20px; overflow: hidden;
+}
+@media (max-width: 899px) { .t-app-maintenance-cost-calculator .mc-out { position: static; } }
+.t-app-maintenance-cost-calculator .mc-out h3 {
+  margin: 0 0 2px; font-family: var(--mono); font-size: 11px; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--ink-40); font-weight: 500;
+}
+.t-app-maintenance-cost-calculator .mc-big {
+  font-family: var(--disp); font-weight: 700; line-height: 1.05;
+  font-size: clamp(30px, 6.5vw, 40px);
+  background: var(--grad); -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: var(--azure);
+  margin: 4px 0 2px; word-break: break-word;
+}
+.t-app-maintenance-cost-calculator .mc-big-sub { font-size: 13.5px; color: var(--ink-60); margin: 0 0 4px; line-height: 1.5; }
+
+.t-app-maintenance-cost-calculator .mc-sec-t {
+  font-family: var(--mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--ink-40); margin: 16px 0 8px;
+}
+
+.t-app-maintenance-cost-calculator .mc-bar {
+  display: flex; height: 14px; border-radius: 999px; overflow: hidden;
+  background: var(--line); margin: 0 0 10px;
+}
+.t-app-maintenance-cost-calculator .mc-bar span { height: 100%; }
+.t-app-maintenance-cost-calculator .seg-os { background: var(--azure); }
+.t-app-maintenance-cost-calculator .seg-bug { background: var(--magenta); }
+.t-app-maintenance-cost-calculator .seg-backend { background: var(--amber); }
+.t-app-maintenance-cost-calculator .seg-feature { background: var(--green); }
+
+.t-app-maintenance-cost-calculator .mc-legend { display: grid; gap: 6px; margin: 0 0 4px; }
+.t-app-maintenance-cost-calculator .mc-legend-row { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--slate); }
+.t-app-maintenance-cost-calculator .mc-legend-row .dot { width: 9px; height: 9px; border-radius: 50%; flex: 0 0 auto; }
+.t-app-maintenance-cost-calculator .mc-legend-row .amt { margin-left: auto; font-family: var(--mono); font-weight: 600; color: var(--ink); white-space: nowrap; }
+
+.t-app-maintenance-cost-calculator .mc-care { display: grid; gap: 8px; }
+.t-app-maintenance-cost-calculator .mc-care-tier {
+  display: flex; justify-content: space-between; align-items: baseline; gap: 10px;
+  padding: 10px 12px; border: 1px solid var(--line-2); border-radius: var(--r-sm);
+  background: var(--card); font-size: 13.5px; color: var(--slate);
+}
+.t-app-maintenance-cost-calculator .mc-care-tier b { font-family: var(--mono); color: var(--ink); white-space: nowrap; }
+.t-app-maintenance-cost-calculator .mc-care-tier.is-match { border-color: var(--azure); background: var(--blue-soft); }
+.t-app-maintenance-cost-calculator .mc-care-tier .tag { font-size: 11px; color: var(--azure); font-weight: 600; }
+.t-app-maintenance-cost-calculator .mc-care-note { margin: 8px 0 0; font-size: 12.5px; line-height: 1.5; color: var(--ink-60); }
+
+/* ---------- caveats ---------- */
+.t-app-maintenance-cost-calculator .mc-caveats {
+  margin: 26px 0 0; padding: 16px 18px;
+  border: 1px solid var(--line-2); border-radius: var(--r-sm); background: var(--bg);
+}
+.t-app-maintenance-cost-calculator .mc-caveats h3 {
+  margin: 0 0 8px; font-family: var(--disp); font-size: 15px; font-weight: 700; color: var(--ink);
+}
+.t-app-maintenance-cost-calculator .mc-caveats ul { margin: 0; padding-left: 18px; }
+.t-app-maintenance-cost-calculator .mc-caveats li { font-size: 13.5px; line-height: 1.6; color: var(--slate); margin: 0 0 5px; }
+.t-app-maintenance-cost-calculator [hidden] { display: none !important; }
+</style>
+
+<div class="t-app-maintenance-cost-calculator" id="mc-root">
+
+<div class="mc-privacy">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v6c0 4.5-3 7.7-7 9-4-1.3-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg>
+  <div><strong>Runs entirely in your browser.</strong> Nothing is uploaded, nothing is stored, and there is no email box on this page. Close the tab and it is gone.</div>
+</div>
+
+<div class="mc-grid">
+  <form class="mc-form" id="mc-form" novalidate>
+    <fieldset>
+      <legend><span class="mc-n">01</span> What did the app cost to build?</legend>
+      <p class="mc-hint">Use the real number if you know it, or start from one of our own pricing tiers.</p>
+      <div class="mc-field">
+        <div class="mc-row">
+          <input type="range" id="mc-cost-r" min="1000" max="50000" step="250" value="7500" aria-hidden="true" tabindex="-1">
+          <input type="number" id="mc-cost" min="0" max="1000000" step="50" value="7500" inputmode="numeric" aria-label="Build cost in US dollars">
+        </div>
+      </div>
+      <div class="mc-quickrow">
+        <button type="button" class="mc-quick" data-cost="3500">Simple app &mdash; $3,500</button>
+        <button type="button" class="mc-quick" data-cost="7500">Standard app &mdash; $7,500</button>
+        <button type="button" class="mc-quick" data-cost="12000">Complex app &mdash; $12,000</button>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend><span class="mc-n">02</span> Platforms</legend>
+      <div class="mc-opts">
+        <label class="mc-opt">
+          <input type="radio" name="mc-platform" value="ios">
+          <span><b>iOS only</b><i>App Store</i></span>
+        </label>
+        <label class="mc-opt">
+          <input type="radio" name="mc-platform" value="android">
+          <span><b>Android only</b><i>Google Play</i></span>
+        </label>
+        <label class="mc-opt">
+          <input type="radio" name="mc-platform" value="both" checked>
+          <span><b>Both</b><i>iOS &amp; Android</i></span>
+        </label>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend><span class="mc-n">03</span> Backend complexity</legend>
+      <p class="mc-hint">How much of the app depends on a server you have to keep running?</p>
+      <div class="mc-opts">
+        <label class="mc-opt">
+          <input type="radio" name="mc-backend" value="none">
+          <span><b>None</b><i>Fully offline / static</i></span>
+        </label>
+        <label class="mc-opt">
+          <input type="radio" name="mc-backend" value="simple" checked>
+          <span><b>Simple</b><i>API, auth, database</i></span>
+        </label>
+        <label class="mc-opt">
+          <input type="radio" name="mc-backend" value="complex">
+          <span><b>Complex</b><i>Real-time, payments, integrations</i></span>
+        </label>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend><span class="mc-n">04</span> How actively will you maintain it?</legend>
+      <div class="mc-opts">
+        <label class="mc-opt">
+          <input type="radio" name="mc-activity" value="maintenance">
+          <span><b>Maintenance mode</b><i>Bug fixes &amp; OS updates only</i></span>
+        </label>
+        <label class="mc-opt">
+          <input type="radio" name="mc-activity" value="steady" checked>
+          <span><b>Steady improvements</b><i>Small updates most months</i></span>
+        </label>
+        <label class="mc-opt">
+          <input type="radio" name="mc-activity" value="active">
+          <span><b>Active growth</b><i>New features regularly</i></span>
+        </label>
+      </div>
+    </fieldset>
+  </form>
+
+  <aside class="mc-out" aria-labelledby="mc-out-h">
+    <h3 id="mc-out-h">Estimated maintenance cost</h3>
+    <div class="mc-big" id="mc-headline">--</div>
+    <p class="mc-big-sub" id="mc-headline-sub">per year</p>
+
+    <p class="mc-sec-t">Where the money goes</p>
+    <div class="mc-bar" id="mc-bar"></div>
+    <div class="mc-legend" id="mc-legend"></div>
+
+    <p class="mc-sec-t">How that compares to Care</p>
+    <div class="mc-care" id="mc-care"></div>
+
+    <p class="mc-big-sub" style="margin:14px 0 0" role="status" aria-live="polite" id="mc-live"></p>
+  </aside>
+</div>
+
+<div class="mc-caveats">
+  <h3>What this deliberately does not include</h3>
+  <ul>
+    <li>One-off costs like a major redesign, a new platform port, or a backend migration.</li>
+    <li>Marketing, app store advertising, and user acquisition.</li>
+    <li>Legal and compliance work beyond routine privacy-policy upkeep.</li>
+    <li>The developer account fees you pay directly to Apple and Google &mdash; those are separate from build or maintenance work.</li>
+  </ul>
+  <p style="margin:10px 0 0;font-size:13.5px;line-height:1.6;color:var(--slate)">
+    This is a planning estimate built from a widely-used industry rule of thumb, not a quote. Every app is different.
+  </p>
+</div>
+
+</div>
+
+<script>
+(function () {
+  var root = document.querySelector('.t-app-maintenance-cost-calculator');
+  if (!root) return;
+  var $ = function (id) { return root.querySelector('#' + id); };
+
+  var money = new Intl.NumberFormat('en-US', {
+    style: 'currency', currency: 'USD', maximumFractionDigits: 0
+  });
+  var moneyPrecise = new Intl.NumberFormat('en-US', {
+    style: 'currency', currency: 'USD', maximumFractionDigits: 2
+  });
+
+  /* Keep the slider and its number box in step. The slider is decorative -
+     it is aria-hidden and untabbable, so the number input is the real control
+     and screen readers only ever meet one of them. */
+  function pair(numId, rangeId) {
+    var n = $(numId), r = $(rangeId);
+    if (!n || !r) return;
+    n.addEventListener('input', function () {
+      var v = parseFloat(n.value);
+      if (!isNaN(v)) r.value = Math.min(Math.max(v, r.min), r.max);
+      render();
+    });
+    r.addEventListener('input', function () { n.value = r.value; render(); });
+  }
+  pair('mc-cost', 'mc-cost-r');
+
+  root.querySelectorAll('input[name="mc-platform"], input[name="mc-backend"], input[name="mc-activity"]')
+    .forEach(function (el) { el.addEventListener('change', render); });
+
+  root.querySelectorAll('.mc-quick').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var v = btn.getAttribute('data-cost');
+      $('mc-cost').value = v;
+      $('mc-cost-r').value = v;
+      render();
+    });
+  });
+
+  function num(id, fallback) {
+    var v = parseFloat($(id).value);
+    return isNaN(v) || v < 0 ? fallback : v;
+  }
+  function radio(name, fallback) {
+    var el = root.querySelector('input[name="' + name + '"]:checked');
+    return el ? el.value : fallback;
+  }
+
+  /* ---- the model ----
+     Starts from the "15-20% of build cost a year" figure that shows up in
+     almost every maintenance article, then adjusts it for the levers that
+     actually move it: two stores instead of one roughly doubles yearly
+     compatibility testing, a real backend needs attention a static app does
+     not, and how actively you keep shipping is normally the biggest swing of
+     all. Clamped to a realistic 8-35% band so an extreme combination of
+     answers cannot produce a nonsense percentage. */
+  function pct() {
+    var platform = radio('mc-platform', 'both');
+    var backend = radio('mc-backend', 'simple');
+    var activity = radio('mc-activity', 'steady');
+
+    var base = 15;
+    var platformMod = platform === 'both' ? 4 : 0;
+    var backendMod = backend === 'none' ? -6 : backend === 'complex' ? 10 : 2;
+    var activityMod = activity === 'maintenance' ? -3 : activity === 'active' ? 12 : 3;
+
+    return Math.min(35, Math.max(8, base + platformMod + backendMod + activityMod));
+  }
+
+  /* The four categories are weighted, not fixed dollar figures - OS work
+     scales with platform count, backend work scales with backend complexity,
+     and feature work scales with how actively the app is maintained. Weights
+     are normalized so they always sum to the full annual estimate. */
+  function breakdown(annual) {
+    var platform = radio('mc-platform', 'both');
+    var backend = radio('mc-backend', 'simple');
+    var activity = radio('mc-activity', 'steady');
+
+    var raw = [
+      { label: 'OS & compatibility updates', w: platform === 'both' ? 35 : 25, cls: 'seg-os' },
+      { label: 'Bug fixes & monitoring', w: 25, cls: 'seg-bug' },
+      { label: 'Backend & third-party services', w: backend === 'none' ? 3 : backend === 'complex' ? 35 : 20, cls: 'seg-backend' },
+      { label: 'Feature enhancements & ASO', w: activity === 'maintenance' ? 5 : activity === 'active' ? 40 : 20, cls: 'seg-feature' }
+    ];
+    var sum = raw.reduce(function (a, r) { return a + r.w; }, 0);
+    return raw.map(function (r) {
+      return { label: r.label, cls: r.cls, share: r.w / sum, amount: annual * (r.w / sum) };
+    });
+  }
+
+  function careTiers(monthly) {
+    var tiers = [
+      { label: 'Starter Care', price: 199 },
+      { label: 'Growth Care', price: 399 },
+      { label: 'Scale Care', price: 799 }
+    ];
+    var matchIdx = -1;
+    for (var i = 0; i < tiers.length; i++) {
+      if (monthly <= tiers[i].price) { matchIdx = i; break; }
+    }
+    return { tiers: tiers, matchIdx: matchIdx };
+  }
+
+  function render() {
+    var cost = num('mc-cost', 0);
+    var p = pct();
+    var annual = cost * p / 100;
+    var monthly = annual / 12;
+
+    $('mc-headline').textContent = money.format(annual);
+    $('mc-headline-sub').textContent =
+      'a year (' + moneyPrecise.format(monthly) + ' a month) - about ' + p.toFixed(0) +
+      '% of the ' + money.format(cost) + ' build cost';
+
+    var rows = breakdown(annual);
+    $('mc-bar').innerHTML = rows.map(function (r) {
+      return '<span class="' + r.cls + '" style="width:' + (r.share * 100).toFixed(2) + '%"></span>';
+    }).join('');
+
+    $('mc-legend').innerHTML = rows.map(function (r) {
+      return '<div class="mc-legend-row"><span class="dot ' + r.cls + '"></span>' + r.label +
+        '<span class="amt">' + money.format(r.amount) + '</span></div>';
+    }).join('');
+
+    var care = careTiers(monthly);
+    var careHtml = care.tiers.map(function (t, i) {
+      var match = i === care.matchIdx;
+      return '<div class="mc-care-tier' + (match ? ' is-match' : '') + '"><span>' + t.label +
+        (match ? ' <span class="tag">closest match</span>' : '') + '</span><b>' +
+        money.format(t.price) + '/mo</b></div>';
+    }).join('');
+    if (care.matchIdx === -1) {
+      careHtml += '<p class="mc-care-note">Your estimate is above our largest Care plan &mdash; worth a conversation about what a custom plan would look like.</p>';
+    }
+    $('mc-care').innerHTML = careHtml;
+
+    $('mc-live').textContent = 'Estimated maintenance: ' + money.format(annual) +
+      ' a year, ' + moneyPrecise.format(monthly) + ' a month.';
+  }
+
+  render();
+})();
+</script>

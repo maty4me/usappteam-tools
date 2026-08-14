@@ -1,0 +1,66 @@
+{
+  "slug": "app-maintenance-cost-calculator",
+  "title": "App Maintenance Cost Calculator",
+  "tagline": "Turn the vague \"15-20% a year\" rule of thumb into a real number - free, instant, no email.",
+  "description": "Free app maintenance cost calculator that estimates your annual and monthly upkeep from build cost, platforms and backend - no signup, nothing stored.",
+  "keywords": [
+    "app maintenance cost calculator",
+    "app maintenance cost",
+    "how much does app maintenance cost",
+    "mobile app maintenance cost estimator",
+    "annual app maintenance cost",
+    "app support cost calculator",
+    "app upkeep cost"
+  ],
+  "category": "calculators",
+  "datePublished": "2026-08-13",
+  "intro": "Almost every article on app maintenance says the same thing: budget 15 to 20 percent of your build cost per year. That is a real rule of thumb, but it treats a static offline app the same as a real-time app with payments and a live backend, which is not how upkeep actually works.\n\nThis calculator starts from that industry baseline and adjusts it for the things that actually move the number: how many platforms you support, how much of the app depends on a server you have to keep running, and how actively you plan to keep shipping improvements. It breaks the estimate down into where the money goes, and shows how it lines up against a managed Care plan.\n\nEverything runs in your browser. Nothing is uploaded, nothing is stored, and there is no email box anywhere on this page.",
+  "howTo": [
+    "Enter what the app cost (or will cost) to build, or pick one of our own pricing tiers as a starting point.",
+    "Choose the platforms you support - both iOS and Android roughly doubles yearly compatibility work.",
+    "Pick how much the app depends on a backend you have to keep running.",
+    "Set how actively you plan to keep improving it, from bug-fixes-only to shipping features every month.",
+    "Read the annual and monthly estimate, the category breakdown, and how it compares to a Care plan."
+  ],
+  "faq": [
+    {
+      "q": "Where does the 15-20% a year figure come from?",
+      "a": "It is a widely cited industry rule of thumb for the total cost of keeping a shipped app running - not a number this calculator invented. It is a reasonable starting point, but it is also an average across every kind of app, which is why it is not very useful on its own. This tool starts there and adjusts for the specifics of your app."
+    },
+    {
+      "q": "Why does supporting both iOS and Android cost more?",
+      "a": "Apple and Google each ship a major OS release every year, and both routinely break something - a permission dialog changes, an API gets deprecated, a new device size ships. Supporting one store means testing and patching against one moving target. Supporting both roughly doubles that recurring work, even if the two apps share most of their code."
+    },
+    {
+      "q": "Why does a bigger backend cost more to maintain?",
+      "a": "A fully offline app has almost nothing that can break outside the app itself. A backend adds a server that needs monitoring, security patches, and capacity planning, plus every third-party API it depends on can change its own terms, pricing or behavior without warning. Real-time features and payment processing raise the stakes further, because outages and bugs there cost you users and money immediately, not eventually."
+    },
+    {
+      "q": "What is the single biggest lever in this estimate?",
+      "a": "How actively you plan to keep shipping. \"Maintenance mode\" - bug fixes and OS compatibility only - sits near the low end of the range. \"Active growth\" - new features on a regular cadence - is closer to ongoing product development than maintenance, and the estimate reflects that. Most of the swing between a cheap year and an expensive one comes from this choice, not from the backend or the platforms."
+    },
+    {
+      "q": "How does this compare to a Care plan?",
+      "a": "The monthly estimate is shown next to US APP Team's own Care tiers so you can see roughly where DIY maintenance would land against a managed plan. It is a reference point, not a quote - a real plan depends on the actual app, not four dropdown answers."
+    },
+    {
+      "q": "Is anything sent to a server?",
+      "a": "No. The whole calculation is JavaScript running in your browser. Nothing is uploaded, nothing is saved, and closing the tab erases it."
+    }
+  ],
+  "cta": {
+    "label": "Start your app brief"
+  },
+  "video": {
+    "status": "pending",
+    "durationTargetSec": 60,
+    "narration": "Most app maintenance advice just says budget fifteen to twenty percent a year and stops there. That is not a plan, it is a shrug. This calculator turns it into real numbers. Start with what the app cost to build, or pick one of our own pricing tiers. Choose your platforms - supporting both iOS and Android roughly doubles the yearly compatibility testing. Pick your backend complexity: a static app barely needs upkeep, but a real-time backend with payments needs constant attention. Then set how actively you will keep improving it, from bug fixes only to shipping new features every month. Watch the estimate update instantly: an annual number, a monthly equivalent, and a breakdown across OS updates, bug fixes, backend costs and new features. Finally, see how that monthly number lines up against our own Care plans. Free, instant, and it runs entirely in your browser.",
+    "scenes": [
+      { "label": "What did it cost to build?", "mark": "cost" },
+      { "label": "Pick your platforms", "mark": "platform" },
+      { "label": "Backend complexity", "mark": "backend" },
+      { "label": "How actively you'll maintain it", "mark": "activity" },
+      { "label": "Compare to Care plans", "mark": "care" }
+    ]
+  }
+}
