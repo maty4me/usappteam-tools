@@ -52,15 +52,33 @@
     "label": "Start your app brief"
   },
   "video": {
-    "status": "pending",
+    "status": "rendered",
     "durationTargetSec": 60,
     "narration": "Most app maintenance advice just says budget fifteen to twenty percent a year and stops there. That is not a plan, it is a shrug. This calculator turns it into real numbers. Start with what the app cost to build, or pick one of our own pricing tiers. Choose your platforms - supporting both iOS and Android roughly doubles the yearly compatibility testing. Pick your backend complexity: a static app barely needs upkeep, but a real-time backend with payments needs constant attention. Then set how actively you will keep improving it, from bug fixes only to shipping new features every month. Watch the estimate update instantly: an annual number, a monthly equivalent, and a breakdown across OS updates, bug fixes, backend costs and new features. Finally, see how that monthly number lines up against our own Care plans. Free, instant, and it runs entirely in your browser.",
     "scenes": [
-      { "label": "What did it cost to build?", "mark": "cost" },
-      { "label": "Pick your platforms", "mark": "platform" },
-      { "label": "Backend complexity", "mark": "backend" },
-      { "label": "How actively you'll maintain it", "mark": "activity" },
-      { "label": "Compare to Care plans", "mark": "care" }
-    ]
+      {
+        "label": "What did it cost to build?",
+        "mark": "cost"
+      },
+      {
+        "label": "Pick your platforms",
+        "mark": "platform"
+      },
+      {
+        "label": "Backend complexity",
+        "mark": "backend"
+      },
+      {
+        "label": "How actively you'll maintain it",
+        "mark": "activity"
+      },
+      {
+        "label": "Compare to Care plans",
+        "mark": "care"
+      }
+    ],
+    "renderedAt": "2026-08-14",
+    "durationISO": "PT52S",
+    "hasVoiceover": true
   }
 }
