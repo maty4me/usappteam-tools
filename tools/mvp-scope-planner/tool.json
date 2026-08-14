@@ -1,0 +1,64 @@
+{
+  "slug": "mvp-scope-planner",
+  "title": "MVP Scope Planner",
+  "tagline": "Turn a messy feature list into what ships first - free, instant, no signup.",
+  "description": "Free MVP scope planner that sorts your feature list into what to launch, what to fast-follow, and what can wait - no signup, nothing stored.",
+  "keywords": [
+    "mvp scope planner",
+    "mvp feature scope planner",
+    "mvp feature planner",
+    "feature prioritization tool",
+    "what to build first app",
+    "product scope planner",
+    "moscow prioritization tool"
+  ],
+  "category": "planners",
+  "datePublished": "2026-08-14",
+  "intro": "Almost every app idea starts as a list of features that all feel essential. That is exactly how launches slip - a \"minimum\" viable product quietly grows a login system, a chat feature, a rewards program and a dozen other things nobody asked for on day one.\n\nThis planner makes you score each feature on two things that actually decide build order: how much it matters to users, and how much it costs to build. It sorts the results into three honest buckets - ship now, fast-follow, and later - and lets you flag anything that is genuinely non-negotiable regardless of score.\n\nEverything runs in your browser. Nothing is uploaded, nothing is stored, and there is no email box anywhere on this page.",
+  "howTo": [
+    "Start from the example feature list, or clear it and add your own with \"+ Add feature\".",
+    "For each feature, rate its impact on users (Low, Medium, High) and the effort to build it (Small, Medium, Large).",
+    "Check \"Required to launch\" for anything the app cannot function without, like account creation - it skips scoring and goes straight into the MVP.",
+    "Read the three buckets: Ship in v1 (MVP), Fast-follow (v1.1), and Later / backlog.",
+    "Check the suggested starting tier at the bottom, based on how much your MVP bucket actually costs to build."
+  ],
+  "faq": [
+    {
+      "q": "How does the planner decide what's in the MVP?",
+      "a": "Every feature gets a score of impact divided by effort - a simple bang-for-the-buck ratio, using the same logic behind ICE and RICE prioritization frameworks. High-impact features with small or medium effort score high enough to land in the MVP bucket automatically; anything marked \"Required to launch\" skips scoring entirely and goes straight in, because some features are not optional no matter how they'd score."
+      },
+    {
+      "q": "What's the difference between the Fast-follow and Later buckets?",
+      "a": "Fast-follow is a feature worth building soon after launch - usually something with real impact that just costs a bit more than a quick win, or a low-effort feature with modest impact. Later is everything else: high effort for what it returns right now, or low impact on its own. Neither bucket means \"never\" - it means \"not this release.\""
+    },
+    {
+      "q": "Why rate effort in three buckets instead of hours or story points?",
+      "a": "At the scoping stage, before any of it is built, precise estimates are false precision. Small, Medium and Large are honest about what you actually know this early, and they are enough to separate a quick win from a multi-week feature."
+    },
+    {
+      "q": "Should everything really be Small, Medium or High effort? What about a genuinely huge feature?",
+      "a": "Rate it Large and let the score do its job - a high-effort feature needs an outsized impact to justify shipping in v1, and the planner will push it toward Fast-follow or Later unless it truly earns its place. If a single feature is a project on its own, it may be worth scoping as its own release rather than one line in this list."
+    },
+    {
+      "q": "How is the suggested starting tier calculated?",
+      "a": "It totals the effort points of everything in your MVP bucket (Small = 1, Medium = 2, Large = 3) and maps that total to US APP Team's own pricing tiers - Simple app ($3,500), Standard app ($7,500), or Complex app ($12,000). It is a rough starting point tied to how much scope you actually kept in v1, not a quote."
+    },
+    {
+      "q": "Is anything sent to a server?",
+      "a": "No. The whole thing is JavaScript running in your browser. Nothing is uploaded, nothing is saved, and closing the tab erases it."
+    }
+  ],
+  "cta": { "label": "Start your app brief" },
+  "video": {
+    "status": "pending",
+    "durationTargetSec": 60,
+    "narration": "Every app idea starts as a list of features that all feel essential, and that is exactly how launches slip. This planner fixes that. Start from the example list, or add your own features. For each one, rate its impact on users and the effort to build it - low, medium or high. Watch the score sort it automatically. If a feature is truly non-negotiable, like account creation, just check \"required to launch\" and it goes straight into your MVP, no scoring needed. Now look at the three buckets: ship in v1, fast-follow for right after launch, and later for the backlog. As you add or change features, everything re-sorts instantly. At the bottom, see a suggested starting price tier based on how much your actual MVP costs to build - not the whole wish list, just what you are shipping first. Free, instant, and it runs entirely in your browser.",
+    "scenes": [
+      { "label": "Start with your feature list", "mark": "list" },
+      { "label": "Add a new feature", "mark": "add" },
+      { "label": "Rate impact and effort", "mark": "score" },
+      { "label": "Flag what's non-negotiable", "mark": "musthave" },
+      { "label": "See your MVP, fast-follow and later buckets", "mark": "buckets" }
+    ]
+  }
+}

@@ -1,0 +1,387 @@
+<style>
+.t-mvp-scope-planner { font-family: var(--body); color: var(--ink); }
+
+/* ---------- privacy banner ---------- */
+.t-mvp-scope-planner .fp-privacy {
+  display: flex; align-items: flex-start; gap: 10px;
+  margin: 0 0 20px; padding: 12px 14px;
+  border: 1px solid rgba(31, 169, 113, .3); border-radius: var(--r-sm);
+  background: rgba(31, 169, 113, .07);
+  font-size: 13.5px; line-height: 1.5; color: var(--slate);
+}
+.t-mvp-scope-planner .fp-privacy svg {
+  width: 16px; height: 16px; flex: 0 0 auto; margin-top: 2px;
+  stroke: var(--green); fill: none; stroke-width: 2;
+  stroke-linecap: round; stroke-linejoin: round;
+}
+.t-mvp-scope-planner .fp-privacy strong { color: var(--ink); font-weight: 600; }
+
+/* ---------- layout ---------- */
+.t-mvp-scope-planner .fp-grid {
+  display: grid; gap: 22px;
+  grid-template-columns: minmax(0, 1fr);
+}
+@media (min-width: 900px) {
+  .t-mvp-scope-planner .fp-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 340px); align-items: start; }
+}
+
+/* ---------- feature list ---------- */
+.t-mvp-scope-planner .fp-list-head {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  margin: 0 0 12px;
+}
+.t-mvp-scope-planner .fp-list-head h2 {
+  font-family: var(--disp); font-weight: 700; font-size: 16px; margin: 0; color: var(--ink);
+}
+.t-mvp-scope-planner .fp-add {
+  font-family: var(--mono); font-size: 12.5px; line-height: 1;
+  padding: 9px 14px; border: 1px solid var(--azure); border-radius: 999px;
+  background: var(--blue-soft); color: var(--azure); cursor: pointer; white-space: nowrap;
+  transition: background .18s var(--ease), color .18s var(--ease);
+}
+.t-mvp-scope-planner .fp-add:hover { background: var(--azure); color: #fff; }
+.t-mvp-scope-planner .fp-add:focus-visible { outline: 2px solid var(--azure); outline-offset: 2px; }
+
+.t-mvp-scope-planner .fp-rows { display: grid; gap: 12px; margin: 0 0 8px; }
+.t-mvp-scope-planner .fp-row {
+  border: 1px solid var(--line-2); border-radius: var(--r-sm);
+  background: var(--card); padding: 14px;
+}
+.t-mvp-scope-planner .fp-row-head { display: flex; align-items: center; gap: 10px; margin: 0 0 12px; }
+.t-mvp-scope-planner .fp-name-wrap { flex: 1 1 auto; min-width: 0; }
+.t-mvp-scope-planner .fp-name {
+  width: 100%; font-family: var(--body); font-size: 14.5px; color: var(--ink);
+  padding: 9px 11px; border: 1px solid var(--line-2); border-radius: var(--r-sm); background: var(--card);
+}
+.t-mvp-scope-planner .fp-name:focus-visible { outline: 2px solid var(--azure); outline-offset: 1px; }
+.t-mvp-scope-planner .fp-name::placeholder { color: var(--ink-40); }
+.t-mvp-scope-planner .fp-remove {
+  flex: 0 0 auto; font-family: var(--mono); font-size: 12px; line-height: 1;
+  padding: 9px 11px; border: 1px solid var(--line-2); border-radius: var(--r-sm);
+  background: var(--card); color: var(--ink-60); cursor: pointer;
+  transition: border-color .18s var(--ease), color .18s var(--ease);
+}
+.t-mvp-scope-planner .fp-remove:hover { border-color: var(--magenta); color: var(--magenta); }
+.t-mvp-scope-planner .fp-remove:focus-visible { outline: 2px solid var(--azure); outline-offset: 2px; }
+
+.t-mvp-scope-planner .fp-row-body { display: grid; gap: 10px; grid-template-columns: 1fr; }
+@media (min-width: 560px) {
+  .t-mvp-scope-planner .fp-row-body { grid-template-columns: 1fr 1fr auto; align-items: end; }
+}
+.t-mvp-scope-planner .fp-mini-label {
+  display: block; font-family: var(--mono); font-size: 10.5px; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--ink-40); margin: 0 0 6px;
+}
+.t-mvp-scope-planner .fp-pills { display: flex; gap: 6px; flex-wrap: wrap; }
+.t-mvp-scope-planner .fp-pill { position: relative; }
+.t-mvp-scope-planner .fp-pill input { position: absolute; opacity: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; }
+.t-mvp-scope-planner .fp-pill span {
+  display: block; font-size: 12.5px; padding: 7px 11px;
+  border: 1px solid var(--line-2); border-radius: 999px; background: var(--bg); color: var(--slate);
+  cursor: pointer; white-space: nowrap;
+  transition: border-color .18s var(--ease), background .18s var(--ease), color .18s var(--ease);
+}
+.t-mvp-scope-planner .fp-pill input:checked + span { border-color: var(--azure); background: var(--blue-soft); color: var(--azure); font-weight: 600; }
+.t-mvp-scope-planner .fp-pill input:focus-visible + span { outline: 2px solid var(--azure); outline-offset: 2px; }
+
+.t-mvp-scope-planner .fp-must {
+  display: flex; align-items: center; gap: 7px; cursor: pointer;
+  font-size: 12.5px; color: var(--slate); white-space: nowrap; padding-top: 2px;
+}
+.t-mvp-scope-planner .fp-must input { accent-color: var(--azure); width: 15px; height: 15px; flex: 0 0 auto; }
+
+/* ---------- results ---------- */
+.t-mvp-scope-planner .fp-out {
+  position: sticky; top: 20px;
+  border: 1px solid var(--line-2); border-radius: var(--r);
+  background: var(--card); box-shadow: var(--shadow);
+  padding: 20px; overflow: hidden;
+}
+@media (max-width: 899px) { .t-mvp-scope-planner .fp-out { position: static; } }
+.t-mvp-scope-planner .fp-out h3 {
+  margin: 0 0 2px; font-family: var(--mono); font-size: 11px; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--ink-40); font-weight: 500;
+}
+.t-mvp-scope-planner .fp-big {
+  font-family: var(--disp); font-weight: 700; line-height: 1.05;
+  font-size: clamp(26px, 6vw, 34px);
+  background: var(--grad); -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: var(--azure);
+  margin: 4px 0 2px; word-break: break-word;
+}
+.t-mvp-scope-planner .fp-big-sub { font-size: 13.5px; color: var(--ink-60); margin: 0 0 4px; line-height: 1.5; }
+
+.t-mvp-scope-planner .fp-sec-t {
+  font-family: var(--mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--ink-40); margin: 18px 0 8px; display: flex; align-items: center; gap: 8px;
+}
+.t-mvp-scope-planner .fp-sec-t .dot { width: 9px; height: 9px; border-radius: 50%; flex: 0 0 auto; }
+.t-mvp-scope-planner .dot-mvp { background: var(--green); }
+.t-mvp-scope-planner .dot-ff { background: var(--amber); }
+.t-mvp-scope-planner .dot-later { background: var(--ink-40); }
+.t-mvp-scope-planner .fp-sec-t .n { margin-left: auto; color: var(--ink-60); font-weight: 500; }
+
+.t-mvp-scope-planner .fp-bucket { display: grid; gap: 6px; margin: 0 0 4px; }
+.t-mvp-scope-planner .fp-item {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 10px; border: 1px solid var(--line-2); border-radius: var(--r-sm);
+  background: var(--bg); font-size: 13px; color: var(--ink);
+}
+.t-mvp-scope-planner .fp-item .tag {
+  margin-left: auto; font-family: var(--mono); font-size: 10.5px; color: var(--ink-40); white-space: nowrap;
+}
+.t-mvp-scope-planner .fp-empty { font-size: 12.5px; color: var(--ink-40); font-style: italic; padding: 4px 2px; }
+
+.t-mvp-scope-planner .fp-tier {
+  margin: 16px 0 0; padding: 12px 14px; border: 1px solid var(--azure);
+  border-radius: var(--r-sm); background: var(--blue-soft);
+}
+.t-mvp-scope-planner .fp-tier b { display: block; font-family: var(--disp); font-size: 15px; color: var(--ink); }
+.t-mvp-scope-planner .fp-tier span { display: block; font-size: 12.5px; color: var(--slate); margin-top: 3px; line-height: 1.5; }
+
+/* ---------- how it scores ---------- */
+.t-mvp-scope-planner .fp-caveats {
+  margin: 26px 0 0; padding: 16px 18px;
+  border: 1px solid var(--line-2); border-radius: var(--r-sm); background: var(--bg);
+}
+.t-mvp-scope-planner .fp-caveats h3 {
+  margin: 0 0 8px; font-family: var(--disp); font-size: 15px; font-weight: 700; color: var(--ink);
+}
+.t-mvp-scope-planner .fp-caveats ul { margin: 0; padding-left: 18px; }
+.t-mvp-scope-planner .fp-caveats li { font-size: 13.5px; line-height: 1.6; color: var(--slate); margin: 0 0 5px; }
+.t-mvp-scope-planner [hidden] { display: none !important; }
+</style>
+
+<div class="t-mvp-scope-planner" id="fp-root">
+
+<div class="fp-privacy">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v6c0 4.5-3 7.7-7 9-4-1.3-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg>
+  <div><strong>Runs entirely in your browser.</strong> Nothing is uploaded, nothing is stored, and there is no email box on this page. Close the tab and it is gone.</div>
+</div>
+
+<div class="fp-grid">
+  <div class="fp-form">
+    <div class="fp-list-head">
+      <h2>Your feature list</h2>
+      <button type="button" class="fp-add" id="fp-add">+ Add feature</button>
+    </div>
+    <div class="fp-rows" id="fp-rows"></div>
+  </div>
+
+  <aside class="fp-out" aria-labelledby="fp-out-h">
+    <h3 id="fp-out-h">Your MVP</h3>
+    <div class="fp-big" id="fp-headline">--</div>
+    <p class="fp-big-sub" id="fp-headline-sub">of your features ship first</p>
+
+    <p class="fp-sec-t"><span class="dot dot-mvp"></span>Ship in v1 (MVP)<span class="n" id="fp-count-mvp"></span></p>
+    <div class="fp-bucket" id="fp-bucket-mvp"></div>
+
+    <p class="fp-sec-t"><span class="dot dot-ff"></span>Fast-follow (v1.1)<span class="n" id="fp-count-ff"></span></p>
+    <div class="fp-bucket" id="fp-bucket-ff"></div>
+
+    <p class="fp-sec-t"><span class="dot dot-later"></span>Later / backlog<span class="n" id="fp-count-later"></span></p>
+    <div class="fp-bucket" id="fp-bucket-later"></div>
+
+    <div class="fp-tier" id="fp-tier">
+      <b id="fp-tier-name">--</b>
+      <span id="fp-tier-note">Add features to see a suggested starting tier.</span>
+    </div>
+
+    <p style="margin:14px 0 0;font-size:0" role="status" aria-live="polite" id="fp-live"></p>
+  </aside>
+</div>
+
+<div class="fp-caveats">
+  <h3>How the scoring works</h3>
+  <ul>
+    <li>Every feature scores <strong>impact &divide; effort</strong> (Low/Medium/High = 1/2/3, Small/Medium/Large = 1/2/3). Higher scores ship sooner.</li>
+    <li>A feature checked <strong>&ldquo;Required to launch&rdquo;</strong> skips scoring entirely and always lands in the MVP bucket.</li>
+    <li>The suggested tier totals the effort points of everything in your MVP bucket and maps that to our own pricing - it is a starting point, not a quote.</li>
+  </ul>
+</div>
+
+</div>
+
+<script>
+(function () {
+  var root = document.querySelector('.t-mvp-scope-planner');
+  if (!root) return;
+  var $ = function (id) { return root.querySelector('#' + id); };
+
+  var money = new Intl.NumberFormat('en-US', {
+    style: 'currency', currency: 'USD', maximumFractionDigits: 0
+  });
+
+  var IMPACT = [
+    { value: '1', label: 'Low' },
+    { value: '2', label: 'Medium' },
+    { value: '3', label: 'High' }
+  ];
+  var EFFORT = [
+    { value: '1', label: 'Small' },
+    { value: '2', label: 'Medium' },
+    { value: '3', label: 'Large' }
+  ];
+
+  var uid = 0;
+  var rowsEl = $('fp-rows');
+
+  function pillGroup(name, options, checkedValue) {
+    return options.map(function (o) {
+      var checked = o.value === checkedValue ? ' checked' : '';
+      return '<label class="fp-pill"><input type="radio" name="' + name + '" value="' + o.value + '"' + checked +
+        '><span>' + o.label + '</span></label>';
+    }).join('');
+  }
+
+  function addRow(data) {
+    data = data || {};
+    var id = 'fp' + (++uid);
+    var row = document.createElement('div');
+    row.className = 'fp-row';
+    row.setAttribute('data-row', id);
+    row.innerHTML =
+      '<div class="fp-row-head">' +
+        '<div class="fp-name-wrap">' +
+          '<label class="fp-mini-label" for="name-' + id + '">Feature name</label>' +
+          '<input type="text" id="name-' + id + '" class="fp-name" placeholder="e.g. Push notifications" value="' +
+            (data.name ? esc(data.name) : '') + '">' +
+        '</div>' +
+        '<button type="button" class="fp-remove" aria-label="Remove this feature">Remove</button>' +
+      '</div>' +
+      '<div class="fp-row-body">' +
+        '<div>' +
+          '<span class="fp-mini-label" id="impact-label-' + id + '">Impact</span>' +
+          '<div class="fp-pills" role="group" aria-labelledby="impact-label-' + id + '">' +
+            pillGroup('impact-' + id, IMPACT, data.impact || '2') +
+          '</div>' +
+        '</div>' +
+        '<div>' +
+          '<span class="fp-mini-label" id="effort-label-' + id + '">Effort</span>' +
+          '<div class="fp-pills" role="group" aria-labelledby="effort-label-' + id + '">' +
+            pillGroup('effort-' + id, EFFORT, data.effort || '2') +
+          '</div>' +
+        '</div>' +
+        '<label class="fp-must">' +
+          '<input type="checkbox" class="fp-must-cb"' + (data.must ? ' checked' : '') + '>' +
+          '<span>Required to launch</span>' +
+        '</label>' +
+      '</div>';
+
+    row.querySelector('.fp-name').addEventListener('input', render);
+    row.querySelector('.fp-remove').addEventListener('click', function () {
+      row.remove();
+      render();
+    });
+    row.querySelectorAll('input[type="radio"], input[type="checkbox"]').forEach(function (el) {
+      el.addEventListener('change', render);
+    });
+
+    rowsEl.appendChild(row);
+    return row;
+  }
+
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  $('fp-add').addEventListener('click', function () {
+    var row = addRow({});
+    row.querySelector('.fp-name').focus();
+    render();
+  });
+
+  function readRows() {
+    return Array.prototype.slice.call(rowsEl.querySelectorAll('.fp-row')).map(function (row) {
+      var name = row.querySelector('.fp-name').value.trim();
+      var impact = parseInt((row.querySelector('input[name^="impact-"]:checked') || {}).value || '2', 10);
+      var effort = parseInt((row.querySelector('input[name^="effort-"]:checked') || {}).value || '2', 10);
+      var must = row.querySelector('.fp-must-cb').checked;
+      return { name: name || 'Untitled feature', impact: impact, effort: effort, must: must };
+    });
+  }
+
+  /* ---- the model ----
+     Score = impact / effort, the same bang-for-the-buck ratio behind ICE/RICE
+     prioritization. A feature checked "required to launch" skips scoring and
+     always ships in the MVP, because some features aren't optional no matter
+     how they'd score (account creation on a social app, for example). */
+  function classify(f) {
+    if (f.must) return { bucket: 'mvp', reason: 'Required' };
+    var score = f.impact / f.effort;
+    if (score >= 1.5) return { bucket: 'mvp', reason: 'High priority' };
+    if (score >= 0.75) return { bucket: 'ff', reason: 'Fast-follow' };
+    return { bucket: 'later', reason: 'Backlog' };
+  }
+
+  function tierFor(effortTotal) {
+    if (effortTotal <= 0) return null;
+    if (effortTotal <= 6) return { name: 'Simple app', price: 3500 };
+    if (effortTotal <= 12) return { name: 'Standard app', price: 7500 };
+    return { name: 'Complex app', price: 12000 };
+  }
+
+  function renderBucket(elId, items) {
+    var el = $(elId);
+    if (!items.length) {
+      el.innerHTML = '<p class="fp-empty">Nothing here yet.</p>';
+      return;
+    }
+    el.innerHTML = items.map(function (f) {
+      return '<div class="fp-item">' + esc(f.name) + '<span class="tag">' + f.reason + '</span></div>';
+    }).join('');
+  }
+
+  function render() {
+    var rows = readRows();
+    var mvp = [], ff = [], later = [];
+
+    rows.forEach(function (f) {
+      var c = classify(f);
+      var out = { name: f.name, reason: c.reason, effort: f.effort };
+      if (c.bucket === 'mvp') mvp.push(out);
+      else if (c.bucket === 'ff') ff.push(out);
+      else later.push(out);
+    });
+
+    var total = rows.length;
+    $('fp-headline').textContent = total ? mvp.length + ' / ' + total : '--';
+    $('fp-headline-sub').textContent = total
+      ? 'feature' + (mvp.length === 1 ? '' : 's') + ' ship in your MVP'
+      : 'add a feature to get started';
+
+    $('fp-count-mvp').textContent = mvp.length;
+    $('fp-count-ff').textContent = ff.length;
+    $('fp-count-later').textContent = later.length;
+
+    renderBucket('fp-bucket-mvp', mvp);
+    renderBucket('fp-bucket-ff', ff);
+    renderBucket('fp-bucket-later', later);
+
+    var effortTotal = mvp.reduce(function (a, f) { return a + f.effort; }, 0);
+    var tier = tierFor(effortTotal);
+    if (tier) {
+      $('fp-tier-name').textContent = tier.name + ' - ' + money.format(tier.price);
+      $('fp-tier-note').textContent = 'Suggested starting tier for your ' + mvp.length + '-feature MVP. Not a quote - every app is different.';
+    } else {
+      $('fp-tier-name').textContent = '--';
+      $('fp-tier-note').textContent = 'Add features to see a suggested starting tier.';
+    }
+
+    $('fp-live').textContent = total
+      ? mvp.length + ' of ' + total + ' features are in your MVP, ' + ff.length + ' fast-follow, ' + later.length + ' later.'
+      : 'No features yet.';
+  }
+
+  /* Seed with a realistic example so the tool is useful the moment it loads. */
+  addRow({ name: 'User sign-up & login', impact: '3', effort: '2', must: true });
+  addRow({ name: 'Core booking flow', impact: '3', effort: '2', must: true });
+  addRow({ name: 'Push notification reminders', impact: '2', effort: '1' });
+  addRow({ name: 'Social sharing', impact: '1', effort: '1' });
+  addRow({ name: 'In-app chat with provider', impact: '2', effort: '3' });
+
+  render();
+})();
+</script>
