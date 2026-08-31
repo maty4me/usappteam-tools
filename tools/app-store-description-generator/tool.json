@@ -1,0 +1,66 @@
+{
+  "slug": "app-store-description-generator",
+  "title": "App Store Description Generator",
+  "tagline": "Turn your app's features into App Store and Google Play copy — free, instant, no signup.",
+  "description": "Free App Store description generator that writes an iOS subtitle, promo text, keywords and a Google Play listing from your app's features. No signup, nothing stored.",
+  "keywords": [
+    "app store description generator",
+    "app description generator",
+    "google play description generator",
+    "aso description generator",
+    "app store copy generator",
+    "app subtitle generator",
+    "play store description generator",
+    "app store keywords generator"
+  ],
+  "category": "generators",
+  "datePublished": "2026-08-31",
+  "intro": "Writing store copy is where a lot of launches stall — not because founders don't know their app, but because App Store Connect and the Google Play Console want the same idea sliced into six differently-sized boxes, each with its own rules about what actually gets indexed.\n\nThis generator does that slicing for you. Enter your app name, what it does, and a short feature list, and it writes an iOS subtitle, promotional text, description and keywords field, plus a Google Play short and full description — each sized and structured for how that specific field is actually used by App Store Optimization (ASO).\n\nEverything runs in your browser. Nothing is uploaded, nothing is stored, and the copy is a strong first draft, not a final submission — read it over and make it sound like you before it goes live.",
+  "howTo": [
+    "Enter your app name and a one-line description of what it does, phrased as an instruction (e.g. \"track expenses and see where money goes\").",
+    "Pick a category and, if you want sharper wording, describe who it's for.",
+    "List up to six real features — each one becomes a bullet in the description and a candidate keyword.",
+    "Choose a tone and a call to action, then read the four App Store fields and two Google Play fields it writes.",
+    "Copy whichever fields you need straight into App Store Connect or the Google Play Console, and press \"Shuffle wording\" if you want a different phrasing to start from."
+  ],
+  "faq": [
+    {
+      "q": "Why does the iOS description look different from the Google Play one?",
+      "a": "Because the two stores rank apps differently. Apple has a dedicated 100-character Keywords field that is never shown to users, so the App Store description itself can stay written for humans. Google Play has no keywords field at all — it indexes the description text directly, so the Android copy repeats the category and core benefit near the top on purpose, where Google's algorithm weighs it most heavily."
+    },
+    {
+      "q": "What's the difference between the Subtitle and the Promotional Text on iOS?",
+      "a": "The Subtitle (30 characters) sits directly under your app name in search results and on your product page, and it only changes with a new app version. Promotional Text (170 characters) sits at the top of the description and can be edited any time — even between reviews — without submitting a new build, which makes it the right place for anything time-sensitive."
+    },
+    {
+      "q": "How should I fill in the Keywords field?",
+      "a": "Apple's field is 100 characters, comma-separated, and the tool drops the spaces after each comma to fit more terms in — that's a real ASO trick, not a typo. It also leaves out any word already in your app name or category, because Apple already indexes those separately and repeating them just wastes characters that could hold a new term."
+    },
+    {
+      "q": "Can I just paste this straight into App Store Connect or Google Play?",
+      "a": "You can, but you shouldn't without reading it first. This is a strong first draft built from what you typed in — it won't catch a factual error, a trademark issue, or a claim that doesn't hold up, because it has no way to know those things. Read every field before you submit, and adjust anything that doesn't sound like your app."
+    },
+    {
+      "q": "Is anything I type sent anywhere?",
+      "a": "No. The whole thing is JavaScript running in your browser. Nothing is uploaded, nothing is saved, and closing the tab erases it."
+    },
+    {
+      "q": "What if I don't like the wording it picked?",
+      "a": "Press \"Shuffle wording.\" Each tone has more than one phrasing built in, so shuffling gives you a different opening and closing line without changing your inputs — a quick way to see two honest drafts instead of one."
+    }
+  ],
+  "cta": { "label": "Start your app brief" },
+  "video": {
+    "status": "pending",
+    "durationTargetSec": 60,
+    "narration": "Store copy has to fit six different boxes, and each one works differently. This generator writes all six at once. Type your app name and what it does as a plain instruction, pick a category, and list a few real features. Watch it write an iOS subtitle, promotional text, a full description and a keywords field — plus a short and full description for Google Play, phrased differently on purpose, because Google indexes the text itself while Apple relies on that separate keywords field. Add another feature and everything updates instantly. Switch the tone from Professional to Bold and the wording shifts to match. Not happy with the phrasing? Hit Shuffle wording for a second honest draft. When a field looks right, copy it straight into App Store Connect or the Google Play Console. Free, instant, and it never leaves your browser.",
+    "scenes": [
+      { "label": "One app, six store fields", "mark": "intro" },
+      { "label": "Name it and describe what it does", "mark": "name" },
+      { "label": "Add a feature", "mark": "features" },
+      { "label": "Switch the tone", "mark": "tone" },
+      { "label": "Shuffle the wording", "mark": "shuffle" },
+      { "label": "Copy a field straight out", "mark": "copy" }
+    ]
+  }
+}

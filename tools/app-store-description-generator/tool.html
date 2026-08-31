@@ -1,0 +1,653 @@
+<style>
+.t-app-store-description-generator { font-family: var(--body); color: var(--ink); }
+
+/* ---------- privacy banner ---------- */
+.t-app-store-description-generator .asg-privacy {
+  display: flex; align-items: flex-start; gap: 10px;
+  margin: 0 0 20px; padding: 12px 14px;
+  border: 1px solid rgba(31, 169, 113, .3); border-radius: var(--r-sm);
+  background: rgba(31, 169, 113, .07);
+  font-size: 13.5px; line-height: 1.5; color: var(--slate);
+}
+.t-app-store-description-generator .asg-privacy svg {
+  width: 16px; height: 16px; flex: 0 0 auto; margin-top: 2px;
+  stroke: var(--green); fill: none; stroke-width: 2;
+  stroke-linecap: round; stroke-linejoin: round;
+}
+.t-app-store-description-generator .asg-privacy strong { color: var(--ink); font-weight: 600; }
+
+/* ---------- form ---------- */
+.t-app-store-description-generator .asg-form { display: grid; gap: 18px; }
+.t-app-store-description-generator .asg-row2 { display: grid; gap: 18px; grid-template-columns: 1fr; }
+@media (min-width: 640px) {
+  .t-app-store-description-generator .asg-row2 { grid-template-columns: 1fr 1fr; }
+}
+.t-app-store-description-generator .asg-field label {
+  display: block; font-weight: 600; font-size: 14px; margin-bottom: 8px; color: var(--ink);
+}
+.t-app-store-description-generator .asg-opt {
+  font-weight: 400; font-size: 12px; color: var(--ink-40);
+}
+.t-app-store-description-generator input[type="text"],
+.t-app-store-description-generator select,
+.t-app-store-description-generator textarea {
+  width: 100%; font-family: var(--body); font-size: 15px; color: var(--ink);
+  padding: 12px 14px; background: var(--bg);
+  border: 1px solid var(--line-2); border-radius: var(--r-sm);
+  transition: border-color .2s var(--ease), background .2s var(--ease);
+  box-sizing: border-box; resize: vertical;
+}
+.t-app-store-description-generator input[type="text"]:focus-visible,
+.t-app-store-description-generator select:focus-visible,
+.t-app-store-description-generator textarea:focus-visible {
+  outline: 2px solid var(--azure); outline-offset: 1px;
+  border-color: var(--azure); background: var(--card);
+}
+.t-app-store-description-generator .asg-hint {
+  margin: 8px 0 0; font-size: 13px; color: var(--ink-60); line-height: 1.5;
+}
+
+.t-app-store-description-generator .asg-list-head {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  margin: 0 0 10px;
+}
+.t-app-store-description-generator .asg-list-head label { margin: 0; }
+.t-app-store-description-generator .asg-add {
+  font-family: var(--mono); font-size: 12.5px; line-height: 1;
+  padding: 9px 14px; border: 1px solid var(--azure); border-radius: 999px;
+  background: var(--blue-soft); color: var(--azure); cursor: pointer; white-space: nowrap;
+  transition: background .18s var(--ease), color .18s var(--ease), opacity .18s var(--ease);
+}
+.t-app-store-description-generator .asg-add:hover { background: var(--azure); color: #fff; }
+.t-app-store-description-generator .asg-add:focus-visible { outline: 2px solid var(--azure); outline-offset: 2px; }
+.t-app-store-description-generator .asg-add[disabled] { opacity: .45; cursor: not-allowed; }
+
+.t-app-store-description-generator .asg-rows { display: grid; gap: 8px; }
+.t-app-store-description-generator .asg-frow { display: flex; align-items: center; gap: 8px; }
+.t-app-store-description-generator .asg-frow input { flex: 1 1 auto; min-width: 0; }
+.t-app-store-description-generator .asg-remove {
+  flex: 0 0 auto; font-family: var(--mono); font-size: 12px; line-height: 1;
+  padding: 11px 12px; border: 1px solid var(--line-2); border-radius: var(--r-sm);
+  background: var(--card); color: var(--ink-60); cursor: pointer;
+  transition: border-color .18s var(--ease), color .18s var(--ease);
+}
+.t-app-store-description-generator .asg-remove:hover { border-color: var(--magenta); color: var(--magenta); }
+.t-app-store-description-generator .asg-remove:focus-visible { outline: 2px solid var(--azure); outline-offset: 2px; }
+.t-app-store-description-generator .asg-empty { font-size: 12.5px; color: var(--ink-40); font-style: italic; padding: 4px 2px; }
+
+.t-app-store-description-generator .asg-tone { border: 0; padding: 0; margin: 0; min-width: 0; }
+.t-app-store-description-generator .asg-tone legend {
+  padding: 0; font-weight: 600; font-size: 14px; margin-bottom: 8px; color: var(--ink);
+}
+.t-app-store-description-generator .asg-pills { display: flex; gap: 6px; flex-wrap: wrap; }
+.t-app-store-description-generator .asg-pill { position: relative; }
+.t-app-store-description-generator .asg-pill input { position: absolute; opacity: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; }
+.t-app-store-description-generator .asg-pill span {
+  display: block; font-size: 13.5px; padding: 10px 15px;
+  border: 1px solid var(--line-2); border-radius: 999px; background: var(--card); color: var(--slate);
+  cursor: pointer; white-space: nowrap;
+  transition: border-color .18s var(--ease), background .18s var(--ease), color .18s var(--ease);
+}
+.t-app-store-description-generator .asg-pill input:checked + span {
+  border-color: var(--azure); background: var(--blue-soft); color: var(--azure); font-weight: 600;
+}
+.t-app-store-description-generator .asg-pill input:focus-visible + span {
+  outline: 2px solid var(--azure); outline-offset: 2px;
+}
+
+/* ---------- outputs ---------- */
+.t-app-store-description-generator .asg-outhead {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+  margin: 30px 0 16px;
+}
+.t-app-store-description-generator .asg-outhead h2 {
+  font-family: var(--disp); font-weight: 700; font-size: 17px; margin: 0; color: var(--ink);
+}
+.t-app-store-description-generator .asg-shuffle {
+  font-family: var(--disp); font-weight: 600; font-size: 14px;
+  border-radius: 999px; border: 1px solid transparent; cursor: pointer;
+  padding: 10px 20px; background: var(--grad); color: #fff;
+  box-shadow: 0 8px 20px -8px rgba(35, 128, 184, .55);
+  transition: transform .18s var(--ease);
+}
+.t-app-store-description-generator .asg-shuffle:hover { transform: translateY(-2px); }
+.t-app-store-description-generator .asg-shuffle:active { transform: scale(.98); }
+.t-app-store-description-generator .asg-shuffle:focus-visible { outline: 2px solid var(--azure); outline-offset: 2px; }
+
+.t-app-store-description-generator .asg-outputs {
+  display: grid; gap: 18px; grid-template-columns: 1fr;
+}
+@media (min-width: 860px) {
+  .t-app-store-description-generator .asg-outputs { grid-template-columns: 1fr 1fr; align-items: start; }
+}
+.t-app-store-description-generator .asg-card {
+  border: 1px solid var(--line-2); border-radius: var(--r);
+  background: var(--card); box-shadow: var(--shadow);
+  padding: 18px;
+}
+.t-app-store-description-generator .asg-card h3 {
+  margin: 0 0 14px; font-family: var(--disp); font-weight: 700; font-size: 15px; color: var(--ink);
+}
+.t-app-store-description-generator .asg-out-field { margin: 0 0 16px; }
+.t-app-store-description-generator .asg-out-field:last-child { margin-bottom: 0; }
+.t-app-store-description-generator .asg-out-head {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin: 0 0 6px;
+}
+.t-app-store-description-generator .asg-out-head label {
+  font-family: var(--mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase;
+  color: var(--ink-60); font-weight: 600;
+}
+.t-app-store-description-generator .asg-limit {
+  font-weight: 400; text-transform: none; letter-spacing: 0; color: var(--ink-40); margin-left: 4px;
+}
+.t-app-store-description-generator .asg-copy {
+  font-family: var(--mono); font-size: 11.5px; line-height: 1;
+  padding: 6px 11px; border: 1px solid var(--line-2); border-radius: 999px;
+  background: var(--bg); color: var(--slate); cursor: pointer; white-space: nowrap;
+  transition: border-color .18s var(--ease), color .18s var(--ease), background .18s var(--ease);
+}
+.t-app-store-description-generator .asg-copy:hover { border-color: var(--azure); color: var(--azure); }
+.t-app-store-description-generator .asg-copy:focus-visible { outline: 2px solid var(--azure); outline-offset: 2px; }
+.t-app-store-description-generator .asg-copy.is-copied { border-color: rgba(31, 169, 113, .5); color: var(--green); background: rgba(31, 169, 113, .08); }
+
+.t-app-store-description-generator .asg-out-field textarea {
+  background: var(--bg); font-size: 13.5px; line-height: 1.55; cursor: text;
+}
+.t-app-store-description-generator .asg-out-field textarea:focus-visible { background: var(--card); }
+.t-app-store-description-generator .asg-count { margin: 5px 0 0; font-family: var(--mono); font-size: 11px; text-align: right; }
+.t-app-store-description-generator .asg-count.ok { color: var(--ink-40); }
+.t-app-store-description-generator .asg-count.warn { color: var(--amber); }
+.t-app-store-description-generator .asg-count.over { color: var(--magenta); }
+
+.t-app-store-description-generator .asg-live { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+
+/* ---------- how it maps ---------- */
+.t-app-store-description-generator .asg-notes {
+  margin: 26px 0 0; padding: 16px 18px;
+  border: 1px solid var(--line-2); border-radius: var(--r-sm); background: var(--bg);
+}
+.t-app-store-description-generator .asg-notes h3 {
+  margin: 0 0 8px; font-family: var(--disp); font-size: 15px; font-weight: 700; color: var(--ink);
+}
+.t-app-store-description-generator .asg-notes ul { margin: 0; padding-left: 18px; }
+.t-app-store-description-generator .asg-notes li { font-size: 13.5px; line-height: 1.6; color: var(--slate); margin: 0 0 5px; }
+</style>
+
+<div class="t-app-store-description-generator" id="asg-root">
+
+<div class="asg-privacy">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v6c0 4.5-3 7.7-7 9-4-1.3-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg>
+  <div><strong>Runs entirely in your browser.</strong> Nothing you type is uploaded or stored. Close the tab and it is gone.</div>
+</div>
+
+<div class="asg-form">
+  <div class="asg-row2">
+    <div class="asg-field">
+      <label for="asg-name">App name</label>
+      <input id="asg-name" type="text" maxlength="40" autocomplete="off" spellcheck="false" placeholder="e.g. TidyUp">
+    </div>
+    <div class="asg-field">
+      <label for="asg-audience">Who it's for <span class="asg-opt">(optional)</span></label>
+      <input id="asg-audience" type="text" maxlength="40" autocomplete="off" placeholder="e.g. busy professionals">
+    </div>
+  </div>
+
+  <div class="asg-field">
+    <label for="asg-pitch">What it does — one instruction, starting with a verb</label>
+    <textarea id="asg-pitch" maxlength="140" rows="2" placeholder="e.g. track expenses and see where money goes"></textarea>
+    <p class="asg-hint">Phrase it like "track your to-dos and get reminders that stick," not "it tracks your to-dos." Every field below is built from this.</p>
+  </div>
+
+  <div class="asg-field">
+    <label for="asg-category">Category</label>
+    <select id="asg-category">
+      <option value="productivity">Productivity</option>
+      <option value="health">Health &amp; Fitness</option>
+      <option value="finance">Finance</option>
+      <option value="social">Social Networking</option>
+      <option value="business">Business</option>
+      <option value="education">Education</option>
+      <option value="lifestyle">Lifestyle</option>
+      <option value="utilities">Utilities</option>
+      <option value="photo">Photo &amp; Video</option>
+      <option value="food">Food &amp; Drink</option>
+      <option value="travel">Travel</option>
+      <option value="shopping">Shopping</option>
+      <option value="games">Games</option>
+      <option value="other">Other</option>
+    </select>
+  </div>
+
+  <div class="asg-field">
+    <div class="asg-list-head">
+      <label for="asg-add">Key features <span class="asg-opt">(up to 6)</span></label>
+      <button type="button" class="asg-add" id="asg-add">+ Add feature</button>
+    </div>
+    <div class="asg-rows" id="asg-rows"></div>
+  </div>
+
+  <div class="asg-row2">
+    <fieldset class="asg-tone">
+      <legend>Tone</legend>
+      <div class="asg-pills" id="asg-tone-pills" role="radiogroup" aria-label="Tone">
+        <label class="asg-pill"><input type="radio" name="asg-tone" value="professional" checked><span>Professional</span></label>
+        <label class="asg-pill"><input type="radio" name="asg-tone" value="friendly"><span>Friendly</span></label>
+        <label class="asg-pill"><input type="radio" name="asg-tone" value="bold"><span>Bold</span></label>
+      </div>
+    </fieldset>
+    <div class="asg-field">
+      <label for="asg-cta">Call to action</label>
+      <select id="asg-cta">
+        <option value="download">Download free</option>
+        <option value="try">Try it free</option>
+        <option value="start">Get started</option>
+        <option value="join">Join now</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<div class="asg-outhead">
+  <h2>Your generated listing copy</h2>
+  <button type="button" class="asg-shuffle" id="asg-shuffle">Shuffle wording</button>
+</div>
+
+<div class="asg-outputs">
+  <section class="asg-card" aria-labelledby="asg-ios-h">
+    <h3 id="asg-ios-h">App Store (iOS)</h3>
+
+    <div class="asg-out-field">
+      <div class="asg-out-head">
+        <label for="asg-out-subtitle">Subtitle <span class="asg-limit">30 char limit</span></label>
+        <button type="button" class="asg-copy" data-target="asg-out-subtitle">Copy</button>
+      </div>
+      <textarea id="asg-out-subtitle" rows="1" readonly></textarea>
+      <p class="asg-count ok" id="asg-count-subtitle">0 / 30</p>
+    </div>
+
+    <div class="asg-out-field">
+      <div class="asg-out-head">
+        <label for="asg-out-promo">Promotional text <span class="asg-limit">170 char limit</span></label>
+        <button type="button" class="asg-copy" data-target="asg-out-promo">Copy</button>
+      </div>
+      <textarea id="asg-out-promo" rows="3" readonly></textarea>
+      <p class="asg-count ok" id="asg-count-promo">0 / 170</p>
+    </div>
+
+    <div class="asg-out-field">
+      <div class="asg-out-head">
+        <label for="asg-out-desc-ios">Description <span class="asg-limit">4,000 char limit</span></label>
+        <button type="button" class="asg-copy" data-target="asg-out-desc-ios">Copy</button>
+      </div>
+      <textarea id="asg-out-desc-ios" rows="9" readonly></textarea>
+      <p class="asg-count ok" id="asg-count-desc-ios">0 / 4000</p>
+    </div>
+
+    <div class="asg-out-field">
+      <div class="asg-out-head">
+        <label for="asg-out-keywords">Keywords field <span class="asg-limit">100 char limit</span></label>
+        <button type="button" class="asg-copy" data-target="asg-out-keywords">Copy</button>
+      </div>
+      <textarea id="asg-out-keywords" rows="2" readonly></textarea>
+      <p class="asg-count ok" id="asg-count-keywords">0 / 100</p>
+    </div>
+  </section>
+
+  <section class="asg-card" aria-labelledby="asg-android-h">
+    <h3 id="asg-android-h">Google Play (Android)</h3>
+
+    <div class="asg-out-field">
+      <div class="asg-out-head">
+        <label for="asg-out-short">Short description <span class="asg-limit">80 char limit</span></label>
+        <button type="button" class="asg-copy" data-target="asg-out-short">Copy</button>
+      </div>
+      <textarea id="asg-out-short" rows="2" readonly></textarea>
+      <p class="asg-count ok" id="asg-count-short">0 / 80</p>
+    </div>
+
+    <div class="asg-out-field">
+      <div class="asg-out-head">
+        <label for="asg-out-desc-android">Full description <span class="asg-limit">4,000 char limit</span></label>
+        <button type="button" class="asg-copy" data-target="asg-out-desc-android">Copy</button>
+      </div>
+      <textarea id="asg-out-desc-android" rows="11" readonly></textarea>
+      <p class="asg-count ok" id="asg-count-desc-android">0 / 4000</p>
+    </div>
+  </section>
+</div>
+
+<p class="asg-live" role="status" aria-live="polite" id="asg-live"></p>
+
+<div class="asg-notes">
+  <h3>Why the two stores read differently</h3>
+  <ul>
+    <li><strong>iOS</strong> ranks off a separate 100-character Keywords field that shoppers never see, so its Description can stay written for a human reader.</li>
+    <li><strong>Google Play</strong> has no keywords field — it indexes the description text itself, so the Android copy repeats your category and core benefit near the top on purpose.</li>
+    <li>Every field here is a strong first draft built from what you typed in. Read it before you submit — nothing here can verify a claim or catch a trademark issue.</li>
+  </ul>
+</div>
+
+</div>
+
+<script>
+(function () {
+  var root = document.querySelector('.t-app-store-description-generator');
+  if (!root) return;
+  var $ = function (id) { return root.querySelector('#' + id); };
+
+  var STOP = {};
+  ('that this with your from into have will just what when than then their them there '
+    + 'about would could should even more most much such only also than were been being '
+    + 'people users app apps helps help makes make lets let track tracks tracking').split(' ').forEach(function (w) {
+    if (w) STOP[w] = 1;
+  });
+
+  var CATS = {
+    productivity: { label: 'Productivity', kw: ['productivity app', 'task manager', 'to do list', 'planner app', 'organizer', 'time management'] },
+    health: { label: 'Health & Fitness', kw: ['fitness app', 'workout tracker', 'health app', 'wellness tracker', 'exercise planner'] },
+    finance: { label: 'Finance', kw: ['budget app', 'money tracker', 'expense tracker', 'personal finance', 'budgeting tool'] },
+    social: { label: 'Social Networking', kw: ['social app', 'chat app', 'messaging app', 'community app', 'connect app'] },
+    business: { label: 'Business', kw: ['business app', 'work app', 'team app', 'collaboration tool', 'work management'] },
+    education: { label: 'Education', kw: ['learning app', 'education app', 'study app', 'online course', 'skill building'] },
+    lifestyle: { label: 'Lifestyle', kw: ['lifestyle app', 'daily habits', 'self improvement', 'routine tracker'] },
+    utilities: { label: 'Utilities', kw: ['utility app', 'tool app', 'helper app', 'everyday tool'] },
+    photo: { label: 'Photo & Video', kw: ['photo editor', 'video editor', 'photo app', 'video app', 'camera app'] },
+    food: { label: 'Food & Drink', kw: ['recipe app', 'food app', 'meal planner', 'cooking app'] },
+    travel: { label: 'Travel', kw: ['travel app', 'trip planner', 'travel guide', 'itinerary planner'] },
+    shopping: { label: 'Shopping', kw: ['shopping app', 'deals app', 'online shopping', 'price tracker'] },
+    games: { label: 'Games', kw: ['mobile game', 'puzzle game', 'casual game', 'arcade game'] },
+    other: { label: 'Other', kw: ['mobile app', 'helper app', 'everyday app'] }
+  };
+
+  var CTA = {
+    download: function (n) { return 'Download ' + n + ' free'; },
+    try: function (n) { return 'Try ' + n + ' free'; },
+    start: function (n) { return 'Get started with ' + n; },
+    join: function (n) { return 'Join ' + n + ' today'; }
+  };
+
+  var TONE = {
+    professional: {
+      hook: [
+        function (n, a, p) { return n + ' helps ' + a + ' ' + p + '.'; },
+        function (n, a, p) { return 'Built for ' + a + ', ' + n + ' makes it easy to ' + p + '.'; }
+      ],
+      lead: 'Key features:',
+      close: [
+        function (cta) { return cta + ' and get started in minutes.'; },
+        function (cta) { return cta + ' — no clutter, just what you need.'; }
+      ],
+      flourish: [
+        'Straightforward, no clutter, and ready in minutes.',
+        'Simple enough to start today, useful enough to stick with.'
+      ]
+    },
+    friendly: {
+      hook: [
+        function (n, a, p) { return 'Meet ' + n + ' — the easiest way to ' + p + '.'; },
+        function (n, a, p) { return n + ' helps ' + a + ' ' + p + ', without the stress.'; }
+      ],
+      lead: "Here's what you'll love:",
+      close: [
+        function (cta) { return cta + ' and give it a try — you can always delete it if it is not for you.'; },
+        function (cta) { return cta + '. We think you will like how simple it feels.'; }
+      ],
+      flourish: [
+        "It's simple, and you'll feel the difference right away.",
+        'No jargon, no fuss — just a tool that works.'
+      ]
+    },
+    bold: {
+      hook: [
+        function (n, a, p) { return n + ' was built for ' + a + ' who want to ' + p + '.'; },
+        function (n, a, p) { return 'Stop settling. ' + n + ' helps you ' + p + ', starting today.'; }
+      ],
+      lead: "Here's what's inside:",
+      close: [
+        function (cta) { return cta + '. Your routine, upgraded.'; },
+        function (cta) { return cta + ' and take control today.'; }
+      ],
+      flourish: [
+        'No fluff. Just results.',
+        'Built different. Built for you.'
+      ]
+    }
+  };
+
+  var MAX_FEATURES = 6;
+  var uid = 0;
+  var variant = 0;
+  var rowsEl = $('asg-rows');
+
+  function addRow(value) {
+    if (rowsEl.querySelectorAll('.asg-frow').length >= MAX_FEATURES) return;
+    var id = 'asgf' + (++uid);
+    var row = document.createElement('div');
+    row.className = 'asg-frow';
+    row.setAttribute('data-row', id);
+
+    var label = document.createElement('label');
+    label.className = 'skip-link';
+    label.setAttribute('for', 'name-' + id);
+    label.textContent = 'Feature';
+
+    var input = document.createElement('input');
+    input.type = 'text';
+    input.id = 'name-' + id;
+    input.maxLength = 40;
+    input.placeholder = 'e.g. Smart reminders';
+    input.value = value || '';
+    input.autocomplete = 'off';
+    input.addEventListener('input', render);
+
+    var remove = document.createElement('button');
+    remove.type = 'button';
+    remove.className = 'asg-remove';
+    remove.setAttribute('aria-label', 'Remove this feature');
+    remove.textContent = 'Remove';
+    remove.addEventListener('click', function () {
+      row.remove();
+      updateAddState();
+      render();
+    });
+
+    row.appendChild(label);
+    row.appendChild(input);
+    row.appendChild(remove);
+    rowsEl.appendChild(row);
+    updateAddState();
+    return input;
+  }
+
+  function updateAddState() {
+    var n = rowsEl.querySelectorAll('.asg-frow').length;
+    $('asg-add').disabled = n >= MAX_FEATURES;
+  }
+
+  $('asg-add').addEventListener('click', function () {
+    var input = addRow('');
+    if (input) input.focus();
+    render();
+  });
+
+  function readFeatures() {
+    return Array.prototype.slice.call(rowsEl.querySelectorAll('.asg-frow input'))
+      .map(function (i) { return i.value.trim(); })
+      .filter(Boolean);
+  }
+
+  /* ---------- text helpers ---------- */
+
+  function capFirst(s) { return s ? s.charAt(0).toUpperCase() + s.slice(1) : s; }
+
+  function smartTruncate(str, max) {
+    str = String(str || '').trim();
+    if (str.length <= max) return str;
+    var cut = str.slice(0, max);
+    var lastSpace = cut.lastIndexOf(' ');
+    if (lastSpace > 0) cut = cut.slice(0, lastSpace);
+    return cut.replace(/[\s,;:.!?-]+$/, '').trim();
+  }
+
+  function wordsOf(text) {
+    return String(text || '').toLowerCase().replace(/[^a-z0-9\s]/g, ' ').split(/\s+/).filter(Boolean);
+  }
+
+  function extractCandidates(pitch, features, nameWords) {
+    var seen = {};
+    nameWords.forEach(function (w) { seen[w] = 1; });
+    var out = [];
+    var src = wordsOf(pitch);
+    features.forEach(function (f) { src = src.concat(wordsOf(f)); });
+    src.forEach(function (w) {
+      if (w.length < 4 || STOP[w] || seen[w]) return;
+      seen[w] = 1;
+      out.push(w);
+    });
+    return out;
+  }
+
+  function buildKeywords(catKw, candidates) {
+    var seen = {};
+    var terms = [];
+    catKw.forEach(function (t) {
+      var k = t.toLowerCase();
+      if (!seen[k]) { seen[k] = 1; terms.push(t); }
+    });
+    candidates.forEach(function (t) {
+      var k = t.toLowerCase();
+      if (!seen[k]) { seen[k] = 1; terms.push(t); }
+    });
+    var out = '';
+    for (var i = 0; i < terms.length; i++) {
+      var next = out ? out + ',' + terms[i] : terms[i];
+      if (next.length > 100) break;
+      out = next;
+    }
+    return out;
+  }
+
+  /* ---------- composers ---------- */
+
+  function buildIOSDescription(name, audience, pitchLower, features, tone, ctaPhrase) {
+    var t = TONE[tone];
+    var body = t.hook[variant % t.hook.length](name, audience, pitchLower);
+    if (features.length) {
+      body += '\n\n' + t.lead + '\n' + features.map(function (f) { return '• ' + f; }).join('\n');
+    }
+    body += '\n\n' + t.close[variant % t.close.length](ctaPhrase);
+    return body;
+  }
+
+  function buildAndroidDescription(name, audience, pitchLower, features, tone, ctaPhrase, catLabel) {
+    var t = TONE[tone];
+    var lead = name + ' is a ' + catLabel.toLowerCase() + ' app that helps ' + audience + ' ' + pitchLower + '.';
+    var body = lead + ' ' + t.flourish[variant % t.flourish.length];
+    if (features.length) {
+      body += '\n\n' + t.lead + '\n' + features.map(function (f) { return '• ' + f; }).join('\n');
+    }
+    body += '\n\n' + t.close[variant % t.close.length](ctaPhrase);
+    return body;
+  }
+
+  /* ---------- clipboard ---------- */
+
+  function copyText(text) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      return navigator.clipboard.writeText(text).catch(function () { fallbackCopy(text); });
+    }
+    fallbackCopy(text);
+    return Promise.resolve();
+  }
+  function fallbackCopy(text) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.setAttribute('readonly', '');
+    ta.style.position = 'fixed';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); } catch (e) { /* clipboard unavailable */ }
+    document.body.removeChild(ta);
+  }
+
+  root.querySelectorAll('.asg-copy').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var target = $(btn.getAttribute('data-target'));
+      if (!target) return;
+      copyText(target.value);
+      btn.classList.add('is-copied');
+      var original = btn.textContent;
+      btn.textContent = 'Copied';
+      var fieldLabel = target.closest('.asg-out-field').querySelector('label').textContent.replace(/\s*\d.*$/, '');
+      $('asg-live').textContent = 'Copied ' + fieldLabel + ' to your clipboard.';
+      setTimeout(function () {
+        btn.classList.remove('is-copied');
+        btn.textContent = original;
+      }, 1300);
+    });
+  });
+
+  function setField(id, max, value) {
+    var field = $(id);
+    field.value = value;
+    var count = $('asg-count-' + id.replace('asg-out-', ''));
+    count.textContent = value.length + ' / ' + max;
+    count.className = 'asg-count ' + (value.length > max ? 'over' : value.length >= max * 0.9 ? 'warn' : 'ok');
+  }
+
+  function render() {
+    var name = $('asg-name').value.trim() || 'Your app';
+    var audienceRaw = $('asg-audience').value.trim();
+    var audience = audienceRaw || 'people';
+    var pitchRaw = $('asg-pitch').value.trim() || 'get more done, faster';
+    var pitchLower = pitchRaw.charAt(0).toLowerCase() + pitchRaw.slice(1).replace(/[.!]+$/, '');
+    var catKey = $('asg-category').value;
+    var cat = CATS[catKey] || CATS.other;
+    var features = readFeatures();
+    var tone = (root.querySelector('input[name="asg-tone"]:checked') || {}).value || 'professional';
+    var ctaKey = $('asg-cta').value;
+    var ctaPhrase = (CTA[ctaKey] || CTA.download)(name);
+
+    var nameWords = wordsOf(name);
+    var candidates = extractCandidates(pitchRaw, features, nameWords);
+
+    setField('asg-out-subtitle', 30, smartTruncate(features.length ? features[0] : capFirst(pitchLower), 30));
+
+    var hookForPromo = TONE[tone].hook[variant % TONE[tone].hook.length](name, audience, pitchLower);
+    var promo = hookForPromo + (features.length ? ' Includes ' + features[0].toLowerCase() + '.' : '');
+    setField('asg-out-promo', 170, smartTruncate(promo, 170));
+
+    setField('asg-out-desc-ios', 4000, buildIOSDescription(name, audience, pitchLower, features, tone, ctaPhrase));
+    setField('asg-out-keywords', 100, buildKeywords(cat.kw, candidates));
+    setField('asg-out-short', 80, smartTruncate(name + ': ' + capFirst(pitchLower) + '.', 80));
+    setField('asg-out-desc-android', 4000, buildAndroidDescription(name, audience, pitchLower, features, tone, ctaPhrase, cat.label));
+
+    $('asg-live').textContent = 'Showing App Store and Google Play copy for ' + name + '.';
+  }
+
+  $('asg-shuffle').addEventListener('click', function () {
+    variant = variant ? 0 : 1;
+    render();
+  });
+
+  ['asg-name', 'asg-audience', 'asg-pitch', 'asg-category', 'asg-cta'].forEach(function (id) {
+    $(id).addEventListener('input', render);
+    $(id).addEventListener('change', render);
+  });
+  root.querySelectorAll('input[name="asg-tone"]').forEach(function (el) {
+    el.addEventListener('change', render);
+  });
+
+  /* Seed with a realistic example so the tool is useful the moment it loads. */
+  $('asg-name').value = 'TidyUp';
+  $('asg-audience').value = 'busy professionals';
+  $('asg-pitch').value = 'track your to-dos and get reminders that actually stick';
+  $('asg-category').value = 'productivity';
+  addRow('Smart reminders');
+  addRow('Recurring tasks');
+  addRow('Offline mode');
+
+  render();
+})();
+</script>
