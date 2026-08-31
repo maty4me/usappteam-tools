@@ -49,18 +49,41 @@
       "a": "Press \"Shuffle wording.\" Each tone has more than one phrasing built in, so shuffling gives you a different opening and closing line without changing your inputs — a quick way to see two honest drafts instead of one."
     }
   ],
-  "cta": { "label": "Start your app brief" },
+  "cta": {
+    "label": "Start your app brief"
+  },
   "video": {
-    "status": "pending",
+    "status": "rendered",
     "durationTargetSec": 60,
     "narration": "Store copy has to fit six different boxes, and each one works differently. This generator writes all six at once. Type your app name and what it does as a plain instruction, pick a category, and list a few real features. Watch it write an iOS subtitle, promotional text, a full description and a keywords field — plus a short and full description for Google Play, phrased differently on purpose, because Google indexes the text itself while Apple relies on that separate keywords field. Add another feature and everything updates instantly. Switch the tone from Professional to Bold and the wording shifts to match. Not happy with the phrasing? Hit Shuffle wording for a second honest draft. When a field looks right, copy it straight into App Store Connect or the Google Play Console. Free, instant, and it never leaves your browser.",
     "scenes": [
-      { "label": "One app, six store fields", "mark": "intro" },
-      { "label": "Name it and describe what it does", "mark": "name" },
-      { "label": "Add a feature", "mark": "features" },
-      { "label": "Switch the tone", "mark": "tone" },
-      { "label": "Shuffle the wording", "mark": "shuffle" },
-      { "label": "Copy a field straight out", "mark": "copy" }
-    ]
+      {
+        "label": "One app, six store fields",
+        "mark": "intro"
+      },
+      {
+        "label": "Name it and describe what it does",
+        "mark": "name"
+      },
+      {
+        "label": "Add a feature",
+        "mark": "features"
+      },
+      {
+        "label": "Switch the tone",
+        "mark": "tone"
+      },
+      {
+        "label": "Shuffle the wording",
+        "mark": "shuffle"
+      },
+      {
+        "label": "Copy a field straight out",
+        "mark": "copy"
+      }
+    ],
+    "renderedAt": "2026-08-31",
+    "durationISO": "PT48S",
+    "hasVoiceover": true
   }
 }
