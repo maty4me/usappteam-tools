@@ -130,7 +130,8 @@
       "difficulty": "L",
       "effort": "S",
       "relevance": 5,
-      "status": "todo"
+      "status": "live",
+      "published": "2026-08-14"
     },
     {
       "slug": "app-store-description-generator",

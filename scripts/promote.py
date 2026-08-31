@@ -27,6 +27,7 @@ import atexit
 import json
 import os
 import re
+import shutil
 import subprocess
 import sys
 import time
@@ -112,26 +113,201 @@ def check_caption(label, text):
     return problems
 
 
-def make_vertical(slug):
-    """Pad the 16:9 demo onto a 1080x1920 brand-background canvas for Reels."""
+# The demos open on an empty canvas and fade in over about two seconds, so
+# frame zero is blank - and frame zero is exactly what both platforms use as the
+# feed thumbnail. Every post therefore scrolled past looking like a blank tile.
+# Holding a real screenshot of the tool over the opening fixes the thumbnail and
+# the scroll-past impression in one move, on both platforms.
+HOLD_SECONDS = 0.5
+
+# ...but a hard cut at 0.5s would land straight back on the blank canvas the
+# demo is still fading up from - screenshot, flash of nothing, content. So the
+# still is held opaque for HOLD_SECONDS and then dissolved out across the rest
+# of the intro, reaching zero only once the demo is showing real content. Only
+# HOLD_SECONDS is added to the runtime; the crossfade overlaps the demo.
+#
+# Measured in DEMO seconds, not output seconds, because the IG cut is sped up
+# and the FB cut is not - the same moment lands at two different wall-clock
+# times.
+#
+# Deliberately stops at 1.0s. The demo's intro is not dead air: a branded title
+# card ("FREE TOOL / <name> / tools.usappteam.com") fades up and is fully
+# legible by 1.0s, and covering it would throw away the branding. Only the
+# blank frames before it are the problem, so the still dissolves out exactly as
+# the card arrives. The intro is identical in every demo the pipeline renders -
+# frame zero is byte-identical across tools - so one figure fits all.
+#
+# Not covered, deliberately: each demo also fades the title card out to a fully
+# blank frame at 1.80-1.85s before cutting to the page at 1.90s. That is ~3
+# frames and reads as a hard cut, and it is a flaw in the demo render rather
+# than in the posting. Stretching the still over it would bury the title card.
+INTRO_COVER_DEMO_S = 1.0
+
+# Narration starts at 00:00:00.000, so trimming the blank intro is not an
+# option - it would cut the first words. Covering it is.
+
+# Bump when the encode recipe changes so cached cuts in scripts/promo/ rebuild
+# instead of silently serving the old recipe. Comparing against this file's own
+# mtime means that happens automatically on any edit here.
+RECIPE_MTIME = Path(__file__).stat().st_mtime
+
+
+def _fresh(dst, src):
+    """True when dst is newer than both the source video and this recipe."""
+    return dst.is_file() and dst.stat().st_mtime >= max(src.stat().st_mtime, RECIPE_MTIME)
+
+
+# IG's rupload rejects this account's padded Reels past roughly 45 seconds.
+# Bisected 2026-08-14 on app-name-generator: 38s and 45s uploaded, 50s/55s/58s
+# all returned ProcessingFailedError even at reduced bitrate, which rules out
+# filesize. app-cost-calculator's 59s Reel went through on 08-03, so the ceiling
+# is recent and on Meta's side. Capping here rather than hand-trimming each time.
+IG_MAX_SECONDS = 45
+
+
+def duration_s(path):
+    """Source duration in seconds, or None if ffprobe cannot tell us.
+
+    Only ever used to decide whether to WARN. The cap itself is applied
+    unconditionally, so a missing or broken ffprobe costs us the message, not
+    the upload.
+    """
+    try:
+        r = subprocess.run(
+            ["ffprobe", "-v", "error", "-show_entries", "format=duration",
+             "-of", "default=noprint_wrappers=1:nokey=1", str(path)],
+            capture_output=True, text=True)
+        return float(r.stdout.strip())
+    except (OSError, ValueError):
+        return None
+
+
+def pick_still(slug, src):
+    """Pick a frame that actually shows the tool, to open the social cut with.
+
+    Deliberately samples only the middle 20-80% of the clip: the front is the
+    fade-in from an empty canvas (the very thing we are fixing) and the tail is
+    the outro CTA card, which is mostly flat background. Within that band the
+    busiest frame is the best proxy for "the tool is on screen and doing
+    something" - a dense screenshot encodes larger than a near-empty one - and
+    it needs no per-tool configuration, which matters for a routine that has to
+    keep working as new tools ship.
+    """
+    dst = PROMO / f"{slug}-still.png"
+    if _fresh(dst, src):
+        return dst
+
+    dur = duration_s(src)
+    lo, span = (dur * 0.2, dur * 0.6) if dur else (2.0, 20.0)
+    tmp = PROMO / f"_{slug}-cand"
+    if tmp.is_dir():
+        shutil.rmtree(tmp, ignore_errors=True)
+    tmp.mkdir(parents=True, exist_ok=True)
+
+    subprocess.run(
+        ["ffmpeg", "-v", "error", "-y", "-ss", f"{lo:.2f}", "-t", f"{span:.2f}",
+         "-i", str(src), "-vf", "fps=1/2", "-frames:v", "24",
+         str(tmp / "c%03d.png")], capture_output=True, text=True)
+    cands = sorted(tmp.glob("*.png"), key=lambda p: p.stat().st_size)
+
+    if cands:
+        shutil.copyfile(cands[-1], dst)
+    else:
+        # Sampling failed for some reason; a fixed offset still beats the blank
+        # first frame we are here to get rid of.
+        subprocess.run(
+            ["ffmpeg", "-v", "error", "-y", "-ss", f"{max((dur or 10) * 0.35, 1):.2f}",
+             "-i", str(src), "-frames:v", "1", str(dst)],
+            capture_output=True, text=True)
+    shutil.rmtree(tmp, ignore_errors=True)
+    return dst if dst.is_file() else None
+
+
+def make_cut(slug, vertical):
+    """Build the social cut: HOLD_SECONDS of a real screenshot, then the demo.
+
+    Both platforms take the first frame as the feed thumbnail, so both get the
+    held frame. Only the IG cut is reframed to 9:16 and fitted to the duration
+    ceiling; Facebook keeps the native 16:9 at full length.
+    """
     src = ROOT / "media" / slug / "demo.mp4"
     PROMO.mkdir(parents=True, exist_ok=True)
-    dst = PROMO / f"{slug}-vertical.mp4"
-    if dst.is_file() and dst.stat().st_mtime >= src.stat().st_mtime:
+    dst = PROMO / (f"{slug}-vertical.mp4" if vertical else f"{slug}-fb.mp4")
+    if _fresh(dst, src):
         return dst
+
+    still = pick_still(slug, src)
+    dur = duration_s(src)
+
+    if vertical:
+        frame = ("scale=1080:-2,pad=1080:1920:(ow-iw)/2:(oh-ih)/2:color=0xF6F7F9,"
+                 "setsar=1,fps=30,format=yuv420p")
+    else:
+        frame = "scale=1280:720,setsar=1,fps=30,format=yuv420p"
+
+    # Every demo we ship runs 52-62s, so all of them exceed IG's ceiling.
+    # Cutting at 45s would drop the last ten seconds of every Reel, which is
+    # where the CTA lives. Speeding the whole thing up to fit keeps the full
+    # walkthrough and the ending; at 1.2-1.4x a screen demo still reads fine,
+    # and atempo preserves pitch so the voiceover stays human. The held frame
+    # is part of the budget, so the body has to fit the ceiling minus the hold.
+    speed, budget = 1.0, IG_MAX_SECONDS - HOLD_SECONDS
+    hard_cap = []
+    if vertical:
+        if dur and dur > budget:
+            speed = dur / budget
+            print(f"NOTE: {slug} demo is {dur:.0f}s, over IG's {IG_MAX_SECONDS}s "
+                  f"ceiling for this account; the IG cut is sped {speed:.2f}x to fit "
+                  f"with nothing removed. The FB post keeps the original {dur:.0f}s.")
+        elif not dur:
+            # Duration unknown (ffprobe missing or unparseable). Hard-cap so we
+            # can never blow the ceiling; losing the tail beats not posting.
+            hard_cap = ["-t", f"{budget}"]
+
+    # Convert the cover window from demo seconds to output seconds. At the end
+    # of the crossfade the demo is INTRO_COVER_DEMO_S into itself whatever the
+    # speed, so the still always outlasts the blank intro on both cuts.
+    xfade = INTRO_COVER_DEMO_S / speed
+    intro_cover = HOLD_SECONDS + xfade
+
+    # xfade consumes its duration as overlap, so the body's video and its audio
+    # both begin at HOLD_SECONDS and stay in sync: video via the xfade offset,
+    # audio via the silence prepended ahead of it.
+    fc = (
+        f"[0:v]{frame}[v0];"
+        f"[1:v]setpts=PTS/{speed:.6f},{frame}[v1];"
+        f"[v0][v1]xfade=transition=fade:"
+        f"duration={xfade:.6f}:offset={HOLD_SECONDS}[v];"
+        f"anullsrc=channel_layout=stereo:sample_rate=48000,"
+        f"atrim=duration={HOLD_SECONDS}[a0];"
+        f"[1:a]atempo={speed:.6f},"
+        f"aformat=sample_fmts=fltp:sample_rates=48000:channel_layouts=stereo[a1];"
+        f"[a0][a1]concat=n=2:v=0:a=1[a]"
+    )
+
     # -video_track_timescale 90000 is load-bearing: IG's rupload rejects the
     # 1080x1920 pad with ffmpeg's default 15360 timescale ("ProcessingFailed",
     # bisected 2026-08-03) but accepts the identical encode at 90k.
     r = subprocess.run(
-        ["ffmpeg", "-y", "-i", str(src),
-         "-vf", "scale=1080:-2,pad=1080:1920:(ow-iw)/2:(oh-ih)/2:color=0xF6F7F9",
+        ["ffmpeg", "-y", "-loop", "1", "-t", f"{intro_cover:.6f}", "-i", str(still),
+         "-i", str(src), "-filter_complex", fc, "-map", "[v]", "-map", "[a]",
+         *hard_cap,
          "-c:v", "libx264", "-preset", "medium", "-crf", "22",
          "-video_track_timescale", "90000", "-c:a", "aac", "-b:a", "128k",
          "-movflags", "+faststart", str(dst)],
         capture_output=True, text=True)
     if r.returncode != 0:
-        sys.exit(f"FATAL: ffmpeg vertical render failed:\n{r.stderr[-1500:]}")
+        kind = "vertical" if vertical else "horizontal"
+        sys.exit(f"FATAL: ffmpeg {kind} render failed:\n{r.stderr[-1500:]}")
     return dst
+
+
+def make_vertical(slug):
+    return make_cut(slug, vertical=True)
+
+
+def make_horizontal(slug):
+    return make_cut(slug, vertical=False)
 
 
 def publish_fb(token, page_id, video, caption):
@@ -236,18 +412,23 @@ def main():
     problems = []
     for k in ("fb", "ig"):
         problems += check_caption(k, caps.get(k, ""))
-    video_fb = ROOT / "media" / slug / "demo.mp4"
-    if not video_fb.is_file():
-        problems.append(f"video missing: {video_fb}")
+    source = ROOT / "media" / slug / "demo.mp4"
+    if not source.is_file():
+        problems.append(f"video missing: {source}")
     if problems:
         print("PREFLIGHT FAILED:")
         for p in problems:
             print("  -", p)
         sys.exit(1)
 
+    # Facebook gets a built cut too, not the raw demo: it takes the first frame
+    # as the feed thumbnail exactly like IG does, and the raw demo's first frame
+    # is the blank canvas the fade-in starts from.
+    video_fb = make_horizontal(slug)
     video_ig = make_vertical(slug)
     print(f"preflight OK — {slug}: fb={video_fb.stat().st_size/1e6:.1f}MB "
-          f"ig={video_ig.stat().st_size/1e6:.1f}MB")
+          f"ig={video_ig.stat().st_size/1e6:.1f}MB "
+          f"(both open on a {HOLD_SECONDS}s held screenshot)")
     if args.preflight:
         return
 

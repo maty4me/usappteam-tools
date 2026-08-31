@@ -62,11 +62,26 @@ Set-Location $Repo
 Say "=== free tool promo ==="
 
 # git reports progress on stderr; under $ErrorActionPreference='Stop' that would
-# abort the run. Promoting from a slightly stale tree is harmless, so a failed
+# abort the run. Promoting from a slightly stale tree is survivable, so a failed
 # pull is logged and stepped over rather than fatal.
 $prev = $ErrorActionPreference
 $ErrorActionPreference = "Continue"
-$pullOut = (& git pull --quiet --rebase origin main 2>&1 | Out-String).Trim()
+
+# A dirty tree makes 'pull --rebase' refuse outright ("cannot pull with rebase:
+# You have unstaged changes"), which happened on 2026-08-14. That is worse than
+# it looks: the promo queue is built from rendered videos in media/<slug>/, so a
+# tree that never pulls never sees a newly shipped tool and the queue quietly
+# stops advancing.
+#
+# --autostash rather than a plain 'git stash push': the tree is often dirty with
+# LIVE routine state - research/backlog.json carries a tool's "building" status
+# between the build run and the next one - and parking that in a stash nobody
+# pops would silently roll the build routine backwards. --autostash restores it
+# straight after the rebase.
+$dirty = (& git status --porcelain | Out-String).Trim()
+if ($dirty) { Say "working tree dirty; pulling with --autostash:`n$dirty" }
+
+$pullOut = (& git pull --quiet --rebase --autostash origin main 2>&1 | Out-String).Trim()
 if ($LASTEXITCODE -ne 0) { Say "warning: git pull failed (continuing on local tree)`n$pullOut" }
 $ErrorActionPreference = $prev
 
@@ -123,8 +138,43 @@ if (-not $claude) {
     exit 1
 }
 
+# Check auth BEFORE handing off, exactly as daily.ps1 does. Without this the
+# routine burns the slot and logs only "FAILED: <slug> did not publish", which
+# reads like a caption or upload problem and sends you looking in the wrong
+# place. Every run from 2026-08-05 to 08-13 failed here, three seconds in, and
+# the nine identical 284-byte logs were never opened. Distinct exit code (2)
+# so the healthcheck can tell "not authenticated" from "publish failed".
+#
+# A process keeps the environment block it was born with, so a shell started
+# before CLAUDE_CODE_OAUTH_TOKEN was set never sees it. Read the persisted
+# value onto our own environment first; assigning to $env: rather than passing
+# it as an argument keeps the token out of the process list and the logs.
+if (-not $env:CLAUDE_CODE_OAUTH_TOKEN) {
+    foreach ($scope in @("User", "Machine")) {
+        $t = [Environment]::GetEnvironmentVariable("CLAUDE_CODE_OAUTH_TOKEN", $scope)
+        if ($t) { $env:CLAUDE_CODE_OAUTH_TOKEN = $t; break }
+    }
+}
+
+$ErrorActionPreference = "Continue"
+$authProbe = (& $claude.Source -p "Reply with exactly: AUTH_OK" 2>&1 | Out-String)
+$ErrorActionPreference = "Stop"
+if ($authProbe -notmatch "AUTH_OK") {
+    Say "BLOCKED: the Claude CLI is not authenticated in this task's environment."
+    Say "  probe returned: $($authProbe.Trim() -replace '\s+', ' ')"
+    Say "  Fix once, in an interactive terminal:"
+    Say "    claude setup-token"
+    Say "  then set the token it issues as the CLAUDE_CODE_OAUTH_TOKEN user environment"
+    Say "  variable so scheduled runs inherit it. Nothing was posted."
+    exit 2
+}
+
 Say "handing off to claude..."
-& $claude.Source -p $prompt --permission-mode bypassPermissions 2>&1 | Tee-Object -Append -FilePath $log
+# -Encoding utf8 matters: the default writes UTF-16-ish bytes into an otherwise
+# ASCII log, which is why the failure line rendered as "N o t   l o g g e d  i n"
+# and why nothing could grep these logs for a reason.
+& $claude.Source -p $prompt --permission-mode bypassPermissions 2>&1 |
+    Tee-Object -Append -FilePath $log -Encoding utf8
 
 # promote.py's state file is the truth about what actually published.
 $state = if (Test-Path "scripts/promo/state.json") {

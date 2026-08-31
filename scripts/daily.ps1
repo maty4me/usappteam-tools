@@ -46,7 +46,7 @@ if ($Install) {
         -ExecutionTimeLimit (New-TimeSpan -Hours 3)
     Register-ScheduledTask -TaskName $TaskName -Action $action -Trigger $trigger `
         -Settings $settings -Description "Builds and ships a free tool to tools.usappteam.com on $($Days -join ', ')" -Force | Out-Null
-    Write-Host "Installed '$TaskName' — $($Days -join ', ') at $Time."
+    Write-Host "Installed '$TaskName' - $($Days -join ', ') at $Time."
     Write-Host "Next run: $((Get-ScheduledTaskInfo -TaskName $TaskName).NextRunTime)"
     exit 0
 }
@@ -104,14 +104,36 @@ if ((Git-Try @("pull", "--quiet", "--rebase", "origin", "main")) -ne 0) {
 }
 
 $backlog = Get-Content "research/backlog.json" -Raw | ConvertFrom-Json
-$next = $backlog.items | Where-Object { $_.status -eq "todo" } | Select-Object -First 1
+
+# The folder on disk is the truth, not the backlog. A run that shipped a tool
+# but died before writing the status back leaves a stale "todo"/"building"
+# entry; from 08-17 to 08-31 that stale entry blocked six runs in a row because
+# this guard used to say "fix it and re-run" and exit. Now it heals: mark the
+# item live, commit the correction, and move on to the next real todo.
+$next = $null
+$healed = $false
+foreach ($item in ($backlog.items | Where-Object { $_.status -in @("todo", "building") })) {
+    if (Test-Path "tools/$($item.slug)") {
+        Say "tools/$($item.slug) exists but backlog says '$($item.status)' - marking it live."
+        $item.status = "live"
+        if (-not $item.PSObject.Properties["published"]) {
+            $item | Add-Member -NotePropertyName published -NotePropertyValue (Get-Date -Format "yyyy-MM-dd")
+        }
+        $healed = $true
+        continue
+    }
+    $next = $item
+    break
+}
+if ($healed) {
+    $backlog | ConvertTo-Json -Depth 10 | Set-Content "research/backlog.json" -Encoding utf8
+    Git-Try @("add", "research/backlog.json") | Out-Null
+    Git-Try @("commit", "-m", "chore(backlog): mark already-shipped tools live (self-heal)") | Out-Null
+    Git-Try @("push", "origin", "main") | Out-Null
+}
 if (-not $next) {
     Say "backlog empty - nothing to build. Re-run the research step (see ROUTINE.md)."
     exit 0
-}
-if (Test-Path "tools/$($next.slug)") {
-    Say "tools/$($next.slug) already exists; the backlog is stale. Fix it and re-run."
-    exit 1
 }
 
 Say "building: $($next.title)  [$($next.slug)]"
