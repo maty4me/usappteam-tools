@@ -90,7 +90,12 @@ Set-Location $Repo
 $lastTool = (& git log -1 --format=%ct -- tools/ | Out-String).Trim()
 if ($lastTool) {
     $days = [math]::Floor(((Get-Date) - [System.DateTimeOffset]::FromUnixTimeSeconds([int64]$lastTool).LocalDateTime).TotalDays)
-    if ($days -ge 2) { $problems += "no new tool committed in $days days" }
+    # The cadence is Mon/Wed/Fri, so Friday-to-Sunday is 2 quiet days with no
+    # run even scheduled. A 2-day threshold would go red every weekend, and a
+    # check that cries wolf weekly is how nine days of real failure went
+    # unnoticed once already. 4 days means: one scheduled slot was missed AND
+    # a full day has passed since.
+    if ($days -ge 4) { $problems += "no new tool committed in $days days" }
 }
 
 # 5. Is the CLI still authenticated? This is the fault that stopped the promo

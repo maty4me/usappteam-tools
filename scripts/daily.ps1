@@ -196,6 +196,26 @@ $local = (& git rev-parse HEAD | Out-String).Trim()
 $remote = (& git rev-parse origin/main | Out-String).Trim()
 
 if (Test-Path "tools/$($next.slug)/tool.json") {
+    # Do not trust the agent to have written "live" back to the backlog: on
+    # 2026-08-14 it shipped the tool, said it would follow up, and died first,
+    # which stalled six consecutive runs. The wrapper knows the tool shipped,
+    # so the wrapper records it.
+    Git-Try @("pull", "--quiet", "--rebase", "origin", "main") | Out-Null
+    $check = Get-Content "research/backlog.json" -Raw | ConvertFrom-Json
+    $mine = $check.items | Where-Object { $_.slug -eq $next.slug }
+    if ($mine -and $mine.status -ne "live") {
+        Say "backlog still says '$($mine.status)' - recording the ship myself."
+        $mine.status = "live"
+        if (-not $mine.PSObject.Properties["published"]) {
+            $mine | Add-Member -NotePropertyName published -NotePropertyValue (Get-Date -Format "yyyy-MM-dd")
+        }
+        $check | ConvertTo-Json -Depth 10 | Set-Content "research/backlog.json" -Encoding utf8
+        Git-Try @("add", "research/backlog.json") | Out-Null
+        Git-Try @("commit", "-m", "chore(backlog): mark $($next.slug) live") | Out-Null
+        Git-Try @("push", "origin", "main") | Out-Null
+    }
+    $local = (& git rev-parse HEAD | Out-String).Trim()
+    $remote = (& git rev-parse origin/main | Out-String).Trim()
     if ($local -eq $remote) {
         Say "SHIPPED: $($next.slug) - pushed. Confirming CI picked it up..."
         # Push triggers stopped creating runs on 2026-08-06 while dispatch still
