@@ -141,7 +141,8 @@
       "difficulty": "M",
       "effort": "S",
       "relevance": 3,
-      "status": "todo"
+      "status": "live",
+      "published": "2026-08-31"
     },
     {
       "slug": "app-launch-checklist",
