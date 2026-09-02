@@ -48,17 +48,37 @@
       "a": "No. The whole thing is JavaScript running in your browser. Nothing is uploaded, nothing is saved, and closing the tab erases every checked box."
     }
   ],
-  "cta": { "label": "Start your app brief" },
+  "cta": {
+    "label": "Start your app brief"
+  },
   "video": {
-    "status": "pending",
+    "status": "rendered",
     "durationTargetSec": 60,
     "narration": "Most apps don't get rejected because the code is bad - it's a small thing that got missed. A privacy policy that was never linked. A data safety form left blank. This checklist catches those before store review does. Pick iOS, Android, or both, and the list only shows what applies to your launch. Work through each section - store listing, legal, accounts, testing, marketing, and post-launch - checking items off as you go. Watch the progress bar climb, and keep an eye on the \"still required\" box - it lists exactly what stores actually reject apps for missing. Nothing here is uploaded or saved, so it's safe to use for every app you ship. Free, instant, and it runs entirely in your browser.",
     "scenes": [
-      { "label": "Filter to your platform", "mark": "filter" },
-      { "label": "Check off store listing items", "mark": "check" },
-      { "label": "Watch the progress update", "mark": "progress" },
-      { "label": "See what's still required", "mark": "required" },
-      { "label": "Reset for your next app", "mark": "reset" }
-    ]
+      {
+        "label": "Filter to your platform",
+        "mark": "filter"
+      },
+      {
+        "label": "Check off store listing items",
+        "mark": "check"
+      },
+      {
+        "label": "Watch the progress update",
+        "mark": "progress"
+      },
+      {
+        "label": "See what's still required",
+        "mark": "required"
+      },
+      {
+        "label": "Reset for your next app",
+        "mark": "reset"
+      }
+    ],
+    "renderedAt": "2026-09-02",
+    "durationISO": "PT42S",
+    "hasVoiceover": true
   }
 }
