@@ -1,0 +1,374 @@
+<style>
+.t-app-launch-checklist { font-family: var(--body); color: var(--ink); display: flex; flex-direction: column; }
+.t-app-launch-checklist > .alc-privacy { order: 1; }
+.t-app-launch-checklist > .alc-filter { order: 2; }
+.t-app-launch-checklist > .alc-grid { order: 3; }
+.t-app-launch-checklist > .alc-note { order: 4; }
+
+/* ---------- privacy banner ---------- */
+.t-app-launch-checklist .alc-privacy {
+  display: flex; align-items: flex-start; gap: 10px;
+  margin: 0 0 20px; padding: 12px 14px;
+  border: 1px solid rgba(31, 169, 113, .3); border-radius: var(--r-sm);
+  background: rgba(31, 169, 113, .07);
+  font-size: 13.5px; line-height: 1.5; color: var(--slate);
+}
+.t-app-launch-checklist .alc-privacy svg {
+  width: 16px; height: 16px; flex: 0 0 auto; margin-top: 2px;
+  stroke: var(--green); fill: none; stroke-width: 2;
+  stroke-linecap: round; stroke-linejoin: round;
+}
+.t-app-launch-checklist .alc-privacy strong { color: var(--ink); font-weight: 600; }
+
+/* ---------- platform filter ---------- */
+.t-app-launch-checklist .alc-filter {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  margin: 0 0 20px;
+}
+.t-app-launch-checklist .alc-filter-label {
+  font-family: var(--mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--ink-40);
+}
+.t-app-launch-checklist .alc-pills { display: flex; gap: 6px; flex-wrap: wrap; }
+.t-app-launch-checklist .alc-pill { position: relative; }
+.t-app-launch-checklist .alc-pill input { position: absolute; opacity: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; }
+.t-app-launch-checklist .alc-pill span {
+  display: block; font-size: 13px; padding: 8px 14px;
+  border: 1px solid var(--line-2); border-radius: 999px; background: var(--card); color: var(--slate);
+  cursor: pointer; white-space: nowrap;
+  transition: border-color .18s var(--ease), background .18s var(--ease), color .18s var(--ease);
+}
+.t-app-launch-checklist .alc-pill input:checked + span { border-color: var(--azure); background: var(--blue-soft); color: var(--azure); font-weight: 600; }
+.t-app-launch-checklist .alc-pill input:focus-visible + span { outline: 2px solid var(--azure); outline-offset: 2px; }
+
+/* ---------- layout ---------- */
+.t-app-launch-checklist .alc-grid {
+  display: grid; gap: 22px;
+  grid-template-columns: minmax(0, 1fr);
+}
+@media (min-width: 900px) {
+  .t-app-launch-checklist .alc-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 320px); align-items: start; }
+}
+
+/* ---------- sections ---------- */
+.t-app-launch-checklist .alc-section { margin: 0 0 22px; }
+.t-app-launch-checklist .alc-section-head {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 12px;
+  margin: 0 0 10px;
+}
+.t-app-launch-checklist .alc-section-head h2 {
+  font-family: var(--disp); font-weight: 700; font-size: 15.5px; margin: 0; color: var(--ink);
+}
+.t-app-launch-checklist .alc-section-count {
+  font-family: var(--mono); font-size: 12px; color: var(--ink-40); white-space: nowrap;
+}
+.t-app-launch-checklist .alc-items { display: grid; gap: 8px; }
+.t-app-launch-checklist .alc-item {
+  display: flex; align-items: flex-start; gap: 10px;
+  border: 1px solid var(--line-2); border-radius: var(--r-sm);
+  background: var(--card); padding: 11px 12px;
+  transition: border-color .18s var(--ease), background .18s var(--ease);
+}
+.t-app-launch-checklist .alc-item:has(input:checked) { background: var(--bg); border-color: var(--line); }
+.t-app-launch-checklist .alc-item input[type="checkbox"] {
+  flex: 0 0 auto; width: 18px; height: 18px; margin: 1px 0 0; accent-color: var(--azure); cursor: pointer;
+}
+.t-app-launch-checklist .alc-item label {
+  flex: 1 1 auto; font-size: 13.5px; line-height: 1.5; color: var(--ink); cursor: pointer;
+}
+.t-app-launch-checklist .alc-item:has(input:checked) label { color: var(--ink-60); text-decoration: line-through; text-decoration-color: var(--line-2); }
+.t-app-launch-checklist .alc-badge {
+  flex: 0 0 auto; font-family: var(--mono); font-size: 10px; letter-spacing: .06em; text-transform: uppercase;
+  padding: 3px 7px; border-radius: 999px; white-space: nowrap; margin-top: 1px;
+}
+.t-app-launch-checklist .alc-badge.req { background: var(--pink-soft); color: var(--magenta); }
+.t-app-launch-checklist .alc-badge.rec { background: var(--blue-soft); color: var(--azure); }
+
+/* ---------- summary ---------- */
+.t-app-launch-checklist .alc-out {
+  position: sticky; top: 20px;
+  border: 1px solid var(--line-2); border-radius: var(--r);
+  background: var(--card); box-shadow: var(--shadow);
+  padding: 20px; overflow: hidden;
+}
+@media (max-width: 899px) { .t-app-launch-checklist .alc-out { position: static; margin-bottom: 22px; } }
+.t-app-launch-checklist .alc-out h3 {
+  margin: 0 0 2px; font-family: var(--mono); font-size: 11px; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--ink-40); font-weight: 500;
+}
+.t-app-launch-checklist .alc-big {
+  font-family: var(--disp); font-weight: 700; line-height: 1.05;
+  font-size: clamp(26px, 6vw, 34px);
+  background: var(--grad); -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: var(--azure);
+  margin: 4px 0 2px; word-break: break-word;
+}
+.t-app-launch-checklist .alc-big-sub { font-size: 13.5px; color: var(--ink-60); margin: 0 0 12px; line-height: 1.5; }
+.t-app-launch-checklist .alc-bar { height: 8px; border-radius: 999px; background: var(--line-2); overflow: hidden; margin: 0 0 16px; }
+.t-app-launch-checklist .alc-bar-fill { height: 100%; background: var(--grad); border-radius: 999px; width: 0%; transition: width .25s var(--ease); }
+
+.t-app-launch-checklist .alc-warn {
+  margin: 0 0 4px; padding: 12px 14px; border: 1px solid var(--magenta);
+  border-radius: var(--r-sm); background: var(--pink-soft);
+}
+.t-app-launch-checklist .alc-warn b { display: block; font-family: var(--disp); font-size: 13.5px; color: var(--ink); margin: 0 0 6px; }
+.t-app-launch-checklist .alc-warn ul { margin: 0; padding-left: 18px; }
+.t-app-launch-checklist .alc-warn li { font-size: 12.5px; line-height: 1.6; color: var(--slate); }
+.t-app-launch-checklist .alc-warn.ok { border-color: rgba(31, 169, 113, .35); background: rgba(31, 169, 113, .08); }
+.t-app-launch-checklist .alc-warn.ok b { color: var(--green); }
+
+.t-app-launch-checklist .alc-reset {
+  width: 100%; margin-top: 14px;
+  font-family: var(--mono); font-size: 12.5px; line-height: 1;
+  padding: 10px 14px; border: 1px solid var(--line-2); border-radius: 999px;
+  background: var(--card); color: var(--ink-60); cursor: pointer;
+  transition: border-color .18s var(--ease), color .18s var(--ease);
+}
+.t-app-launch-checklist .alc-reset:hover { border-color: var(--magenta); color: var(--magenta); }
+.t-app-launch-checklist .alc-reset:focus-visible { outline: 2px solid var(--azure); outline-offset: 2px; }
+
+/* ---------- footnote ---------- */
+.t-app-launch-checklist .alc-note {
+  margin: 26px 0 0; padding: 16px 18px;
+  border: 1px solid var(--line-2); border-radius: var(--r-sm); background: var(--bg);
+}
+.t-app-launch-checklist .alc-note h3 {
+  margin: 0 0 8px; font-family: var(--disp); font-size: 15px; font-weight: 700; color: var(--ink);
+}
+.t-app-launch-checklist .alc-note p { margin: 0; font-size: 13.5px; line-height: 1.6; color: var(--slate); }
+.t-app-launch-checklist .alc-note a { color: var(--azure); }
+</style>
+
+<div class="t-app-launch-checklist" id="alc-root">
+
+<div class="alc-privacy">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v6c0 4.5-3 7.7-7 9-4-1.3-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg>
+  <div><strong>Runs entirely in your browser.</strong> Nothing is uploaded, nothing is stored, and checking a box does not send anything anywhere. Close the tab and it resets.</div>
+</div>
+
+<!-- The checklist grid is placed before the filter row in source order so a
+     fresh, unchecked checkbox — not the pre-selected "Both" filter pill — is
+     the first interactive control in the DOM. The "order" rule below puts
+     the filter back on top visually. -->
+<div class="alc-grid">
+  <div class="alc-sections" id="alc-sections"></div>
+
+  <aside class="alc-out" aria-labelledby="alc-out-h">
+    <h3 id="alc-out-h">Progress</h3>
+    <div class="alc-big" id="alc-headline">0%</div>
+    <p class="alc-big-sub" id="alc-headline-sub">0 of 0 items checked</p>
+    <div class="alc-bar"><div class="alc-bar-fill" id="alc-bar-fill"></div></div>
+
+    <div class="alc-warn" id="alc-warn">
+      <b id="alc-warn-title">Still required</b>
+      <ul id="alc-warn-list"></ul>
+    </div>
+
+    <button type="button" class="alc-reset" id="alc-reset">Reset checklist</button>
+    <p style="margin:14px 0 0;font-size:0" role="status" aria-live="polite" id="alc-live"></p>
+  </aside>
+</div>
+
+<div class="alc-filter">
+  <span class="alc-filter-label">Platform</span>
+  <div class="alc-pills" role="radiogroup" aria-label="Filter checklist by platform">
+    <label class="alc-pill"><input type="radio" name="alc-platform" value="both" checked><span>Both</span></label>
+    <label class="alc-pill"><input type="radio" name="alc-platform" value="ios"><span>iOS</span></label>
+    <label class="alc-pill"><input type="radio" name="alc-platform" value="android"><span>Android</span></label>
+  </div>
+</div>
+
+<div class="alc-note">
+  <h3>Want submission handled for you?</h3>
+  <p>US APP Team's store launch service ($749) takes your finished app through App Store and Google Play submission end to end - listings, compliance forms and all. <a href="https://usappteam.com/app-brief">Start your app brief</a> to ask about it.</p>
+</div>
+
+</div>
+
+<script>
+(function () {
+  var root = document.querySelector('.t-app-launch-checklist');
+  if (!root) return;
+  var $ = function (id) { return root.querySelector('#' + id); };
+
+  /* platform: 'both' | 'ios' | 'android'. An item tagged 'both' shows under every filter. */
+  var SECTIONS = [
+    {
+      title: 'Store listing',
+      items: [
+        { t: 'App icon meets each store’s size and format rules (1024×1024 for iOS, adaptive icon for Android)', p: 'both', r: true },
+        { t: 'Screenshots ready for every required device size', p: 'both', r: true },
+        { t: 'App title and short description fit each store’s character limits', p: 'both', r: true },
+        { t: 'Full app description written and proofread', p: 'both', r: true },
+        { t: 'Age rating / content rating questionnaire completed', p: 'both', r: true },
+        { t: 'Support URL and support email are live and monitored', p: 'both', r: true },
+        { t: 'App category selected', p: 'both', r: true },
+        { t: 'Keyword research done for app store search (ASO)', p: 'both', r: false }
+      ]
+    },
+    {
+      title: 'Legal & compliance',
+      items: [
+        { t: 'Privacy policy published and linked in the store listing', p: 'both', r: true },
+        { t: 'Apple’s App Privacy “nutrition label” details completed', p: 'ios', r: true },
+        { t: 'Google Play Data safety form completed', p: 'android', r: true },
+        { t: 'Terms of service / EULA published', p: 'both', r: false },
+        { t: 'Data handling reviewed for GDPR/CCPA if you collect personal data', p: 'both', r: false }
+      ]
+    },
+    {
+      title: 'Accounts & setup',
+      items: [
+        { t: 'Apple Developer Program account active, agreements plus tax and banking signed', p: 'ios', r: true },
+        { t: 'Google Play Console account set up and registration fee paid', p: 'android', r: true },
+        { t: 'Bundle ID / package name matches your production build', p: 'both', r: true },
+        { t: 'In-app purchases or subscriptions configured and submitted for review', p: 'both', r: false }
+      ]
+    },
+    {
+      title: 'Testing & QA',
+      items: [
+        { t: 'Tested on real devices, not just a simulator or emulator', p: 'both', r: true },
+        { t: 'Tested on the oldest OS version you still support', p: 'both', r: false },
+        { t: 'Beta tested via TestFlight or Google Play’s internal testing track', p: 'both', r: false },
+        { t: 'Crash reporting integrated', p: 'both', r: false },
+        { t: 'Analytics integrated to see first-run behavior', p: 'both', r: false },
+        { t: 'Tested with a slow or offline connection', p: 'both', r: false }
+      ]
+    },
+    {
+      title: 'Marketing & launch day',
+      items: [
+        { t: 'Landing page live with working download links', p: 'both', r: false },
+        { t: 'Social accounts ready with a launch post drafted', p: 'both', r: false },
+        { t: 'Press kit or outreach list prepared', p: 'both', r: false },
+        { t: 'Someone assigned to watch crashes and reviews on launch day', p: 'both', r: false }
+      ]
+    },
+    {
+      title: 'Post-launch',
+      items: [
+        { t: 'Plan in place for responding to reviews', p: 'both', r: false },
+        { t: 'First bug-fix update already scoped', p: 'both', r: false },
+        { t: 'In-app or email feedback channel for users', p: 'both', r: false }
+      ]
+    }
+  ];
+
+  var PLATFORM_LABEL = { ios: 'iOS only', android: 'Android only' };
+  var sectionsEl = $('alc-sections');
+  var filter = 'both';
+
+  /* Stable ids assigned once, up front — checked state lives on the item
+     itself so switching the platform filter (which rebuilds the DOM) never
+     loses progress the user already made. */
+  var uid = 0;
+  SECTIONS.forEach(function (sec) {
+    sec.items.forEach(function (item) {
+      item._id = 'alc' + (++uid);
+      item.checked = false;
+    });
+  });
+
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  function visible(item) {
+    return filter === 'both' || item.p === 'both' || item.p === filter;
+  }
+
+  function buildSections() {
+    sectionsEl.innerHTML = SECTIONS.map(function (sec, si) {
+      var itemsHtml = sec.items.map(function (item) {
+        if (!visible(item)) return '';
+        var badge = item.r
+          ? '<span class="alc-badge req">Required</span>'
+          : '<span class="alc-badge rec">Recommended</span>';
+        var tag = item.p !== 'both' ? ' <span class="alc-badge rec" style="margin-left:4px">' + PLATFORM_LABEL[item.p] + '</span>' : '';
+        return '<div class="alc-item">' +
+          '<input type="checkbox" id="' + item._id + '"' + (item.checked ? ' checked' : '') + '>' +
+          '<label for="' + item._id + '">' + esc(item.t) + '</label>' +
+          badge + tag +
+          '</div>';
+      }).join('');
+      if (!itemsHtml) return '';
+      return '<div class="alc-section">' +
+        '<div class="alc-section-head"><h2>' + esc(sec.title) + '</h2><span class="alc-section-count" data-sec-count="' + si + '"></span></div>' +
+        '<div class="alc-items">' + itemsHtml + '</div>' +
+        '</div>';
+    }).join('');
+
+    sectionsEl.querySelectorAll('input[type="checkbox"]').forEach(function (cb) {
+      cb.addEventListener('change', function () {
+        var item = findItemById(cb.id);
+        if (item) item.checked = cb.checked;
+        render();
+      });
+    });
+  }
+
+  function findItemById(id) {
+    for (var si = 0; si < SECTIONS.length; si++) {
+      for (var ii = 0; ii < SECTIONS[si].items.length; ii++) {
+        if (SECTIONS[si].items[ii]._id === id) return SECTIONS[si].items[ii];
+      }
+    }
+    return null;
+  }
+
+  function render() {
+    var totalAll = 0, checkedAll = 0;
+    var required = [];
+
+    SECTIONS.forEach(function (sec, si) {
+      var secTotal = 0, secChecked = 0;
+      sec.items.forEach(function (item) {
+        if (!visible(item)) return;
+        secTotal++; totalAll++;
+        if (item.checked) { secChecked++; checkedAll++; }
+        else if (item.r) { required.push(item.t); }
+      });
+      var countEl = root.querySelector('[data-sec-count="' + si + '"]');
+      if (countEl) countEl.textContent = secChecked + ' / ' + secTotal;
+    });
+
+    var pct = totalAll ? Math.round((checkedAll / totalAll) * 100) : 0;
+    $('alc-headline').textContent = pct + '%';
+    $('alc-headline-sub').textContent = checkedAll + ' of ' + totalAll + ' items checked';
+    $('alc-bar-fill').style.width = pct + '%';
+
+    var warn = $('alc-warn');
+    if (required.length) {
+      warn.classList.remove('ok');
+      $('alc-warn-title').textContent = required.length + ' required item' + (required.length === 1 ? '' : 's') + ' still open';
+      $('alc-warn-list').innerHTML = required.map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('');
+    } else {
+      warn.classList.add('ok');
+      $('alc-warn-title').textContent = 'Every required item is checked';
+      $('alc-warn-list').innerHTML = '<li>Recommended items may still be worth a look above.</li>';
+    }
+
+    $('alc-live').textContent = checkedAll + ' of ' + totalAll + ' items checked, ' + required.length + ' required item' + (required.length === 1 ? '' : 's') + ' remaining.';
+  }
+
+  root.querySelectorAll('input[name="alc-platform"]').forEach(function (r) {
+    r.addEventListener('change', function () {
+      filter = r.value;
+      buildSections();
+      render();
+    });
+  });
+
+  $('alc-reset').addEventListener('click', function () {
+    SECTIONS.forEach(function (sec) { sec.items.forEach(function (item) { item.checked = false; }); });
+    buildSections();
+    render();
+  });
+
+  buildSections();
+  render();
+})();
+</script>

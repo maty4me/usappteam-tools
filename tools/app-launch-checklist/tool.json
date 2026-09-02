@@ -1,0 +1,64 @@
+{
+  "slug": "app-launch-checklist",
+  "title": "App Launch Checklist",
+  "tagline": "Everything to check before you submit to the App Store and Google Play - free, no signup.",
+  "description": "Free app launch checklist covering store listings, legal, testing and launch day - filter by iOS, Android or both so nothing slips before you submit.",
+  "keywords": [
+    "app launch checklist",
+    "app store launch checklist",
+    "google play launch checklist",
+    "mobile app launch checklist",
+    "app submission checklist",
+    "app store submission checklist",
+    "app release checklist"
+  ],
+  "category": "planners",
+  "datePublished": "2026-09-02",
+  "intro": "Most apps do not get rejected or flop at launch because the code is bad - it is because something small got missed: a privacy policy that was never linked, a data safety form left blank, a support email that bounces, an icon in the wrong size. Every one of those is a five-minute fix if you catch it early, and a launch-day scramble if you do not.\n\nThis checklist pulls together the things that actually trip up first-time launches, grouped into the order you would tackle them: store listing, legal, accounts, testing, marketing and post-launch. Filter it to iOS, Android or both so you are only looking at what applies to you.\n\nEverything runs in your browser. Nothing is uploaded, nothing is stored, and checking a box does not send anything anywhere - close the tab and it resets.",
+  "howTo": [
+    "Pick iOS, Android or Both at the top so the list only shows what applies to your launch.",
+    "Work through each section in order - store listing and legal first, since store review checks those.",
+    "Check items off as you finish them; the progress bar and per-section counts update as you go.",
+    "Watch the \"Still required\" warning - it lists anything unchecked that stores actually reject apps for.",
+    "Use \"Reset\" to start a fresh pass, for example when you are prepping a second app."
+  ],
+  "faq": [
+    {
+      "q": "Is this list specific to Apple's App Store, Google Play, or both?",
+      "a": "Both, by default. Filter to iOS or Android at the top and items that only apply to the other platform - like Apple's Paid Apps agreement or Google Play's Data safety form - hide automatically. Items that apply to both platforms, like having a privacy policy, stay visible either way."
+    },
+    {
+      "q": "What's the difference between \"Required\" and \"Recommended\" items?",
+      "a": "Required items are things a store review will actually reject your app for missing, or that block submission outright - a privacy policy link, a completed data safety form, a signed developer agreement. Recommended items are strongly worth doing but won't get you rejected on their own, like beta testing on TestFlight or having a landing page ready."
+    },
+    {
+      "q": "Does checking items off save my progress?",
+      "a": "No, on purpose. Nothing here is uploaded or stored anywhere, which also means nothing persists - refresh the page or come back tomorrow and every box is unchecked again. Keep the tab open, or come back for a second read-through before you actually submit."
+    },
+    {
+      "q": "I've launched apps before - is this overkill?",
+      "a": "Skip straight to the \"Still required\" warning box once you've checked everything you know you need - it only lists what's missing, so an experienced team can use it as a final pre-submission scan rather than a step-by-step guide."
+    },
+    {
+      "q": "Why isn't there an item for app store optimization keywords?",
+      "a": "This checklist covers what blocks or trips up a launch, not the ongoing work of ranking well afterward. Keyword research gets one line item as a launch-week task; for the deeper work, that's its own project once the app is live."
+    },
+    {
+      "q": "Is anything sent to a server?",
+      "a": "No. The whole thing is JavaScript running in your browser. Nothing is uploaded, nothing is saved, and closing the tab erases every checked box."
+    }
+  ],
+  "cta": { "label": "Start your app brief" },
+  "video": {
+    "status": "pending",
+    "durationTargetSec": 60,
+    "narration": "Most apps don't get rejected because the code is bad - it's a small thing that got missed. A privacy policy that was never linked. A data safety form left blank. This checklist catches those before store review does. Pick iOS, Android, or both, and the list only shows what applies to your launch. Work through each section - store listing, legal, accounts, testing, marketing, and post-launch - checking items off as you go. Watch the progress bar climb, and keep an eye on the \"still required\" box - it lists exactly what stores actually reject apps for missing. Nothing here is uploaded or saved, so it's safe to use for every app you ship. Free, instant, and it runs entirely in your browser.",
+    "scenes": [
+      { "label": "Filter to your platform", "mark": "filter" },
+      { "label": "Check off store listing items", "mark": "check" },
+      { "label": "Watch the progress update", "mark": "progress" },
+      { "label": "See what's still required", "mark": "required" },
+      { "label": "Reset for your next app", "mark": "reset" }
+    ]
+  }
+}
