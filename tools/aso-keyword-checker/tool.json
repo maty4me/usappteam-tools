@@ -1,0 +1,64 @@
+{
+  "slug": "aso-keyword-checker",
+  "title": "ASO Keyword Checker",
+  "tagline": "Check your App Store and Google Play keywords for wasted characters and duplicates - free, no signup.",
+  "description": "Free ASO keyword checker for iOS and Android. Spot duplicate keywords, wasted characters and keyword stuffing before you submit - runs entirely in your browser.",
+  "keywords": [
+    "app store keyword checker",
+    "aso keyword checker",
+    "ios keyword field checker",
+    "google play keyword density checker",
+    "app store optimization checker",
+    "aso tool",
+    "keyword stuffing checker"
+  ],
+  "category": "checkers",
+  "datePublished": "2026-09-04",
+  "intro": "Apple gives you exactly 100 characters for your keyword field - and every word that's already in your title or subtitle is wasted space there, because Apple already indexes those. Most people don't realize this until they've burned half the field repeating their app name.\n\nThis checker covers both stores. For iOS, paste your title, subtitle and keyword field and it flags duplicate words, wasted spaces after commas, and characters left on the table. For Google Play, paste your description and a target keyword to check how often it appears - useful because Android's search actually indexes your long description, while iOS does not index its description at all.\n\nEverything runs in your browser. Nothing is uploaded, nothing is stored - paste your listing, read the results, close the tab.",
+  "howTo": [
+    "Pick the iOS or Google Play tab at the top, matching the store you're optimizing for.",
+    "On iOS: paste your app title, subtitle and keyword field (comma-separated) into the three boxes.",
+    "Check the flags - words already covered by your title or subtitle are wasted in the keyword field, and the checker shows an optimized version with those removed.",
+    "On Google Play: paste your long description and the keyword phrase you're targeting to see how many times it appears and whether that looks like natural use or stuffing.",
+    "Nothing is saved - copy your results before you close the tab."
+  ],
+  "faq": [
+    {
+      "q": "Why does the iOS checker flag words that are already in my title or subtitle?",
+      "a": "Because Apple's search index already reads your app title and subtitle - repeating those words in the 100-character keyword field wastes space that could index a term you're not already covering. This is one of the most common ASO mistakes: an app called \"FitTrack: Workout Planner\" doesn't need \"fitness,workout,tracker\" in its keyword field if those words are already in the title."
+    },
+    {
+      "q": "Why does the Play Store checker work differently, on the description?",
+      "a": "Apple's App Store does not index your app description for search at all - only the title, subtitle and keyword field matter. Google Play is the opposite: it has no separate keyword field, so your long description is one of the few places you can signal relevance for a search term. That's why the two tabs check completely different fields."
+    },
+    {
+      "q": "What counts as keyword stuffing on Google Play?",
+      "a": "There's no official published threshold, but a keyword phrase repeated far more than it would appear in natural writing reads as spam to both users and Google's spam filters, and can hurt conversion even if it doesn't directly hurt ranking. This checker flags density above roughly 4% as worth a second look - treat it as a caution line, not a hard rule."
+    },
+    {
+      "q": "Do these character limits ever change?",
+      "a": "Yes - Apple and Google both adjust store policy over time (Google reduced its title limit from 50 to 30 characters in recent years, for example). The limits here reflect current store guidelines as of this tool's publish date; always check Apple's App Store Connect help and Google Play Console's own validation before you submit, since they enforce the real, current limits."
+    },
+    {
+      "q": "Does removing spaces after commas in my keyword field actually matter?",
+      "a": "Yes, for iOS specifically - Apple's keyword field has a hard 100-character cap, and every space counts against it. \"fitness, health, tracker\" costs 4 more characters than \"fitness,health,tracker\" for the exact same three keywords, which on a tight field can be the difference between fitting one more term or not."
+    },
+    {
+      "q": "Is anything sent to a server?",
+      "a": "No. Every check runs as JavaScript in your browser. Nothing you paste in is uploaded or stored - refresh the page and it's gone."
+    }
+  ],
+  "cta": { "label": "Start your app brief" },
+  "video": {
+    "status": "pending",
+    "durationTargetSec": 60,
+    "narration": "Apple gives you 100 characters for your keyword field, and every word you repeat from your title or subtitle is wasted space, because Apple already indexes those. This checker catches it. Paste your title, subtitle and keyword field, and it flags duplicate words plus wasted spaces after commas, then shows you an optimized version with the dead weight removed. Switch to the Google Play tab and it works differently, on purpose - Android has no keyword field, so your long description is what search actually reads. Paste your description and a target keyword, and it shows how often that keyword appears and whether it looks natural or stuffed. Nothing here is uploaded or saved, so paste your real listing text without worrying about it going anywhere. Free, instant, and it runs entirely in your browser.",
+    "scenes": [
+      { "label": "Paste your iOS title, subtitle and keywords", "mark": "ios-input" },
+      { "label": "See wasted and duplicate keywords flagged", "mark": "ios-flags" },
+      { "label": "Copy the optimized keyword field", "mark": "ios-optimized" },
+      { "label": "Switch to Google Play and paste a description", "mark": "play-input" },
+      { "label": "Check keyword density against stuffing risk", "mark": "play-density" }
+    ]
+  }
+}

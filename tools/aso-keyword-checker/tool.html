@@ -1,0 +1,476 @@
+<style>
+.t-aso-keyword-checker { font-family: var(--body); color: var(--ink); }
+
+.t-aso-keyword-checker .akc-privacy {
+  display: flex; align-items: flex-start; gap: 10px;
+  margin: 0 0 20px; padding: 12px 14px;
+  border: 1px solid rgba(31, 169, 113, .3); border-radius: var(--r-sm);
+  background: rgba(31, 169, 113, .07);
+  font-size: 13.5px; line-height: 1.5; color: var(--slate);
+}
+.t-aso-keyword-checker .akc-privacy svg {
+  width: 16px; height: 16px; flex: 0 0 auto; margin-top: 2px;
+  stroke: var(--green); fill: none; stroke-width: 2;
+  stroke-linecap: round; stroke-linejoin: round;
+}
+.t-aso-keyword-checker .akc-privacy strong { color: var(--ink); font-weight: 600; }
+
+/* ---------- tabs ---------- */
+.t-aso-keyword-checker .akc-tabs {
+  display: flex; gap: 6px; margin: 0 0 22px; flex-wrap: wrap;
+  border-bottom: 1px solid var(--line-2);
+}
+.t-aso-keyword-checker .akc-tab {
+  font-family: var(--disp); font-weight: 600; font-size: 14px;
+  padding: 10px 4px; margin-bottom: -1px;
+  border: none; border-bottom: 2px solid transparent;
+  background: none; color: var(--ink-40); cursor: pointer;
+}
+.t-aso-keyword-checker .akc-tab + .akc-tab { margin-left: 14px; }
+.t-aso-keyword-checker .akc-tab[aria-selected="true"] { color: var(--azure); border-bottom-color: var(--azure); }
+.t-aso-keyword-checker .akc-tab:focus-visible { outline: 2px solid var(--azure); outline-offset: 2px; }
+
+.t-aso-keyword-checker .akc-panel { display: none; }
+.t-aso-keyword-checker .akc-panel.is-active { display: block; }
+
+/* ---------- fields ---------- */
+.t-aso-keyword-checker .akc-field { margin: 0 0 18px; }
+.t-aso-keyword-checker .akc-field-head {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 10px;
+  margin: 0 0 6px;
+}
+.t-aso-keyword-checker .akc-field label {
+  font-family: var(--disp); font-weight: 600; font-size: 13.5px; color: var(--ink);
+}
+.t-aso-keyword-checker .akc-count { font-family: var(--mono); font-size: 11.5px; color: var(--ink-40); white-space: nowrap; }
+.t-aso-keyword-checker .akc-count.is-over { color: var(--magenta); font-weight: 700; }
+.t-aso-keyword-checker .akc-field input[type="text"],
+.t-aso-keyword-checker .akc-field textarea {
+  width: 100%; box-sizing: border-box;
+  font-family: var(--body); font-size: 14px; color: var(--ink);
+  border: 1px solid var(--line-2); border-radius: var(--r-sm);
+  background: var(--card); padding: 10px 12px; resize: vertical;
+}
+.t-aso-keyword-checker .akc-field textarea { min-height: 74px; line-height: 1.5; }
+.t-aso-keyword-checker .akc-field input:focus-visible,
+.t-aso-keyword-checker .akc-field textarea:focus-visible { outline: 2px solid var(--azure); outline-offset: 1px; }
+.t-aso-keyword-checker .akc-hint { margin: 5px 0 0; font-size: 12px; line-height: 1.5; color: var(--ink-40); }
+.t-aso-keyword-checker .akc-bar { height: 5px; border-radius: 999px; background: var(--line-2); overflow: hidden; margin: 6px 0 0; }
+.t-aso-keyword-checker .akc-bar-fill { height: 100%; background: var(--grad); border-radius: 999px; width: 0%; transition: width .2s var(--ease), background .2s var(--ease); }
+.t-aso-keyword-checker .akc-bar-fill.is-over { background: var(--magenta); }
+
+/* ---------- results card ---------- */
+.t-aso-keyword-checker .akc-out {
+  border: 1px solid var(--line-2); border-radius: var(--r);
+  background: var(--card); box-shadow: var(--shadow);
+  padding: 18px 20px; margin: 4px 0 20px;
+}
+.t-aso-keyword-checker .akc-out h3 {
+  margin: 0 0 12px; font-family: var(--disp); font-size: 14.5px; font-weight: 700; color: var(--ink);
+}
+.t-aso-keyword-checker .akc-chips { display: flex; flex-wrap: wrap; gap: 7px; margin: 0 0 4px; }
+.t-aso-keyword-checker .akc-chip {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 12.5px; padding: 5px 10px; border-radius: 999px;
+  border: 1px solid var(--line-2); background: var(--bg); color: var(--ink);
+}
+.t-aso-keyword-checker .akc-chip.wasted { border-color: rgba(180, 118, 26, .4); background: #FBF1E1; color: var(--amber); }
+.t-aso-keyword-checker .akc-chip.dup { border-color: var(--magenta); background: var(--pink-soft); color: var(--magenta); }
+.t-aso-keyword-checker .akc-chip.ok { border-color: rgba(31, 169, 113, .35); background: rgba(31, 169, 113, .08); color: var(--green); }
+.t-aso-keyword-checker .akc-empty { font-size: 13px; color: var(--ink-40); }
+
+.t-aso-keyword-checker .akc-legend { display: flex; flex-wrap: wrap; gap: 14px; margin: 14px 0 0; font-size: 12px; color: var(--ink-40); }
+.t-aso-keyword-checker .akc-legend span { display: inline-flex; align-items: center; gap: 5px; }
+.t-aso-keyword-checker .akc-dot { width: 8px; height: 8px; border-radius: 50%; flex: 0 0 auto; }
+.t-aso-keyword-checker .akc-dot.ok { background: var(--green); }
+.t-aso-keyword-checker .akc-dot.wasted { background: var(--amber); }
+.t-aso-keyword-checker .akc-dot.dup { background: var(--magenta); }
+
+.t-aso-keyword-checker .akc-optimized {
+  margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--line);
+}
+.t-aso-keyword-checker .akc-optimized-row { display: flex; align-items: flex-start; gap: 10px; }
+.t-aso-keyword-checker .akc-optimized-text {
+  flex: 1 1 auto; font-family: var(--mono); font-size: 13px; line-height: 1.6;
+  color: var(--ink); background: var(--bg); border: 1px solid var(--line-2); border-radius: var(--r-sm);
+  padding: 10px 12px; word-break: break-word;
+}
+.t-aso-keyword-checker .akc-save { margin: 8px 0 0; font-size: 12.5px; color: var(--green); font-weight: 600; }
+
+.t-aso-keyword-checker .akc-copy {
+  flex: 0 0 auto; font-family: var(--mono); font-size: 12px; line-height: 1;
+  padding: 9px 13px; border: 1px solid var(--line-2); border-radius: 999px;
+  background: var(--card); color: var(--azure); cursor: pointer; white-space: nowrap;
+  transition: border-color .18s var(--ease), background .18s var(--ease);
+}
+.t-aso-keyword-checker .akc-copy:hover { border-color: var(--azure); background: var(--blue-soft); }
+.t-aso-keyword-checker .akc-copy:focus-visible { outline: 2px solid var(--azure); outline-offset: 2px; }
+.t-aso-keyword-checker .akc-copy.is-copied { border-color: var(--green); color: var(--green); }
+
+/* ---------- play density readout ---------- */
+.t-aso-keyword-checker .akc-density-row { display: flex; flex-wrap: wrap; gap: 22px; margin: 0 0 14px; }
+.t-aso-keyword-checker .akc-stat h4 {
+  margin: 0 0 2px; font-family: var(--mono); font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--ink-40); font-weight: 500;
+}
+.t-aso-keyword-checker .akc-stat .akc-big {
+  font-family: var(--disp); font-weight: 700; font-size: 24px; color: var(--ink); line-height: 1.1;
+}
+.t-aso-keyword-checker .akc-verdict {
+  display: inline-block; margin: 2px 0 12px; padding: 6px 12px; border-radius: 999px;
+  font-size: 12.5px; font-weight: 600;
+}
+.t-aso-keyword-checker .akc-verdict.none { background: var(--pink-soft); color: var(--magenta); }
+.t-aso-keyword-checker .akc-verdict.low { background: var(--blue-soft); color: var(--azure); }
+.t-aso-keyword-checker .akc-verdict.good { background: rgba(31, 169, 113, .12); color: var(--green); }
+.t-aso-keyword-checker .akc-verdict.high { background: #FBF1E1; color: var(--amber); }
+.t-aso-keyword-checker .akc-checks { display: grid; gap: 6px; margin: 4px 0 0; }
+.t-aso-keyword-checker .akc-check { font-size: 12.5px; color: var(--slate); display: flex; align-items: center; gap: 6px; }
+.t-aso-keyword-checker .akc-check b { color: var(--ink); }
+
+/* ---------- footnote ---------- */
+.t-aso-keyword-checker .akc-note {
+  margin: 8px 0 0; padding: 16px 18px;
+  border: 1px solid var(--line-2); border-radius: var(--r-sm); background: var(--bg);
+}
+.t-aso-keyword-checker .akc-note h3 { margin: 0 0 8px; font-family: var(--disp); font-size: 15px; font-weight: 700; color: var(--ink); }
+.t-aso-keyword-checker .akc-note p { margin: 0; font-size: 13.5px; line-height: 1.6; color: var(--slate); }
+.t-aso-keyword-checker .akc-note a { color: var(--azure); }
+
+@media (max-width: 480px) {
+  .t-aso-keyword-checker .akc-optimized-row { flex-direction: column; }
+  .t-aso-keyword-checker .akc-copy { width: 100%; }
+}
+</style>
+
+<div class="t-aso-keyword-checker" id="akc-root">
+
+<div class="akc-privacy">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v6c0 4.5-3 7.7-7 9-4-1.3-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg>
+  <div><strong>Runs entirely in your browser.</strong> Nothing you paste is uploaded or stored anywhere. Close the tab and it's gone.</div>
+</div>
+
+<div class="akc-tabs" role="tablist" aria-label="Choose a store">
+  <button type="button" class="akc-tab" id="akc-tab-ios" role="tab" aria-selected="true" aria-controls="akc-panel-ios">App Store (iOS)</button>
+  <button type="button" class="akc-tab" id="akc-tab-play" role="tab" aria-selected="false" aria-controls="akc-panel-play" tabindex="-1">Google Play</button>
+</div>
+
+<!-- ---------- iOS panel ---------- -->
+<div class="akc-panel is-active" id="akc-panel-ios" role="tabpanel" aria-labelledby="akc-tab-ios">
+
+  <div class="akc-field">
+    <div class="akc-field-head"><label for="akc-title">App title</label><span class="akc-count" id="akc-title-count">0 / 30</span></div>
+    <input type="text" id="akc-title" placeholder="e.g. FitTrack: Workout Planner" maxlength="60">
+    <div class="akc-bar"><div class="akc-bar-fill" id="akc-title-bar"></div></div>
+  </div>
+
+  <div class="akc-field">
+    <div class="akc-field-head"><label for="akc-subtitle">Subtitle</label><span class="akc-count" id="akc-subtitle-count">0 / 30</span></div>
+    <input type="text" id="akc-subtitle" placeholder="e.g. Calorie & Workout Tracker" maxlength="60">
+    <div class="akc-bar"><div class="akc-bar-fill" id="akc-subtitle-bar"></div></div>
+  </div>
+
+  <div class="akc-field">
+    <div class="akc-field-head"><label for="akc-keywords">Keyword field</label><span class="akc-count" id="akc-keywords-count">0 / 100</span></div>
+    <textarea id="akc-keywords" placeholder="fitness,workout,calorie,tracker,gym,exercise,diet,health"></textarea>
+    <p class="akc-hint">Comma-separated, no spaces after commas - every space costs a character.</p>
+    <div class="akc-bar"><div class="akc-bar-fill" id="akc-keywords-bar"></div></div>
+  </div>
+
+  <div class="akc-out" aria-live="polite">
+    <h3>Keyword flags</h3>
+    <div class="akc-chips" id="akc-chips">
+      <span class="akc-empty">Paste a keyword field above to see flags.</span>
+    </div>
+    <div class="akc-legend">
+      <span><span class="akc-dot ok"></span> Unique - indexing new ground</span>
+      <span><span class="akc-dot wasted"></span> Already in title/subtitle - wasted</span>
+      <span><span class="akc-dot dup"></span> Duplicate within the field</span>
+    </div>
+
+    <div class="akc-optimized">
+      <h3>Optimized keyword field</h3>
+      <div class="akc-optimized-row">
+        <div class="akc-optimized-text" id="akc-optimized-text">-</div>
+        <button type="button" class="akc-copy" id="akc-copy" data-target="akc-optimized-text">Copy</button>
+      </div>
+      <p class="akc-save" id="akc-save"></p>
+    </div>
+  </div>
+
+  <p role="status" aria-live="polite" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)" id="akc-ios-live"></p>
+</div>
+
+<!-- ---------- Google Play panel ---------- -->
+<div class="akc-panel" id="akc-panel-play" role="tabpanel" aria-labelledby="akc-tab-play" hidden>
+
+  <div class="akc-field">
+    <div class="akc-field-head"><label for="akc-play-title">App title</label><span class="akc-count" id="akc-play-title-count">0 / 30</span></div>
+    <input type="text" id="akc-play-title" placeholder="e.g. FitTrack - Workout & Calorie Tracker" maxlength="60">
+    <div class="akc-bar"><div class="akc-bar-fill" id="akc-play-title-bar"></div></div>
+  </div>
+
+  <div class="akc-field">
+    <div class="akc-field-head"><label for="akc-play-short">Short description</label><span class="akc-count" id="akc-play-short-count">0 / 80</span></div>
+    <input type="text" id="akc-play-short" placeholder="e.g. Track workouts, calories and progress in one free app." maxlength="140">
+    <div class="akc-bar"><div class="akc-bar-fill" id="akc-play-short-bar"></div></div>
+  </div>
+
+  <div class="akc-field">
+    <div class="akc-field-head"><label for="akc-play-keyword">Target keyword</label></div>
+    <input type="text" id="akc-play-keyword" placeholder="e.g. workout tracker">
+  </div>
+
+  <div class="akc-field">
+    <div class="akc-field-head"><label for="akc-play-desc">Long description</label><span class="akc-count" id="akc-play-desc-count">0 / 4000</span></div>
+    <textarea id="akc-play-desc" style="min-height:150px" placeholder="Paste your Google Play long description here..."></textarea>
+    <div class="akc-bar"><div class="akc-bar-fill" id="akc-play-desc-bar"></div></div>
+  </div>
+
+  <div class="akc-out" aria-live="polite">
+    <h3>Keyword density</h3>
+    <div id="akc-density-empty" class="akc-empty">Enter a target keyword and paste your description above.</div>
+    <div id="akc-density-body" hidden>
+      <div class="akc-verdict" id="akc-verdict"></div>
+      <div class="akc-density-row">
+        <div class="akc-stat"><h4>Occurrences</h4><div class="akc-big" id="akc-occ">0</div></div>
+        <div class="akc-stat"><h4>Density</h4><div class="akc-big" id="akc-pct">0%</div></div>
+        <div class="akc-stat"><h4>Word count</h4><div class="akc-big" id="akc-words">0</div></div>
+      </div>
+      <div class="akc-checks">
+        <div class="akc-check" id="akc-check-title">In title: <b>-</b></div>
+        <div class="akc-check" id="akc-check-short">In short description: <b>-</b></div>
+      </div>
+    </div>
+  </div>
+
+  <p role="status" aria-live="polite" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)" id="akc-play-live"></p>
+</div>
+
+<div class="akc-note">
+  <h3>Want ASO handled for you?</h3>
+  <p>US APP Team scopes app strategy - including store positioning - as part of every custom build ($3,500 / $7,500 / $12,000 depending on complexity). <a href="https://usappteam.com/app-brief">Start your app brief</a> to talk through it.</p>
+</div>
+
+</div>
+
+<script>
+(function () {
+  var root = document.querySelector('.t-aso-keyword-checker');
+  if (!root) return;
+  var $ = function (id) { return root.querySelector('#' + id); };
+
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  /* ---------- tabs ---------- */
+  var tabs = [
+    { btn: $('akc-tab-ios'), panel: $('akc-panel-ios') },
+    { btn: $('akc-tab-play'), panel: $('akc-panel-play') }
+  ];
+  tabs.forEach(function (t, i) {
+    t.btn.addEventListener('click', function () {
+      tabs.forEach(function (o, j) {
+        var active = i === j;
+        o.btn.setAttribute('aria-selected', active ? 'true' : 'false');
+        o.btn.tabIndex = active ? 0 : -1;
+        o.panel.classList.toggle('is-active', active);
+        o.panel.hidden = !active;
+      });
+    });
+  });
+
+  /* ---------- shared: char counters ---------- */
+  function bindCounter(inputId, countId, barId, limit) {
+    var input = $(inputId), count = $(countId), bar = $(barId);
+    function update() {
+      var len = input.value.length;
+      count.textContent = len + ' / ' + limit;
+      count.classList.toggle('is-over', len > limit);
+      var pct = Math.min(100, Math.round((len / limit) * 100));
+      bar.style.width = pct + '%';
+      bar.classList.toggle('is-over', len > limit);
+    }
+    input.addEventListener('input', update);
+    update();
+    return update;
+  }
+
+  /* ---------- word helpers ---------- */
+  function words(str) {
+    return (str || '').toLowerCase().match(/[a-z0-9']+/g) || [];
+  }
+  function stem(w) {
+    return (w.length > 3 && w.charAt(w.length - 1) === 's') ? w.slice(0, -1) : w;
+  }
+
+  /* ================= iOS ================= */
+  var titleUpdate = bindCounter('akc-title', 'akc-title-count', 'akc-title-bar', 30);
+  var subtitleUpdate = bindCounter('akc-subtitle', 'akc-subtitle-count', 'akc-subtitle-bar', 30);
+  var keywordsUpdate = bindCounter('akc-keywords', 'akc-keywords-count', 'akc-keywords-bar', 100);
+
+  function renderIos() {
+    var titleStems = words($('akc-title').value).map(stem);
+    var subtitleStems = words($('akc-subtitle').value).map(stem);
+    var covered = {};
+    titleStems.concat(subtitleStems).forEach(function (s) { covered[s] = true; });
+
+    var raw = $('akc-keywords').value.split(',').map(function (s) { return s.trim(); }).filter(Boolean);
+    var seen = {};
+    var results = [];
+
+    raw.forEach(function (token) {
+      var key = token.toLowerCase();
+      var status;
+      if (seen[key]) {
+        status = 'dup';
+      } else {
+        var tokenWords = words(token);
+        var allCovered = tokenWords.length > 0 && tokenWords.every(function (w) { return covered[stem(w)]; });
+        status = allCovered ? 'wasted' : 'ok';
+      }
+      seen[key] = true;
+      results.push({ token: token, status: status });
+    });
+
+    var chipsEl = $('akc-chips');
+    if (!results.length) {
+      chipsEl.innerHTML = '<span class="akc-empty">Paste a keyword field above to see flags.</span>';
+    } else {
+      chipsEl.innerHTML = results.map(function (r) {
+        return '<span class="akc-chip ' + r.status + '">' + esc(r.token) + '</span>';
+      }).join('');
+    }
+
+    /* optimized field: drop wasted + dup, keep first occurrence order, rejoin comma-only */
+    var keepSeen = {};
+    var kept = [];
+    results.forEach(function (r) {
+      var key = r.token.toLowerCase();
+      if (r.status === 'ok' && !keepSeen[key]) {
+        keepSeen[key] = true;
+        kept.push(r.token);
+      }
+    });
+    var optimized = kept.join(',');
+    var original = $('akc-keywords').value.trim();
+    $('akc-optimized-text').textContent = optimized || '-';
+
+    var savedChars = original.length - optimized.length;
+    var saveEl = $('akc-save');
+    if (!original) {
+      saveEl.textContent = '';
+    } else if (savedChars > 0) {
+      saveEl.textContent = 'Saves ' + savedChars + ' character' + (savedChars === 1 ? '' : 's') + ' vs. your original field.';
+    } else {
+      saveEl.textContent = 'No wasted characters found - your field is already efficient.';
+    }
+
+    var wastedCount = results.filter(function (r) { return r.status === 'wasted'; }).length;
+    var dupCount = results.filter(function (r) { return r.status === 'dup'; }).length;
+    $('akc-ios-live').textContent = results.length + ' keyword' + (results.length === 1 ? '' : 's') + ' checked, ' + wastedCount + ' wasted, ' + dupCount + ' duplicate.';
+  }
+
+  ['akc-title', 'akc-subtitle', 'akc-keywords'].forEach(function (id) {
+    $(id).addEventListener('input', renderIos);
+  });
+  renderIos();
+
+  /* copy optimized field */
+  function copyText(text) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      return navigator.clipboard.writeText(text).catch(function () { fallbackCopy(text); });
+    }
+    fallbackCopy(text);
+    return Promise.resolve();
+  }
+  function fallbackCopy(text) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.setAttribute('readonly', '');
+    ta.style.position = 'absolute';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); } catch (e) { /* clipboard unavailable */ }
+    document.body.removeChild(ta);
+  }
+  $('akc-copy').addEventListener('click', function () {
+    var text = $('akc-optimized-text').textContent;
+    if (!text || text === '-') return;
+    var btn = $('akc-copy');
+    copyText(text).then(function () {
+      var original = btn.textContent;
+      btn.classList.add('is-copied');
+      btn.textContent = 'Copied';
+      $('akc-ios-live').textContent = 'Optimized keyword field copied to your clipboard.';
+      setTimeout(function () {
+        btn.classList.remove('is-copied');
+        btn.textContent = original;
+      }, 1300);
+    });
+  });
+
+  /* ================= Google Play ================= */
+  bindCounter('akc-play-title', 'akc-play-title-count', 'akc-play-title-bar', 30);
+  bindCounter('akc-play-short', 'akc-play-short-count', 'akc-play-short-bar', 80);
+  bindCounter('akc-play-desc', 'akc-play-desc-count', 'akc-play-desc-bar', 4000);
+
+  function escapeRegExp(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+
+  function renderPlay() {
+    var keyword = $('akc-play-keyword').value.trim();
+    var desc = $('akc-play-desc').value;
+    var title = $('akc-play-title').value;
+    var short = $('akc-play-short').value;
+
+    var emptyEl = $('akc-density-empty');
+    var bodyEl = $('akc-density-body');
+
+    if (!keyword || !desc.trim()) {
+      emptyEl.hidden = false;
+      bodyEl.hidden = true;
+      $('akc-play-live').textContent = '';
+      return;
+    }
+    emptyEl.hidden = true;
+    bodyEl.hidden = false;
+
+    var wordList = words(desc);
+    var totalWords = wordList.length;
+
+    var re = new RegExp('\\b' + escapeRegExp(keyword.toLowerCase()) + '\\b', 'g');
+    var occ = (desc.toLowerCase().match(re) || []).length;
+    var phraseWords = words(keyword).length || 1;
+    var density = totalWords ? (occ * phraseWords / totalWords) * 100 : 0;
+
+    $('akc-occ').textContent = String(occ);
+    $('akc-pct').textContent = density.toFixed(1) + '%';
+    $('akc-words').textContent = String(totalWords);
+
+    var verdictEl = $('akc-verdict');
+    var label, cls;
+    if (occ === 0) { label = 'Not found - add it naturally at least once or twice'; cls = 'none'; }
+    else if (density < 1) { label = 'Could use more - light presence, room to reinforce it'; cls = 'low'; }
+    else if (density <= 4) { label = 'Good range - reads as natural use'; cls = 'good'; }
+    else { label = 'Stuffing risk - repeated more than natural writing would'; cls = 'high'; }
+    verdictEl.textContent = label;
+    verdictEl.className = 'akc-verdict ' + cls;
+
+    var inTitle = title && new RegExp('\\b' + escapeRegExp(keyword.toLowerCase()) + '\\b').test(title.toLowerCase());
+    var inShort = short && new RegExp('\\b' + escapeRegExp(keyword.toLowerCase()) + '\\b').test(short.toLowerCase());
+    $('akc-check-title').innerHTML = 'In title: <b>' + (inTitle ? 'Yes' : 'No') + '</b>';
+    $('akc-check-short').innerHTML = 'In short description: <b>' + (inShort ? 'Yes' : 'No') + '</b>';
+
+    $('akc-play-live').textContent = '"' + keyword + '" appears ' + occ + ' time' + (occ === 1 ? '' : 's') + ', ' + density.toFixed(1) + '% density. ' + label;
+  }
+
+  ['akc-play-title', 'akc-play-short', 'akc-play-keyword', 'akc-play-desc'].forEach(function (id) {
+    $(id).addEventListener('input', renderPlay);
+  });
+  renderPlay();
+})();
+</script>
