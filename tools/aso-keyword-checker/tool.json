@@ -48,17 +48,37 @@
       "a": "No. Every check runs as JavaScript in your browser. Nothing you paste in is uploaded or stored - refresh the page and it's gone."
     }
   ],
-  "cta": { "label": "Start your app brief" },
+  "cta": {
+    "label": "Start your app brief"
+  },
   "video": {
-    "status": "pending",
+    "status": "rendered",
     "durationTargetSec": 60,
     "narration": "Apple gives you 100 characters for your keyword field, and every word you repeat from your title or subtitle is wasted space, because Apple already indexes those. This checker catches it. Paste your title, subtitle and keyword field, and it flags duplicate words plus wasted spaces after commas, then shows you an optimized version with the dead weight removed. Switch to the Google Play tab and it works differently, on purpose - Android has no keyword field, so your long description is what search actually reads. Paste your description and a target keyword, and it shows how often that keyword appears and whether it looks natural or stuffed. Nothing here is uploaded or saved, so paste your real listing text without worrying about it going anywhere. Free, instant, and it runs entirely in your browser.",
     "scenes": [
-      { "label": "Paste your iOS title, subtitle and keywords", "mark": "ios-input" },
-      { "label": "See wasted and duplicate keywords flagged", "mark": "ios-flags" },
-      { "label": "Copy the optimized keyword field", "mark": "ios-optimized" },
-      { "label": "Switch to Google Play and paste a description", "mark": "play-input" },
-      { "label": "Check keyword density against stuffing risk", "mark": "play-density" }
-    ]
+      {
+        "label": "Paste your iOS title, subtitle and keywords",
+        "mark": "ios-input"
+      },
+      {
+        "label": "See wasted and duplicate keywords flagged",
+        "mark": "ios-flags"
+      },
+      {
+        "label": "Copy the optimized keyword field",
+        "mark": "ios-optimized"
+      },
+      {
+        "label": "Switch to Google Play and paste a description",
+        "mark": "play-input"
+      },
+      {
+        "label": "Check keyword density against stuffing risk",
+        "mark": "play-density"
+      }
+    ],
+    "renderedAt": "2026-09-04",
+    "durationISO": "PT46S",
+    "hasVoiceover": true
   }
 }
