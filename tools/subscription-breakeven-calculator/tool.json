@@ -1,0 +1,65 @@
+{
+  "slug": "subscription-breakeven-calculator",
+  "title": "Subscription Break-Even Calculator",
+  "tagline": "See exactly which month your subscription business turns a profit - churn included, not ignored.",
+  "description": "Free subscription break-even calculator that models churn, not just cost over profit, so you see the real month your subscription business turns profitable.",
+  "keywords": [
+    "subscription break-even calculator",
+    "subscription breakeven calculator",
+    "saas break-even calculator",
+    "break-even point subscription business",
+    "when will my subscription business be profitable",
+    "churn break-even calculator",
+    "recurring revenue break-even"
+  ],
+  "category": "calculators",
+  "datePublished": "2026-09-09",
+  "intro": "Most break-even calculators do one division: cost divided by profit per subscriber. That answer assumes every subscriber stays forever, which is never true, so the month it promises never actually arrives.\n\nThis one adds churn. New subscribers arrive every month and a share of existing ones cancel, so the paying base climbs toward a ceiling instead of growing in a straight line. The calculator simulates that month by month and tells you exactly when cumulative profit crosses zero - or whether it ever does at your current churn rate.\n\nEverything runs in your browser. Nothing is uploaded, nothing is stored, and there is no email box anywhere on this page.",
+  "howTo": [
+    "Enter your upfront cost - what it took to build and launch, one time.",
+    "Enter your monthly running costs - hosting, tools, support, anything recurring.",
+    "Set your subscription price and the cut a platform or app store takes, if any.",
+    "Enter new paying subscribers added per month, and your monthly churn rate.",
+    "Read the break-even month, the deepest cash hole along the way, and your subscriber ceiling."
+  ],
+  "faq": [
+    {
+      "q": "Why does this give a different answer than cost divided by profit per subscriber?",
+      "a": "Because that division assumes subscribers never cancel, so profit per subscriber just keeps multiplying forever. Real subscribers churn, which caps how many paying customers you ever have at once. This calculator simulates the base filling up and slowing down month by month, so the break-even month it reports is the one that actually happens, not the one a fantasy spreadsheet promises."
+    },
+    {
+      "q": "What if it says I never break even?",
+      "a": "It means your steady-state monthly profit - subscribers at the churn ceiling, times what each one nets you, minus your running costs - is zero or negative. No amount of waiting fixes that; only a higher price, lower churn, more new subscribers, or lower costs does. That is the calculator being honest instead of showing a big number with an asterisk."
+    },
+    {
+      "q": "What is the 'deepest cash hole' number for?",
+      "a": "It is the lowest your cumulative profit dips before it turns positive - your upfront cost plus every early month you are still losing money. That is the number that tells you how much runway you actually need, which matters more than the break-even month by itself if you are the one funding the gap."
+    },
+    {
+      "q": "What commission should I pick?",
+      "a": "Zero percent if you sell directly - your own website, no app store. Fifteen percent if you sell through Apple's or Google's app store as a small business, which is their reduced rate on the first million dollars a year (Google applies it to subscriptions regardless of revenue). Thirty percent is the standard rate above that threshold."
+    },
+    {
+      "q": "Does this account for free trials or refunds?",
+      "a": "No. It assumes every new subscriber you enter is already a paying one from month one. Trials that never convert, refunds, and chargebacks all shrink your real numbers below what this calculator shows, so treat its answer as an upper bound, not a guarantee."
+    },
+    {
+      "q": "Is anything sent to a server?",
+      "a": "No. It is JavaScript running in your browser. Nothing is uploaded, nothing is stored, and closing the tab erases it."
+    }
+  ],
+  "cta": { "label": "Start your app brief" },
+  "video": {
+    "status": "pending",
+    "durationTargetSec": 60,
+    "narration": "Most break-even calculators do one division: cost divided by profit per subscriber. That number lies, because subscribers do not stick around forever. This calculator adds churn. Start with what it costs you upfront - pick a preset or type your own. Add your monthly running costs, then your subscription price and the cut a platform takes, if any. Set how many new subscribers you add each month, and your churn rate - the share who cancel. Watch what happens: subscribers climb toward a ceiling, not upward forever, and the calculator shows exactly which month your cumulative profit crosses zero, or tells you honestly if it never does. It also shows the deepest hole you will be in before that happens, so you know how much runway to plan for. Free, instant, runs entirely in your browser.",
+    "scenes": [
+      { "label": "Set upfront cost", "mark": "upfront" },
+      { "label": "Add monthly running costs", "mark": "fixed" },
+      { "label": "Price and platform cut", "mark": "price" },
+      { "label": "New subscribers per month", "mark": "growth" },
+      { "label": "Churn moves the ceiling", "mark": "churn" },
+      { "label": "The break-even month", "mark": "result" }
+    ]
+  }
+}

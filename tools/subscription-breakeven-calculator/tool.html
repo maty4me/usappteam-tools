@@ -1,0 +1,420 @@
+<style>
+.t-subscription-breakeven-calculator { font-family: var(--body); color: var(--ink); }
+
+/* ---------- privacy banner ---------- */
+.t-subscription-breakeven-calculator .bc-privacy {
+  display: flex; align-items: flex-start; gap: 10px;
+  margin: 0 0 20px; padding: 12px 14px;
+  border: 1px solid rgba(31, 169, 113, .3); border-radius: var(--r-sm);
+  background: rgba(31, 169, 113, .07);
+  font-size: 13.5px; line-height: 1.5; color: var(--slate);
+}
+.t-subscription-breakeven-calculator .bc-privacy svg {
+  width: 16px; height: 16px; flex: 0 0 auto; margin-top: 2px;
+  stroke: var(--green); fill: none; stroke-width: 2;
+  stroke-linecap: round; stroke-linejoin: round;
+}
+.t-subscription-breakeven-calculator .bc-privacy strong { color: var(--ink); font-weight: 600; }
+
+/* ---------- layout ---------- */
+.t-subscription-breakeven-calculator .bc-grid {
+  display: grid; gap: 22px;
+  grid-template-columns: minmax(0, 1fr);
+}
+@media (min-width: 900px) {
+  .t-subscription-breakeven-calculator .bc-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 380px); align-items: start; }
+}
+
+/* ---------- form ---------- */
+.t-subscription-breakeven-calculator fieldset { border: 0; margin: 0 0 24px; padding: 0; }
+.t-subscription-breakeven-calculator legend {
+  display: flex; align-items: center; gap: 9px;
+  font-family: var(--disp); font-weight: 700; font-size: 16px;
+  color: var(--ink); margin: 0 0 10px; padding: 0;
+}
+.t-subscription-breakeven-calculator legend .bc-n {
+  font-family: var(--mono); font-size: 11px; color: var(--azure);
+  background: var(--blue-soft); border-radius: 5px; padding: 3px 7px;
+}
+.t-subscription-breakeven-calculator .bc-hint {
+  margin: -4px 0 12px; font-size: 13.5px; line-height: 1.55; color: var(--ink-60);
+}
+
+.t-subscription-breakeven-calculator .bc-field { margin: 0 0 14px; }
+.t-subscription-breakeven-calculator .bc-field label {
+  display: block; font-weight: 600; font-size: 14px; color: var(--ink); margin: 0 0 6px;
+}
+.t-subscription-breakeven-calculator .bc-field .bc-sub { font-weight: 400; color: var(--ink-60); }
+.t-subscription-breakeven-calculator .bc-row { display: flex; align-items: center; gap: 12px; }
+.t-subscription-breakeven-calculator input[type="range"] { flex: 1 1 auto; min-width: 0; accent-color: var(--azure); }
+.t-subscription-breakeven-calculator input[type="number"] {
+  width: 118px; flex: 0 0 auto; font-family: var(--mono); font-size: 14px;
+  padding: 9px 10px; color: var(--ink);
+  border: 1px solid var(--line-2); border-radius: var(--r-sm); background: var(--card);
+}
+.t-subscription-breakeven-calculator input[type="number"]:focus-visible { outline: 2px solid var(--azure); outline-offset: 1px; }
+.t-subscription-breakeven-calculator .bc-unit { font-family: var(--mono); font-size: 13px; color: var(--ink-60); flex: 0 0 auto; }
+
+.t-subscription-breakeven-calculator .bc-quicks { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0 0; }
+.t-subscription-breakeven-calculator .bc-quick {
+  font-family: var(--mono); font-size: 12.5px; font-weight: 600; color: var(--azure);
+  background: var(--blue-soft); border: 1px solid rgba(35, 128, 184, .25); border-radius: 999px;
+  padding: 6px 12px; cursor: pointer; transition: background .18s var(--ease), border-color .18s var(--ease);
+}
+.t-subscription-breakeven-calculator .bc-quick:hover { background: rgba(35, 128, 184, .18); }
+.t-subscription-breakeven-calculator .bc-quick:focus-visible { outline: 2px solid var(--azure); outline-offset: 2px; }
+.t-subscription-breakeven-calculator .bc-quick[aria-pressed="true"] { border-color: var(--azure); background: rgba(35, 128, 184, .22); }
+
+.t-subscription-breakeven-calculator .bc-tiers { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); }
+.t-subscription-breakeven-calculator .bc-tier { position: relative; }
+.t-subscription-breakeven-calculator .bc-tier input {
+  position: absolute; opacity: 0; width: 100%; height: 100%; margin: 0; cursor: pointer;
+}
+.t-subscription-breakeven-calculator .bc-tier span {
+  display: block; padding: 13px 14px; height: 100%;
+  border: 1px solid var(--line-2); border-radius: var(--r-sm);
+  background: var(--card); cursor: pointer;
+  transition: border-color .18s var(--ease), background .18s var(--ease);
+}
+.t-subscription-breakeven-calculator .bc-tier b {
+  display: block; font-family: var(--disp); font-weight: 700; font-size: 15px; color: var(--ink);
+}
+.t-subscription-breakeven-calculator .bc-tier i {
+  display: block; font-style: normal; font-size: 12.5px; color: var(--ink-60); margin-top: 3px; line-height: 1.45;
+}
+.t-subscription-breakeven-calculator .bc-tier input:checked + span { border-color: var(--azure); background: var(--blue-soft); }
+.t-subscription-breakeven-calculator .bc-tier input:focus-visible + span { outline: 2px solid var(--azure); outline-offset: 2px; }
+
+/* ---------- results ---------- */
+.t-subscription-breakeven-calculator .bc-out {
+  position: sticky; top: 20px;
+  border: 1px solid var(--line-2); border-radius: var(--r);
+  background: var(--card); box-shadow: var(--shadow);
+  padding: 20px; overflow: hidden;
+}
+@media (max-width: 899px) { .t-subscription-breakeven-calculator .bc-out { position: static; } }
+.t-subscription-breakeven-calculator .bc-out h3 {
+  margin: 0 0 2px; font-family: var(--mono); font-size: 11px; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--ink-40); font-weight: 500;
+}
+.t-subscription-breakeven-calculator .bc-big {
+  font-family: var(--disp); font-weight: 700; line-height: 1.05;
+  font-size: clamp(30px, 6.5vw, 42px);
+  background: var(--grad); -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: var(--azure);
+  margin: 4px 0 2px; word-break: break-word;
+}
+.t-subscription-breakeven-calculator .bc-big-sub { font-size: 13.5px; color: var(--ink-60); margin: 0 0 16px; line-height: 1.5; }
+
+.t-subscription-breakeven-calculator .bc-lines { border-top: 1px solid var(--line); margin: 0 0 14px; }
+.t-subscription-breakeven-calculator .bc-line {
+  display: flex; justify-content: space-between; gap: 12px; align-items: baseline;
+  padding: 9px 0; border-bottom: 1px solid var(--line); font-size: 14px;
+}
+.t-subscription-breakeven-calculator .bc-line dt { color: var(--slate); margin: 0; }
+.t-subscription-breakeven-calculator .bc-line dd { margin: 0; font-family: var(--mono); font-weight: 600; color: var(--ink); white-space: nowrap; }
+.t-subscription-breakeven-calculator .bc-line.is-bad dd { color: var(--magenta); }
+.t-subscription-breakeven-calculator .bc-line.is-good dd { color: var(--green); }
+
+.t-subscription-breakeven-calculator .bc-chart { margin: 4px 0 14px; }
+.t-subscription-breakeven-calculator .bc-chart svg { display: block; width: 100%; height: auto; }
+.t-subscription-breakeven-calculator .bc-chart-t {
+  font-family: var(--mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--ink-40); margin: 0 0 7px;
+}
+.t-subscription-breakeven-calculator .bc-ceiling {
+  padding: 11px 13px; border-radius: var(--r-sm);
+  background: var(--blue-soft); border: 1px solid rgba(35, 128, 184, .22);
+  font-size: 13.5px; line-height: 1.55; color: var(--slate);
+}
+.t-subscription-breakeven-calculator .bc-ceiling strong { color: var(--ink); }
+
+/* ---------- caveats ---------- */
+.t-subscription-breakeven-calculator .bc-caveats {
+  margin: 26px 0 0; padding: 16px 18px;
+  border: 1px solid var(--line-2); border-radius: var(--r-sm); background: var(--bg);
+}
+.t-subscription-breakeven-calculator .bc-caveats h3 {
+  margin: 0 0 8px; font-family: var(--disp); font-size: 15px; font-weight: 700; color: var(--ink);
+}
+.t-subscription-breakeven-calculator .bc-caveats ul { margin: 0; padding-left: 18px; }
+.t-subscription-breakeven-calculator .bc-caveats li { font-size: 13.5px; line-height: 1.6; color: var(--slate); margin: 0 0 5px; }
+</style>
+
+<div class="t-subscription-breakeven-calculator" id="bc-root">
+
+<div class="bc-privacy">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v6c0 4.5-3 7.7-7 9-4-1.3-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg>
+  <div><strong>Runs entirely in your browser.</strong> Nothing is uploaded, nothing is stored, and there is no email box on this page. Close the tab and it is gone.</div>
+</div>
+
+<div class="bc-grid">
+  <form class="bc-form" id="bc-form" novalidate>
+    <fieldset>
+      <legend><span class="bc-n">01</span> Upfront cost</legend>
+      <div class="bc-field">
+        <label for="bc-upfront">What it cost to build and launch <span class="bc-sub">(USD, one time)</span></label>
+        <div class="bc-row">
+          <input type="range" id="bc-upfront-r" min="0" max="30000" step="100" value="7500" aria-hidden="true" tabindex="-1">
+          <input type="number" id="bc-upfront" min="0" max="1000000" step="50" value="7500" inputmode="numeric">
+        </div>
+        <p class="bc-hint">Building with US App Team? Our fixed prices are 3,500, 7,500 or 12,000.</p>
+        <div class="bc-quicks" role="group" aria-label="Upfront cost quick picks">
+          <button type="button" class="bc-quick" data-target="bc-upfront" data-value="3500">$3,500</button>
+          <button type="button" class="bc-quick" data-target="bc-upfront" data-value="7500">$7,500</button>
+          <button type="button" class="bc-quick" data-target="bc-upfront" data-value="12000">$12,000</button>
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend><span class="bc-n">02</span> Monthly running costs</legend>
+      <div class="bc-field">
+        <label for="bc-fixed">Hosting, tools, support - everything recurring <span class="bc-sub">(USD/month)</span></label>
+        <div class="bc-row">
+          <input type="range" id="bc-fixed-r" min="0" max="2000" step="10" value="399" aria-hidden="true" tabindex="-1">
+          <input type="number" id="bc-fixed" min="0" max="1000000" step="10" value="399" inputmode="numeric">
+        </div>
+        <p class="bc-hint">Our Care plans run 199, 399 or 799 a month if that is a useful reference.</p>
+        <div class="bc-quicks" role="group" aria-label="Monthly cost quick picks">
+          <button type="button" class="bc-quick" data-target="bc-fixed" data-value="199">$199</button>
+          <button type="button" class="bc-quick" data-target="bc-fixed" data-value="399">$399</button>
+          <button type="button" class="bc-quick" data-target="bc-fixed" data-value="799">$799</button>
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend><span class="bc-n">03</span> Price and platform cut</legend>
+      <div class="bc-field">
+        <label for="bc-price">Subscription price per month <span class="bc-sub">(USD)</span></label>
+        <div class="bc-row">
+          <input type="range" id="bc-price-r" min="0.99" max="99" step="0.5" value="9.99" aria-hidden="true" tabindex="-1">
+          <input type="number" id="bc-price" min="0" max="10000" step="0.01" value="9.99" inputmode="decimal">
+        </div>
+      </div>
+      <p class="bc-hint">What a store or payment platform keeps before the rest reaches you.</p>
+      <div class="bc-tiers">
+        <label class="bc-tier">
+          <input type="radio" name="bc-comm" value="0" checked>
+          <span><b>0 percent</b><i>Sold direct, no app store</i></span>
+        </label>
+        <label class="bc-tier">
+          <input type="radio" name="bc-comm" value="15">
+          <span><b>15 percent</b><i>Small-business or subscription rate</i></span>
+        </label>
+        <label class="bc-tier">
+          <input type="radio" name="bc-comm" value="30">
+          <span><b>30 percent</b><i>Standard rate above the threshold</i></span>
+        </label>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend><span class="bc-n">04</span> Growth and churn</legend>
+      <div class="bc-field">
+        <label for="bc-newsubs">New paying subscribers added per month</label>
+        <div class="bc-row">
+          <input type="range" id="bc-newsubs-r" min="1" max="2000" step="1" value="40" aria-hidden="true" tabindex="-1">
+          <input type="number" id="bc-newsubs" min="0" max="1000000" step="1" value="40" inputmode="numeric">
+        </div>
+      </div>
+      <div class="bc-field">
+        <label for="bc-churn">Monthly churn <span class="bc-sub">(share of subscribers who cancel each month)</span></label>
+        <p class="bc-hint">Five to eight percent is a healthy consumer app. Above fifteen and the ceiling arrives fast.</p>
+        <div class="bc-row">
+          <input type="range" id="bc-churn-r" min="0.5" max="40" step="0.5" value="6" aria-hidden="true" tabindex="-1">
+          <input type="number" id="bc-churn" min="0.1" max="100" step="0.1" value="6" inputmode="decimal">
+          <span class="bc-unit">%</span>
+        </div>
+      </div>
+    </fieldset>
+  </form>
+
+  <aside class="bc-out" aria-labelledby="bc-out-h">
+    <h3 id="bc-out-h">Break-even</h3>
+    <div class="bc-big" id="bc-headline">--</div>
+    <p class="bc-big-sub" id="bc-headline-sub">fill in the numbers to the left</p>
+
+    <div class="bc-chart">
+      <p class="bc-chart-t">Cumulative profit, months 1-24</p>
+      <svg id="bc-chart" viewBox="0 0 320 110" role="img" aria-label="Bar chart of cumulative profit over 24 months, relative to a zero line"></svg>
+    </div>
+
+    <dl class="bc-lines" id="bc-lines"></dl>
+
+    <div class="bc-ceiling" id="bc-ceiling"></div>
+
+    <p class="bc-big-sub" style="margin:14px 0 0" role="status" aria-live="polite" id="bc-live"></p>
+  </aside>
+</div>
+
+<div class="bc-caveats">
+  <h3>What this deliberately does not include</h3>
+  <ul>
+    <li>Free trials that never convert, refunds, and chargebacks - it treats every subscriber as paying from month one.</li>
+    <li>Marketing and user-acquisition spend beyond what it takes to land the subscribers you enter.</li>
+    <li>Taxes, and any payment processing costs outside the platform commission above.</li>
+    <li>Price increases, seasonal swings, or churn that changes as the product matures.</li>
+  </ul>
+  <p style="margin:10px 0 0;font-size:13.5px;line-height:1.6;color:var(--slate)">
+    Treat the break-even month as an upper bound on how fast it can happen, not a guarantee.
+  </p>
+</div>
+
+</div>
+
+<script>
+(function () {
+  var root = document.querySelector('.t-subscription-breakeven-calculator');
+  if (!root) return;
+  var $ = function (id) { return root.querySelector('#' + id); };
+
+  var money = new Intl.NumberFormat('en-US', {
+    style: 'currency', currency: 'USD', maximumFractionDigits: 0
+  });
+  var moneyPrecise = new Intl.NumberFormat('en-US', {
+    style: 'currency', currency: 'USD', maximumFractionDigits: 2
+  });
+  var count = new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 });
+
+  var MONTHS = 24;
+
+  /* Keep each slider and its number box in step. The slider is decorative -
+     it is aria-hidden and untabbable, so the number input is the real control
+     and screen readers only ever meet one of them. */
+  function pair(numId, rangeId) {
+    var n = $(numId), r = $(rangeId);
+    if (!n || !r) return;
+    n.addEventListener('input', function () {
+      var v = parseFloat(n.value);
+      if (!isNaN(v)) r.value = Math.min(Math.max(v, r.min), r.max);
+      render();
+    });
+    r.addEventListener('input', function () { n.value = r.value; render(); });
+  }
+
+  ['bc-upfront', 'bc-fixed', 'bc-price', 'bc-newsubs', 'bc-churn']
+    .forEach(function (id) { pair(id, id + '-r'); });
+
+  root.querySelectorAll('input[name="bc-comm"]')
+    .forEach(function (el) { el.addEventListener('change', render); });
+
+  root.querySelectorAll('.bc-quick').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var target = $(btn.dataset.target);
+      var range = $(btn.dataset.target + '-r');
+      target.value = btn.dataset.value;
+      if (range) range.value = Math.min(Math.max(parseFloat(btn.dataset.value), range.min), range.max);
+      render();
+    });
+  });
+
+  function num(id, fallback) {
+    var v = parseFloat($(id).value);
+    return isNaN(v) || v < 0 ? fallback : v;
+  }
+
+  /* ---- the actual model ----
+     A naive break-even is upfront cost divided by monthly profit per
+     subscriber, which assumes the paying base grows forever. It does not -
+     subscribers churn, so the base converges on a ceiling: new / churn. This
+     simulates the base and cumulative profit month by month against that
+     ceiling, so the break-even month reported is the one that actually
+     happens rather than one an unbounded model promises. */
+  function project() {
+    var upfront = num('bc-upfront', 0);
+    var fixed = num('bc-fixed', 0);
+    var price = num('bc-price', 0);
+    var commission = parseFloat(root.querySelector('input[name="bc-comm"]:checked').value) / 100;
+    var newSubs = num('bc-newsubs', 0);
+    var churn = Math.min(Math.max(num('bc-churn', 6), 0.1), 100) / 100;
+
+    var netPrice = price * (1 - commission);
+    var ceilingSubs = newSubs / churn;
+    var steadyProfit = ceilingSubs * netPrice - fixed;
+
+    var subs = 0;
+    var cumulative = -upfront;
+    var trough = cumulative;
+    var series = [];
+    var breakevenMonth = null;
+
+    for (var i = 1; i <= MONTHS; i++) {
+      subs = subs * (1 - churn) + newSubs;
+      var profit = subs * netPrice - fixed;
+      cumulative += profit;
+      series.push(cumulative);
+      if (cumulative < trough) trough = cumulative;
+      if (breakevenMonth === null && cumulative >= 0) breakevenMonth = i;
+    }
+
+    return {
+      upfront: upfront, netPrice: netPrice, ceilingSubs: ceilingSubs,
+      steadyProfit: steadyProfit, series: series, trough: trough,
+      breakevenMonth: breakevenMonth, finalCumulative: series[series.length - 1]
+    };
+  }
+
+  function chart(series) {
+    var svg = $('bc-chart');
+    var w = 320, h = 110, gap = 3;
+    var maxAbs = Math.max.apply(null, series.map(Math.abs).concat([1]));
+    var mid = h / 2;
+    var bw = (w - gap * (series.length - 1)) / series.length;
+    var out = '<line x1="0" y1="' + mid + '" x2="' + w + '" y2="' + mid + '" stroke="var(--line-2)" stroke-width="1"></line>';
+    for (var i = 0; i < series.length; i++) {
+      var v = series[i];
+      var bh = Math.max(1.5, Math.abs(v) / maxAbs * (mid - 6));
+      var x = i * (bw + gap);
+      var y = v >= 0 ? mid - bh : mid;
+      out += '<rect x="' + x.toFixed(1) + '" y="' + y.toFixed(1) +
+             '" width="' + bw.toFixed(1) + '" height="' + bh.toFixed(1) +
+             '" rx="1.5" fill="' + (v >= 0 ? 'var(--green)' : 'var(--magenta)') + '" opacity="' +
+             (v >= 0 ? '0.85' : '0.6') + '"></rect>';
+    }
+    svg.innerHTML = out;
+  }
+
+  function line(term, val, cls) {
+    return '<div class="bc-line ' + (cls || '') + '"><dt>' + term + '</dt><dd>' + val + '</dd></div>';
+  }
+
+  function render() {
+    var r = project();
+
+    if (r.steadyProfit <= 0) {
+      $('bc-headline').textContent = 'Never';
+      $('bc-headline-sub').textContent = 'monthly profit stays at or below zero even at your subscriber ceiling - see the note below.';
+    } else if (r.breakevenMonth === null) {
+      $('bc-headline').textContent = '24+ months';
+      $('bc-headline-sub').textContent = 'still climbing - it will break even eventually, just past this 24-month window.';
+    } else {
+      $('bc-headline').textContent = 'Month ' + r.breakevenMonth;
+      $('bc-headline-sub').textContent = 'cumulative profit turns positive, including your ' + money.format(r.upfront) + ' upfront cost.';
+    }
+
+    chart(r.series);
+
+    var rows = '';
+    rows += line('Net revenue per subscriber', moneyPrecise.format(r.netPrice));
+    rows += line('Subscriber ceiling at this churn', count.format(Math.round(r.ceilingSubs)));
+    rows += line('Monthly profit at the ceiling', money.format(r.steadyProfit), r.steadyProfit >= 0 ? 'is-good' : 'is-bad');
+    rows += line('Deepest cash hole before break-even', money.format(r.trough), 'is-bad');
+    $('bc-lines').innerHTML = rows;
+
+    var ceil = $('bc-ceiling');
+    var churnPct = Math.min(Math.max(num('bc-churn', 6), 0.1), 100);
+    ceil.innerHTML = 'At ' + churnPct + ' percent monthly churn your paying base tops out near <strong>' +
+      count.format(Math.round(r.ceilingSubs)) + ' subscribers</strong> - the point where cancellations match ' +
+      'new sign-ups. Halving churn roughly doubles that ceiling, which is usually cheaper than doubling your ' +
+      'new-subscriber rate.';
+
+    $('bc-live').textContent = r.breakevenMonth
+      ? 'Break-even at month ' + r.breakevenMonth + '. Deepest cash hole: ' + money.format(r.trough) + '.'
+      : 'No break-even within 24 months at these numbers. Steady-state monthly profit: ' + money.format(r.steadyProfit) + '.';
+  }
+
+  render();
+})();
+</script>
