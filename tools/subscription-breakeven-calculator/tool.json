@@ -48,18 +48,41 @@
       "a": "No. It is JavaScript running in your browser. Nothing is uploaded, nothing is stored, and closing the tab erases it."
     }
   ],
-  "cta": { "label": "Start your app brief" },
+  "cta": {
+    "label": "Start your app brief"
+  },
   "video": {
-    "status": "pending",
+    "status": "rendered",
     "durationTargetSec": 60,
     "narration": "Most break-even calculators do one division: cost divided by profit per subscriber. That number lies, because subscribers do not stick around forever. This calculator adds churn. Start with what it costs you upfront - pick a preset or type your own. Add your monthly running costs, then your subscription price and the cut a platform takes, if any. Set how many new subscribers you add each month, and your churn rate - the share who cancel. Watch what happens: subscribers climb toward a ceiling, not upward forever, and the calculator shows exactly which month your cumulative profit crosses zero, or tells you honestly if it never does. It also shows the deepest hole you will be in before that happens, so you know how much runway to plan for. Free, instant, runs entirely in your browser.",
     "scenes": [
-      { "label": "Set upfront cost", "mark": "upfront" },
-      { "label": "Add monthly running costs", "mark": "fixed" },
-      { "label": "Price and platform cut", "mark": "price" },
-      { "label": "New subscribers per month", "mark": "growth" },
-      { "label": "Churn moves the ceiling", "mark": "churn" },
-      { "label": "The break-even month", "mark": "result" }
-    ]
+      {
+        "label": "Set upfront cost",
+        "mark": "upfront"
+      },
+      {
+        "label": "Add monthly running costs",
+        "mark": "fixed"
+      },
+      {
+        "label": "Price and platform cut",
+        "mark": "price"
+      },
+      {
+        "label": "New subscribers per month",
+        "mark": "growth"
+      },
+      {
+        "label": "Churn moves the ceiling",
+        "mark": "churn"
+      },
+      {
+        "label": "The break-even month",
+        "mark": "result"
+      }
+    ],
+    "renderedAt": "2026-09-09",
+    "durationISO": "PT46S",
+    "hasVoiceover": true
   }
 }
