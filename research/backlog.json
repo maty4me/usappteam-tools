@@ -185,7 +185,8 @@
       "difficulty": "M",
       "effort": "S",
       "relevance": 3,
-      "status": "todo"
+      "status": "live",
+      "publishedDate": "2026-09-11"
     },
     {
       "slug": "app-timeline-estimator",
