@@ -15,8 +15,7 @@
   ],
   "category": "generators",
   "datePublished": "2026-09-11",
-  "intro": "Apple will not let you use your own Terms of Service as an app's EULA (end-user license agreement) unless it contains a specific set of clauses — Apple calls them the minimum terms, and they cover things like where liability sits, who owns the app, and what happens if a user's device is used somewhere Apple can't legally sell to. Skip one and Apple's default EULA silently applies instead, which names Apple nowhere your users would expect and was never written with your app's features in mind.\n\nMost terms-of-service generators either produce a generic consumer contract with none of that, or gate the finished document behind a signup. This one asks about the app you actually built — whether it has accounts, whether people post content inside it, whether you sell subscriptions or one-time purchases, how disputes get resolved — and writes a full Terms of Service around those answers as you go, right in the browser tab.\n\nThe **Apple minimum terms checklist** on the second tab is the part most generators skip entirely. It lists each of the ten clauses Apple's Developer Program License Agreement requires a custom EULA to carry, in plain language, and tells you which section of your generated document covers it — so if you ever swap in your own wording, you know exactly what has to survive the edit."
-  ,
+  "intro": "Apple will not let you use your own Terms of Service as an app's EULA (end-user license agreement) unless it contains a specific set of clauses — Apple calls them the minimum terms, and they cover things like where liability sits, who owns the app, and what happens if a user's device is used somewhere Apple can't legally sell to. Skip one and Apple's default EULA silently applies instead, which names Apple nowhere your users would expect and was never written with your app's features in mind.\n\nMost terms-of-service generators either produce a generic consumer contract with none of that, or gate the finished document behind a signup. This one asks about the app you actually built — whether it has accounts, whether people post content inside it, whether you sell subscriptions or one-time purchases, how disputes get resolved — and writes a full Terms of Service around those answers as you go, right in the browser tab.\n\nThe **Apple minimum terms checklist** on the second tab is the part most generators skip entirely. It lists each of the ten clauses Apple's Developer Program License Agreement requires a custom EULA to carry, in plain language, and tells you which section of your generated document covers it — so if you ever swap in your own wording, you know exactly what has to survive the edit.",
   "howTo": [
     "Enter your app name, company name, contact email and the effective date.",
     "Set the platforms you ship on and the minimum age to use the app.",
@@ -52,19 +51,45 @@
       "a": "No. The whole thing — the form and the document it builds — runs as JavaScript in your browser tab. Nothing is sent to a server and nothing is saved, so closing the tab erases everything you typed. That's also why there's no signup or email gate."
     }
   ],
-  "cta": { "label": "Get your app built properly" },
+  "cta": {
+    "label": "Get your app built properly"
+  },
   "video": {
-    "status": "pending",
+    "status": "rendered",
     "durationTargetSec": 60,
     "narration": "Apple won't let a custom app agreement skip its required clauses — miss one and Apple's own default EULA takes over instead, and it was never written for your app. Here's a way to build a full Terms of Service around your app in a couple of minutes, free. Start with your app name, your company, and the email people can reach you at. Set your platforms and the minimum age to use the app. Tell it whether the app has accounts, whether people can post content, and how you charge — one-time purchase or subscription. Choose how disputes get resolved. Watch the document build itself on the right as you go. Then open the Apple minimum terms checklist — it shows exactly which required clause lives in which section, so nothing required gets left out. Copy it or download it as a file. Nothing you typed ever left this browser tab.",
     "scenes": [
-      { "label": "Why apps need one", "mark": "intro" },
-      { "label": "Your app details", "mark": "details" },
-      { "label": "Accounts & content", "mark": "content" },
-      { "label": "Purchases & disputes", "mark": "purchases" },
-      { "label": "The document builds live", "mark": "document" },
-      { "label": "Apple minimum terms checklist", "mark": "checklist" },
-      { "label": "Copy or download", "mark": "download" }
-    ]
+      {
+        "label": "Why apps need one",
+        "mark": "intro"
+      },
+      {
+        "label": "Your app details",
+        "mark": "details"
+      },
+      {
+        "label": "Accounts & content",
+        "mark": "content"
+      },
+      {
+        "label": "Purchases & disputes",
+        "mark": "purchases"
+      },
+      {
+        "label": "The document builds live",
+        "mark": "document"
+      },
+      {
+        "label": "Apple minimum terms checklist",
+        "mark": "checklist"
+      },
+      {
+        "label": "Copy or download",
+        "mark": "download"
+      }
+    ],
+    "renderedAt": "2026-09-11",
+    "durationISO": "PT46S",
+    "hasVoiceover": true
   }
 }
