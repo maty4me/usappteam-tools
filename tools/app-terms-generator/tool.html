@@ -1,0 +1,752 @@
+<div class="t-app-terms-generator">
+  <p class="atg-privacy" role="note">
+    <span class="atg-lock" aria-hidden="true">&#9679;</span>
+    <strong>Nothing is uploaded.</strong> Every answer stays in this browser tab, the document is written
+    by JavaScript running on your device, and nothing is saved when you close the page.
+  </p>
+
+  <div class="atg-grid">
+    <!-- ------------------------------- FORM ------------------------------- -->
+    <form class="atg-form" id="atg-form" autocomplete="off" novalidate>
+      <h2 class="atg-h">Your app</h2>
+
+      <div class="atg-fields">
+        <p class="atg-field">
+          <label for="atg-app">App name</label>
+          <input type="text" id="atg-app" placeholder="Trailmark">
+        </p>
+        <p class="atg-field">
+          <label for="atg-company">Company or developer name</label>
+          <input type="text" id="atg-company" placeholder="Trailmark Labs LLC">
+        </p>
+        <p class="atg-field">
+          <label for="atg-email">Contact email</label>
+          <input type="email" id="atg-email" placeholder="legal@trailmark.app">
+        </p>
+        <p class="atg-field">
+          <label for="atg-site">Website <span class="atg-opt">(optional)</span></label>
+          <input type="text" id="atg-site" placeholder="trailmark.app">
+        </p>
+        <p class="atg-field">
+          <label for="atg-date">Effective date</label>
+          <input type="date" id="atg-date">
+        </p>
+        <p class="atg-field">
+          <label for="atg-law">Governing law</label>
+          <input type="text" id="atg-law" placeholder="Delaware, United States">
+        </p>
+      </div>
+
+      <fieldset class="atg-fs">
+        <legend>Platforms</legend>
+        <div class="atg-checks atg-cols">
+          <label class="atg-check"><input type="checkbox" id="atg-p-ios" data-plat="iOS" checked><span>iOS</span></label>
+          <label class="atg-check"><input type="checkbox" id="atg-p-android" data-plat="Android" checked><span>Android</span></label>
+          <label class="atg-check"><input type="checkbox" id="atg-p-web" data-plat="web"><span>Web</span></label>
+        </div>
+      </fieldset>
+
+      <fieldset class="atg-fs">
+        <legend>Minimum age to use the app</legend>
+        <div class="atg-radios">
+          <label class="atg-check"><input type="radio" name="atg-age" value="general" id="atg-age-general" checked><span>General &mdash; old enough to form a contract, or a parent's consent</span></label>
+          <label class="atg-check"><input type="radio" name="atg-age" value="13" id="atg-age-13"><span>13+</span></label>
+          <label class="atg-check"><input type="radio" name="atg-age" value="16" id="atg-age-16"><span>16+</span></label>
+          <label class="atg-check"><input type="radio" name="atg-age" value="18" id="atg-age-18"><span>18+</span></label>
+        </div>
+      </fieldset>
+
+      <h2 class="atg-h">Accounts &amp; content</h2>
+      <fieldset class="atg-fs">
+        <legend>Do users create an account?</legend>
+        <div class="atg-radios">
+          <label class="atg-check"><input type="radio" name="atg-acc" value="yes" id="atg-acc-yes"><span>Yes</span></label>
+          <label class="atg-check"><input type="radio" name="atg-acc" value="no" id="atg-acc-no" checked><span>No &mdash; the app just works</span></label>
+        </div>
+      </fieldset>
+
+      <fieldset class="atg-fs">
+        <legend>Can users post or upload content inside the app?</legend>
+        <div class="atg-radios">
+          <label class="atg-check"><input type="radio" name="atg-ugc" value="yes" id="atg-ugc-yes"><span>Yes &mdash; photos, text, or other content</span></label>
+          <label class="atg-check"><input type="radio" name="atg-ugc" value="no" id="atg-ugc-no" checked><span>No</span></label>
+        </div>
+      </fieldset>
+
+      <h2 class="atg-h">Purchases &amp; disputes</h2>
+      <fieldset class="atg-fs">
+        <legend>How do you charge for the app?</legend>
+        <div class="atg-radios">
+          <label class="atg-check"><input type="radio" name="atg-buy" value="none" id="atg-buy-none" checked><span>Free &mdash; no purchases</span></label>
+          <label class="atg-check"><input type="radio" name="atg-buy" value="onetime" id="atg-buy-onetime"><span>One-time purchases</span></label>
+          <label class="atg-check"><input type="radio" name="atg-buy" value="subscription" id="atg-buy-subscription"><span>Auto-renewing subscription</span></label>
+        </div>
+      </fieldset>
+      <fieldset class="atg-fs">
+        <div class="atg-checks">
+          <label class="atg-check"><input type="checkbox" id="atg-trial"><span>Offers a free trial before the subscription charges</span></label>
+        </div>
+      </fieldset>
+
+      <fieldset class="atg-fs">
+        <legend>How are disputes resolved?</legend>
+        <div class="atg-radios">
+          <label class="atg-check"><input type="radio" name="atg-dispute" value="courts" id="atg-dispute-courts" checked><span>Standard courts</span></label>
+          <label class="atg-check"><input type="radio" name="atg-dispute" value="arbitration" id="atg-dispute-arbitration"><span>Binding arbitration + class-action waiver</span></label>
+        </div>
+      </fieldset>
+    </form>
+
+    <!-- ------------------------------ OUTPUT ------------------------------ -->
+    <div class="atg-out">
+      <div class="atg-tabs" role="tablist" aria-label="Output">
+        <button type="button" class="atg-tab" id="atg-tab-terms" role="tab" aria-selected="true" aria-controls="atg-pane-terms">Terms of Service</button>
+        <button type="button" class="atg-tab" id="atg-tab-checklist" role="tab" aria-selected="false" aria-controls="atg-pane-checklist">Apple minimum terms</button>
+      </div>
+
+      <div class="atg-bar">
+        <button type="button" class="atg-btn" id="atg-copy-text">Copy text</button>
+        <button type="button" class="atg-btn" id="atg-copy-html">Copy HTML</button>
+        <button type="button" class="atg-btn" id="atg-dl-html">Download .html</button>
+        <button type="button" class="atg-btn" id="atg-dl-md">Download .md</button>
+        <span class="atg-count" id="atg-count">0 words</span>
+      </div>
+
+      <p class="atg-missing" id="atg-missing" hidden></p>
+      <p class="atg-status" id="atg-status" role="status" aria-live="polite"></p>
+
+      <div class="atg-pane" id="atg-pane-terms" role="tabpanel" aria-labelledby="atg-tab-terms" tabindex="0">
+        <article class="atg-doc" id="atg-doc"></article>
+      </div>
+
+      <div class="atg-pane" id="atg-pane-checklist" role="tabpanel" aria-labelledby="atg-tab-checklist" tabindex="0" hidden>
+        <div class="atg-doc" id="atg-checklist"></div>
+      </div>
+    </div>
+  </div>
+
+  <p class="atg-legal">
+    <strong>This is a starting template, not legal advice.</strong> It is written from the answers you gave
+    and covers the sections app stores and courts expect to see, including Apple's required minimum terms.
+    It cannot know everything about your app or your business. Read every line, correct anything that is
+    wrong, and have a lawyer review it before you ship.
+  </p>
+</div>
+
+<style>
+.t-app-terms-generator { font-family: var(--body); color: var(--ink); }
+.t-app-terms-generator .atg-sr {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap;
+}
+.t-app-terms-generator .atg-privacy {
+  display: flex; gap: 10px; align-items: flex-start;
+  margin: 0 0 20px; padding: 13px 16px;
+  border: 1px solid rgba(31, 169, 113, .3); border-radius: var(--r-sm);
+  background: rgba(31, 169, 113, .07);
+  font-size: 14px; color: var(--slate); line-height: 1.55;
+}
+.t-app-terms-generator .atg-lock { color: var(--green); font-size: 11px; line-height: 1.9; }
+.t-app-terms-generator .atg-privacy strong { color: var(--ink); }
+
+.t-app-terms-generator .atg-grid {
+  display: grid; gap: 26px;
+  grid-template-columns: minmax(0, 1fr);
+}
+@media (min-width: 900px) {
+  .t-app-terms-generator .atg-grid {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    align-items: start;
+  }
+  .t-app-terms-generator .atg-out { position: sticky; top: 88px; }
+}
+
+/* ---- form ---- */
+.t-app-terms-generator .atg-h {
+  font-family: var(--disp); font-size: 13px; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--azure);
+  margin: 26px 0 12px; padding-bottom: 8px; border-bottom: 1px solid var(--line);
+}
+.t-app-terms-generator .atg-h:first-of-type { margin-top: 0; }
+.t-app-terms-generator .atg-fields {
+  display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr));
+  margin: 0 0 6px;
+}
+.t-app-terms-generator .atg-field { margin: 0; display: flex; flex-direction: column; gap: 6px; }
+.t-app-terms-generator .atg-field label {
+  font-size: 13px; font-weight: 600; color: var(--slate);
+}
+.t-app-terms-generator .atg-opt { font-weight: 400; color: var(--ink-40); }
+.t-app-terms-generator input[type="text"],
+.t-app-terms-generator input[type="email"],
+.t-app-terms-generator input[type="date"] {
+  width: 100%; font-family: var(--body); font-size: 15px; color: var(--ink);
+  padding: 11px 13px; border: 1px solid var(--line-2); border-radius: var(--r-sm);
+  background: var(--card); transition: border-color .18s var(--ease);
+}
+.t-app-terms-generator input:focus { border-color: var(--azure); }
+
+.t-app-terms-generator .atg-fs {
+  border: 0; padding: 0; margin: 16px 0 0; min-width: 0;
+}
+.t-app-terms-generator .atg-fs legend {
+  font-size: 13px; font-weight: 600; color: var(--slate); padding: 0; margin-bottom: 9px;
+}
+.t-app-terms-generator .atg-checks { display: flex; flex-direction: column; gap: 7px; }
+.t-app-terms-generator .atg-radios { display: flex; flex-wrap: wrap; gap: 7px 18px; }
+@media (min-width: 480px) {
+  .t-app-terms-generator .atg-cols {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 185px), 1fr));
+    gap: 7px 14px;
+  }
+}
+.t-app-terms-generator .atg-check {
+  display: flex; align-items: flex-start; gap: 9px;
+  font-size: 14.5px; color: var(--slate); cursor: pointer; line-height: 1.4;
+}
+.t-app-terms-generator .atg-check input { margin: 2px 0 0; accent-color: var(--azure); width: 16px; height: 16px; flex: none; }
+.t-app-terms-generator .atg-check:hover span { color: var(--ink); }
+
+/* ---- output ---- */
+.t-app-terms-generator .atg-tabs {
+  display: flex; gap: 6px; border-bottom: 1px solid var(--line); margin-bottom: 12px;
+}
+.t-app-terms-generator .atg-tab {
+  font-family: var(--disp); font-size: 14px; font-weight: 600;
+  padding: 10px 14px; border: 0; background: none; cursor: pointer;
+  color: var(--ink-60); border-bottom: 2px solid transparent; margin-bottom: -1px;
+}
+.t-app-terms-generator .atg-tab[aria-selected="true"] { color: var(--azure); border-bottom-color: var(--azure); }
+
+.t-app-terms-generator .atg-bar {
+  display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 12px;
+}
+.t-app-terms-generator .atg-btn {
+  font-family: var(--body); font-size: 13px; font-weight: 600; color: var(--slate);
+  padding: 9px 14px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--line-2); background: var(--card);
+  transition: all .18s var(--ease);
+}
+.t-app-terms-generator .atg-btn:hover { border-color: var(--azure); color: var(--azure); }
+.t-app-terms-generator .atg-count {
+  margin-left: auto; font-family: var(--mono); font-size: 12px; color: var(--ink-40);
+}
+.t-app-terms-generator .atg-status {
+  margin: 0 0 10px; font-size: 13px; color: var(--green); min-height: 18px; font-weight: 600;
+}
+.t-app-terms-generator .atg-missing {
+  margin: 0 0 10px; padding: 10px 13px; font-size: 13.5px; line-height: 1.5;
+  border-radius: var(--r-sm); color: var(--amber);
+  border: 1px solid rgba(180, 118, 26, .3); background: rgba(180, 118, 26, .07);
+}
+
+.t-app-terms-generator .atg-pane {
+  border: 1px solid var(--line); border-radius: var(--r);
+  background: var(--card); box-shadow: var(--shadow);
+  max-height: 620px; overflow-y: auto; overscroll-behavior: contain;
+}
+.t-app-terms-generator .atg-doc {
+  padding: 22px clamp(16px, 3vw, 26px); font-size: 14.5px; line-height: 1.65; color: var(--slate);
+}
+.t-app-terms-generator .atg-doc h3 {
+  font-family: var(--disp); font-size: 20px; font-weight: 700; color: var(--ink);
+  margin: 0 0 4px; letter-spacing: -.01em;
+}
+.t-app-terms-generator .atg-doc h4 {
+  font-family: var(--disp); font-size: 15.5px; font-weight: 700; color: var(--ink);
+  margin: 22px 0 7px;
+}
+.t-app-terms-generator .atg-doc p { margin: 0 0 11px; }
+.t-app-terms-generator .atg-doc ul, .t-app-terms-generator .atg-doc ol { margin: 0 0 11px; padding-left: 20px; }
+.t-app-terms-generator .atg-doc li { margin-bottom: 5px; }
+.t-app-terms-generator .atg-doc .atg-meta {
+  font-family: var(--mono); font-size: 12px; color: var(--ink-40); margin-bottom: 18px;
+}
+.t-app-terms-generator .atg-doc .atg-lead {
+  padding: 12px 14px; border-radius: var(--r-sm); background: var(--blue-soft);
+  color: var(--slate); font-size: 14px; margin-bottom: 18px;
+}
+.t-app-terms-generator .atg-tblwrap { overflow-x: auto; margin: 0 0 16px; }
+.t-app-terms-generator table {
+  border-collapse: collapse; width: 100%; font-size: 13.5px; min-width: 420px;
+}
+.t-app-terms-generator th, .t-app-terms-generator td {
+  text-align: left; padding: 9px 11px; border-bottom: 1px solid var(--line); vertical-align: top;
+}
+.t-app-terms-generator th {
+  font-family: var(--disp); font-size: 12px; letter-spacing: .04em; text-transform: uppercase;
+  color: var(--ink-60); font-weight: 600; background: rgba(231, 241, 248, .5);
+  position: sticky; top: 0;
+}
+.t-app-terms-generator .atg-yes { color: var(--green); font-weight: 700; }
+.t-app-terms-generator .atg-no { color: var(--ink-40); }
+
+.t-app-terms-generator .atg-legal {
+  margin: 24px 0 0; padding: 15px 17px; font-size: 14px; line-height: 1.6;
+  color: var(--slate); border-radius: var(--r-sm);
+  border: 1px solid rgba(180, 118, 26, .28); background: rgba(180, 118, 26, .06);
+}
+.t-app-terms-generator .atg-legal strong { color: var(--ink); }
+</style>
+
+<script>
+(function () {
+  var root = document.querySelector('.t-app-terms-generator');
+  if (!root) return;
+  var $ = function (id) { return document.getElementById(id); };
+  var esc = function (s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  };
+
+  var APPLE_ITEMS = [
+    { t: 'Acknowledgement', d: 'The agreement is between you and the user only — not Apple — and Apple has no obligation to provide maintenance or support.' },
+    { t: 'Scope of license', d: 'The license is limited to a non-transferable right to use the app on Apple-branded products the user owns or controls, per the App Store’s Usage Rules.' },
+    { t: 'Maintenance & support', d: 'You, not Apple, are solely responsible for providing any maintenance and support for the app.' },
+    { t: 'Warranty', d: 'If the app fails to conform to a warranty, the user may notify Apple for a refund; beyond that, Apple has no other warranty obligation and any other claims are yours to handle.' },
+    { t: 'Product claims', d: 'You, not Apple, are responsible for claims relating to the app — product liability, failure to conform to a legal requirement, or consumer protection claims.' },
+    { t: 'Intellectual property', d: 'You, not Apple, are solely responsible for investigating, defending, settling and discharging any claim that the app infringes a third party’s IP rights.' },
+    { t: 'Legal compliance', d: 'The user represents they are not located in a country subject to a U.S. government embargo and are not on any U.S. government list of prohibited or restricted parties.' },
+    { t: 'Developer contact', d: 'Your name and contact address must appear in the agreement so users can reach you with questions or complaints.' },
+    { t: 'Third-party terms', d: 'Users must comply with applicable third-party agreements when using the app — for example, their wireless data service agreement.' },
+    { t: 'Third-party beneficiary', d: 'Apple and its subsidiaries are third-party beneficiaries of the agreement, and Apple may enforce it against the user.' }
+  ];
+
+  var today = new Date();
+  $('atg-date').value = today.toISOString().slice(0, 10);
+
+  function prettyDate(iso) {
+    var parts = String(iso || '').split('-');
+    if (parts.length !== 3) return 'the date this document was published';
+    var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
+      'August', 'September', 'October', 'November', 'December'];
+    var m = months[Number(parts[1]) - 1];
+    if (!m) return 'the date this document was published';
+    return m + ' ' + Number(parts[2]) + ', ' + parts[0];
+  }
+
+  function joinList(arr, conj) {
+    if (!arr.length) return '';
+    if (arr.length === 1) return arr[0];
+    if (arr.length === 2) return arr[0] + ' ' + conj + ' ' + arr[1];
+    return arr.slice(0, -1).join(', ') + ', ' + conj + ' ' + arr[arr.length - 1];
+  }
+
+  function platformPhrase(s) {
+    if (!s.platforms.length) return 'is available on mobile devices';
+    var named = s.platforms.map(function (p) { return p === 'web' ? 'the web' : p; });
+    return 'is available on ' + joinList(named, 'and');
+  }
+
+  function readForm() {
+    var s = {};
+    s.appRaw = $('atg-app').value.trim();
+    s.coRaw = $('atg-company').value.trim();
+    s.emailRaw = $('atg-email').value.trim();
+    s.app = s.appRaw || 'our app';
+    s.App = s.appRaw || 'Our app';
+    s.co = s.coRaw || 'we';
+    s.coName = s.coRaw || 'our company';
+    s.email = s.emailRaw || 'the contact address listed on our store page';
+    s.site = $('atg-site').value.trim();
+    s.date = prettyDate($('atg-date').value);
+    s.lawRaw = $('atg-law').value.trim();
+    s.law = s.lawRaw || 'the state or country where our company is registered';
+    s.platforms = ['atg-p-ios', 'atg-p-android', 'atg-p-web']
+      .filter(function (id) { return $(id).checked; })
+      .map(function (id) { return $(id).getAttribute('data-plat'); });
+    s.ios = $('atg-p-ios').checked;
+    s.age = document.querySelector('input[name="atg-age"]:checked').value;
+    s.accounts = $('atg-acc-yes').checked;
+    s.ugc = $('atg-ugc-yes').checked;
+    s.buy = document.querySelector('input[name="atg-buy"]:checked').value;
+    s.trial = $('atg-trial').checked;
+    s.dispute = document.querySelector('input[name="atg-dispute"]:checked').value;
+    return s;
+  }
+
+  /* ------------------------- the document ------------------------- */
+
+  function buildTerms(s) {
+    var secs = [];
+
+    /* 1. Agreement */
+    var agree = [];
+    agree.push('These Terms of Service ("Terms") are a contract between you and ' + (s.coRaw || 'us') +
+      ' ("we", "us", "our"), and they govern your use of ' + s.app + ', which ' + platformPhrase(s) + '.');
+    agree.push('By downloading, installing or using ' + s.app + ' you agree to these Terms. If you do not agree, do not use the app.');
+    secs.push({ h: 'Agreement to Terms', b: agree });
+
+    /* 2. Eligibility */
+    var elig = [];
+    if (s.age === 'general') {
+      elig.push('You may use ' + s.app + ' only if you are old enough to form a binding contract in your jurisdiction, or you have a parent or guardian’s consent to use it.');
+    } else {
+      elig.push('You must be at least ' + s.age + ' years old to use ' + s.app + '. If you do not meet this requirement, you may not use the app.');
+    }
+    secs.push({ h: 'Eligibility', b: elig });
+
+    /* 3. Accounts */
+    if (s.accounts) {
+      secs.push({
+        h: 'Accounts', b: [
+          'Some features require an account. You agree to give accurate information when you create one, to keep your login credentials confidential, and to tell us right away at ' + s.email + ' if you suspect unauthorized use of your account.',
+          'You are responsible for all activity that happens under your account, whether or not you personally took the action.'
+        ]
+      });
+    }
+
+    /* 4. License */
+    secs.push({
+      h: 'License to Use the App', b: [
+        'We grant you a limited, non-exclusive, non-transferable, revocable license to install and use ' + s.app + ' on devices you own or control, for your own personal, non-commercial use, subject to these Terms.',
+        'This license does not give you any right to copy, modify, distribute, sell, lease, reverse-engineer, or create derivative works from the app, except where the law gives you that right despite this restriction.'
+      ]
+    });
+
+    /* 5. User content */
+    if (s.ugc) {
+      secs.push({
+        h: 'User Content', b: [
+          'If ' + s.app + ' lets you post, upload or share content, you keep ownership of it, and you grant us a worldwide, non-exclusive, royalty-free license to host, store, reproduce, and display that content for the purpose of operating and improving the app.',
+          'You are solely responsible for the content you post. You agree not to post content that is illegal, infringes someone else’s rights, is harassing or hateful, or that you do not have permission to share.',
+          'We may remove any content, and suspend or terminate any account, that we believe violates these Terms or the law. If you believe content in the app infringes your copyright, contact us at ' + s.email + ' with a description of the work, the infringing content’s location, and your contact details.'
+        ]
+      });
+    }
+
+    /* 6. Purchases */
+    if (s.buy !== 'none') {
+      var pur = [];
+      if (s.buy === 'onetime') {
+        pur.push(s.App + ' offers one-time purchases. All charges are processed by the App Store or Google Play, not by us directly, and are subject to that platform’s own payment and refund terms.');
+      } else {
+        pur.push(s.App + ' offers an auto-renewing subscription. The price and billing period are shown before you subscribe, and the subscription renews automatically at the end of each period unless you cancel at least 24 hours before it renews.');
+        pur.push('Subscriptions are billed through your App Store or Google Play account. You can view, manage and cancel a subscription any time in your device’s account settings — we cannot cancel it for you.');
+        if (s.trial) {
+          pur.push('If a free trial is offered, any unused portion is forfeited once you purchase a subscription. Cancel before the trial ends if you do not want to be charged.');
+        }
+        pur.push('We may change subscription prices going forward. Where the law requires it, we will notify you before a price change takes effect on your next renewal.');
+      }
+      pur.push('Except where required by law or stated otherwise, purchases are final and non-refundable — refund requests for App Store or Google Play purchases are handled by Apple or Google under their own policies.');
+      secs.push({ h: 'Purchases, Subscriptions & Free Trials', b: pur });
+    }
+
+    /* 7. Acceptable use */
+    secs.push({
+      h: 'Acceptable Use', b: [
+        'You agree not to: use ' + s.app + ' for any unlawful purpose; attempt to gain unauthorized access to our systems; interfere with or disrupt the app’s operation; reverse-engineer or extract the app’s source code except where the law allows it; or use the app to harass, abuse, or harm another person.',
+        'We may suspend or terminate your access if we reasonably believe you have violated this section.'
+      ]
+    });
+
+    /* 8. IP */
+    secs.push({
+      h: 'Intellectual Property', b: [
+        s.App + ', including its design, code, trademarks and content we created, is owned by ' + s.coName + ' or our licensors and is protected by copyright, trademark and other laws. Nothing in these Terms transfers any of that ownership to you.'
+      ]
+    });
+
+    /* 9. Third-party services */
+    secs.push({
+      h: 'Third-Party Services & Links', b: [
+        s.app + ' may link to, or rely on, services run by other companies. We do not control those services and are not responsible for their content, availability, or how they handle your data — check their own terms and privacy policy before you use them.'
+      ]
+    });
+
+    /* 10. Warranty disclaimer */
+    var warr = [
+      s.App + ' is provided "as is" and "as available", without warranties of any kind, whether express, implied, or statutory, including any implied warranty of merchantability, fitness for a particular purpose, or non-infringement, except to the extent the law does not allow us to disclaim them.',
+      'We do not warrant that the app will be uninterrupted, error-free, or free of harmful components.'
+    ];
+    secs.push({ h: 'Disclaimer of Warranties', b: warr });
+
+    /* 11. Liability */
+    secs.push({
+      h: 'Limitation of Liability', b: [
+        'To the maximum extent permitted by law, ' + s.coName + ' will not be liable for any indirect, incidental, special, consequential or punitive damages, or any loss of data, profits or revenue, arising from your use of ' + s.app + '.',
+        'To the maximum extent permitted by law, our total liability for any claim arising from these Terms or the app will not exceed the amount you paid us, if any, in the twelve months before the claim arose, or the smallest amount the law allows us to limit that liability to if you paid us nothing.'
+      ]
+    });
+
+    /* 12. Indemnification */
+    secs.push({
+      h: 'Indemnification', b: [
+        'You agree to defend, indemnify and hold ' + s.coName + ' harmless from any claim, loss or expense — including reasonable legal fees — arising from your use of the app, your content, or your violation of these Terms.'
+      ]
+    });
+
+    /* 13. Termination */
+    secs.push({
+      h: 'Termination', b: [
+        'You may stop using ' + s.app + ' at any time, and delete your account if you have one. We may suspend or terminate your access if you violate these Terms, or where we reasonably believe it is necessary to protect the app, our other users, or ourselves.',
+        'Sections of these Terms that by their nature should survive termination — including ownership, warranty disclaimers, limitation of liability, and dispute resolution — continue to apply after your access ends.'
+      ]
+    });
+
+    /* 14. Governing law / disputes */
+    var gov = ['These Terms are governed by the laws of ' + s.law + ', without regard to its conflict-of-law principles.'];
+    if (s.dispute === 'arbitration') {
+      gov.push('Any dispute arising from these Terms or your use of ' + s.app + ' will be resolved by binding individual arbitration, rather than in court, except that either of us may bring an individual claim in small-claims court.');
+      gov.push('You and ' + s.coName + ' each waive the right to a jury trial and to participate in a class action, class arbitration, or any representative proceeding. You may opt out of this arbitration clause by emailing ' + s.email + ' within 30 days of first accepting these Terms.');
+    } else {
+      gov.push('Any dispute arising from these Terms or your use of ' + s.app + ' will be resolved exclusively in the courts located in ' + s.law + ', and you consent to their jurisdiction.');
+    }
+    secs.push({ h: 'Governing Law & Dispute Resolution', b: gov });
+
+    /* 15. Apple minimum terms */
+    if (s.ios) {
+      var ap = ['Because ' + s.app + ' is distributed on the Apple App Store, the following terms — required by Apple’s Developer Program License Agreement — apply in addition to everything above:'];
+      ap.push({
+        ol: [
+          'This agreement is between you and ' + s.coName + ' only, not Apple. Apple has no obligation to provide maintenance or support for the app.',
+          'Your license to use the app is limited to a non-transferable right to use it on an Apple-branded product you own or control, as permitted by the App Store’s Usage Rules.',
+          s.coName + ' alone is responsible for providing any maintenance and support for the app.',
+          'In the event the app fails to conform to any warranty, you may notify Apple, and Apple will refund the purchase price, if any, for the app. To the maximum extent permitted by law, Apple has no other warranty obligation, and any other claim, loss or damage is ' + s.coName + '’s sole responsibility.',
+          s.coName + ', not Apple, is responsible for addressing any claim relating to the app, including product liability claims, claims that it fails to conform to a legal or regulatory requirement, and claims under consumer protection law.',
+          'In the event of a third-party claim that the app infringes their intellectual property rights, ' + s.coName + ', not Apple, is solely responsible for the investigation, defense, settlement and discharge of that claim.',
+          'You represent that you are not located in a country subject to a U.S. Government embargo, and that you are not on any U.S. Government list of prohibited or restricted parties.',
+          'Developer contact: ' + s.coName + ', ' + s.email + (s.site ? ', ' + s.site : '') + '.',
+          'When using the app, you must comply with any applicable third-party agreement, such as your wireless data service agreement.',
+          'Apple and Apple’s subsidiaries are third-party beneficiaries of these Terms, and upon your acceptance, Apple has the right to enforce these Terms against you as a third-party beneficiary.'
+        ]
+      });
+      secs.push({ h: 'Apple App Store Terms', b: ap });
+    }
+
+    /* 16. Changes */
+    secs.push({
+      h: 'Changes to These Terms', b: [
+        'We may update these Terms as the app changes. When we do, we will change the effective date above and, if the change is material, tell you inside the app or by email before it takes effect. Continuing to use the app after that means you accept the updated Terms.'
+      ]
+    });
+
+    /* 17. Contact */
+    var ct = ['Questions about these Terms? Contact us:'];
+    var cbits = [];
+    if (s.coRaw) cbits.push(s.coRaw);
+    cbits.push('Email: ' + (s.emailRaw || 'the address listed on our App Store or Google Play listing'));
+    if (s.site) cbits.push('Website: ' + s.site);
+    ct.push({ ul: cbits });
+    secs.push({ h: 'Contact Us', b: ct });
+
+    return {
+      title: 'Terms of Service for ' + s.app,
+      meta: 'Effective ' + s.date + (s.coRaw ? ' · ' + s.coRaw : ''),
+      secs: secs
+    };
+  }
+
+  /* ------------------------- renderers ------------------------- */
+
+  function blockHtml(b) {
+    if (typeof b === 'string') return '<p>' + esc(b) + '</p>';
+    if (b.ol) return '<ol>' + b.ol.map(function (li) { return '<li>' + esc(li) + '</li>'; }).join('') + '</ol>';
+    return '<ul>' + b.ul.map(function (li) { return '<li>' + esc(li) + '</li>'; }).join('') + '</ul>';
+  }
+
+  function renderHtml(doc) {
+    var out = ['<h3>' + esc(doc.title) + '</h3>', '<p class="atg-meta">' + esc(doc.meta) + '</p>'];
+    doc.secs.forEach(function (sec) {
+      out.push('<h4>' + esc(sec.h) + '</h4>');
+      sec.b.forEach(function (b) { out.push(blockHtml(b)); });
+    });
+    return out.join('\n');
+  }
+
+  function renderExportHtml(doc) {
+    var H1 = 'h' + '1';
+    var out = ['<' + H1 + '>' + esc(doc.title) + '</' + H1 + '>', '<p><em>' + esc(doc.meta) + '</em></p>'];
+    doc.secs.forEach(function (sec) {
+      out.push('<h2>' + esc(sec.h) + '</h2>');
+      sec.b.forEach(function (b) { out.push(blockHtml(b)); });
+    });
+    return out.join('\n');
+  }
+
+  function blockText(b, prefix) {
+    if (typeof b === 'string') return [b, ''];
+    var items = b.ol || b.ul;
+    var lines = items.map(function (li, i) { return '  ' + (b.ol ? (i + 1) + '. ' : '- ') + li; });
+    lines.push('');
+    return lines;
+  }
+
+  function renderText(doc) {
+    var out = [doc.title, doc.meta, ''];
+    doc.secs.forEach(function (sec) {
+      out.push(sec.h.toUpperCase(), '');
+      sec.b.forEach(function (b) { out.push.apply(out, blockText(b)); });
+    });
+    return out.join('\n').replace(/\n{3,}/g, '\n\n').trim() + '\n';
+  }
+
+  function renderMarkdown(doc) {
+    var out = ['# ' + doc.title, '', '_' + doc.meta + '_', ''];
+    doc.secs.forEach(function (sec) {
+      out.push('## ' + sec.h, '');
+      sec.b.forEach(function (b) {
+        if (typeof b === 'string') { out.push(b, ''); return; }
+        var items = b.ol || b.ul;
+        items.forEach(function (li, i) { out.push((b.ol ? (i + 1) + '. ' : '- ') + li); });
+        out.push('');
+      });
+    });
+    return out.join('\n').replace(/\n{3,}/g, '\n\n').trim() + '\n';
+  }
+
+  function fullHtmlDocument(doc) {
+    return '<!doctype html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n' +
+      '<meta name="viewport" content="width=device-width, initial-scale=1">\n' +
+      '<title>' + esc(doc.title) + '</title>\n' +
+      '<style>body{font-family:system-ui,-apple-system,Segoe UI,sans-serif;line-height:1.65;' +
+      'color:#17202b;max-width:44rem;margin:3rem auto;padding:0 1.25rem}' +
+      'h1{font-size:1.9rem;margin-bottom:.25rem}h2{font-size:1.15rem;margin-top:2rem}' +
+      'li{margin-bottom:.35rem}em{color:#5a6675}</style>\n</head>\n<body>\n' +
+      renderExportHtml(doc) + '\n</body>\n</html>\n';
+  }
+
+  /* ------------------------- Apple checklist ------------------------- */
+
+  function renderChecklist(s) {
+    var out = [];
+    out.push('<h3>Apple minimum terms checklist</h3>');
+    out.push('<p class="atg-meta">Schedule 1 of Apple’s Developer Program License Agreement</p>');
+    out.push('<p class="atg-lead">If your app ships a custom end-user agreement instead of Apple’s default, ' +
+      'Apple requires it to contain these ten clauses. Skip one and Apple’s own default EULA applies to your ' +
+      'app instead — generic wording that names no support process and no pricing of yours.</p>');
+    out.push('<div class="atg-tblwrap"><table><thead><tr><th>Required clause</th><th>What it covers</th><th>In your document</th></tr></thead><tbody>');
+    APPLE_ITEMS.forEach(function (item) {
+      var covered = s.ios
+        ? '<span class="atg-yes">Yes</span> — see “Apple App Store Terms”'
+        : '<span class="atg-no">Not included</span>';
+      out.push('<tr><td>' + esc(item.t) + '</td><td>' + esc(item.d) + '</td><td>' + covered + '</td></tr>');
+    });
+    out.push('</tbody></table></div>');
+    if (!s.ios) {
+      out.push('<p>Check <strong>iOS</strong> under Platforms on the left to add the exact required wording to your document automatically.</p>');
+    }
+    out.push('<h4>Google Play</h4>');
+    out.push('<p>Play Console does not mandate a separate terms link the way it mandates a privacy policy, but publishing one is still standard practice, and is required once your app has accounts, subscriptions, or user-generated content — all covered by the document on the first tab.</p>');
+    out.push('<h4>Before you submit</h4>');
+    out.push('<ul>' + [
+      'Host the document at a stable public URL and link it from both App Store Connect and Play Console.',
+      'If you edit the generated Apple section, keep the ten clauses above intact — Apple checks for their substance, not this exact wording.',
+      'Re-check this page any time your pricing, platforms, or user-content features change.'
+    ].map(function (n) { return '<li>' + n + '</li>'; }).join('') + '</ul>');
+    return out.join('\n');
+  }
+
+  /* ------------------------- wiring ------------------------- */
+
+  var current = { doc: null, text: '', html: '', md: '' };
+
+  function missingFields(s) {
+    var m = [];
+    if (!s.appRaw) m.push('app name');
+    if (!s.coRaw) m.push('company or developer name');
+    if (!s.emailRaw) m.push('contact email');
+    return m;
+  }
+
+  function update() {
+    var s = readForm();
+    var doc = buildTerms(s);
+    current.doc = doc;
+    current.text = renderText(doc);
+    current.html = renderExportHtml(doc);
+    current.md = renderMarkdown(doc);
+
+    $('atg-doc').innerHTML = renderHtml(doc);
+    $('atg-checklist').innerHTML = renderChecklist(s);
+
+    var words = current.text.trim().split(/\s+/).filter(Boolean).length;
+    $('atg-count').textContent = words + ' words';
+
+    var miss = missingFields(s);
+    var box = $('atg-missing');
+    if (miss.length) {
+      box.hidden = false;
+      box.textContent = 'Still to fill in: ' + joinList(miss, 'and') +
+        '. The draft below uses neutral wording until you do.';
+    } else {
+      box.hidden = true;
+    }
+  }
+
+  root.addEventListener('input', update);
+  root.addEventListener('change', update);
+
+  function flash(msg) {
+    var el = $('atg-status');
+    el.textContent = msg;
+    clearTimeout(flash.t);
+    flash.t = setTimeout(function () { el.textContent = ''; }, 2600);
+  }
+
+  function copy(text, label) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () { flash(label + ' copied to your clipboard.'); },
+        function () { fallbackCopy(text, label); });
+    } else {
+      fallbackCopy(text, label);
+    }
+  }
+
+  function fallbackCopy(text, label) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.setAttribute('readonly', '');
+    ta.style.position = 'fixed';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); flash(label + ' copied to your clipboard.'); }
+    catch (e) { flash('Copying was blocked — select the text and copy it manually.'); }
+    document.body.removeChild(ta);
+  }
+
+  function download(content, filename, mime) {
+    var blob = new Blob([content], { type: mime });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(function () { URL.revokeObjectURL(url); }, 1500);
+    flash('Downloaded ' + filename + '.');
+  }
+
+  function slugify(str) {
+    return String(str || 'terms-of-service').toLowerCase().replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '') || 'terms-of-service';
+  }
+
+  $('atg-copy-text').addEventListener('click', function () { copy(current.text, 'Plain text terms'); });
+  $('atg-copy-html').addEventListener('click', function () { copy(current.html, 'HTML terms'); });
+  $('atg-dl-html').addEventListener('click', function () {
+    var name = slugify($('atg-app').value || 'terms-of-service') + '-terms-of-service.html';
+    download(fullHtmlDocument(current.doc), name, 'text/html;charset=utf-8');
+  });
+  $('atg-dl-md').addEventListener('click', function () {
+    var name = slugify($('atg-app').value || 'terms-of-service') + '-terms-of-service.md';
+    download(current.md, name, 'text/markdown;charset=utf-8');
+  });
+
+  var tabTerms = $('atg-tab-terms');
+  var tabChecklist = $('atg-tab-checklist');
+  function selectTab(which) {
+    var isTerms = which === 'terms';
+    tabTerms.setAttribute('aria-selected', String(isTerms));
+    tabChecklist.setAttribute('aria-selected', String(!isTerms));
+    $('atg-pane-terms').hidden = !isTerms;
+    $('atg-pane-checklist').hidden = isTerms;
+  }
+  tabTerms.addEventListener('click', function () { selectTab('terms'); });
+  tabChecklist.addEventListener('click', function () { selectTab('checklist'); });
+
+  update();
+})();
+</script>

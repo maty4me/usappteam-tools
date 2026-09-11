@@ -1,0 +1,70 @@
+{
+  "slug": "app-terms-generator",
+  "title": "App Terms of Service Generator",
+  "tagline": "Answer a short questionnaire and get a complete Terms of Service for your app — including the clauses Apple requires in a custom EULA.",
+  "description": "Free app Terms of Service generator. Build a complete terms of use / EULA for your app in your browser, plus an Apple minimum-terms checklist.",
+  "keywords": [
+    "app terms of service generator",
+    "terms of service generator for apps",
+    "eula generator for apps",
+    "mobile app terms and conditions",
+    "app store eula minimum terms",
+    "terms of use generator app",
+    "custom eula apple app store",
+    "app end user license agreement template"
+  ],
+  "category": "generators",
+  "datePublished": "2026-09-11",
+  "intro": "Apple will not let you use your own Terms of Service as an app's EULA (end-user license agreement) unless it contains a specific set of clauses — Apple calls them the minimum terms, and they cover things like where liability sits, who owns the app, and what happens if a user's device is used somewhere Apple can't legally sell to. Skip one and Apple's default EULA silently applies instead, which names Apple nowhere your users would expect and was never written with your app's features in mind.\n\nMost terms-of-service generators either produce a generic consumer contract with none of that, or gate the finished document behind a signup. This one asks about the app you actually built — whether it has accounts, whether people post content inside it, whether you sell subscriptions or one-time purchases, how disputes get resolved — and writes a full Terms of Service around those answers as you go, right in the browser tab.\n\nThe **Apple minimum terms checklist** on the second tab is the part most generators skip entirely. It lists each of the ten clauses Apple's Developer Program License Agreement requires a custom EULA to carry, in plain language, and tells you which section of your generated document covers it — so if you ever swap in your own wording, you know exactly what has to survive the edit."
+  ,
+  "howTo": [
+    "Enter your app name, company name, contact email and the effective date.",
+    "Set the platforms you ship on and the minimum age to use the app.",
+    "Tell it whether the app has accounts, lets people post content, and how you charge — free, one-time purchase, or subscription.",
+    "Choose how disputes get resolved: standard courts, or binding arbitration with a class-action waiver.",
+    "Read the Terms of Service build itself in the live preview on the right.",
+    "Open the Apple minimum terms checklist tab and confirm every required clause is covered before you paste the document into App Store Connect.",
+    "Copy the text or HTML, or download it as a file, then have a lawyer review it before you publish."
+  ],
+  "faq": [
+    {
+      "q": "Do I legally need Terms of Service for my app?",
+      "a": "Nothing forces every app to have one, but skipping it is expensive the first time a user disputes a charge, posts something that gets you sued, or asks for a refund you didn't agree to give. Terms of Service are what let you limit your liability, set the rules for user content, and require arbitration instead of a lawsuit — none of which exist by default without a contract in place."
+    },
+    {
+      "q": "Is Terms of Service the same thing as a EULA?",
+      "a": "They overlap but aren't identical. A EULA (end-user license agreement) specifically licenses the software itself — it's what Apple's App Store rules are about. Terms of Service is broader: it also covers accounts, payments, user conduct and content. Most apps use one combined document that does both jobs, which is what this tool generates."
+    },
+    {
+      "q": "What happens if my custom EULA is missing one of Apple's required clauses?",
+      "a": "Apple's Developer Program License Agreement (Schedule 1) sets minimum terms any custom end-user agreement must include — acknowledgment that the contract is between you and the user (not Apple), scope of license, your sole responsibility for maintenance and support and for any warranty, product claims and IP disputes, export compliance, your contact details, and Apple's right to enforce the agreement as a third-party beneficiary. Miss one and, per Apple's own terms, its standard EULA applies instead — which won't reflect your app, your pricing, or your support process."
+    },
+    {
+      "q": "Does Google Play require Terms of Service too?",
+      "a": "Play Console doesn't mandate a separate terms link the way it mandates a privacy policy, but it's still standard practice to publish one, and it's required if your app has any kind of subscription, account, or user-generated content. Use the same document — there's no separate Android version to write."
+    },
+    {
+      "q": "Is this legal advice?",
+      "a": "No. This tool builds a solid starting document from the answers you give it, written to cover what app stores and courts expect to see, including Apple's minimum-terms requirement. It cannot know everything about your business, and generating a document doesn't make it enforceable in your jurisdiction. Read every line, fix anything that's wrong for your app, and have a lawyer review it before you rely on it."
+    },
+    {
+      "q": "Is anything I type uploaded or stored?",
+      "a": "No. The whole thing — the form and the document it builds — runs as JavaScript in your browser tab. Nothing is sent to a server and nothing is saved, so closing the tab erases everything you typed. That's also why there's no signup or email gate."
+    }
+  ],
+  "cta": { "label": "Get your app built properly" },
+  "video": {
+    "status": "pending",
+    "durationTargetSec": 60,
+    "narration": "Apple won't let a custom app agreement skip its required clauses — miss one and Apple's own default EULA takes over instead, and it was never written for your app. Here's a way to build a full Terms of Service around your app in a couple of minutes, free. Start with your app name, your company, and the email people can reach you at. Set your platforms and the minimum age to use the app. Tell it whether the app has accounts, whether people can post content, and how you charge — one-time purchase or subscription. Choose how disputes get resolved. Watch the document build itself on the right as you go. Then open the Apple minimum terms checklist — it shows exactly which required clause lives in which section, so nothing required gets left out. Copy it or download it as a file. Nothing you typed ever left this browser tab.",
+    "scenes": [
+      { "label": "Why apps need one", "mark": "intro" },
+      { "label": "Your app details", "mark": "details" },
+      { "label": "Accounts & content", "mark": "content" },
+      { "label": "Purchases & disputes", "mark": "purchases" },
+      { "label": "The document builds live", "mark": "document" },
+      { "label": "Apple minimum terms checklist", "mark": "checklist" },
+      { "label": "Copy or download", "mark": "download" }
+    ]
+  }
+}
