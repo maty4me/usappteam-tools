@@ -1,0 +1,67 @@
+{
+  "slug": "app-timeline-estimator",
+  "title": "App Development Timeline Estimator",
+  "tagline": "See how many weeks your app actually needs - broken into discovery, design, build, testing and store review.",
+  "description": "Free app development timeline estimator that breaks your build into real phases - discovery, design, development, QA and store review - with a realistic week range.",
+  "keywords": [
+    "app development timeline estimator",
+    "how long does it take to build an app",
+    "app development timeline",
+    "mobile app build time calculator",
+    "app project timeline",
+    "how long to build an app mvp",
+    "app development schedule"
+  ],
+  "category": "planners",
+  "datePublished": "2026-09-14",
+  "intro": "Most timeline advice gives you one number - \"12 weeks\" - with no view into what fills those weeks. That number is a guess dressed up as a fact, and it never explains why a second app quoted at the same length actually took twice as long.\n\nThis estimator builds the timeline instead of guessing it. Tell it how many core screens your app needs, how complex they are, which platforms you're targeting, how much backend it needs, and how far along your design is. It turns that into weeks for discovery, design, development, testing and app store review - the same phases a real build goes through - and shows you a range, because no estimate this early is a single exact number.\n\nEverything runs in your browser. Nothing is uploaded, nothing is stored, and there is no email box anywhere on this page.",
+  "howTo": [
+    "Set how many core screens or features the app needs - the biggest driver of build time.",
+    "Pick how complex those features are: mostly simple, a mix, or mostly complex.",
+    "Choose your platforms - iOS only, Android only, or both on a shared codebase.",
+    "Set your backend needs and how ready your design is.",
+    "Read the week range and the phase-by-phase breakdown underneath it."
+  ],
+  "faq": [
+    {
+      "q": "Why does this give a range instead of one number?",
+      "a": "Because a single number this early is false precision - it hides how much a build can move once real screens, real data and real app-store review queues show up. The range is the estimate's low and high case around the same phase breakdown, so you can plan for the worse case instead of being surprised by it."
+    },
+    {
+      "q": "Why doesn't building for both iOS and Android take twice as long?",
+      "a": "Because a shared codebase - the same approach US App Team builds with - writes the app once and ships it to both stores, not twice. It still costs more than one platform alone, since each store has its own review, its own quirks and its own testing pass, which is why the estimator applies a partial multiplier rather than doubling the development phase."
+    },
+    {
+      "q": "Why does starting design from scratch add so many weeks?",
+      "a": "Because 'design' here means every screen gets laid out, styled and approved before development can build it accurately. Finished design assets mean developers build against something real from day one. Starting from scratch means that work has to happen first, and it scales with how many screens the app has, same as development does."
+    },
+    {
+      "q": "What counts as a 'complex' backend?",
+      "a": "Real-time sync between devices, third-party integrations (payments, calendars, other APIs), an admin dashboard, or anything that needs its own infrastructure beyond a standard database and login. A standard backend is user accounts, a database and a typical REST API - the shape most apps need. No backend means the app works fully offline or stores everything on the device."
+    },
+    {
+      "q": "What isn't included in this estimate?",
+      "a": "Post-launch bug fixing, marketing and App Store optimization, app store rejections that force rework, and delays from third-party services outside your control. It also assumes your team is available full-time on this project - a part-time team stretches every phase by roughly the same ratio it's part-time."
+    },
+    {
+      "q": "Is anything sent to a server?",
+      "a": "No. It is JavaScript running in your browser. Nothing is uploaded, nothing is stored, and closing the tab erases it."
+    }
+  ],
+  "cta": {
+    "label": "Start your app brief"
+  },
+  "video": {
+    "status": "pending",
+    "durationTargetSec": 60,
+    "narration": "How long will your app actually take? Start with how many core screens and features it needs - more screens, more time. Pick how complex they are: mostly simple forms and lists, a mix, or mostly complex features like maps, payments or AI. Choose your platform - iOS, Android, or both on one shared codebase, which costs less time than building twice. Set your backend - none if it runs fully offline, a standard API with accounts and a database, or something complex like real-time sync and an admin dashboard. Tell it whether your design is finished, sketched out, or not started yet, since that changes how long design actually takes. Watch the timeline build itself: discovery, design, development, testing and app store review, each broken out in weeks, with a realistic range instead of one number pretending to be exact. Free, instant, runs entirely in your browser.",
+    "scenes": [
+      { "label": "Set core screens", "mark": "features" },
+      { "label": "Pick complexity", "mark": "complexity" },
+      { "label": "Choose platforms", "mark": "platform" },
+      { "label": "Set backend needs", "mark": "backend" },
+      { "label": "Design readiness", "mark": "design" },
+      { "label": "The week range", "mark": "result" }
+    ]
+  }
+}

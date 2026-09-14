@@ -1,0 +1,400 @@
+<style>
+.t-app-timeline-estimator { font-family: var(--body); color: var(--ink); }
+
+/* ---------- privacy banner ---------- */
+.t-app-timeline-estimator .te-privacy {
+  display: flex; align-items: flex-start; gap: 10px;
+  margin: 0 0 20px; padding: 12px 14px;
+  border: 1px solid rgba(31, 169, 113, .3); border-radius: var(--r-sm);
+  background: rgba(31, 169, 113, .07);
+  font-size: 13.5px; line-height: 1.5; color: var(--slate);
+}
+.t-app-timeline-estimator .te-privacy svg {
+  width: 16px; height: 16px; flex: 0 0 auto; margin-top: 2px;
+  stroke: var(--green); fill: none; stroke-width: 2;
+  stroke-linecap: round; stroke-linejoin: round;
+}
+.t-app-timeline-estimator .te-privacy strong { color: var(--ink); font-weight: 600; }
+
+/* ---------- layout ---------- */
+.t-app-timeline-estimator .te-grid {
+  display: grid; gap: 22px;
+  grid-template-columns: minmax(0, 1fr);
+}
+@media (min-width: 900px) {
+  .t-app-timeline-estimator .te-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 380px); align-items: start; }
+}
+
+/* ---------- form ---------- */
+.t-app-timeline-estimator fieldset { border: 0; margin: 0 0 24px; padding: 0; }
+.t-app-timeline-estimator legend {
+  display: flex; align-items: center; gap: 9px;
+  font-family: var(--disp); font-weight: 700; font-size: 16px;
+  color: var(--ink); margin: 0 0 10px; padding: 0;
+}
+.t-app-timeline-estimator legend .te-n {
+  font-family: var(--mono); font-size: 11px; color: var(--azure);
+  background: var(--blue-soft); border-radius: 5px; padding: 3px 7px;
+}
+.t-app-timeline-estimator .te-hint {
+  margin: -4px 0 12px; font-size: 13.5px; line-height: 1.55; color: var(--ink-60);
+}
+
+.t-app-timeline-estimator .te-field { margin: 0 0 14px; }
+.t-app-timeline-estimator .te-field label {
+  display: block; font-weight: 600; font-size: 14px; color: var(--ink); margin: 0 0 6px;
+}
+.t-app-timeline-estimator .te-field .te-sub { font-weight: 400; color: var(--ink-60); }
+.t-app-timeline-estimator .te-row { display: flex; align-items: center; gap: 12px; }
+.t-app-timeline-estimator input[type="range"] { flex: 1 1 auto; min-width: 0; accent-color: var(--azure); }
+.t-app-timeline-estimator input[type="number"] {
+  width: 90px; flex: 0 0 auto; font-family: var(--mono); font-size: 14px;
+  padding: 9px 10px; color: var(--ink);
+  border: 1px solid var(--line-2); border-radius: var(--r-sm); background: var(--card);
+}
+.t-app-timeline-estimator input[type="number"]:focus-visible { outline: 2px solid var(--azure); outline-offset: 1px; }
+.t-app-timeline-estimator .te-unit { font-family: var(--mono); font-size: 13px; color: var(--ink-60); flex: 0 0 auto; }
+
+.t-app-timeline-estimator .te-tiers { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+.t-app-timeline-estimator .te-tier { position: relative; }
+.t-app-timeline-estimator .te-tier input {
+  position: absolute; opacity: 0; width: 100%; height: 100%; margin: 0; cursor: pointer;
+}
+.t-app-timeline-estimator .te-tier span {
+  display: block; padding: 13px 14px; height: 100%;
+  border: 1px solid var(--line-2); border-radius: var(--r-sm);
+  background: var(--card); cursor: pointer;
+  transition: border-color .18s var(--ease), background .18s var(--ease);
+}
+.t-app-timeline-estimator .te-tier b {
+  display: block; font-family: var(--disp); font-weight: 700; font-size: 14.5px; color: var(--ink);
+}
+.t-app-timeline-estimator .te-tier i {
+  display: block; font-style: normal; font-size: 12.5px; color: var(--ink-60); margin-top: 3px; line-height: 1.45;
+}
+.t-app-timeline-estimator .te-tier input:checked + span { border-color: var(--azure); background: var(--blue-soft); }
+.t-app-timeline-estimator .te-tier input:focus-visible + span { outline: 2px solid var(--azure); outline-offset: 2px; }
+
+/* ---------- results ---------- */
+.t-app-timeline-estimator .te-out {
+  position: sticky; top: 20px;
+  border: 1px solid var(--line-2); border-radius: var(--r);
+  background: var(--card); box-shadow: var(--shadow);
+  padding: 20px; overflow: hidden;
+}
+@media (max-width: 899px) { .t-app-timeline-estimator .te-out { position: static; } }
+.t-app-timeline-estimator .te-out h3 {
+  margin: 0 0 2px; font-family: var(--mono); font-size: 11px; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--ink-40); font-weight: 500;
+}
+.t-app-timeline-estimator .te-big {
+  font-family: var(--disp); font-weight: 700; line-height: 1.05;
+  font-size: clamp(28px, 6vw, 38px);
+  background: var(--grad); -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: var(--azure);
+  margin: 4px 0 2px; word-break: break-word;
+}
+.t-app-timeline-estimator .te-big-sub { font-size: 13.5px; color: var(--ink-60); margin: 0 0 16px; line-height: 1.5; }
+
+.t-app-timeline-estimator .te-bar-t {
+  font-family: var(--mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--ink-40); margin: 0 0 7px;
+}
+.t-app-timeline-estimator .te-bar { margin: 4px 0 14px; }
+.t-app-timeline-estimator .te-bar svg { display: block; width: 100%; height: auto; }
+
+.t-app-timeline-estimator .te-lines { border-top: 1px solid var(--line); margin: 0 0 14px; }
+.t-app-timeline-estimator .te-line {
+  display: flex; justify-content: space-between; gap: 10px; align-items: center;
+  padding: 8px 0; border-bottom: 1px solid var(--line); font-size: 13.5px;
+}
+.t-app-timeline-estimator .te-line dt { display: flex; align-items: center; gap: 7px; color: var(--slate); margin: 0; }
+.t-app-timeline-estimator .te-line dt .te-dot { width: 9px; height: 9px; border-radius: 3px; flex: 0 0 auto; }
+.t-app-timeline-estimator .te-line dd { margin: 0; font-family: var(--mono); font-weight: 600; color: var(--ink); white-space: nowrap; }
+
+.t-app-timeline-estimator .te-note {
+  padding: 11px 13px; border-radius: var(--r-sm);
+  background: var(--blue-soft); border: 1px solid rgba(35, 128, 184, .22);
+  font-size: 13.5px; line-height: 1.55; color: var(--slate);
+}
+.t-app-timeline-estimator .te-note strong { color: var(--ink); }
+
+/* ---------- caveats ---------- */
+.t-app-timeline-estimator .te-caveats {
+  margin: 26px 0 0; padding: 16px 18px;
+  border: 1px solid var(--line-2); border-radius: var(--r-sm); background: var(--bg);
+}
+.t-app-timeline-estimator .te-caveats h3 {
+  margin: 0 0 8px; font-family: var(--disp); font-size: 15px; font-weight: 700; color: var(--ink);
+}
+.t-app-timeline-estimator .te-caveats ul { margin: 0; padding-left: 18px; }
+.t-app-timeline-estimator .te-caveats li { font-size: 13.5px; line-height: 1.6; color: var(--slate); margin: 0 0 5px; }
+</style>
+
+<div class="t-app-timeline-estimator" id="te-root">
+
+<div class="te-privacy">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v6c0 4.5-3 7.7-7 9-4-1.3-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg>
+  <div><strong>Runs entirely in your browser.</strong> Nothing is uploaded, nothing is stored, and there is no email box on this page. Close the tab and it is gone.</div>
+</div>
+
+<div class="te-grid">
+  <form class="te-form" id="te-form" novalidate>
+    <fieldset>
+      <legend><span class="te-n">01</span> Core screens &amp; features</legend>
+      <div class="te-field">
+        <label for="te-features">How many core screens or features the app needs</label>
+        <div class="te-row">
+          <input type="range" id="te-features-r" min="3" max="40" step="1" value="12" aria-hidden="true" tabindex="-1">
+          <input type="number" id="te-features" min="1" max="200" step="1" value="12" inputmode="numeric">
+        </div>
+        <p class="te-hint">Count the screens a user actually moves through - onboarding, home, search, profile, checkout - not every button state.</p>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend><span class="te-n">02</span> Feature complexity</legend>
+      <div class="te-tiers" role="radiogroup" aria-label="Feature complexity">
+        <label class="te-tier">
+          <input type="radio" name="te-complexity" value="simple">
+          <span><b>Mostly simple</b><i>Forms, lists, static content</i></span>
+        </label>
+        <label class="te-tier">
+          <input type="radio" name="te-complexity" value="moderate" checked>
+          <span><b>A mix</b><i>Maps, payments, notifications</i></span>
+        </label>
+        <label class="te-tier">
+          <input type="radio" name="te-complexity" value="complex">
+          <span><b>Mostly complex</b><i>AI, live video, hardware</i></span>
+        </label>
+      </div>
+      <p class="te-hint">For reference, US App Team builds apps at this scope for a fixed $3,500 (simple) $7,500 (mixed) or $12,000 (complex).</p>
+    </fieldset>
+
+    <fieldset>
+      <legend><span class="te-n">03</span> Platforms</legend>
+      <div class="te-tiers" role="radiogroup" aria-label="Platforms">
+        <label class="te-tier">
+          <input type="radio" name="te-platform" value="ios">
+          <span><b>iOS only</b><i>iPhone / iPad</i></span>
+        </label>
+        <label class="te-tier">
+          <input type="radio" name="te-platform" value="android">
+          <span><b>Android only</b><i>Phones / tablets</i></span>
+        </label>
+        <label class="te-tier">
+          <input type="radio" name="te-platform" value="both" checked>
+          <span><b>Both</b><i>One shared codebase</i></span>
+        </label>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend><span class="te-n">04</span> Backend</legend>
+      <div class="te-tiers" role="radiogroup" aria-label="Backend needs">
+        <label class="te-tier">
+          <input type="radio" name="te-backend" value="none">
+          <span><b>None</b><i>Fully offline / on-device</i></span>
+        </label>
+        <label class="te-tier">
+          <input type="radio" name="te-backend" value="standard" checked>
+          <span><b>Standard</b><i>Accounts, database, API</i></span>
+        </label>
+        <label class="te-tier">
+          <input type="radio" name="te-backend" value="complex">
+          <span><b>Complex</b><i>Real-time sync, integrations, admin panel</i></span>
+        </label>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend><span class="te-n">05</span> Design readiness</legend>
+      <div class="te-tiers" role="radiogroup" aria-label="Design readiness">
+        <label class="te-tier">
+          <input type="radio" name="te-design" value="ready">
+          <span><b>Ready</b><i>Every screen designed</i></span>
+        </label>
+        <label class="te-tier">
+          <input type="radio" name="te-design" value="wireframes" checked>
+          <span><b>Wireframes</b><i>Rough layout only</i></span>
+        </label>
+        <label class="te-tier">
+          <input type="radio" name="te-design" value="scratch">
+          <span><b>From scratch</b><i>Idea only, no screens yet</i></span>
+        </label>
+      </div>
+    </fieldset>
+  </form>
+
+  <aside class="te-out" aria-labelledby="te-out-h">
+    <h3 id="te-out-h">Estimated timeline</h3>
+    <div class="te-big" id="te-headline">--</div>
+    <p class="te-big-sub" id="te-headline-sub">set the options to the left</p>
+
+    <p class="te-bar-t">Weeks by phase</p>
+    <div class="te-bar">
+      <svg id="te-chart" viewBox="0 0 320 30" role="img" aria-label="Stacked bar of estimated weeks per project phase"></svg>
+    </div>
+
+    <dl class="te-lines" id="te-lines"></dl>
+
+    <div class="te-note" id="te-note"></div>
+
+    <p class="te-big-sub" style="margin:14px 0 0" role="status" aria-live="polite" id="te-live"></p>
+  </aside>
+</div>
+
+<div class="te-caveats">
+  <h3>What this deliberately does not include</h3>
+  <ul>
+    <li>Post-launch bug fixing, marketing and app store optimization once the app ships.</li>
+    <li>Rework caused by an app store rejection, or delays from third-party services outside your control.</li>
+    <li>A part-time team - the estimate assumes full-time focus on this project alone.</li>
+    <li>Scope that changes mid-build, which is the single biggest source of real-world overruns.</li>
+  </ul>
+  <p style="margin:10px 0 0;font-size:13.5px;line-height:1.6;color:var(--slate)">
+    Treat the range as a planning tool, not a quote - a real quote accounts for your specific app.
+  </p>
+</div>
+
+</div>
+
+<script>
+(function () {
+  var root = document.querySelector('.t-app-timeline-estimator');
+  if (!root) return;
+  var $ = function (id) { return root.querySelector('#' + id); };
+
+  var PHASES = [
+    { key: 'discovery', label: 'Discovery & planning', color: 'var(--cyan)' },
+    { key: 'design', label: 'Design', color: 'var(--magenta)' },
+    { key: 'development', label: 'Development', color: 'var(--azure)' },
+    { key: 'qa', label: 'Testing & QA', color: 'var(--green)' },
+    { key: 'submission', label: 'Store submission & review', color: 'var(--amber)' }
+  ];
+
+  var COMPLEXITY = { simple: 0.4, moderate: 0.7, complex: 1.2 };
+  var PLATFORM_MULT = { ios: 1, android: 1, both: 1.35 };
+  var BACKEND = {
+    none: { flat: 0, perFeature: 0 },
+    standard: { flat: 3, perFeature: 0.05 },
+    complex: { flat: 7, perFeature: 0.12 }
+  };
+  var DESIGN = {
+    ready: { flat: 1, perFeature: 0.02 },
+    wireframes: { flat: 3, perFeature: 0.08 },
+    scratch: { flat: 6, perFeature: 0.15 }
+  };
+
+  function pair(numId, rangeId) {
+    var n = $(numId), r = $(rangeId);
+    if (!n || !r) return;
+    n.addEventListener('input', function () {
+      var v = parseFloat(n.value);
+      if (!isNaN(v)) r.value = Math.min(Math.max(v, r.min), r.max);
+      render();
+    });
+    r.addEventListener('input', function () { n.value = r.value; render(); });
+  }
+  pair('te-features', 'te-features-r');
+
+  ['te-complexity', 'te-platform', 'te-backend', 'te-design'].forEach(function (name) {
+    root.querySelectorAll('input[name="' + name + '"]').forEach(function (el) {
+      el.addEventListener('change', render);
+    });
+  });
+
+  function checked(name) {
+    var el = root.querySelector('input[name="' + name + '"]:checked');
+    return el ? el.value : null;
+  }
+
+  function num(id, fallback) {
+    var v = parseFloat($(id).value);
+    return isNaN(v) || v < 1 ? fallback : v;
+  }
+
+  /* ---- the actual model ----
+     Each phase is computed in weeks, not as a percentage of a total that
+     doesn't exist yet. Development is features x weeks-per-feature (set by
+     complexity) x a platform multiplier - "both" gets 1.35x, not 2x, because
+     a shared codebase writes the app once. Backend and design each add a
+     flat base plus a per-feature amount, since a bigger app costs more to
+     wire up and to design regardless of how simple each screen is. QA scales
+     with development (a common estimating rule of thumb: roughly a fifth of
+     build time). Store review is close to fixed - Apple and Google both
+     review in days, not weeks, and reviewing two stores barely costs more
+     than reviewing one. */
+  function project() {
+    var features = num('te-features', 12);
+    var complexity = checked('te-complexity') || 'moderate';
+    var platform = checked('te-platform') || 'both';
+    var backend = BACKEND[checked('te-backend') || 'standard'];
+    var design = DESIGN[checked('te-design') || 'wireframes'];
+
+    var discovery = 1 + features * 0.05;
+    var designWeeks = design.flat + features * design.perFeature;
+    var development = features * COMPLEXITY[complexity] * PLATFORM_MULT[platform] +
+      backend.flat + features * backend.perFeature;
+    var qa = development * 0.2;
+    var submission = platform === 'both' ? 1.5 : 1;
+
+    var byPhase = {
+      discovery: discovery, design: designWeeks, development: development,
+      qa: qa, submission: submission
+    };
+    var total = discovery + designWeeks + development + qa + submission;
+
+    return { byPhase: byPhase, total: total, low: total * 0.85, high: total * 1.3 };
+  }
+
+  function fmtWeeks(w) {
+    return (Math.round(w * 10) / 10).toFixed(1).replace(/\.0$/, '');
+  }
+
+  function chart(byPhase, total) {
+    var svg = $('te-chart');
+    var w = 320, h = 30;
+    var x = 0;
+    var out = '';
+    PHASES.forEach(function (p) {
+      var share = total > 0 ? byPhase[p.key] / total : 0;
+      var segW = Math.max(share * w, byPhase[p.key] > 0 ? 2 : 0);
+      out += '<rect x="' + x.toFixed(1) + '" y="0" width="' + segW.toFixed(1) +
+             '" height="' + h + '" fill="' + p.color + '"></rect>';
+      x += segW;
+    });
+    svg.innerHTML = out;
+  }
+
+  function line(p, weeks) {
+    return '<div class="te-line"><dt><span class="te-dot" style="background:' + p.color + '"></span>' +
+      p.label + '</dt><dd>' + fmtWeeks(weeks) + ' wk</dd></div>';
+  }
+
+  function render() {
+    var r = project();
+    var lowW = Math.round(r.low), highW = Math.round(r.high);
+    if (highW <= lowW) highW = lowW + 1;
+
+    $('te-headline').textContent = lowW + '–' + highW + ' weeks';
+    $('te-headline-sub').textContent = 'roughly ' + (Math.round(lowW / 4.33 * 10) / 10) + '–' +
+      (Math.round(highW / 4.33 * 10) / 10) + ' months, discovery through store review.';
+
+    chart(r.byPhase, r.total);
+
+    var rows = '';
+    PHASES.forEach(function (p) { rows += line(p, r.byPhase[p.key]); });
+    $('te-lines').innerHTML = rows;
+
+    var biggest = PHASES.slice().sort(function (a, b) { return r.byPhase[b.key] - r.byPhase[a.key]; })[0];
+    $('te-note').innerHTML = '<strong>' + biggest.label + '</strong> is the biggest chunk of this estimate at ' +
+      fmtWeeks(r.byPhase[biggest.key]) + ' weeks. Cutting features or simplifying scope moves this number more ' +
+      'than anything else on the page.';
+
+    $('te-live').textContent = 'Estimated ' + lowW + ' to ' + highW + ' weeks total, across ' + PHASES.length + ' phases.';
+  }
+
+  render();
+})();
+</script>
