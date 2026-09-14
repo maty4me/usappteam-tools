@@ -52,16 +52,37 @@
     "label": "Start your app brief"
   },
   "video": {
-    "status": "pending",
+    "status": "rendered",
     "durationTargetSec": 60,
     "narration": "How long will your app actually take? Start with how many core screens and features it needs - more screens, more time. Pick how complex they are: mostly simple forms and lists, a mix, or mostly complex features like maps, payments or AI. Choose your platform - iOS, Android, or both on one shared codebase, which costs less time than building twice. Set your backend - none if it runs fully offline, a standard API with accounts and a database, or something complex like real-time sync and an admin dashboard. Tell it whether your design is finished, sketched out, or not started yet, since that changes how long design actually takes. Watch the timeline build itself: discovery, design, development, testing and app store review, each broken out in weeks, with a realistic range instead of one number pretending to be exact. Free, instant, runs entirely in your browser.",
     "scenes": [
-      { "label": "Set core screens", "mark": "features" },
-      { "label": "Pick complexity", "mark": "complexity" },
-      { "label": "Choose platforms", "mark": "platform" },
-      { "label": "Set backend needs", "mark": "backend" },
-      { "label": "Design readiness", "mark": "design" },
-      { "label": "The week range", "mark": "result" }
-    ]
+      {
+        "label": "Set core screens",
+        "mark": "features"
+      },
+      {
+        "label": "Pick complexity",
+        "mark": "complexity"
+      },
+      {
+        "label": "Choose platforms",
+        "mark": "platform"
+      },
+      {
+        "label": "Set backend needs",
+        "mark": "backend"
+      },
+      {
+        "label": "Design readiness",
+        "mark": "design"
+      },
+      {
+        "label": "The week range",
+        "mark": "result"
+      }
+    ],
+    "renderedAt": "2026-09-14",
+    "durationISO": "PT54S",
+    "hasVoiceover": true
   }
 }
