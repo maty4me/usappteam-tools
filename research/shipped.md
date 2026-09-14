@@ -9,3 +9,4 @@ Log of what the daily build routine has shipped, one line per tool.
 - 2026-09-04 &mdash; [ASO Keyword Checker](https://tools.usappteam.com/tools/aso-keyword-checker/) (`aso-keyword-checker`)
 - 2026-09-09 &mdash; [Subscription Break-Even Calculator](https://tools.usappteam.com/tools/subscription-breakeven-calculator/) (`subscription-breakeven-calculator`)
 - 2026-09-11 &mdash; [App Terms of Service Generator](https://tools.usappteam.com/tools/app-terms-generator/) (`app-terms-generator`)
+- 2026-09-14 &mdash; [App Development Timeline Estimator](https://tools.usappteam.com/tools/app-timeline-estimator/) (`app-timeline-estimator`)
