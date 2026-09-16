@@ -46,18 +46,41 @@
       "a": "No. It is JavaScript running in your browser. Nothing is uploaded, nothing is stored, and closing the tab erases it."
     }
   ],
-  "cta": { "label": "Start your app brief" },
+  "cta": {
+    "label": "Start your app brief"
+  },
   "video": {
-    "status": "pending",
+    "status": "rendered",
     "durationTargetSec": 60,
     "narration": "Everyone tracks Day 1, Day 7 and Day 30 retention, but almost nobody uses those numbers to see what happens next. Start by entering your cohort size - how many users you are measuring. Add your Day 1 retention, the share still active a day later. Then Day 7. Then Day 30. The calculator fits a decay curve through your Day 1 and Day 30 figures, then checks it against the Day 7 you entered - a close match means your curve is smooth, a big gap flags something worth investigating. From there it projects forward: Day 90, Day 180, a full year, so you can see roughly how many of today's users are still around long term. Every number updates instantly, it runs entirely in your browser, and nothing you type is ever uploaded or stored.",
     "scenes": [
-      { "label": "Set your cohort size", "mark": "cohort" },
-      { "label": "Day 1 retention", "mark": "day1" },
-      { "label": "Day 7 retention", "mark": "day7" },
-      { "label": "Day 30 retention", "mark": "day30" },
-      { "label": "Fit check against Day 7", "mark": "fit" },
-      { "label": "Projected curve to a year", "mark": "curve" }
-    ]
+      {
+        "label": "Set your cohort size",
+        "mark": "cohort"
+      },
+      {
+        "label": "Day 1 retention",
+        "mark": "day1"
+      },
+      {
+        "label": "Day 7 retention",
+        "mark": "day7"
+      },
+      {
+        "label": "Day 30 retention",
+        "mark": "day30"
+      },
+      {
+        "label": "Fit check against Day 7",
+        "mark": "fit"
+      },
+      {
+        "label": "Projected curve to a year",
+        "mark": "curve"
+      }
+    ],
+    "renderedAt": "2026-09-16",
+    "durationISO": "PT45S",
+    "hasVoiceover": true
   }
 }
