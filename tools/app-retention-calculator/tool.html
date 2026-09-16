@@ -1,0 +1,369 @@
+<style>
+.t-app-retention-calculator { font-family: var(--body); color: var(--ink); }
+
+/* ---------- privacy banner ---------- */
+.t-app-retention-calculator .rc-privacy {
+  display: flex; align-items: flex-start; gap: 10px;
+  margin: 0 0 20px; padding: 12px 14px;
+  border: 1px solid rgba(31, 169, 113, .3); border-radius: var(--r-sm);
+  background: rgba(31, 169, 113, .07);
+  font-size: 13.5px; line-height: 1.5; color: var(--slate);
+}
+.t-app-retention-calculator .rc-privacy svg {
+  width: 16px; height: 16px; flex: 0 0 auto; margin-top: 2px;
+  stroke: var(--green); fill: none; stroke-width: 2;
+  stroke-linecap: round; stroke-linejoin: round;
+}
+.t-app-retention-calculator .rc-privacy strong { color: var(--ink); font-weight: 600; }
+
+/* ---------- layout ---------- */
+.t-app-retention-calculator .rc-grid {
+  display: grid; gap: 22px;
+  grid-template-columns: minmax(0, 1fr);
+}
+@media (min-width: 900px) {
+  .t-app-retention-calculator .rc-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 380px); align-items: start; }
+}
+
+/* ---------- form ---------- */
+.t-app-retention-calculator fieldset { border: 0; margin: 0 0 24px; padding: 0; }
+.t-app-retention-calculator legend {
+  display: flex; align-items: center; gap: 9px;
+  font-family: var(--disp); font-weight: 700; font-size: 16px;
+  color: var(--ink); margin: 0 0 10px; padding: 0;
+}
+.t-app-retention-calculator legend .rc-n {
+  font-family: var(--mono); font-size: 11px; color: var(--azure);
+  background: var(--blue-soft); border-radius: 5px; padding: 3px 7px;
+}
+.t-app-retention-calculator .rc-hint {
+  margin: -4px 0 12px; font-size: 13.5px; line-height: 1.55; color: var(--ink-60);
+}
+
+.t-app-retention-calculator .rc-field { margin: 0 0 14px; }
+.t-app-retention-calculator .rc-field label {
+  display: block; font-weight: 600; font-size: 14px; color: var(--ink); margin: 0 0 6px;
+}
+.t-app-retention-calculator .rc-field .rc-sub { font-weight: 400; color: var(--ink-60); }
+.t-app-retention-calculator .rc-row { display: flex; align-items: center; gap: 12px; }
+.t-app-retention-calculator input[type="range"] { flex: 1 1 auto; min-width: 0; accent-color: var(--azure); }
+.t-app-retention-calculator input[type="number"] {
+  width: 100px; flex: 0 0 auto; font-family: var(--mono); font-size: 14px;
+  padding: 9px 10px; color: var(--ink);
+  border: 1px solid var(--line-2); border-radius: var(--r-sm); background: var(--card);
+}
+.t-app-retention-calculator input[type="number"]:focus-visible { outline: 2px solid var(--azure); outline-offset: 1px; }
+.t-app-retention-calculator .rc-unit { font-family: var(--mono); font-size: 13px; color: var(--ink-60); flex: 0 0 auto; }
+
+.t-app-retention-calculator .rc-scenarios { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 20px; }
+.t-app-retention-calculator .rc-scenario {
+  font-family: var(--mono); font-size: 12.5px; font-weight: 600; color: var(--azure);
+  background: var(--blue-soft); border: 1px solid rgba(35, 128, 184, .25); border-radius: 999px;
+  padding: 6px 12px; cursor: pointer; transition: background .18s var(--ease), border-color .18s var(--ease);
+}
+.t-app-retention-calculator .rc-scenario:hover { background: rgba(35, 128, 184, .18); }
+.t-app-retention-calculator .rc-scenario:focus-visible { outline: 2px solid var(--azure); outline-offset: 2px; }
+
+.t-app-retention-calculator .rc-warn {
+  margin: -4px 0 16px; padding: 10px 13px; border-radius: var(--r-sm);
+  background: rgba(168, 50, 104, .08); border: 1px solid rgba(168, 50, 104, .25);
+  font-size: 13.5px; line-height: 1.5; color: var(--magenta);
+}
+
+/* ---------- results ---------- */
+.t-app-retention-calculator .rc-out {
+  position: sticky; top: 20px;
+  border: 1px solid var(--line-2); border-radius: var(--r);
+  background: var(--card); box-shadow: var(--shadow);
+  padding: 20px; overflow: hidden;
+}
+@media (max-width: 899px) { .t-app-retention-calculator .rc-out { position: static; } }
+.t-app-retention-calculator .rc-out h3 {
+  margin: 0 0 2px; font-family: var(--mono); font-size: 11px; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--ink-40); font-weight: 500;
+}
+.t-app-retention-calculator .rc-big {
+  font-family: var(--disp); font-weight: 700; line-height: 1.05;
+  font-size: clamp(30px, 6.5vw, 42px);
+  background: var(--grad); -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: var(--azure);
+  margin: 4px 0 2px; word-break: break-word;
+}
+.t-app-retention-calculator .rc-big-sub { font-size: 13.5px; color: var(--ink-60); margin: 0 0 16px; line-height: 1.5; }
+
+.t-app-retention-calculator .rc-chart { margin: 4px 0 14px; }
+.t-app-retention-calculator .rc-chart svg { display: block; width: 100%; height: auto; }
+.t-app-retention-calculator .rc-chart-t {
+  font-family: var(--mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--ink-40); margin: 0 0 7px;
+}
+.t-app-retention-calculator .rc-legend { display: flex; gap: 16px; margin: 0 0 12px; font-size: 12px; color: var(--ink-60); }
+.t-app-retention-calculator .rc-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.t-app-retention-calculator .rc-legend i { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
+
+.t-app-retention-calculator .rc-lines { border-top: 1px solid var(--line); margin: 0 0 14px; }
+.t-app-retention-calculator .rc-line {
+  display: flex; justify-content: space-between; gap: 12px; align-items: baseline;
+  padding: 9px 0; border-bottom: 1px solid var(--line); font-size: 14px;
+}
+.t-app-retention-calculator .rc-line dt { color: var(--slate); margin: 0; }
+.t-app-retention-calculator .rc-line dd { margin: 0; font-family: var(--mono); font-weight: 600; color: var(--ink); white-space: nowrap; }
+.t-app-retention-calculator .rc-line.is-bad dd { color: var(--magenta); }
+.t-app-retention-calculator .rc-line.is-good dd { color: var(--green); }
+
+.t-app-retention-calculator .rc-fit {
+  padding: 11px 13px; border-radius: var(--r-sm);
+  background: var(--blue-soft); border: 1px solid rgba(35, 128, 184, .22);
+  font-size: 13.5px; line-height: 1.55; color: var(--slate);
+}
+.t-app-retention-calculator .rc-fit strong { color: var(--ink); }
+
+/* ---------- caveats ---------- */
+.t-app-retention-calculator .rc-caveats {
+  margin: 26px 0 0; padding: 16px 18px;
+  border: 1px solid var(--line-2); border-radius: var(--r-sm); background: var(--bg);
+}
+.t-app-retention-calculator .rc-caveats h3 {
+  margin: 0 0 8px; font-family: var(--disp); font-size: 15px; font-weight: 700; color: var(--ink);
+}
+.t-app-retention-calculator .rc-caveats ul { margin: 0; padding-left: 18px; }
+.t-app-retention-calculator .rc-caveats li { font-size: 13.5px; line-height: 1.6; color: var(--slate); margin: 0 0 5px; }
+</style>
+
+<div class="t-app-retention-calculator" id="rc-root">
+
+<div class="rc-privacy">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v6c0 4.5-3 7.7-7 9-4-1.3-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg>
+  <div><strong>Runs entirely in your browser.</strong> Nothing is uploaded, nothing is stored, and there is no email box on this page. Close the tab and it is gone.</div>
+</div>
+
+<div class="rc-scenarios" role="group" aria-label="Fill with an example scenario">
+  <button type="button" class="rc-scenario" data-d1="28" data-d7="11" data-d30="5">Typical consumer app</button>
+  <button type="button" class="rc-scenario" data-d1="42" data-d7="22" data-d30="12">Strong retention</button>
+  <button type="button" class="rc-scenario" data-d1="15" data-d7="4" data-d30="1.5">Weak retention</button>
+</div>
+
+<div class="rc-grid">
+  <form class="rc-form" id="rc-form" novalidate>
+    <fieldset>
+      <legend><span class="rc-n">01</span> Cohort</legend>
+      <div class="rc-field">
+        <label for="rc-cohort">Users who started on Day 0</label>
+        <div class="rc-row">
+          <input type="range" id="rc-cohort-r" min="50" max="50000" step="50" value="1000" aria-hidden="true" tabindex="-1">
+          <input type="number" id="rc-cohort" min="1" max="100000000" step="1" value="1000" inputmode="numeric">
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend><span class="rc-n">02</span> Day 1 retention</legend>
+      <div class="rc-field">
+        <label for="rc-d1">Share still active one day later <span class="rc-sub">(percent)</span></label>
+        <div class="rc-row">
+          <input type="range" id="rc-d1-r" min="1" max="90" step="0.5" value="25" aria-hidden="true" tabindex="-1">
+          <input type="number" id="rc-d1" min="0.1" max="100" step="0.1" value="25" inputmode="decimal">
+          <span class="rc-unit">%</span>
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend><span class="rc-n">03</span> Day 7 retention</legend>
+      <div class="rc-field">
+        <label for="rc-d7">Share still active a week later <span class="rc-sub">(percent)</span></label>
+        <div class="rc-row">
+          <input type="range" id="rc-d7-r" min="0.5" max="70" step="0.5" value="10" aria-hidden="true" tabindex="-1">
+          <input type="number" id="rc-d7" min="0.1" max="100" step="0.1" value="10" inputmode="decimal">
+          <span class="rc-unit">%</span>
+        </div>
+        <p class="rc-hint">Not used to build the curve - kept aside to check the curve fits.</p>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend><span class="rc-n">04</span> Day 30 retention</legend>
+      <div class="rc-field">
+        <label for="rc-d30">Share still active a month later <span class="rc-sub">(percent)</span></label>
+        <div class="rc-row">
+          <input type="range" id="rc-d30-r" min="0.1" max="50" step="0.1" value="4" aria-hidden="true" tabindex="-1">
+          <input type="number" id="rc-d30" min="0.01" max="100" step="0.01" value="4" inputmode="decimal">
+          <span class="rc-unit">%</span>
+        </div>
+      </div>
+    </fieldset>
+
+    <p class="rc-warn" id="rc-warn" hidden></p>
+  </form>
+
+  <aside class="rc-out" aria-labelledby="rc-out-h">
+    <h3 id="rc-out-h">Day 90 projected retention</h3>
+    <div class="rc-big" id="rc-headline">--</div>
+    <p class="rc-big-sub" id="rc-headline-sub">fill in your numbers to the left</p>
+
+    <div class="rc-chart">
+      <p class="rc-chart-t">Retention, Day 1 to Day 365</p>
+      <div class="rc-legend">
+        <span><i style="background:var(--azure)"></i>Measured</span>
+        <span><i style="background:var(--azure);opacity:.4"></i>Projected</span>
+      </div>
+      <svg id="rc-chart" viewBox="0 0 320 110" role="img" aria-label="Bar chart of retention percentage at Day 1, 7, 30, 90, 180 and 365"></svg>
+    </div>
+
+    <dl class="rc-lines" id="rc-lines"></dl>
+
+    <div class="rc-fit" id="rc-fit"></div>
+
+    <p class="rc-big-sub" style="margin:14px 0 0" role="status" aria-live="polite" id="rc-live"></p>
+  </aside>
+</div>
+
+<div class="rc-caveats">
+  <h3>What this deliberately does not model</h3>
+  <ul>
+    <li>A permanent floor above zero - most real apps flatten out once the casual users who were never going to stay are gone. Treat Day 90 and beyond as a lower bound, not a prediction.</li>
+    <li>Anything that changes retention mid-flight: a product update, a marketing push, seasonal swings, or a shift in the kind of user you are acquiring.</li>
+    <li>Reactivation - users who come back after lapsing are not in this model at all.</li>
+    <li>Category norms - retention that is weak for a game can be strong for a utility app, and this tool has no idea which one you are building.</li>
+  </ul>
+</div>
+
+</div>
+
+<script>
+(function () {
+  var root = document.querySelector('.t-app-retention-calculator');
+  if (!root) return;
+  var $ = function (id) { return root.querySelector('#' + id); };
+
+  var count = new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 });
+  var pct1 = new Intl.NumberFormat('en-US', { maximumFractionDigits: 1 });
+
+  var DAYS = [1, 7, 30, 90, 180, 365];
+
+  /* Keep each slider and its number box in step. The slider is decorative -
+     it is aria-hidden and untabbable, so the number input is the real control
+     and screen readers only ever meet one of them. */
+  function pair(numId, rangeId) {
+    var n = $(numId), r = $(rangeId);
+    if (!n || !r) return;
+    n.addEventListener('input', function () {
+      var v = parseFloat(n.value);
+      if (!isNaN(v)) r.value = Math.min(Math.max(v, r.min), r.max);
+      render();
+    });
+    r.addEventListener('input', function () { n.value = r.value; render(); });
+  }
+
+  ['rc-cohort', 'rc-d1', 'rc-d7', 'rc-d30'].forEach(function (id) { pair(id, id + '-r'); });
+
+  root.querySelectorAll('.rc-scenario').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      $('rc-d1').value = btn.dataset.d1; $('rc-d1-r').value = btn.dataset.d1;
+      $('rc-d7').value = btn.dataset.d7; $('rc-d7-r').value = btn.dataset.d7;
+      $('rc-d30').value = btn.dataset.d30; $('rc-d30-r').value = btn.dataset.d30;
+      render();
+    });
+  });
+
+  function num(id, fallback) {
+    var v = parseFloat($(id).value);
+    return isNaN(v) || v <= 0 ? fallback : v;
+  }
+
+  /* ---- the actual model ----
+     A power-law curve retention(t) = d1 * t^-b passes exactly through Day 1
+     (t=1) and Day 30 (t=30) once b is solved from those two points. Day 7 is
+     deliberately left out of the fit and used only as a check: plug t=7 into
+     the same curve and compare it to the real Day 7 the visitor entered. A
+     close match means the retention curve is smooth; a wide gap means
+     something happened that a two-point model cannot see. */
+  function project() {
+    var cohort = num('rc-cohort', 1000);
+    var d1 = num('rc-d1', 28);
+    var d7 = num('rc-d7', 11);
+    var d30raw = num('rc-d30', 5);
+    var inconsistent = d30raw >= d1;
+    var d30 = inconsistent ? d1 * 0.999 : d30raw;
+
+    var b = Math.log(d1 / d30) / Math.log(30);
+    var predicted = {};
+    DAYS.forEach(function (t) { predicted[t] = d1 * Math.pow(t, -b); });
+
+    var fitted7 = d1 * Math.pow(7, -b);
+    var gap = fitted7 - d7;
+
+    return {
+      cohort: cohort, d1: d1, d7: d7, d30: d30raw, predicted: predicted,
+      fitted7: fitted7, gap: gap, inconsistent: inconsistent
+    };
+  }
+
+  function chart(r) {
+    var svg = $('rc-chart');
+    var w = 320, h = 110, gap = 3;
+    var values = DAYS.map(function (t, i) {
+      if (i === 0) return { v: r.d1, projected: false };
+      if (i === 1) return { v: r.d7, projected: false };
+      if (i === 2) return { v: r.d30, projected: false };
+      return { v: r.predicted[t], projected: true };
+    });
+    var maxAbs = Math.max.apply(null, values.map(function (o) { return o.v; }).concat([1]));
+    var bw = (w - gap * (values.length - 1)) / values.length;
+    var out = '';
+    for (var i = 0; i < values.length; i++) {
+      var bh = Math.max(1.5, values[i].v / maxAbs * (h - 8));
+      var x = i * (bw + gap);
+      var y = h - bh;
+      out += '<rect x="' + x.toFixed(1) + '" y="' + y.toFixed(1) +
+             '" width="' + bw.toFixed(1) + '" height="' + bh.toFixed(1) +
+             '" rx="1.5" fill="var(--azure)" opacity="' + (values[i].projected ? '0.4' : '0.85') + '"></rect>';
+    }
+    svg.innerHTML = out;
+  }
+
+  function line(term, val, cls) {
+    return '<div class="rc-line ' + (cls || '') + '"><dt>' + term + '</dt><dd>' + val + '</dd></div>';
+  }
+
+  function render() {
+    var r = project();
+    var warn = $('rc-warn');
+    if (r.inconsistent) {
+      warn.hidden = false;
+      warn.textContent = 'Day 30 retention is higher than Day 1 - that is unusual. Check your numbers; the curve below treats Day 30 as just under Day 1.';
+    } else {
+      warn.hidden = true;
+    }
+
+    $('rc-headline').textContent = pct1.format(r.predicted[90]) + '%';
+    $('rc-headline-sub').textContent = '= about ' + count.format(Math.round(r.cohort * r.predicted[90] / 100)) +
+      ' of your ' + count.format(r.cohort) + ' users, based on your Day 1/Day 30 curve.';
+
+    chart(r);
+
+    var rows = '';
+    rows += line('Day 1 (measured)', count.format(Math.round(r.cohort * r.d1 / 100)) + ' users - ' + pct1.format(r.d1) + '%');
+    rows += line('Day 7 (measured)', count.format(Math.round(r.cohort * r.d7 / 100)) + ' users - ' + pct1.format(r.d7) + '%');
+    rows += line('Day 30 (measured)', count.format(Math.round(r.cohort * r.d30 / 100)) + ' users - ' + pct1.format(r.d30) + '%');
+    rows += line('Day 90 (projected)', count.format(Math.round(r.cohort * r.predicted[90] / 100)) + ' users - ' + pct1.format(r.predicted[90]) + '%');
+    rows += line('Day 180 (projected)', count.format(Math.round(r.cohort * r.predicted[180] / 100)) + ' users - ' + pct1.format(r.predicted[180]) + '%');
+    rows += line('Day 365 (projected)', count.format(Math.round(r.cohort * r.predicted[365] / 100)) + ' users - ' + pct1.format(r.predicted[365]) + '%');
+    $('rc-lines').innerHTML = rows;
+
+    var fitEl = $('rc-fit');
+    var gapAbs = Math.abs(r.gap);
+    var quality = gapAbs <= 1 ? 'fits tightly' : gapAbs <= 3 ? 'fits reasonably well' : 'does not fit well';
+    fitEl.innerHTML = 'Your Day 1/Day 30 curve predicts <strong>' + pct1.format(r.fitted7) +
+      '% Day 7</strong> retention. You entered <strong>' + pct1.format(r.d7) + '%</strong> - a gap of ' +
+      pct1.format(gapAbs) + ' points. That ' + quality + (gapAbs > 3
+        ? ', which suggests something around Day 7 (a push campaign, an update, a change in who you were acquiring) that a two-point curve cannot see.'
+        : '.');
+
+    $('rc-live').textContent = 'Day 90 projected retention: ' + pct1.format(r.predicted[90]) + ' percent, about ' +
+      count.format(Math.round(r.cohort * r.predicted[90] / 100)) + ' users.';
+  }
+
+  render();
+})();
+</script>
