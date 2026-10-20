@@ -480,7 +480,7 @@ async function buildOgImages(tools) {
     return lines.slice(0, 3);
   };
 
-  const card = (title, kicker) => {
+  const card = (title, kicker, foot = 'Free &#183; no signup &#183; tools.usappteam.com') => {
     const lines = wrapText(title, 26);
     return Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630">
   <defs>
@@ -497,7 +497,7 @@ async function buildOgImages(tools) {
         `<text x="80" y="${232 + i * 78}" font-family="Space Grotesk, Segoe UI, sans-serif" font-size="66" font-weight="700" fill="#17202B">${esc(l)}</text>`
     )
     .join('\n  ')}
-  <text x="80" y="546" font-family="Inter, Segoe UI, sans-serif" font-size="30" fill="#5A6675">Free &#183; no signup &#183; tools.usappteam.com</text>
+  <text x="80" y="546" font-family="Inter, Segoe UI, sans-serif" font-size="30" fill="#5A6675">${foot}</text>
   <rect x="0" y="620" width="1200" height="10" fill="url(#g)"/>
 </svg>`);
   };
@@ -505,6 +505,10 @@ async function buildOgImages(tools) {
   await sharp(card('Free tools for people building apps', 'US APP TEAM'))
     .png()
     .toFile(path.join(DIST, 'og', 'hub.png'));
+  // og:image for the GHL main site (usappteam.com head code points here)
+  await sharp(card('Custom mobile apps, done for you', 'US APP TEAM', 'iOS &#183; Android &#183; usappteam.com'))
+    .png()
+    .toFile(path.join(DIST, 'og', 'usappteam-home.png'));
   for (const t of tools) {
     await sharp(card(t.title, 'FREE TOOL')).png().toFile(path.join(DIST, 'og', `${t.slug}.png`));
   }
